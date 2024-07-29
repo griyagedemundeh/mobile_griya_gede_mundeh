@@ -15,18 +15,29 @@ dependencies:
     sdk: flutter
   flutter_dotenv: ^5.1.0
   flutter_flavor: ^3.1.3
-  flutter_svg: ^2.0.10+1
-  google_fonts: ^6.2.1
-  hive: ^2.2.3
-  shimmer: ^3.0.0
+  flutter_hooks: null
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.0.10+1
+  freezed: ^2.5.2
+  freezed_annotation: ^2.4.4
+  go_router: ^14.2.1
+  google_fonts: ^6.2.1
+  hive: ^2.2.3
+  hooks_riverpod: ^3.0.0-dev.3
   intl: any
+  json_serializable: ^6.8.0
+  riverpod_annotation: ^3.0.0-dev.3
+  shimmer: ^3.0.0
 
 dev_dependencies:
-  flutter_lints: ^3.0.0
+  build_runner: null
+  custom_lint: null
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
+  riverpod_generator: ^3.0.0-dev.11
+  riverpod_lint: ^3.0.0-dev.4
 
 flutter:
   generate: true
