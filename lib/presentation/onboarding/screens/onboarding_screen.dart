@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/background_gradient_primary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 
 class OnboardingItem {
   final String icon;
@@ -19,8 +20,29 @@ class OnboardingItem {
   });
 }
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late int indexCarousel;
+  late CarouselController controller;
+
+  @override
+  void initState() {
+    indexCarousel = 0;
+    controller = CarouselController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.stopAutoPlay();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +64,28 @@ class OnboardingScreen extends StatelessWidget {
       )
     ];
 
+    final List<Widget> indicators = List.generate(items.length, (index) {
+      return GestureDetector(
+        onTap: () {
+          setState(() {
+            indexCarousel = index;
+          });
+          controller.animateToPage(index);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeInToLinear,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          height: 5,
+          width: indexCarousel == index ? 25 : 8,
+          decoration: BoxDecoration(
+            color: indexCarousel == index ? AppColors.dark1 : AppColors.light1,
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+      );
+    });
+
     final List<Widget> onboardingItems = List.generate(items.length, (index) {
       return Container(
         width: width,
@@ -50,11 +94,11 @@ class OnboardingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
+            Image.asset(
               items[index].icon,
-              height: 100,
-              width: 100,
-              fit: BoxFit.contain,
+              height: height * 0.45,
+              width: width,
+              fit: BoxFit.scaleDown,
             ),
             Column(
               children: [
@@ -85,14 +129,47 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       body: SizedBox(
         height: height,
+        width: width,
         child: BackgroundGradientPrimary(
-          child: CarouselSlider(
-            options: CarouselOptions(
-              autoPlay: true,
-              height: height * 0.7,
-              viewportFraction: 1,
-            ),
-            items: onboardingItems,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: height * 0.1,
+                  ),
+                  CarouselSlider(
+                    carouselController: controller,
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        height: height * 0.7,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            indexCarousel = index;
+                          });
+                        }),
+                    items: onboardingItems,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: indicators,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimens.paddingLarge,
+                  vertical: AppDimens.paddingLarge,
+                ),
+                child: SecondaryButton(
+                  label: 'Selanjutnya',
+                  onTap: () {},
+                ),
+              ),
+            ],
           ),
         ),
       ),
