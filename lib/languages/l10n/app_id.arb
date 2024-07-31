@@ -7,6 +7,14 @@
     "onboardingDesc2": "Anda perlu mendaftar terlebih dahulu sebelum menyelenggarakan dan konsultasi upacara!",
     "next": "Selanjutnya",
     "register": "Daftar",
-    "login": "Masuk"
+    "login": "Masuk",
+    "loginNow": "Masuk Sekarang👇",
+    "emailOrPhone": "Email/No. Handphone",
+    "enterEmailOrPhone": "Masukkan email / no. handphone anda",
+    "password": "Kata sandi",
+    "enterPassword": "Masukkan kata sandi anda",
+    "forgotPassword": "Lupa kata sandi?",
+    "dontHaveAccountYet": "Belum punya akun?",
+    "registerHere": "Daftar disini"
     
 }

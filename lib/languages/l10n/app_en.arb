@@ -7,6 +7,14 @@
     "onboardingDesc2": "You need to register first before hosting and consulting the ceremony!",
     "next": "Next",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "loginNow": "Login Now👇",
+    "emailOrPhone": "Email/Mobile No.",
+    "enterEmailOrPhone": "Enter your email / cellphone number",
+    "password": "Password",
+    "enterPassword": "Enter your password",
+    "forgotPassword": "Forgot password?",
+    "dontHaveAccountYet": "Don''t have an account yet?",
+    "registerHere": "Register here"
     
 }

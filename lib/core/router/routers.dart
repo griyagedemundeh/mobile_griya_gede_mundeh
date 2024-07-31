@@ -1,38 +1,31 @@
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/splash/screens/splash_screen.dart';
 
 abstract class Routes {
-  static String splash = "/";
-  static String home = "/home";
-  static String onboarding = "/onboarding";
-  static String login = "/login";
-  static String register = "/register";
+  static const String splash = "/";
+  static const String home = "/home";
+  static const String onboarding = "/onboarding";
+  static const String login = "/login";
+  static const String register = "/register";
 }
 
 abstract class AppRouter {
-  static GoRouter routes = GoRouter(routes: [
-    GoRoute(
-      name: Routes.splash,
-      path: Routes.splash,
-      builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      name: Routes.onboarding,
-      path: Routes.onboarding,
-      builder: (context, state) => const OnboardingScreen(),
-    ),
-    GoRoute(
-      name: Routes.login,
-      path: Routes.login,
-      builder: (context, state) => const LoginScreen(),
-    ),
-    GoRoute(
-      name: Routes.home,
-      path: Routes.home,
-      builder: (context, state) => const HomeScreen(),
-    ),
-  ]);
+  static Route routes(RouteSettings settings) {
+    switch (settings.name) {
+      case Routes.splash:
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
+      case Routes.onboarding:
+        return MaterialPageRoute(
+            builder: (context) => const OnboardingScreen());
+      case Routes.login:
+        return MaterialPageRoute(builder: (context) => const LoginScreen());
+      case Routes.home:
+        return MaterialPageRoute(builder: (context) => const HomeScreen());
+      default:
+        return MaterialPageRoute(builder: (context) => const HomeScreen());
+    }
+  }
 }

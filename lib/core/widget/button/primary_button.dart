@@ -35,7 +35,7 @@ class PrimaryButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: isOutline != null && isOutline == true
-                ? AppColors.light1
+                ? AppColors.primary1
                 : Colors.transparent,
           ),
           borderRadius: const BorderRadius.all(
@@ -46,16 +46,18 @@ class PrimaryButton extends StatelessWidget {
         color: isOutline != null && isOutline == true
             ? null
             : isLoading == true
-                ? AppColors.light1.withOpacity(0.5)
+                ? AppColors.primary1.withOpacity(0.5)
                 : AppColors.primary1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               label,
-              style: const TextStyle(
-                color: AppColors.light1,
-                fontSize: AppFontSizes.bodyLarge,
+              style: TextStyle(
+                color: isOutline != null && isOutline == true
+                    ? AppColors.primary1
+                    : Colors.white,
+                fontSize: AppFontSizes.bodyMedium,
                 fontWeight: FontWeight.bold,
               ),
             ),

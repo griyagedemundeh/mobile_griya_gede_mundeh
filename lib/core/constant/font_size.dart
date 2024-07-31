@@ -13,6 +13,7 @@ abstract class AppFontSizes {
 
   static const double headlineSmall = 24.0;
   static const double headlineMedium = 28.0;
+  static const double headlineMediumLarge = 32.0;
   static const double headlineLarge = 36.0;
 
   static const double displaySmall = 36.0;

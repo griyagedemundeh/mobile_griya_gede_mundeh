@@ -12,6 +12,13 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
 
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ),
+  );
+
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -24,9 +31,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Griya Gede Mundeh',
-      routerConfig: AppRouter.routes,
+      initialRoute: Routes.splash,
+      onGenerateRoute: AppRouter.routes,
       theme: AppTheme.getTheme(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 
 class BackgroundGradientPrimary extends StatelessWidget {
   const BackgroundGradientPrimary({
@@ -11,18 +12,37 @@ class BackgroundGradientPrimary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primary1,
-            AppColors.primary2,
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: Colors.white,
       ),
-      child: child,
+      child: Stack(
+        children: [
+          Image.asset(
+            AppImages.mesh1,
+            width: double.infinity,
+          ),
+          Positioned(
+            bottom: -(height * 0.22),
+            child: Container(
+              width: width,
+              height: height * 0.2,
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 100,
+                    color: AppColors.primary1,
+                  )
+                ],
+              ),
+            ),
+          ),
+          child,
+        ],
+      ),
     );
   }
 }

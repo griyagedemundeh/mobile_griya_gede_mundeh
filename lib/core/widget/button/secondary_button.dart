@@ -57,7 +57,7 @@ class SecondaryButton extends StatelessWidget {
                 color: isOutline != null && isOutline == true
                     ? AppColors.gray2
                     : AppColors.dark1,
-                fontSize: AppFontSizes.bodyLarge,
+                fontSize: AppFontSizes.bodyMedium,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -69,7 +69,10 @@ class _TextInputState extends State<TextInput> {
             children: [
               Text(
                 widget.label ?? "",
-                style: const TextStyle(fontSize: AppFontSizes.bodyMedium),
+                style: const TextStyle(
+                  fontSize: AppFontSizes.bodySmall,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Visibility(
                 visible: widget.isRequired == true,
@@ -88,8 +91,6 @@ class _TextInputState extends State<TextInput> {
           padding: widget.isEnabled == false
               ? null
               : const EdgeInsets.only(
-                  top: AppDimens.paddingMicro,
-                  bottom: AppDimens.paddingMicro,
                   left: AppDimens.marginMedium,
                 ),
           decoration: BoxDecoration(
@@ -98,12 +99,12 @@ class _TextInputState extends State<TextInput> {
               color: widget.isError == true ? AppColors.red : AppColors.gray1,
             ),
             borderRadius: const BorderRadius.all(
-              Radius.circular(AppDimens.marginMedium),
+              Radius.circular(AppDimens.paddingSmall),
             ),
           ),
           child: ClipRRect(
             borderRadius: const BorderRadius.all(
-              Radius.circular(AppDimens.marginMedium),
+              Radius.circular(AppDimens.paddingSmall),
             ),
             child: TextFormField(
               autofillHints: widget.autoFill,
@@ -120,9 +121,10 @@ class _TextInputState extends State<TextInput> {
                   widget.isPassVisible == false,
               enabled: widget.isEnabled ?? true,
               controller: widget.controller,
-              cursorColor: AppColors.gray2,
+              cursorColor: AppColors.primary1,
               keyboardType: widget.type,
               decoration: InputDecoration(
+                focusColor: AppColors.primary1,
                 suffixIcon: widget.isError == true
                     ? const Icon(
                         Icons.error,
@@ -152,6 +154,7 @@ class _TextInputState extends State<TextInput> {
                   color: widget.isEnabled == false
                       ? AppColors.gray2
                       : AppColors.gray2.withOpacity(0.5),
+                  fontSize: AppFontSizes.labelSmall,
                 ),
               ),
             ),
@@ -165,7 +168,7 @@ class _TextInputState extends State<TextInput> {
                     widget.errorMessage ?? "",
                     style: const TextStyle(
                       color: AppColors.red,
-                      fontSize: AppFontSizes.bodySmall,
+                      fontSize: AppFontSizes.labelSmall,
                     ),
                   ),
                 ],
