@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/router/routers.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/background_gradient_primary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
@@ -164,7 +166,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           label: locale?.login ?? '',
                           isMedium: true,
                           isOutline: true,
-                          onTap: () {},
+                          onTap: () {
+                            context.go(Routes.login);
+                          },
                         ),
                       ],
                     ),
