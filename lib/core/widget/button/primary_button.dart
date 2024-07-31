@@ -28,14 +28,14 @@ class PrimaryButton extends StatelessWidget {
       child: MaterialButton(
         elevation: 0,
         padding: EdgeInsets.symmetric(
-          vertical: AppDimens.marginSmall,
+          vertical: AppDimens.marginMedium,
           horizontal:
               isMedium != null && isMedium == true ? AppDimens.paddingSmall : 0,
         ),
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: isOutline != null && isOutline == true
-                ? AppColors.gray1
+                ? AppColors.light1
                 : Colors.transparent,
           ),
           borderRadius: const BorderRadius.all(
@@ -46,18 +46,17 @@ class PrimaryButton extends StatelessWidget {
         color: isOutline != null && isOutline == true
             ? null
             : isLoading == true
-                ? AppColors.primary2.withOpacity(0.5)
-                : AppColors.primary2,
+                ? AppColors.light1.withOpacity(0.5)
+                : AppColors.primary1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               label,
-              style: TextStyle(
-                color: isOutline != null && isOutline == true
-                    ? null
-                    : AppColors.light1,
+              style: const TextStyle(
+                color: AppColors.light1,
                 fontSize: AppFontSizes.bodyLarge,
+                fontWeight: FontWeight.bold,
               ),
             ),
             isLoading == true
@@ -68,7 +67,7 @@ class PrimaryButton extends StatelessWidget {
                         height: AppDimens.marginSmall,
                         width: AppDimens.marginSmall,
                         child: CircularProgressIndicator(
-                          color: AppColors.light1,
+                          color: AppColors.dark1,
                           strokeWidth: 2,
                         ),
                       ),

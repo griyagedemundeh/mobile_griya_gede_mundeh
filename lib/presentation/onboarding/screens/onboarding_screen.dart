@@ -6,6 +6,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/background_gradient_primary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 
 class OnboardingItem {
@@ -90,37 +91,84 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       return Container(
         width: width,
         height: height,
-        margin: const EdgeInsets.symmetric(horizontal: 5),
+        margin:
+            const EdgeInsets.symmetric(horizontal: AppDimens.borderRadiusLarge),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(
-              items[index].icon,
-              height: height * 0.45,
-              width: width,
-              fit: BoxFit.scaleDown,
+            SizedBox(
+              height: height * 0.01,
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  items[index].headline,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: AppFontSizes.headlineLarge,
-                    color: AppColors.light1,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Image.asset(
+                  items[index].icon,
+                  height: height * 0.45,
+                  width: width,
+                  fit: BoxFit.scaleDown,
                 ),
-                Text(
-                  items[index].description,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: AppFontSizes.bodyLarge,
-                    color: AppColors.light1,
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      items[index].headline,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: AppFontSizes.headlineLarge,
+                        color: AppColors.light1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      items[index].description,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: AppFontSizes.bodyLarge,
+                        color: AppColors.light1,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
+            index == 0
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppDimens.paddingSmall,
+                      vertical: AppDimens.marginLarge,
+                    ),
+                    child: SecondaryButton(
+                      label: locale?.next ?? '',
+                      onTap: () {
+                        setState(() {
+                          indexCarousel = 1;
+                        });
+                        controller.animateToPage(1);
+                      },
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppDimens.paddingSmall,
+                      vertical: AppDimens.marginLarge,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SecondaryButton(
+                          label: locale?.register ?? '',
+                          isMedium: true,
+                          onTap: () {},
+                        ),
+                        PrimaryButton(
+                          label: locale?.login ?? '',
+                          isMedium: true,
+                          isOutline: true,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  )
           ],
         ),
       );
@@ -131,44 +179,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         height: height,
         width: width,
         child: BackgroundGradientPrimary(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: height * 0.1,
-                  ),
-                  CarouselSlider(
-                    carouselController: controller,
-                    options: CarouselOptions(
-                        autoPlay: true,
-                        height: height * 0.7,
-                        viewportFraction: 1,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            indexCarousel = index;
-                          });
-                        }),
-                    items: onboardingItems,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: indicators,
-                  ),
-                ],
+              CarouselSlider(
+                carouselController: controller,
+                options: CarouselOptions(
+                    height: height,
+                    viewportFraction: 1,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        indexCarousel = index;
+                      });
+                    }),
+                items: onboardingItems,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppDimens.paddingLarge,
-                  vertical: AppDimens.paddingLarge,
+              Positioned(
+                bottom: height * 0.22,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: indicators,
                 ),
-                child: SecondaryButton(
-                  label: 'Selanjutnya',
-                  onTap: () {},
-                ),
-              ),
+              )
             ],
           ),
         ),
