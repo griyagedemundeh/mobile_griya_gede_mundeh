@@ -23,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: isMedium != null && isMedium == true
-          ? MediaQuery.of(context).size.width * 0.4
+          ? MediaQuery.of(context).size.width * 0.42
           : MediaQuery.of(context).size.width,
       child: MaterialButton(
         elevation: 0,
