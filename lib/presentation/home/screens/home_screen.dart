@@ -1,13 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CeremonyService {
   final String id;
@@ -21,17 +27,47 @@ class CeremonyService {
   });
 }
 
-class HomeScreen extends StatelessWidget {
+class Article {
+  final String id;
+  final String title;
+  final String thumbnailUrl;
+  final String publishedAt;
+  final String author;
+
+  Article(
+      {required this.id,
+      required this.title,
+      required this.thumbnailUrl,
+      required this.publishedAt,
+      required this.author});
+}
+
+class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final double paddingTop = MediaQuery.of(context).padding.top;
     final locales = AppLocalizations.of(context);
+    final scrollController = useScrollController();
+    final isScrolled = useState(false);
+
+    useEffect(() {
+      void listener() {
+        if ((scrollController.offset.ceil()) > 100) {
+          isScrolled.value = true;
+        } else {
+          isScrolled.value = false;
+        }
+      }
+
+      scrollController.addListener(listener);
+      return () => scrollController.removeListener(listener);
+    }, [scrollController]);
 
     final List<CeremonyService> ceremonyServices = [
       CeremonyService(
@@ -76,6 +112,34 @@ class HomeScreen extends StatelessWidget {
           title: "Lainnya"),
     ];
 
+    final List<Article> articles = [
+      Article(
+        id: "1",
+        title:
+            "Arti Mepamit, Upacara Adat Bali yang Dijalani Mahalini & Dinikahi Rizky Febian",
+        thumbnailUrl:
+            "https://awsimages.detik.net.id/community/media/visual/2024/05/05/potret-mahalini-dan-rizky-febian-gelar-upacara-adat-bali-jelang-pernikahan-6_169.jpeg?w=1200",
+        publishedAt: "Kamis, 02 Mei 2024",
+        author: "Billie Eilish",
+      ),
+      Article(
+        id: "2",
+        title: "Mengenal Upacara Adat Yang Ada di Bali",
+        thumbnailUrl:
+            "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
+        publishedAt: "Jumat, 26 Juli 2024",
+        author: "Thom Yorke",
+      ),
+      Article(
+        id: "3",
+        title: "Rangkaian Pernikahan Orang Bali: Madewasa Ayu hingga Mejauman",
+        thumbnailUrl:
+            "https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/03/22/Pawai-Ogoh-Ogoh-Awal-Mula-Kedudukan-Dalam-Tradisi-Hindu-Bali-Serta-Pesan-Sosialnya-3506145498.jpg",
+        publishedAt: "Rabu, 11 Maret 2024",
+        author: "Ben Barlow",
+      ),
+    ];
+
     return Scaffold(
       body: MeshTopBackground(
         child: Padding(
@@ -85,94 +149,288 @@ class HomeScreen extends StatelessWidget {
               const MainBar(),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 16.0,
-                        ),
-                        child: Column(
-                          children: [
-                            const WelcomeMessage(),
-                            const SizedBox(height: AppDimens.marginLarge),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4,
-                                childAspectRatio: 3 / (3.5),
-                                mainAxisSpacing: AppDimens.paddingMedium,
-                                crossAxisSpacing: AppDimens.paddingMedium,
-                              ),
-                              itemCount: ceremonyServices.length,
-                              itemBuilder: (context, index) {
-                                return CeremonyServiceItem(
-                                  onTap: () {},
-                                  title: ceremonyServices[index].title,
-                                  iconUrl: ceremonyServices[index].iconUrl,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: AppDimens.marginLarge,
-                        ),
-                        child: Divider(
-                          color: AppColors.lightgray,
-                          height: AppDimens.marginMedium,
-                          thickness: AppDimens.marginMedium,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  locales?.articleAndInfo ?? '',
-                                  style: const TextStyle(
-                                    fontSize: AppFontSizes.bodyLarge,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                  controller: scrollController,
+                  child: Container(
+                    color: isScrolled.value ? Colors.white : null,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 16.0,
+                          ),
+                          child: Column(
+                            children: [
+                              const WelcomeMessage(),
+                              const SizedBox(height: AppDimens.marginLarge),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4,
+                                  childAspectRatio: 3 / (3.5),
+                                  mainAxisSpacing: AppDimens.paddingMedium,
+                                  crossAxisSpacing: AppDimens.paddingMedium,
                                 ),
-                                Text(
-                                  locales?.articleAndInfoDescription ?? '',
-                                  style: const TextStyle(
-                                    fontSize: AppFontSizes.bodySmall,
-                                    color: AppColors.gray2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            TextPrimaryButton(
-                              label: locales?.seeAll ?? '',
-                              onTap: () {},
-                              fontSize: AppFontSizes.bodyMedium,
-                              icon: const Icon(
-                                Icons.chevron_right_rounded,
-                                color: AppColors.primary1,
+                                itemCount: ceremonyServices.length,
+                                itemBuilder: (context, index) {
+                                  return CeremonyServiceItem(
+                                    onTap: () {},
+                                    title: ceremonyServices[index].title,
+                                    iconUrl: ceremonyServices[index].iconUrl,
+                                  );
+                                },
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      )
-                    ],
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppDimens.marginLarge,
+                          ),
+                          child: Divider(
+                            color: AppColors.lightgray,
+                            height: AppDimens.marginMedium,
+                            thickness: AppDimens.marginMedium,
+                          ),
+                        ),
+                        const ButtonWithTitle(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(
+                                height: AppDimens.paddingMedium,
+                              );
+                            },
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: articles.length,
+                            itemBuilder: (context, index) {
+                              return ArticleItem(
+                                title: articles[index].title,
+                                thumbnailUrl: articles[index].thumbnailUrl,
+                                publishedAt: articles[index].publishedAt,
+                                author: articles[index].author,
+                                onTap: () {},
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 200,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ArticleItem extends StatelessWidget {
+  const ArticleItem({
+    super.key,
+    required this.title,
+    required this.thumbnailUrl,
+    required this.publishedAt,
+    required this.author,
+    required this.onTap,
+  });
+
+  final String title;
+  final String thumbnailUrl;
+  final String publishedAt;
+  final String author;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+
+    return GestureDetector(
+      onTap: () {},
+      child: SizedBox(
+        height: height * 0.22,
+        width: width,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(
+                10,
+              ),
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.6),
+                  BlendMode.darken,
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: thumbnailUrl,
+                  fit: BoxFit.cover,
+                  width: width,
+                  progressIndicatorBuilder: (context, url, downloadProgress) {
+                    return Shimmer.fromColors(
+                      baseColor: AppColors.gray2.withOpacity(0.6),
+                      highlightColor: AppColors.light1,
+                      child: const SizedBox(),
+                    );
+                  },
+                  errorWidget: (context, url, error) => const SizedBox(),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(
+                AppDimens.borderRadiusLarge,
+              ),
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: AppDimens.paddingMedium,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const SizedBox(
+                            height: AppDimens.paddingLarge,
+                          ),
+                          Text(
+                            title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: AppColors.light1,
+                              fontSize: AppFontSizes.bodyLarge,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AppDimens.paddingSmall,
+                            ),
+                            child: ArticleMetaItem(
+                              icon: AppImages.icDate,
+                              data: publishedAt,
+                            ),
+                          ),
+                          ArticleMetaItem(
+                            icon: AppImages.icAuthor,
+                            data: author,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    AppImages.rigthBottom,
+                    height: 40,
+                    width: 40,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ArticleMetaItem extends StatelessWidget {
+  const ArticleMetaItem({
+    super.key,
+    required this.icon,
+    required this.data,
+  });
+
+  final String icon;
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          icon,
+          height: 16,
+          width: 16,
+          color: AppColors.primary1,
+        ),
+        const SizedBox(
+          width: AppDimens.paddingSmall,
+        ),
+        Text(
+          data,
+          style: const TextStyle(
+            color: AppColors.primary1,
+            fontSize: AppFontSizes.bodySmall,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ButtonWithTitle extends StatelessWidget {
+  const ButtonWithTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final locales = AppLocalizations.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  locales?.articleAndInfo ?? '',
+                  style: const TextStyle(
+                    fontSize: AppFontSizes.bodyLarge,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  locales?.articleAndInfoDescription ?? '',
+                  style: const TextStyle(
+                    fontSize: AppFontSizes.bodySmall,
+                    color: AppColors.gray2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          TextPrimaryButton(
+            label: locales?.seeAll ?? '',
+            onTap: () {},
+            fontSize: AppFontSizes.bodyMedium,
+            icon: const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.primary1,
+            ),
+          ),
+        ],
       ),
     );
   }

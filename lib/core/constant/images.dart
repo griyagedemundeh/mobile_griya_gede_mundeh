@@ -8,4 +8,7 @@ abstract class AppImages {
   static const String ornamen2 = "assets/ornamen_2.png";
   static const String scrollDown = "assets/scroll_down.svg";
   static const String notification = "assets/notification.svg";
+  static const String rigthBottom = "assets/right_bottom.svg";
+  static const String icDate = "assets/ic_date.svg";
+  static const String icAuthor = "assets/ic_author.svg";
 }
