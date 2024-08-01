@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
@@ -29,18 +31,16 @@ class LoginScreen extends HookConsumerWidget {
         minHeight: height * 0.8,
         maxHeight: height,
         parallaxEnabled: true,
-        parallaxOffset: 0.3,
+        backdropEnabled: true,
         boxShadow: const [
           BoxShadow(
             color: Colors.transparent,
           ),
         ],
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppDimens.iconSizeLarge),
+          top: Radius.circular(AppDimens.iconSizeMediumLarge),
         ),
-        body: const Center(
-          child: Text("This is the Widget behind the sliding panel"),
-        ),
+        body: Image.asset(AppImages.ornamen1),
         panelBuilder: (sc) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.end,

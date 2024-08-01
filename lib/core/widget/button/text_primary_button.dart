@@ -7,25 +7,36 @@ class TextPrimaryButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.onTap,
+    this.fontSize,
+    this.icon,
   });
 
   final String label;
   final VoidCallback onTap;
+  final double? fontSize;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onTap,
       padding: EdgeInsets.zero,
-      child: Text(
-        label,
-        style: const TextStyle(
-          color: AppColors.primary1,
-          decoration: TextDecoration.underline,
-          decorationColor: AppColors.primary1,
-          fontWeight: FontWeight.bold,
-          fontSize: AppFontSizes.bodySmall,
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: AppColors.primary1,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.primary1,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize ?? AppFontSizes.bodySmall,
+            ),
+          ),
+          icon ?? const SizedBox(),
+        ],
       ),
     );
   }

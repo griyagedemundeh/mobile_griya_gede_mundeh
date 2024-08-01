@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+class CeremonyService {
+  final String id;
+  final String iconUrl;
+  final String title;
+
+  CeremonyService({
+    required this.id,
+    required this.iconUrl,
+    required this.title,
+  });
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -21,261 +33,145 @@ class HomeScreen extends StatelessWidget {
     final double paddingTop = MediaQuery.of(context).padding.top;
     final locales = AppLocalizations.of(context);
 
+    final List<CeremonyService> ceremonyServices = [
+      CeremonyService(
+          id: "1",
+          iconUrl:
+              "https://asset-a.grid.id/crop/0x0:0x0/780x800/photo/bobofoto/original/22383_upacara-potong-gigi-di-bali.jpg",
+          title: "Metatah"),
+      CeremonyService(
+          id: "2",
+          iconUrl:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
+          title: "Mebayuh"),
+      CeremonyService(
+          id: "3",
+          iconUrl:
+              "https://rebornprojectmedia.com/wp-content/uploads/2022/03/Melaspas_7-scaled.jpg",
+          title: "Melaspas"),
+      CeremonyService(
+          id: "4",
+          iconUrl:
+              "https://panbelog.wordpress.com/wp-content/uploads/2014/11/112214_0125_pawiwahan1.jpg",
+          title: "Pawiwahan"),
+      CeremonyService(
+          id: "5",
+          iconUrl:
+              "https://assets-a1.kompasiana.com/statics/crawl/553016ae0423bdeb638b4567.jpeg",
+          title: "Otonan"),
+      CeremonyService(
+          id: "6",
+          iconUrl:
+              "https://nusantara7.id/wp-content/uploads/2021/07/mecaru.jpg",
+          title: "Mecaru"),
+      CeremonyService(
+          id: "7",
+          iconUrl:
+              "https://lh3.googleusercontent.com/proxy/RnpePuRN5t9M3wSWsOTIOFLJBKHZ7TMMWRs7zOQbz4xqDShUQwaeACoCb6ex6xiZG1sYcAfQrvSyJBSO-BBcp3MfKO_-6OwjPyaAklvwXdH_K5Pm",
+          title: "Mewinten"),
+      CeremonyService(
+          id: "8",
+          iconUrl:
+              "https://ik.imagekit.io/tvlk/blog/2020/05/Upacara-Melasti-Website-Resmi-Pemerintah-Kabupaten-Buleleng.jpg?tr=dpr-2,w-675",
+          title: "Lainnya"),
+    ];
+
     return Scaffold(
       body: MeshTopBackground(
         child: Padding(
           padding: EdgeInsets.only(top: paddingTop),
           child: Column(
             children: [
-              const HomeBar(),
-              SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: AppDimens.paddingLarge,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: height * 0.22,
-                      width: width,
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                            child: ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.6),
-                                BlendMode.darken,
+              const MainBar(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 16.0,
+                        ),
+                        child: Column(
+                          children: [
+                            const WelcomeMessage(),
+                            const SizedBox(height: AppDimens.marginLarge),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                childAspectRatio: 3 / (3.5),
+                                mainAxisSpacing: AppDimens.paddingMedium,
+                                crossAxisSpacing: AppDimens.paddingMedium,
                               ),
-                              child: Image.asset(
-                                AppImages.welcome,
-                                width: width,
-                                height: height * 0.3,
-                                fit: BoxFit.cover,
-                              ),
+                              itemCount: ceremonyServices.length,
+                              itemBuilder: (context, index) {
+                                return CeremonyServiceItem(
+                                  onTap: () {},
+                                  title: ceremonyServices[index].title,
+                                  iconUrl: ceremonyServices[index].iconUrl,
+                                );
+                              },
                             ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: AppDimens.paddingLarge),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppDimens.iconSizeLarge,
-                                ),
-                                child: Text(
-                                  locales?.welcomMessage ?? '',
-                                  textAlign: TextAlign.center,
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppDimens.marginLarge,
+                        ),
+                        child: Divider(
+                          color: AppColors.lightgray,
+                          height: AppDimens.marginMedium,
+                          thickness: AppDimens.marginMedium,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  locales?.articleAndInfo ?? '',
                                   style: const TextStyle(
-                                    color: AppColors.light1,
-                                    fontSize: AppFontSizes.bodyMedium,
+                                    fontSize: AppFontSizes.bodyLarge,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                Text(
+                                  locales?.articleAndInfoDescription ?? '',
+                                  style: const TextStyle(
+                                    fontSize: AppFontSizes.bodySmall,
+                                    color: AppColors.gray2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TextPrimaryButton(
+                              label: locales?.seeAll ?? '',
+                              onTap: () {},
+                              fontSize: AppFontSizes.bodyMedium,
+                              icon: const Icon(
+                                Icons.chevron_right_rounded,
+                                color: AppColors.primary1,
                               ),
-                              SvgPicture.asset(
-                                AppImages.scrollDown,
-                                height: 40,
-                                width: 40,
-                              ),
-                              const SizedBox(height: AppDimens.paddingMicro),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class HomeBar extends StatelessWidget {
-  const HomeBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final locales = AppLocalizations.of(context);
-
-    return Container(
-      width: width,
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppDimens.paddingLarge,
-        vertical: AppDimens.paddingMediumLarge,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: AppColors.primary1,
-                radius: AppDimens.iconSizeMediumSmall,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        'https://static.wikia.nocookie.net/hellokitty/images/a/a1/Sanrio_Characters_Badtz-Maru_Image006.png/revision/latest?cb=20170401205819',
-                    fit: BoxFit.scaleDown,
-                    height: double.infinity,
-                    width: double.infinity,
-                    progressIndicatorBuilder: (context, url, downloadProgress) {
-                      return Shimmer.fromColors(
-                        baseColor: AppColors.gray2.withOpacity(0.6),
-                        highlightColor: AppColors.light1,
-                        child: const SizedBox(),
-                      );
-                    },
-                    errorWidget: (context, url, error) => const SizedBox(),
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppDimens.marginMedium),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    locales?.greeting('Pagi') ?? '',
-                    style: const TextStyle(
-                      color: AppColors.gray2,
-                    ),
-                  ),
-                  const Text(
-                    "Bimo👋",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppFontSizes.bodyLarge,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          MaterialButton(
-            onPressed: () {},
-            height: AppDimens.iconSizeLarge,
-            minWidth: AppDimens.iconSizeMedium,
-            padding: const EdgeInsets.all(4),
-            clipBehavior: Clip.hardEdge,
-            shape: const StadiumBorder(),
-            child: SvgPicture.asset(
-              AppImages.notification,
-              height: AppDimens.iconSizeSmall,
-              width: AppDimens.iconSizeSmall,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MeshTopBackground extends StatelessWidget {
-  const MeshTopBackground({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-
-    return SizedBox(
-      height: height,
-      width: width,
-      child: Stack(
-        children: [
-          const MeshPrimaryTopBar(),
-          child,
-        ],
-      ),
-    );
-  }
-}
-
-class MeshPrimaryTopBar extends StatelessWidget {
-  const MeshPrimaryTopBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-
-    return SizedBox(
-      height: height * 0.3,
-      width: width,
-      child: const Stack(
-        children: [
-          MeshPrimary(
-            top: -160,
-            right: -20,
-          ),
-          MeshPrimary(
-            left: -200,
-            bottom: -210,
-          ),
-          MeshPrimary(
-            right: -200,
-            bottom: -220,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MeshPrimary extends StatelessWidget {
-  const MeshPrimary({
-    super.key,
-    this.top,
-    this.bottom,
-    this.right,
-    this.left,
-  });
-
-  final double? top;
-  final double? bottom;
-  final double? right;
-  final double? left;
-
-  @override
-  Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-
-    return Positioned(
-      top: top,
-      right: right,
-      bottom: bottom,
-      left: left,
-      child: Container(
-        height: height * 0.3,
-        width: height * 0.35,
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 200,
-              spreadRadius: 10,
-              color: AppColors.primary1,
-            )
-          ],
         ),
       ),
     );
