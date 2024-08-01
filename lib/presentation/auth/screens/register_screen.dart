@@ -7,6 +7,8 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RegisterScreen extends HookConsumerWidget {
@@ -151,7 +153,6 @@ class RegisterScreen extends HookConsumerWidget {
                                         label: locales?.login ?? '',
                                         onTap: () {},
                                       ),
-                                      // SizedBox(height: height * 0.2),
                                     ],
                                   ),
                                   Row(
@@ -165,7 +166,12 @@ class RegisterScreen extends HookConsumerWidget {
                                       ),
                                       TextPrimaryButton(
                                         label: locales?.loginHere ?? '',
-                                        onTap: () {},
+                                        onTap: () {
+                                          PrimaryNavigation.pushFromRight(
+                                            context,
+                                            page: const LoginScreen(),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),
