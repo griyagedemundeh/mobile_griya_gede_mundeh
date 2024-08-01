@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 
 class OnboardingItem {
   final String icon;
@@ -164,7 +165,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         PrimaryButton(
                           label: locale?.register ?? '',
                           isMedium: true,
-                          onTap: () {},
+                          onTap: () {
+                            PrimaryNavigation.pushFromRight(
+                              context,
+                              page: const RegisterScreen(),
+                            );
+                          },
                         ),
                         PrimaryButton(
                           label: locale?.login ?? '',

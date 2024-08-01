@@ -11,10 +11,24 @@
     "loginNow": "Masuk Sekarang👇",
     "emailOrPhone": "Email/No. Handphone",
     "enterEmailOrPhone": "Masukkan email / no. handphone anda",
-    "password": "Kata sandi",
+    "password": "Kata Sandi",
     "enterPassword": "Masukkan kata sandi anda",
     "forgotPassword": "Lupa kata sandi?",
     "dontHaveAccountYet": "Belum punya akun?",
-    "registerHere": "Daftar disini"
+    "registerHere": "Daftar disini",
+    "createNewAccount": "Buat Akun Baru 👋",
+    "fullname": "Nama Lengkap",
+    "enterFullname": "Masukkan nama lengkap anda",
+    "email": "Email",
+    "enterEmail": "Masukkan email anda",
+    "phone": "No. Handphone",
+    "enterPhone": "Masukkan no. handphone anda",
+    "mainAddress": "Alamat Utama",
+    "enterMainAddress": "Masukkan alamat utama anda",
+    "confPassword": "Konfirmasi  Password",
+    "enterConfPassword": "Konfirmasi password anda",
+    "haveAccount": "Sudah  punya akun?",
+    "loginHere": "Masuk disini",
+    "optional": "(Opsional)"
     
 }

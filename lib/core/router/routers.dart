@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/splash/screens/splash_screen.dart';
@@ -22,6 +23,8 @@ abstract class AppRouter {
             builder: (context) => const OnboardingScreen());
       case Routes.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
+      case Routes.register:
+        return MaterialPageRoute(builder: (context) => const RegisterScreen());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
       default:

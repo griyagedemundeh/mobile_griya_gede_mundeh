@@ -138,6 +138,7 @@ class _TextInputState extends State<TextInput> {
                                   ? Icons.visibility_off
                                   : Icons.visibility,
                               color: AppColors.gray2,
+                              size: AppDimens.paddingMediumLarge,
                             ),
                           )
                         : null,

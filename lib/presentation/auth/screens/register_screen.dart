@@ -7,12 +7,10 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class LoginScreen extends HookConsumerWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends HookConsumerWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,7 +57,7 @@ class LoginScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            locales?.loginNow ?? '',
+                            locales?.createNewAccount ?? '',
                             style: const TextStyle(
                               fontSize: AppFontSizes.headlineSmall,
                               fontWeight: FontWeight.w600,
@@ -82,9 +80,39 @@ class LoginScreen extends HookConsumerWidget {
                                       // First Name
                                       TextInput(
                                         controller: emailPhoneController,
-                                        label: locales?.emailOrPhone ?? '',
+                                        label: locales?.fullname ?? '',
                                         placeHolder:
-                                            locales?.enterEmailOrPhone ?? '',
+                                            locales?.enterFullname ?? '',
+                                        type: TextInputType.name,
+                                      ),
+                                      const SizedBox(
+                                        height: AppDimens.borderRadiusLarge,
+                                      ),
+                                      TextInput(
+                                        controller: emailPhoneController,
+                                        label:
+                                            "${locales?.email ?? ''} ${locales?.optional ?? ''}",
+                                        placeHolder: locales?.enterEmail ?? '',
+                                        type: TextInputType.emailAddress,
+                                      ),
+                                      const SizedBox(
+                                        height: AppDimens.borderRadiusLarge,
+                                      ),
+                                      TextInput(
+                                        controller: emailPhoneController,
+                                        label: locales?.phone ?? '',
+                                        placeHolder: locales?.enterPhone ?? '',
+                                        type: TextInputType.phone,
+                                      ),
+                                      const SizedBox(
+                                        height: AppDimens.borderRadiusLarge,
+                                      ),
+                                      TextInput(
+                                        controller: emailPhoneController,
+                                        label: locales?.mainAddress ?? '',
+                                        placeHolder:
+                                            locales?.enterMainAddress ?? '',
+                                        type: TextInputType.streetAddress,
                                       ),
                                       const SizedBox(
                                         height: AppDimens.borderRadiusLarge,
@@ -101,38 +129,43 @@ class LoginScreen extends HookConsumerWidget {
                                               !isPasswordVisible.value;
                                         },
                                       ),
-                                      TextPrimaryButton(
-                                        label: locales?.forgotPassword ?? '',
-                                        onTap: () {},
+                                      const SizedBox(
+                                        height: AppDimens.borderRadiusLarge,
+                                      ),
+                                      TextInput(
+                                        controller: passwordController,
+                                        label: locales?.confPassword ?? '',
+                                        placeHolder:
+                                            locales?.enterConfPassword ?? '',
+                                        isPassword: true,
+                                        isPassVisible: isPasswordVisible.value,
+                                        onPasswordTap: () {
+                                          isPasswordVisible.value =
+                                              !isPasswordVisible.value;
+                                        },
                                       ),
                                       const SizedBox(
-                                        height: AppDimens.buttonHeight,
+                                        height: AppDimens.iconSizeLarge,
                                       ),
-
                                       PrimaryButton(
                                         label: locales?.login ?? '',
                                         onTap: () {},
                                       ),
-                                      SizedBox(height: height * 0.2),
+                                      // SizedBox(height: height * 0.2),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        locales?.dontHaveAccountYet ?? '',
+                                        locales?.haveAccount ?? '',
                                         style: const TextStyle(
                                           fontSize: AppFontSizes.bodySmall,
                                         ),
                                       ),
                                       TextPrimaryButton(
-                                        label: locales?.registerHere ?? '',
-                                        onTap: () {
-                                          PrimaryNavigation.pushFromRight(
-                                            context,
-                                            page: const RegisterScreen(),
-                                          );
-                                        },
+                                        label: locales?.loginHere ?? '',
+                                        onTap: () {},
                                       ),
                                     ],
                                   ),

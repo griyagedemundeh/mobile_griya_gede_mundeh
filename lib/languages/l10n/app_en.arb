@@ -15,6 +15,20 @@
     "enterPassword": "Enter your password",
     "forgotPassword": "Forgot password?",
     "dontHaveAccountYet": "Don''t have an account yet?",
-    "registerHere": "Register here"
+    "registerHere": "Register here",
+    "createNewAccount": "Create New Account 👋",
+    "fullname": "Full Name",
+    "enterFullname": "Enter your full name",
+    "email": "Email",
+    "enterEmail": "Enter your email",
+    "phone": "Mobile No.",
+    "enterPhone": "Enter your mobile number",
+    "mainAddress": "Main Address",
+    "enterMainAddress": "Enter your main address",
+    "confPassword": "Confirm Password",
+    "enterConfPassword": "Confirm your password",
+    "haveAccount": "Do you have an account?",
+    "loginHere": "Login here",
+    "optional": "(Optional)"
     
 }
