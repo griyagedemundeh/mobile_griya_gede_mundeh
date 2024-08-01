@@ -29,6 +29,25 @@
     "enterConfPassword": "Confirm your password",
     "haveAccount": "Do you have an account?",
     "loginHere": "Login here",
-    "optional": "(Optional)"
+    "optional": "(Optional)",
+    "greeting": "Good {time}",
+    "@greeting": {
+    "description": "Greeting the user",
+    "placeholders": {
+            "time": {
+            "type": "String",
+            "example": "Morning"
+            }
+        }
+    },
+    "welcomMessage": "Come on, hold your religious ceremony and consult for free now!",
+    "articleAndInfo": "Articles and Information",
+    "articleAndInfoDescription": "Explore the latest articles and information here",
+    "seeAll": "See All",
+    "home": "Home",
+    "ceremonyHistory": "Ceremony History",
+    "transaction": "Transaction",
+    "profile": "Profile",
+    "consultation": "Consultation"
     
 }

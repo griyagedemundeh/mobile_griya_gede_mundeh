@@ -150,7 +150,7 @@ class RegisterScreen extends HookConsumerWidget {
                                         height: AppDimens.iconSizeLarge,
                                       ),
                                       PrimaryButton(
-                                        label: locales?.login ?? '',
+                                        label: locales?.register ?? '',
                                         onTap: () {},
                                       ),
                                     ],

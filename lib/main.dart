@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Griya Gede Mundeh',
+      debugShowCheckedModeBanner: false,
       initialRoute: Routes.splash,
       onGenerateRoute: AppRouter.routes,
       theme: AppTheme.getTheme(),

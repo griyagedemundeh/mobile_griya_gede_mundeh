@@ -29,6 +29,25 @@
     "enterConfPassword": "Konfirmasi password anda",
     "haveAccount": "Sudah  punya akun?",
     "loginHere": "Masuk disini",
-    "optional": "(Opsional)"
+    "optional": "(Opsional)",
+    "greeting": "Selamat {time}",
+    "@greeting": {
+    "description": "Menyapa pengguna",
+    "placeholders": {
+            "time": {
+            "type": "String",
+            "example": "Pagi"
+            }
+        }
+    },
+    "welcomMessage": "Ayo selenggarakan Upacara Agamamu dan berkonsultasi secara gratis sekarang juga!",
+    "articleAndInfo": "Artikel dan Informasi",
+    "articleAndInfoDescription": "Jelajahi artikel dan informasi terbaru disini",
+    "seeAll": "Lihat Semua",
+    "home": "Beranda",
+    "ceremonyHistory": "Riwayat Upacara",
+    "transaction": "Transaksi",
+    "profile": "Profile",
+    "consultation": "Konsultasi"
     
 }
