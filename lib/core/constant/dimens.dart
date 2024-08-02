@@ -21,4 +21,6 @@ abstract class AppDimens {
   static const double bigMedium = 75.0;
   static const double large = 80.0;
   static const double xl = 90.0;
+  static const double xxl = 100.0;
+  static const double xxxl = 110.0;
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
@@ -135,95 +136,111 @@ class HomeScreen extends HookConsumerWidget {
       ),
     ];
 
-    return Container(
-      child: MeshTopBackground(
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingTop),
-          child: Column(
-            children: [
-              const MainBar(),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  child: Container(
-                    color: isScrolled.value ? Colors.white : null,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: 16.0,
-                          ),
-                          child: Column(
-                            children: [
-                              const WelcomeMessage(),
-                              const SizedBox(height: AppDimens.marginLarge),
-                              GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                padding: EdgeInsets.zero,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4,
-                                  childAspectRatio: 3 / (3.5),
-                                  mainAxisSpacing: AppDimens.paddingMedium,
-                                  crossAxisSpacing: AppDimens.paddingMedium,
-                                ),
-                                itemCount: ceremonyServices.length,
-                                itemBuilder: (context, index) {
-                                  return CeremonyServiceItem(
-                                    onTap: () {},
-                                    title: ceremonyServices[index].title,
-                                    iconUrl: ceremonyServices[index].iconUrl,
-                                  );
-                                },
+    return MeshTopBackground(
+      child: Padding(
+        padding: EdgeInsets.only(top: paddingTop),
+        child: Column(
+          children: [
+            const MainBar(),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Container(
+                  color: isScrolled.value ? Colors.white : null,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 16.0,
+                        ),
+                        child: Column(
+                          children: [
+                            const WelcomeMessage(),
+                            const SizedBox(height: AppDimens.marginLarge),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                childAspectRatio: 3 / (3.5),
+                                mainAxisSpacing: AppDimens.paddingMedium,
+                                crossAxisSpacing: AppDimens.paddingMedium,
                               ),
-                            ],
-                          ),
+                              itemCount: ceremonyServices.length,
+                              itemBuilder: (context, index) {
+                                return CeremonyServiceItem(
+                                  onTap: () {
+                                    if (ceremonyServices[index]
+                                            .title
+                                            .toLowerCase() ==
+                                        'lainnya') {
+                                      PrimaryNavigation.pushFromRight(
+                                        context,
+                                        page: const OtherCeremonyScreen(),
+                                      );
+                                      return;
+                                    }
+
+                                    PrimaryNavigation.pushFromRight(
+                                      context,
+                                      page: DetailCeremonyScreen(
+                                        id: "$index",
+                                      ),
+                                    );
+                                  },
+                                  title: ceremonyServices[index].title,
+                                  iconUrl: ceremonyServices[index].iconUrl,
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: AppDimens.marginLarge,
-                          ),
-                          child: Divider(
-                            color: AppColors.lightgray,
-                            height: AppDimens.marginMedium,
-                            thickness: AppDimens.marginMedium,
-                          ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppDimens.marginLarge,
                         ),
-                        const ButtonWithTitle(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(
-                                height: AppDimens.paddingMedium,
-                              );
-                            },
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: articles.length,
-                            itemBuilder: (context, index) {
-                              return ArticleItem(
-                                title: articles[index].title,
-                                thumbnailUrl: articles[index].thumbnailUrl,
-                                publishedAt: articles[index].publishedAt,
-                                author: articles[index].author,
-                                onTap: () {},
-                              );
-                            },
-                          ),
+                        child: Divider(
+                          color: AppColors.lightgray,
+                          height: AppDimens.marginMedium,
+                          thickness: AppDimens.marginMedium,
                         ),
-                        SizedBox(
-                          height: height * 0.04,
+                      ),
+                      const ButtonWithTitle(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: AppDimens.paddingMedium,
+                            );
+                          },
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: articles.length,
+                          itemBuilder: (context, index) {
+                            return ArticleItem(
+                              title: articles[index].title,
+                              thumbnailUrl: articles[index].thumbnailUrl,
+                              publishedAt: articles[index].publishedAt,
+                              author: articles[index].author,
+                              onTap: () {},
+                            );
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: height * 0.04,
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
