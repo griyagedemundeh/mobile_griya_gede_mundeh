@@ -1,19 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CeremonyService {
   final String id;
@@ -49,10 +46,8 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final double paddingTop = MediaQuery.of(context).padding.top;
-    final locales = AppLocalizations.of(context);
     final scrollController = useScrollController();
     final isScrolled = useState(false);
 
@@ -140,8 +135,8 @@ class HomeScreen extends HookConsumerWidget {
       ),
     ];
 
-    return Scaffold(
-      body: MeshTopBackground(
+    return Container(
+      child: MeshTopBackground(
         child: Padding(
           padding: EdgeInsets.only(top: paddingTop),
           child: Column(
@@ -219,8 +214,8 @@ class HomeScreen extends HookConsumerWidget {
                             },
                           ),
                         ),
-                        const SizedBox(
-                          height: 200,
+                        SizedBox(
+                          height: height * 0.04,
                         ),
                       ],
                     ),
@@ -230,207 +225,6 @@ class HomeScreen extends HookConsumerWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ArticleItem extends StatelessWidget {
-  const ArticleItem({
-    super.key,
-    required this.title,
-    required this.thumbnailUrl,
-    required this.publishedAt,
-    required this.author,
-    required this.onTap,
-  });
-
-  final String title;
-  final String thumbnailUrl;
-  final String publishedAt;
-  final String author;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-
-    return GestureDetector(
-      onTap: () {},
-      child: SizedBox(
-        height: height * 0.22,
-        width: width,
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.6),
-                  BlendMode.darken,
-                ),
-                child: CachedNetworkImage(
-                  imageUrl: thumbnailUrl,
-                  fit: BoxFit.cover,
-                  width: width,
-                  progressIndicatorBuilder: (context, url, downloadProgress) {
-                    return Shimmer.fromColors(
-                      baseColor: AppColors.gray2.withOpacity(0.6),
-                      highlightColor: AppColors.light1,
-                      child: const SizedBox(),
-                    );
-                  },
-                  errorWidget: (context, url, error) => const SizedBox(),
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(
-                AppDimens.borderRadiusLarge,
-              ),
-              width: width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: AppDimens.paddingMedium,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const SizedBox(
-                            height: AppDimens.paddingLarge,
-                          ),
-                          Text(
-                            title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: AppColors.light1,
-                              fontSize: AppFontSizes.bodyLarge,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: AppDimens.paddingSmall,
-                            ),
-                            child: ArticleMetaItem(
-                              icon: AppImages.icDate,
-                              data: publishedAt,
-                            ),
-                          ),
-                          ArticleMetaItem(
-                            icon: AppImages.icAuthor,
-                            data: author,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SvgPicture.asset(
-                    AppImages.rigthBottom,
-                    height: 40,
-                    width: 40,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ArticleMetaItem extends StatelessWidget {
-  const ArticleMetaItem({
-    super.key,
-    required this.icon,
-    required this.data,
-  });
-
-  final String icon;
-  final String data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          icon,
-          height: 16,
-          width: 16,
-          color: AppColors.primary1,
-        ),
-        const SizedBox(
-          width: AppDimens.paddingSmall,
-        ),
-        Text(
-          data,
-          style: const TextStyle(
-            color: AppColors.primary1,
-            fontSize: AppFontSizes.bodySmall,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ButtonWithTitle extends StatelessWidget {
-  const ButtonWithTitle({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final locales = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  locales?.articleAndInfo ?? '',
-                  style: const TextStyle(
-                    fontSize: AppFontSizes.bodyLarge,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  locales?.articleAndInfoDescription ?? '',
-                  style: const TextStyle(
-                    fontSize: AppFontSizes.bodySmall,
-                    color: AppColors.gray2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          TextPrimaryButton(
-            label: locales?.seeAll ?? '',
-            onTap: () {},
-            fontSize: AppFontSizes.bodyMedium,
-            icon: const Icon(
-              Icons.chevron_right_rounded,
-              color: AppColors.primary1,
-            ),
-          ),
-        ],
       ),
     );
   }

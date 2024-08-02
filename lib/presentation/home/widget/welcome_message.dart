@@ -28,7 +28,7 @@ class WelcomeMessage extends StatelessWidget {
             ),
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.6),
+                Colors.black.withOpacity(0.7),
                 BlendMode.darken,
               ),
               child: Image.asset(
@@ -40,7 +40,7 @@ class WelcomeMessage extends StatelessWidget {
             ),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: AppDimens.paddingLarge),
@@ -58,12 +58,14 @@ class WelcomeMessage extends StatelessWidget {
                   ),
                 ),
               ),
-              SvgPicture.asset(
-                AppImages.scrollDown,
-                height: 40,
-                width: 40,
+              Padding(
+                padding: const EdgeInsets.all(AppDimens.marginSmall),
+                child: SvgPicture.asset(
+                  AppImages.scrollDown,
+                  height: 40,
+                  width: 40,
+                ),
               ),
-              const SizedBox(height: AppDimens.paddingMicro),
             ],
           ),
         ],

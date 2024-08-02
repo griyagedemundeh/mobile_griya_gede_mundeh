@@ -17,4 +17,8 @@ abstract class AppDimens {
   static const double iconSizeLarge = 48.0;
   static const double buttonHeight = 48.0;
   static const double appBarHeight = 56.0;
+  static const double big = 70.0;
+  static const double bigMedium = 75.0;
+  static const double large = 80.0;
+  static const double xl = 90.0;
 }

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/splash/screens/splash_screen.dart';
 
 abstract class Routes {
   static const String splash = "/";
+  static const String main = "/main";
   static const String home = "/home";
   static const String onboarding = "/onboarding";
   static const String login = "/login";
@@ -25,10 +27,16 @@ abstract class AppRouter {
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case Routes.register:
         return MaterialPageRoute(builder: (context) => const RegisterScreen());
+      case Routes.main:
+        return MaterialPageRoute(builder: (context) => const MainScreen());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
       default:
-        return MaterialPageRoute(builder: (context) => const HomeScreen());
+        return MaterialPageRoute(
+          builder: (context) => const Scaffold(
+            body: SizedBox(),
+          ),
+        );
     }
   }
 }

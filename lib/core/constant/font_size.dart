@@ -8,6 +8,7 @@ abstract class AppFontSizes {
   static const double titleMedium = 16.0;
   static const double titleLarge = 22.0;
 
+  static const double labelMicro = 10.0;
   static const double labelSmall = 11.0;
   static const double labelMedium = 12.0;
   static const double labelLarge = 14.0;

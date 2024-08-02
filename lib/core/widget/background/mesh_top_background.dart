@@ -43,7 +43,7 @@ class MeshPrimaryTopBar extends StatelessWidget {
       child: const Stack(
         children: [
           MeshPrimary(
-            top: -160,
+            top: -200,
             right: -20,
           ),
           MeshPrimary(
@@ -89,7 +89,7 @@ class MeshPrimary extends StatelessWidget {
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
-              blurRadius: 200,
+              blurRadius: 60,
               spreadRadius: 10,
               color: AppColors.primary1,
             )

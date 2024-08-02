@@ -10,7 +10,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class LoginScreen extends HookConsumerWidget {
@@ -114,7 +114,7 @@ class LoginScreen extends HookConsumerWidget {
                                         onTap: () {
                                           PrimaryNavigation.pushFromRight(
                                             context,
-                                            page: const HomeScreen(),
+                                            page: const MainScreen(),
                                           );
                                         },
                                       ),

@@ -12,6 +12,7 @@ abstract class AppTheme {
         shadowColor: AppColors.dark1.withOpacity(0.5),
       ),
       textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+      scaffoldBackgroundColor: Colors.white,
     );
   }
 }
