@@ -289,7 +289,7 @@ class CeremonyDescriptionPackage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          locales?.nextWithoutPackage ?? '',
+          locales?.packageDescription ?? '',
           style: const TextStyle(
             fontSize: AppFontSizes.bodyLarge,
             fontWeight: FontWeight.bold,
