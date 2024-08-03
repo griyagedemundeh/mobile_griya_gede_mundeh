@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
-import 'package:mobile_griya_gede_mundeh/core/router/routers.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/background_gradient_primary.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';

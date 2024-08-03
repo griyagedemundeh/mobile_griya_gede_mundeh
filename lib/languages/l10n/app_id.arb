@@ -32,11 +32,11 @@
     "optional": "(Opsional)",
     "greeting": "Selamat {time}",
     "@greeting": {
-    "description": "Menyapa pengguna",
-    "placeholders": {
+        "description": "Menyapa pengguna",
+        "placeholders": {
             "time": {
-            "type": "String",
-            "example": "Pagi"
+                "type": "String",
+                "example": "Pagi"
             }
         }
     },
@@ -48,6 +48,10 @@
     "ceremonyHistory": "Riwayat Upacara",
     "transaction": "Transaksi",
     "profile": "Profile",
-    "consultation": "Konsultasi"
-    
+    "consultation": "Konsultasi",
+    "nextWithoutPackage": "Lanjut Tanpa Pilih Paket",
+    "packageDescription": "🗒️ Deskripsi Paket",
+    "packagePrice": "💸 Harga Paket",
+    "consultWithoutWorry": "Anda tetap bisa menjalankan Upacara Agama dengan budget yang sesuai dengan kemampuan Anda!",
+    "detailCeremony": "Detail Upacara"
 }

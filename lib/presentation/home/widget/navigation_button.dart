@@ -33,7 +33,9 @@ class NavigationButton extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 icon,
-                color: isTap ? AppColors.primary1 : AppColors.gray1,
+                color: isTap
+                    ? AppColors.primary1.withOpacity(0.95)
+                    : AppColors.gray1,
                 height: AppDimens.paddingMediumLarge,
                 width: AppDimens.paddingMediumLarge,
               ),
@@ -43,7 +45,9 @@ class NavigationButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: AppFontSizes.labelSmall,
-                  color: isTap ? AppColors.primary1 : AppColors.gray1,
+                  color: isTap
+                      ? AppColors.primary1.withOpacity(0.95)
+                      : AppColors.gray1,
                 ),
               ),
             ],

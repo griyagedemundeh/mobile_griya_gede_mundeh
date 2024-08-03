@@ -15,11 +15,13 @@ class ConsultationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final locales = AppLocalizations.of(context);
 
-    return GestureDetector(
-      onTap: () {},
+    return MaterialButton(
+      onPressed: () {},
+      padding: EdgeInsets.zero,
+      shape: const StadiumBorder(),
       child: Container(
-        width: AppDimens.bigMedium,
-        height: AppDimens.bigMedium,
+        width: AppDimens.large,
+        height: AppDimens.large,
         padding: const EdgeInsets.all(AppDimens.paddingMicro),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -43,11 +45,15 @@ class ConsultationButton extends StatelessWidget {
                 width: AppDimens.iconSizeSmall,
                 color: Colors.white,
               ),
-              Text(
-                locales?.consultation ?? '',
-                style: const TextStyle(
-                  fontSize: AppFontSizes.labelMicro,
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  locales?.consultation ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: AppFontSizes.labelMicro,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],

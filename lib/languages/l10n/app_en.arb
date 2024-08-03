@@ -32,11 +32,11 @@
     "optional": "(Optional)",
     "greeting": "Good {time}",
     "@greeting": {
-    "description": "Greeting the user",
-    "placeholders": {
+        "description": "Greeting the user",
+        "placeholders": {
             "time": {
-            "type": "String",
-            "example": "Morning"
+                "type": "String",
+                "example": "Morning"
             }
         }
     },
@@ -48,6 +48,10 @@
     "ceremonyHistory": "Ceremony History",
     "transaction": "Transaction",
     "profile": "Profile",
-    "consultation": "Consultation"
-    
+    "consultation": "Consultation",
+    "nextWithoutPackage": "Continue Without Selecting Package",
+    "packageDescription": "🗒️ Package Description",
+    "packagePrice": "💸 Package Price",
+    "consultWithoutWorry": "You can still hold religious ceremonies with a budget that suits your abilities!",
+    "detailCeremony": "Ceremony Details"
 }
