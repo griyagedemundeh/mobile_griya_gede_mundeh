@@ -53,5 +53,8 @@
     "packageDescription": "🗒️ Package Description",
     "packagePrice": "💸 Package Price",
     "consultWithoutWorry": "You can still hold religious ceremonies with a budget that suits your abilities!",
-    "detailCeremony": "Ceremony Details"
+    "detailCeremony": "Ceremony Details",
+    "selectCeremonyLocation": "Select Ceremony Location",
+    "back": "Back",
+    "addNewAddress": "Add New Address"
 }

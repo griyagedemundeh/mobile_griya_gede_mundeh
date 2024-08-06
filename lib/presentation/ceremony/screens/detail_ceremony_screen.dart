@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
@@ -115,7 +116,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                   const SizedBox(width: AppDimens.paddingMedium),
                   PrimaryButton(
                     label: "Yakin Banget",
-                    onTap: () {},
+                    onTap: () {
+                      PrimaryBottomSheet.showModalBottom(context);
+                    },
                     isMedium: true,
                   ),
                 ],

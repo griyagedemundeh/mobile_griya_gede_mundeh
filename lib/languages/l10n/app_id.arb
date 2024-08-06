@@ -53,5 +53,8 @@
     "packageDescription": "🗒️ Deskripsi Paket",
     "packagePrice": "💸 Harga Paket",
     "consultWithoutWorry": "Anda tetap bisa menjalankan Upacara Agama dengan budget yang sesuai dengan kemampuan Anda!",
-    "detailCeremony": "Detail Upacara"
+    "detailCeremony": "Detail Upacara",
+    "selectCeremonyLocation": "Pilih Lokasi Upacara",
+    "back": "Kembali",
+    "addNewAddress": "Tambah Alamat Baru"
 }
