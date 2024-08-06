@@ -56,5 +56,18 @@
     "detailCeremony": "Detail Upacara",
     "selectCeremonyLocation": "Pilih Lokasi Upacara",
     "back": "Kembali",
-    "addNewAddress": "Tambah Alamat Baru"
+    "addNewAddress": "Tambah Alamat Baru",
+    "sureSelectPackage": "Udah yakin ingin pilih {package}?",
+    "@sureSelectPackage": {
+        "description": "Konfirmasi Pilih Paket",
+        "placeholders": {
+            "package": {
+                "type": "String",
+                "example": "Paket 1"
+            }
+        }
+    },
+    "makeSurePackage": "Pastikan Anda sudah membaca semua deskripsi dengan teliti dan sesuai kebutuhan Anda!",
+    "consultFirst": "Konsultasi Dulu",
+    "veryConfident": "Yakin Banget"
 }

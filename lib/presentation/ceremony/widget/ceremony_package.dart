@@ -52,7 +52,16 @@ class CeremonyDescriptionPackage extends StatelessWidget {
         Text(
           """Lorem ipsum odor amet, consectetuer adipiscing elit. Himenaeos nascetur vulputate praesent aliquam ante pharetra. Enim justo dapibus porttitor porta dolor.
     
-    Volutpat duis nascetur elementum hac massa tincidunt suscipit odio. Elit duis facilisi sapien interdum nam. Senectus adipiscing ad euismod lacinia orci sociosqu eget fusce.
+- Lorem
+- Ipsum
+- Dolor
+- Sit 
+- Amet
+- Fugiat
+- Nulla 
+- Pariatur
+
+Volutpat duis nascetur elementum hac massa tincidunt suscipit odio. Elit duis facilisi sapien interdum nam. Senectus adipiscing ad euismod lacinia orci sociosqu eget fusce.
     """,
           style: TextStyle(
             fontSize: AppFontSizes.bodySmall,

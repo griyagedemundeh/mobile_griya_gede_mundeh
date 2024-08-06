@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
@@ -17,6 +18,7 @@ abstract class Routes {
   static const String register = "/register";
   static const String detailCeremony = "/detail-ceremony";
   static const String otherCeremony = "/other-ceremony";
+  static const String consultationCeremony = "/consultation-ceremony";
 }
 
 abstract class AppRouter {
@@ -49,6 +51,10 @@ abstract class AppRouter {
       case Routes.detailCeremony:
         return MaterialPageRoute(
           builder: (context) => const DetailCeremonyScreen(),
+        );
+      case Routes.consultationCeremony:
+        return MaterialPageRoute(
+          builder: (context) => const ConsultationCeremonyScreen(),
         );
       case Routes.otherCeremony:
         return MaterialPageRoute(

@@ -4,14 +4,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/main_thumbnail.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/mini_thumbnail.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/title_description_ceremony.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -85,11 +88,15 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       );
     });
 
-    showAlertDialog() {
+    showAddressSheet() {
+      AddressSheet.showSheet(context);
+    }
+
+    showAlertConfirmation() {
       PrimaryAlertDialog(
-        title: const Text(
-          "Udah yakin pingin milih Paket 2?",
-          style: TextStyle(
+        title: Text(
+          locales?.sureSelectPackage("Paket 2") ?? '',
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -98,9 +105,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Pastikan Anda sudah membaca semua deskripsi dengan teliti dan sesuai kebutuhan Anda!",
-                style: TextStyle(
+              Text(
+                locales?.makeSurePackage ?? '',
+                style: const TextStyle(
                   fontSize: AppFontSizes.bodySmall,
                   color: AppColors.gray2,
                 ),
@@ -108,16 +115,21 @@ class DetailCeremonyScreen extends HookConsumerWidget {
               Row(
                 children: [
                   SecondaryButton(
-                    label: "Konsultasi Dulu",
-                    onTap: () {},
+                    label: locales?.consultFirst ?? '',
+                    onTap: () {
+                      PrimaryNavigation.pushFromRight(
+                        context,
+                        page: const ConsultationCeremonyScreen(),
+                      );
+                    },
                     isMedium: true,
                     isOutline: true,
                   ),
                   const SizedBox(width: AppDimens.paddingMedium),
                   PrimaryButton(
-                    label: "Yakin Banget",
+                    label: locales?.veryConfident ?? '',
                     onTap: () {
-                      PrimaryBottomSheet.showModalBottom(context);
+                      showAddressSheet();
                     },
                     isMedium: true,
                   ),
@@ -132,50 +144,11 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     return Scaffold(
       bottomNavigationBar: Visibility(
         visible: isOpened.value,
-        child: Container(
-          height: height * 0.25,
-          width: width,
-          padding: const EdgeInsets.all(
-            AppDimens.paddingMedium,
-          ),
-          child: Column(
-            children: [
-              PrimaryButton(
-                label: locales?.next ?? '',
-                onTap: () {
-                  showAlertDialog();
-                },
-              ),
-              const SizedBox(height: AppDimens.paddingMedium),
-              SecondaryButton(
-                label: locales?.nextWithoutPackage ?? '',
-                onTap: () {},
-                isOutline: true,
-              ),
-              const SizedBox(height: AppDimens.marginLarge),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.info_outline_rounded,
-                    size: AppDimens.borderRadiusLarge,
-                    color: AppColors.lightgray2,
-                  ),
-                  Expanded(
-                    child: Text(
-                      locales?.consultWithoutWorry ?? '',
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: AppFontSizes.labelExtraMicro,
-                        color: AppColors.lightgray2,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+        child: SelectedButtonsPackage(
+          onTapButtonPrimary: () {
+            showAlertConfirmation();
+          },
+          onTapButtonSecondary: () {},
         ),
       ),
       body: Column(

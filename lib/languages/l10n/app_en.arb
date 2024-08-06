@@ -56,5 +56,18 @@
     "detailCeremony": "Ceremony Details",
     "selectCeremonyLocation": "Select Ceremony Location",
     "back": "Back",
-    "addNewAddress": "Add New Address"
+    "addNewAddress": "Add New Address",
+    "sureSelectPackage": "Are you sure you want to select {package}?",
+    "@sureSelectPackage": {
+        "description": "Confirm Package Select",
+        "placeholders": {
+            "package": {
+                "type": "String",
+                "example": "Package 1"
+            }
+        }
+    },
+    "makeSurePackage": "Make sure you have read all descriptions carefully and according to your needs!",
+    "consultFirst": "Consult First",
+    "veryConfident": "Very Confident"
 }
