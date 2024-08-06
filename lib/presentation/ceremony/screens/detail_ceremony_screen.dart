@@ -35,7 +35,6 @@ class DetailCeremonyScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
     final isOpened = useState(false);
 

@@ -11,6 +11,7 @@ class PrimaryButton extends StatelessWidget {
     this.isOutline,
     this.isMedium,
     this.isLoading,
+    this.isFullRounded,
   });
 
   final String label;
@@ -18,24 +19,30 @@ class PrimaryButton extends StatelessWidget {
   final bool? isOutline;
   final bool? isMedium;
   final bool? isLoading;
+  final bool? isFullRounded;
 
   @override
   Widget build(BuildContext context) {
     if (isMedium == true) {
       return Expanded(
-          child: BaseButton(
-              isMedium: isMedium,
-              isOutline: isOutline,
-              isLoading: isLoading,
-              onTap: onTap,
-              label: label));
-    } else {
-      return BaseButton(
+        child: BaseButton(
           isMedium: isMedium,
           isOutline: isOutline,
           isLoading: isLoading,
           onTap: onTap,
-          label: label);
+          label: label,
+          isFullRounded: isFullRounded,
+        ),
+      );
+    } else {
+      return BaseButton(
+        isMedium: isMedium,
+        isOutline: isOutline,
+        isLoading: isLoading,
+        onTap: onTap,
+        label: label,
+        isFullRounded: isFullRounded,
+      );
     }
   }
 }
@@ -48,6 +55,7 @@ class BaseButton extends StatelessWidget {
     required this.isLoading,
     required this.onTap,
     required this.label,
+    required this.isFullRounded,
   });
 
   final bool? isMedium;
@@ -55,6 +63,7 @@ class BaseButton extends StatelessWidget {
   final bool? isLoading;
   final VoidCallback onTap;
   final String label;
+  final bool? isFullRounded;
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +84,10 @@ class BaseButton extends StatelessWidget {
                 ? AppColors.primary1
                 : Colors.transparent,
           ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(AppDimens.marginSmall),
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              isFullRounded == true ? 100 : AppDimens.marginSmall,
+            ),
           ),
         ),
         onPressed: isLoading == true ? () {} : onTap,

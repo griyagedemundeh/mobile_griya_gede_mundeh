@@ -21,65 +21,99 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SizedBox(
-        width: isMedium != null && isMedium == true
+    if (isMedium == true) {
+      return Expanded(
+          child: BaseSecondaryButton(
+              isMedium: isMedium,
+              isOutline: isOutline,
+              isLoading: isLoading,
+              onTap: onTap,
+              label: label));
+    } else {
+      return BaseSecondaryButton(
+          isMedium: isMedium,
+          isOutline: isOutline,
+          isLoading: isLoading,
+          onTap: onTap,
+          label: label);
+    }
+  }
+}
+
+class BaseSecondaryButton extends StatelessWidget {
+  const BaseSecondaryButton({
+    super.key,
+    required this.isMedium,
+    required this.isOutline,
+    required this.isLoading,
+    required this.onTap,
+    required this.label,
+  });
+
+  final bool? isMedium;
+  final bool? isOutline;
+  final bool? isLoading;
+  final VoidCallback onTap;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: isMedium != null && isMedium == true
+          ? null
+          : MediaQuery.of(context).size.width,
+      child: MaterialButton(
+        elevation: 0,
+        padding: EdgeInsets.symmetric(
+          vertical: AppDimens.marginMedium,
+          horizontal:
+              isMedium != null && isMedium == true ? AppDimens.paddingSmall : 0,
+        ),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: isOutline != null && isOutline == true
+                ? AppColors.gray1
+                : Colors.transparent,
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(AppDimens.marginSmall),
+          ),
+        ),
+        onPressed: isLoading == true ? () {} : onTap,
+        color: isOutline != null && isOutline == true
             ? null
-            : MediaQuery.of(context).size.width,
-        child: MaterialButton(
-          elevation: 0,
-          padding: EdgeInsets.symmetric(
-            vertical: AppDimens.marginMedium,
-            horizontal: isMedium != null && isMedium == true
-                ? AppDimens.paddingSmall
-                : 0,
-          ),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: isOutline != null && isOutline == true
-                  ? AppColors.gray1
-                  : Colors.transparent,
-            ),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(AppDimens.marginSmall),
-            ),
-          ),
-          onPressed: isLoading == true ? () {} : onTap,
-          color: isOutline != null && isOutline == true
-              ? null
-              : isLoading == true
-                  ? AppColors.light1.withOpacity(0.5)
-                  : AppColors.light1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  color: isOutline != null && isOutline == true
-                      ? AppColors.gray2
-                      : AppColors.dark1,
-                  fontSize: AppFontSizes.bodyMedium,
-                  fontWeight: FontWeight.bold,
-                ),
+            : isLoading == true
+                ? AppColors.light1.withOpacity(0.5)
+                : AppColors.light1,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                color: isOutline != null && isOutline == true
+                    ? AppColors.gray2
+                    : AppColors.dark1,
+                fontSize: AppFontSizes.bodyMedium,
+                fontWeight: FontWeight.bold,
               ),
-              isLoading == true
-                  ? const Row(
-                      children: [
-                        SizedBox(width: AppDimens.marginSmall),
-                        SizedBox(
-                          height: AppDimens.marginSmall,
-                          width: AppDimens.marginSmall,
-                          child: CircularProgressIndicator(
-                            color: AppColors.dark1,
-                            strokeWidth: 2,
-                          ),
+            ),
+            isLoading == true
+                ? const Row(
+                    children: [
+                      SizedBox(width: AppDimens.marginSmall),
+                      SizedBox(
+                        height: AppDimens.marginSmall,
+                        width: AppDimens.marginSmall,
+                        child: CircularProgressIndicator(
+                          color: AppColors.dark1,
+                          strokeWidth: 2,
                         ),
-                      ],
-                    )
-                  : const SizedBox(),
-            ],
-          ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
+          ],
         ),
       ),
     );

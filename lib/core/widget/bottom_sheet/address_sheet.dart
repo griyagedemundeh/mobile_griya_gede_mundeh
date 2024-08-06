@@ -88,8 +88,8 @@ class AddressSheet {
                       Visibility(
                         visible: index == 0,
                         child: Positioned(
-                          right: -14,
-                          top: -10,
+                          right: 4,
+                          top: 4,
                           child: CircleAvatar(
                             backgroundColor: AppColors.primary1,
                             radius: AppDimens.paddingMedium,

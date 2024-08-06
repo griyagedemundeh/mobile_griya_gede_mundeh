@@ -7,6 +7,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
@@ -201,7 +202,7 @@ class ConsultationInput extends StatelessWidget {
                     ),
                   ),
                   SelectedButtonsPackage(
-                    labelSecondary: locales?.back ?? '',
+                    labelSecondary: locales?.cancel ?? '',
                     onTapButtonPrimary: () {
                       showAddressSheet();
                     },
@@ -223,7 +224,7 @@ class ConsultationInput extends StatelessWidget {
       child: Column(
         children: [
           IconLeadingButton(
-            label: "Pilih Paket",
+            label: locales?.selectPackage ?? '',
             onTap: () {
               openPackageSheet();
             },
@@ -262,13 +263,13 @@ class ConsultationInput extends StatelessWidget {
                             keyboardType: TextInputType.multiline,
                             controller: TextEditingController(),
                             cursorColor: AppColors.primary1,
-                            decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.only(
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.only(
                                   right: AppDimens.paddingSmall,
                                 ),
                                 border: InputBorder.none,
-                                hintText: 'Ketik pesan..',
-                                hintStyle: TextStyle(
+                                hintText: locales?.typeMessage ?? '',
+                                hintStyle: const TextStyle(
                                   fontSize: AppFontSizes.bodyMedium,
                                 )),
                           ),
@@ -289,7 +290,10 @@ class ConsultationInput extends StatelessWidget {
                     ),
                   ),
                 ),
-                const IconRoundedButton(),
+                IconRoundedButton(
+                  icon: Icons.send_rounded,
+                  onTap: () {},
+                ),
               ],
             ),
           ),
@@ -309,31 +313,6 @@ class ScrollableCeremonyPackage extends StatelessWidget {
     return const Scrollbar(
       child: SingleChildScrollView(
         child: CeremonyPackage(),
-      ),
-    );
-  }
-}
-
-class IconRoundedButton extends StatelessWidget {
-  const IconRoundedButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {},
-      padding: const EdgeInsets.all(AppDimens.borderRadiusLarge),
-      shape: const StadiumBorder(),
-      elevation: 0,
-      minWidth: 0,
-      height: 0,
-      color: AppColors.primary1,
-      child: const Center(
-        child: Icon(
-          Icons.send_rounded,
-          color: Colors.white,
-        ),
       ),
     );
   }

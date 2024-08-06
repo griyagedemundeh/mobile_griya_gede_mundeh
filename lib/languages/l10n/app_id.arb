@@ -69,5 +69,9 @@
     },
     "makeSurePackage": "Pastikan Anda sudah membaca semua deskripsi dengan teliti dan sesuai kebutuhan Anda!",
     "consultFirst": "Konsultasi Dulu",
-    "veryConfident": "Yakin Banget"
+    "veryConfident": "Yakin Banget",
+    "selectPackage": "Pilih Paket",
+    "typeMessage": "Ketik pesan..",
+    "cancel": "Batal",
+    "otherCeremony": "Upacara Lainnya"
 }

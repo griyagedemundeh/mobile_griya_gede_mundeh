@@ -69,5 +69,9 @@
     },
     "makeSurePackage": "Make sure you have read all descriptions carefully and according to your needs!",
     "consultFirst": "Consult First",
-    "veryConfident": "Very Confident"
+    "veryConfident": "Very Confident",
+    "selectPackage": "Select Package",
+    "typeMessage": "Type message..",
+    "cancel": "Cancel",
+    "otherCeremony": "Other Ceremony"
 }
