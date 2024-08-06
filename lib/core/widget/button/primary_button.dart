@@ -21,9 +21,46 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isMedium == true) {
+      return Expanded(
+          child: BaseButton(
+              isMedium: isMedium,
+              isOutline: isOutline,
+              isLoading: isLoading,
+              onTap: onTap,
+              label: label));
+    } else {
+      return BaseButton(
+          isMedium: isMedium,
+          isOutline: isOutline,
+          isLoading: isLoading,
+          onTap: onTap,
+          label: label);
+    }
+  }
+}
+
+class BaseButton extends StatelessWidget {
+  const BaseButton({
+    super.key,
+    required this.isMedium,
+    required this.isOutline,
+    required this.isLoading,
+    required this.onTap,
+    required this.label,
+  });
+
+  final bool? isMedium;
+  final bool? isOutline;
+  final bool? isLoading;
+  final VoidCallback onTap;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       width: isMedium != null && isMedium == true
-          ? MediaQuery.of(context).size.width * 0.42
+          ? null
           : MediaQuery.of(context).size.width,
       child: MaterialButton(
         elevation: 0,

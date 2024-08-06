@@ -172,6 +172,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             );
                           },
                         ),
+                        const SizedBox(width: AppDimens.paddingMedium),
                         PrimaryButton(
                           label: locale?.login ?? '',
                           isMedium: true,
