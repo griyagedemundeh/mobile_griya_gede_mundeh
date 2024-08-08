@@ -73,5 +73,39 @@
     "selectPackage": "Pilih Paket",
     "typeMessage": "Ketik pesan..",
     "cancel": "Batal",
-    "otherCeremony": "Upacara Lainnya"
+    "otherCeremony": "Upacara Lainnya",
+    "detailOrder": "Detail Order - {ceremony}",
+    "@detailOrder": {
+        "description": "Detail Order",
+        "placeholders": {
+            "ceremony": {
+                "type": "String",
+                "example": "Melaspas"
+            }
+        }
+    },
+    "dateAndTimeCeremony": "Tanggal dan Waktu Penyelenggaran",
+    "date": "Tanggal",
+    "time": "Waktu",
+    "locationCeremony": "Lokasi Penyelenggaraan",
+    "residence": "Kediaman",
+    "address": "Alamat",
+    "transactionSummary": "Ringkasan Transaksi",
+    "totalPrice": "Total Harga",
+    "packageDetail": "Detail Paket",
+    "paymentLimit": "Batas Pembayaran: {time}",
+    "@paymentLimit": {
+        "description": "Hitung mundur batas pembayaran",
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "23:50:35"
+            }
+        }
+    },
+    "totalBill": "Total Tagihan",
+    "payNow": "Bayar Sekarang",
+    "transactionHistory": "Riwayat Transaksi",
+    "searchTransaction": "Cari transaksi",
+    "seeDetail": "Lihat Detail"
 }

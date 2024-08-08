@@ -21,6 +21,7 @@ abstract class Routes {
   static const String otherCeremony = "/other-ceremony";
   static const String consultationCeremony = "/consultation-ceremony";
   static const String detailTransaction = "/detail-transaction";
+  static const String transactions = "/transactions";
 }
 
 abstract class AppRouter {

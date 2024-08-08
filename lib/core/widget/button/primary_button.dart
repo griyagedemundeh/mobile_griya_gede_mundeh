@@ -12,6 +12,7 @@ class PrimaryButton extends StatelessWidget {
     this.isMedium,
     this.isLoading,
     this.isFullRounded,
+    this.icon,
   });
 
   final String label;
@@ -20,6 +21,7 @@ class PrimaryButton extends StatelessWidget {
   final bool? isMedium;
   final bool? isLoading;
   final bool? isFullRounded;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class PrimaryButton extends StatelessWidget {
           onTap: onTap,
           label: label,
           isFullRounded: isFullRounded,
+          icon: icon,
         ),
       );
     } else {
@@ -42,6 +45,7 @@ class PrimaryButton extends StatelessWidget {
         onTap: onTap,
         label: label,
         isFullRounded: isFullRounded,
+        icon: icon,
       );
     }
   }
@@ -56,6 +60,7 @@ class BaseButton extends StatelessWidget {
     required this.onTap,
     required this.label,
     required this.isFullRounded,
+    this.icon,
   });
 
   final bool? isMedium;
@@ -64,6 +69,7 @@ class BaseButton extends StatelessWidget {
   final VoidCallback onTap;
   final String label;
   final bool? isFullRounded;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +104,15 @@ class BaseButton extends StatelessWidget {
                 : AppColors.primary1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Visibility(
+              visible: icon != null,
+              child: Padding(
+                padding: const EdgeInsets.only(right: AppDimens.paddingMicro),
+                child: icon,
+              ),
+            ),
             Text(
               label,
               style: TextStyle(

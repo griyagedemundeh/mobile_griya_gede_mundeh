@@ -73,5 +73,39 @@
     "selectPackage": "Select Package",
     "typeMessage": "Type message..",
     "cancel": "Cancel",
-    "otherCeremony": "Other Ceremony"
+    "otherCeremony": "Other Ceremony",
+    "detailOrder": "Detail Order - {ceremony}",
+    "@detailOrder": {
+        "description": "Order Details",
+        "placeholders": {
+            "ceremony": {
+                "type": "String",
+                "example": "Melaspas"
+            }
+        }
+    },
+    "dateAndTimeCeremony": "Date and Time of Ceremony",
+    "date": "Date",
+    "time": "Time",
+    "locationCeremony": "Hosting Location",
+    "residence": "Residence",
+    "address": "Address",
+    "transactionSummary": "Transaction Summary",
+    "totalPrice": "Total Price",
+    "packageDetail": "Package Details",
+    "paymentLimit": "Payment Limit: {time}",
+    "@paymentLimit": {
+        "description": "Payout limit countdown",
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "23:50:35"
+            }
+        }
+    },
+    "totalBill": "Total Bill",
+    "payNow": "Pay Now",
+    "transactionHistory": "Transaction History",
+    "searchTransaction": "Search for transactions",
+    "seeDetail": "See Details"
 }

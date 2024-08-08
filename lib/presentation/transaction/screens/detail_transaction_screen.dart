@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TransactionItemData {
   final String label;
@@ -21,12 +24,62 @@ class DetailTransactionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final locales = AppLocalizations.of(context);
 
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: height * 0.1,
+        padding: const EdgeInsets.all(AppDimens.paddingMedium),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              color: AppColors.lightgray2.withOpacity(0.5),
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.only(right: AppDimens.paddingMedium),
+              width: width * 0.5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    locales?.totalBill ?? '',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    "Rp 2.500.000",
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: AppFontSizes.bodyLarge,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            PrimaryButton(
+              label: locales?.payNow ?? '',
+              onTap: () {},
+              isMedium: true,
+              icon: SvgPicture.asset(
+                AppImages.icProtected,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: [
-          const MeshAppBar(
-            title: "Detail Order - Upacara Mebayuh",
+          MeshAppBar(
+            title: locales?.detailOrder("Upacara Mebayuh") ?? '',
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -47,23 +100,25 @@ class DetailTransactionScreen extends StatelessWidget {
                     height: AppDimens.paddingMedium,
                   ),
                   TransactionSegmentedItem(
-                    title: "Tanggal dan Waktu Penyelenggaran",
+                    title: locales?.dateAndTimeCeremony ?? '',
                     transactionItemDatas: [
                       TransactionItemData(
-                          label: "Tanggal", data: "24 Juli 2024"),
-                      TransactionItemData(label: "Waktu", data: "18:00 WITA"),
+                          label: locales?.date ?? '', data: "24 Juli 2024"),
+                      TransactionItemData(
+                          label: locales?.time ?? '', data: "18:00 WITA"),
                     ],
                   ),
                   const SizedBox(
                     height: AppDimens.paddingMedium,
                   ),
                   TransactionSegmentedItem(
-                    title: "Lokasi Penyelenggaraan",
+                    title: locales?.locationCeremony ?? '',
                     transactionItemDatas: [
                       TransactionItemData(
-                          label: "Kediaman", data: "Bimo Adnyana"),
+                          label: locales?.residence ?? '',
+                          data: "Bimo Adnyana"),
                       TransactionItemData(
-                        label: "Waktu",
+                        label: locales?.address ?? '',
                         data:
                             "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
                       ),
@@ -90,10 +145,11 @@ class DetailTransactionScreen extends StatelessWidget {
                     height: AppDimens.paddingMedium,
                   ),
                   TransactionSegmentedItem(
-                    title: "Ringkasan Transaksi",
+                    title: locales?.transactionSummary ?? '',
                     transactionItemDatas: [
                       TransactionItemData(
-                          label: "Total Harga", data: "Rp 2.500.000"),
+                          label: locales?.totalPrice ?? '',
+                          data: "Rp 2.500.000"),
                       TransactionItemData(
                         label: "Biaya Operasional",
                         data: "Rp 160.000",
@@ -122,6 +178,7 @@ class TransactionDetailPackage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final locales = AppLocalizations.of(context);
 
     return Container(
       width: width,
@@ -131,9 +188,9 @@ class TransactionDetailPackage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Detail Paket",
-            style: TextStyle(
+          Text(
+            locales?.packageDetail ?? '',
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -258,6 +315,7 @@ class TransactionStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final locales = AppLocalizations.of(context);
 
     return Container(
       width: width,
@@ -301,8 +359,8 @@ class TransactionStatus extends StatelessWidget {
           const SizedBox(
             height: AppDimens.paddingSmall,
           ),
-          const Text(
-            "Batas Pembayaran:  23:59:01",
+          Text(
+            locales?.paymentLimit("23:59:01") ?? '',
           ),
         ],
       ),
