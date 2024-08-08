@@ -43,11 +43,15 @@ class MeshAppBar extends StatelessWidget {
                       Navigator.pop(context);
                     },
                   ),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: AppFontSizes.titleMediumLarge,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: AppFontSizes.titleMediumLarge,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   BorderedIconButton(
