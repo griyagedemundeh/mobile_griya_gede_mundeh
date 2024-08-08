@@ -10,6 +10,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
 
 class AddressSheet {
   static showSheet(BuildContext context) {
@@ -140,7 +141,7 @@ class AddressSheet {
                     onTap: () {
                       PrimaryNavigation.pushFromRight(
                         context,
-                        page: const SizedBox(),
+                        page: const DetailTransactionScreen(),
                       );
                     },
                   ),
