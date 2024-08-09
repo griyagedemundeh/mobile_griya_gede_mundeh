@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_bar/bottom_bar.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/consultation_button.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/transactions_screen.dart';
 
 class MainScreen extends HookConsumerWidget {
   const MainScreen({
@@ -27,7 +28,7 @@ class MainScreen extends HookConsumerWidget {
         children: const [
           HomeScreen(),
           SizedBox(),
-          SizedBox(),
+          TransactionsScreen(),
           SizedBox(),
         ],
       ),
