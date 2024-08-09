@@ -121,6 +121,7 @@ class SearchInput extends StatelessWidget {
         right: AppDimens.paddingSmall,
       ),
       decoration: BoxDecoration(
+        color: AppColors.light1.withOpacity(0.5),
         border: Border.all(
           color: AppColors.lightgray2,
           width: 1,
