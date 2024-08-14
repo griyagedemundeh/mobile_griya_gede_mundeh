@@ -131,7 +131,7 @@ class CeremonyHistoriesScreen extends StatelessWidget {
               padding: const EdgeInsets.all(
                 AppDimens.paddingMedium,
               ),
-              itemCount: 10,
+              itemCount: ceremonyHistories.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(
                   height: AppDimens.paddingMedium,
