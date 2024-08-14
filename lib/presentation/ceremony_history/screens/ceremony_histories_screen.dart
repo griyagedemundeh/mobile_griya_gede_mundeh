@@ -199,7 +199,7 @@ class CermonyCard extends StatelessWidget {
             width: 1,
           ),
           borderRadius: BorderRadius.circular(
-            AppDimens.paddingSmall,
+            AppDimens.borderRadiusLarge,
           ),
         ),
         child: Column(
