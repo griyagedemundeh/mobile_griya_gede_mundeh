@@ -4,6 +4,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_scre
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
@@ -21,8 +22,10 @@ abstract class Routes {
   static const String detailCeremony = "/detail-ceremony";
   static const String otherCeremony = "/other-ceremony";
   static const String consultationCeremony = "/consultation-ceremony";
-  static const String detailTransaction = "/detail-transaction";
   static const String transactions = "/transactions";
+  static const String detailTransaction = "/detail-transaction";
+  static const String ceremonyHistories = "/ceremony-histories";
+  static const String ceremonyHistory = "/ceremony-history";
 }
 
 abstract class AppRouter {
@@ -71,6 +74,10 @@ abstract class AppRouter {
       case Routes.detailTransaction:
         return MaterialPageRoute(
           builder: (context) => const DetailTransactionScreen(),
+        );
+      case Routes.ceremonyHistories:
+        return MaterialPageRoute(
+          builder: (context) => const CeremonyHistoriesScreen(),
         );
       default:
         return MaterialPageRoute(

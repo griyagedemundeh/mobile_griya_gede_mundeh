@@ -28,7 +28,7 @@ class WelcomeMessage extends StatelessWidget {
             ),
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.7),
+                Colors.black.withOpacity(0.5),
                 BlendMode.darken,
               ),
               child: Image.asset(

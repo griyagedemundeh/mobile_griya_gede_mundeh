@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_bar/bottom_bar.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/consultation_button.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/transactions_screen.dart';
 
@@ -27,7 +28,7 @@ class MainScreen extends HookConsumerWidget {
         scrollDirection: Axis.horizontal,
         children: const [
           HomeScreen(),
-          SizedBox(),
+          CeremonyHistoriesScreen(),
           TransactionsScreen(),
           SizedBox(),
         ],

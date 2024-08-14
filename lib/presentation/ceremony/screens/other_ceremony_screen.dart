@@ -159,7 +159,7 @@ class OtherCeremonyScreen extends HookConsumerWidget {
                         ),
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.5),
                             BlendMode.darken,
                           ),
                           child: CachedNetworkImage(

@@ -25,4 +25,6 @@ abstract class AppImages {
   static const String icAttachment = "assets/ic_attachment.svg";
   static const String icProtected = "assets/ic_protected.svg";
   static const String icSearch = "assets/ic_search.svg";
+  static const String icCeremonyLocation = "assets/ic_ceremony_location.svg";
+  static const String icTime = "assets/ic_time.svg";
 }

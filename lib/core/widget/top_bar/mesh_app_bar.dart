@@ -8,9 +8,11 @@ class MeshAppBar extends StatelessWidget {
   const MeshAppBar({
     super.key,
     required this.title,
+    this.isWihoutBack,
   });
 
   final String title;
+  final bool? isWihoutBack;
 
   @override
   Widget build(BuildContext context) {
@@ -32,39 +34,52 @@ class MeshAppBar extends StatelessWidget {
             ),
             width: width,
             child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BorderedIconButton(
-                    icon: const Icon(
-                      Icons.chevron_left_rounded,
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  Expanded(
-                    child: Text(
-                      title,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: AppFontSizes.titleMediumLarge,
-                        fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: EdgeInsets.all(
+                  isWihoutBack != null || isWihoutBack == true
+                      ? AppDimens.paddingSmall
+                      : 0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Visibility(
+                      visible: isWihoutBack == null || isWihoutBack == false,
+                      child: BorderedIconButton(
+                        icon: const Icon(
+                          Icons.chevron_left_rounded,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
-                  ),
-                  BorderedIconButton(
-                    icon: const Text(
-                      "i",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: AppFontSizes.bodyLarge,
+                    Expanded(
+                      child: Text(
+                        title,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: AppFontSizes.titleMediumLarge,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    onTap: () {},
-                  ),
-                ],
+                    Visibility(
+                      visible: isWihoutBack == null || isWihoutBack == false,
+                      child: BorderedIconButton(
+                        icon: const Text(
+                          "i",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppFontSizes.bodyLarge,
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

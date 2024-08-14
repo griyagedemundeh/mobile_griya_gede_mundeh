@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/mesh_primary.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 
@@ -24,23 +21,25 @@ class MeshTopBarSecondary extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final double paddingTop = MediaQuery.of(context).padding.top;
 
-    return SizedBox(
-      width: width,
-      child: Stack(
-        children: [
-          const MeshPrimaryTopBarSecondary(),
-          Padding(
-            padding: EdgeInsets.only(top: paddingTop),
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: AppDimens.borderRadiusLarge,
-                horizontal: AppDimens.paddingMedium,
-              ),
-              width: width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+    return Stack(
+      children: [
+        const MeshPrimaryTopBarSecondary(),
+        Padding(
+          padding: EdgeInsets.only(top: paddingTop),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppDimens.borderRadiusLarge,
+              horizontal: AppDimens.paddingMedium,
+            ),
+            width: width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: title != null
+                      ? const EdgeInsets.all(AppDimens.paddingSmall)
+                      : EdgeInsets.zero,
+                  child: Row(
                     mainAxisAlignment: isWihoutBack == true
                         ? MainAxisAlignment.center
                         : MainAxisAlignment.spaceBetween,
@@ -58,19 +57,14 @@ class MeshTopBarSecondary extends StatelessWidget {
                       ),
                       Visibility(
                         visible: title != null,
-                        child: Padding(
-                          padding: EdgeInsets.all(
-                            isWihoutBack == true ? AppDimens.paddingSmall : 0,
-                          ),
-                          child: Expanded(
-                            child: Text(
-                              title ?? '',
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: AppFontSizes.titleMediumLarge,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        child: Expanded(
+                          child: Text(
+                            title ?? '',
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: AppFontSizes.titleMediumLarge,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -90,14 +84,14 @@ class MeshTopBarSecondary extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppDimens.paddingMedium),
-                  child,
-                ],
-              ),
+                ),
+                const SizedBox(height: AppDimens.paddingMedium),
+                child,
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
