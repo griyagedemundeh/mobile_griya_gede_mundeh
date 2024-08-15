@@ -6,7 +6,10 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/search_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/chip_status.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_secondary.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CeremonyHistory {
   String ceremonyTitle;
@@ -33,6 +36,8 @@ class CeremonyHistoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locales = AppLocalizations.of(context);
+
     final List<CeremonyHistory> ceremonyHistories = [
       CeremonyHistory(
         ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
@@ -119,11 +124,11 @@ class CeremonyHistoriesScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const MeshTopBarSecondary(
-            title: "Riwayat Upacara",
+          MeshTopBarWithChild(
+            title: locales?.ceremonyHistory ?? '',
             isWihoutBack: true,
             child: SearchInput(
-              placeHolder: "Cari riwayat upacara",
+              placeHolder: locales?.searchCeremonyHistory ?? '',
             ),
           ),
           Expanded(
@@ -147,7 +152,12 @@ class CeremonyHistoriesScreen extends StatelessWidget {
                   location: cermonyHistory.location,
                   status: cermonyHistory.status,
                   time: cermonyHistory.time,
-                  onTap: () {},
+                  onTap: () {
+                    PrimaryNavigation.pushFromRight(
+                      context,
+                      page: const DetailCeremonyHistoryScreen(),
+                    );
+                  },
                 );
               },
             ),
@@ -308,6 +318,8 @@ class RoundedPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locales = AppLocalizations.of(context);
+
     return MaterialButton(
       elevation: 0,
       padding: const EdgeInsets.symmetric(
@@ -322,19 +334,19 @@ class RoundedPrimaryButton extends StatelessWidget {
       ),
       onPressed: () {},
       color: AppColors.primary1,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Selengkapnya",
-            style: TextStyle(
+            locales?.more ?? '',
+            style: const TextStyle(
               color: Colors.white,
               fontSize: AppFontSizes.bodyMedium,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Icon(
+          const Icon(
             Icons.chevron_right_rounded,
             color: Colors.white,
           ),

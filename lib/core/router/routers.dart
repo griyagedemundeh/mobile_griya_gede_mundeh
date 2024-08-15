@@ -5,6 +5,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultat
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
@@ -26,6 +27,7 @@ abstract class Routes {
   static const String detailTransaction = "/detail-transaction";
   static const String ceremonyHistories = "/ceremony-histories";
   static const String ceremonyHistory = "/ceremony-history";
+  static const String detailCeremonyHistory = "/detail-ceremony-history";
 }
 
 abstract class AppRouter {
@@ -78,6 +80,10 @@ abstract class AppRouter {
       case Routes.ceremonyHistories:
         return MaterialPageRoute(
           builder: (context) => const CeremonyHistoriesScreen(),
+        );
+      case Routes.detailCeremonyHistory:
+        return MaterialPageRoute(
+          builder: (context) => const DetailCeremonyHistoryScreen(),
         );
       default:
         return MaterialPageRoute(

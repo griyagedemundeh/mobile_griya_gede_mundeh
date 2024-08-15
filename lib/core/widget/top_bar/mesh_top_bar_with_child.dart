@@ -4,8 +4,8 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/mesh_primary.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 
-class MeshTopBarSecondary extends StatelessWidget {
-  const MeshTopBarSecondary({
+class MeshTopBarWithChild extends StatelessWidget {
+  const MeshTopBarWithChild({
     super.key,
     required this.child,
     this.isWihoutBack,
@@ -107,7 +107,7 @@ class MeshPrimaryTopBarSecondary extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
 
     return SizedBox(
-      height: height * 0.2,
+      height: height * 0.21,
       width: width,
       child: const Stack(
         children: [

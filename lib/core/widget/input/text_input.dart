@@ -148,7 +148,7 @@ class _TextInputState extends State<TextInput> {
                         vertical: AppDimens.paddingMicro)
                     : null,
                 filled: widget.isEnabled == false,
-                fillColor: AppColors.gray2.withOpacity(0.5),
+                fillColor: AppColors.gray1.withOpacity(0.35),
                 border: InputBorder.none,
                 hintText: widget.placeHolder,
                 hintStyle: TextStyle(

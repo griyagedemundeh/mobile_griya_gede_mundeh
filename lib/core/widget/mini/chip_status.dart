@@ -7,10 +7,12 @@ class ChipStatus extends StatelessWidget {
     super.key,
     required this.label,
     required this.color,
+    this.isBig,
   });
 
   final String label;
   final Color color;
+  final bool? isBig;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,10 @@ class ChipStatus extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: AppFontSizes.bodySmall,
+            style: TextStyle(
+              fontSize: isBig == true
+                  ? AppFontSizes.bodyLarge
+                  : AppFontSizes.bodySmall,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -108,5 +108,7 @@
     "payNow": "Bayar Sekarang",
     "transactionHistory": "Riwayat Transaksi",
     "searchTransaction": "Cari transaksi",
-    "seeDetail": "Lihat Detail"
+    "seeDetail": "Lihat Detail",
+    "searchCeremonyHistory": "Cari riwayat upacara",
+    "more": "Selengkapnya"
 }

@@ -108,5 +108,7 @@
     "payNow": "Pay Now",
     "transactionHistory": "Transaction History",
     "searchTransaction": "Search for transactions",
-    "seeDetail": "See Details"
+    "seeDetail": "See Details",
+    "searchCeremonyHistory": "Search ceremony history",
+    "more": "More"
 }

@@ -7,7 +7,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/text_secondary_butto
 import 'package:mobile_griya_gede_mundeh/core/widget/input/search_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/chip_status.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_secondary.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -112,7 +112,7 @@ class TransactionsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          MeshTopBarSecondary(
+          MeshTopBarWithChild(
             title: locales?.transactionHistory ?? '',
             isWihoutBack: true,
             child: SearchInput(
