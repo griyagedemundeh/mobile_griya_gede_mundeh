@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
@@ -78,64 +79,80 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
             title: "Konsultasi",
           ),
           Expanded(
-            child: ListView.builder(
-              reverse: true,
-              controller: scrollController,
-              itemCount: chats.length,
-              itemBuilder: (context, index) {
-                final chat = chats[index];
+            child: Stack(
+              children: [
+                Opacity(
+                  opacity: 0.35,
+                  child: Image.asset(
+                    AppImages.ornamen3,
+                    width: width,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                ListView.builder(
+                  reverse: true,
+                  controller: scrollController,
+                  itemCount: chats.length,
+                  itemBuilder: (context, index) {
+                    final chat = chats[index];
 
-                return Container(
-                  margin: EdgeInsets.only(
-                    left:
-                        !chat.isAdmin ? (width * 0.2) : AppDimens.paddingMedium,
-                    right:
-                        chat.isAdmin ? (width * 0.2) : AppDimens.paddingMedium,
-                    top: AppDimens.paddingSmall,
-                    bottom: AppDimens.paddingSmall,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: chat.isAdmin
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.end,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(AppDimens.paddingMedium),
-                        decoration: BoxDecoration(
-                          color:
-                              chat.isAdmin ? Colors.white : AppColors.primary1,
-                          borderRadius: BorderRadius.circular(
-                            AppDimens.paddingMedium,
-                          ),
-                          border: chat.isAdmin
-                              ? Border.all(
-                                  color: AppColors.lightgray2,
-                                  width: 1,
-                                )
-                              : null,
-                        ),
-                        child: Text(
-                          chat.message,
-                          style: TextStyle(
-                            fontSize: AppFontSizes.bodySmall,
-                            color: chat.isAdmin
-                                ? AppColors.primaryText
-                                : Colors.white,
-                          ),
-                        ),
+                    return Container(
+                      margin: EdgeInsets.only(
+                        left: !chat.isAdmin
+                            ? (width * 0.2)
+                            : AppDimens.paddingMedium,
+                        right: chat.isAdmin
+                            ? (width * 0.2)
+                            : AppDimens.paddingMedium,
+                        top: AppDimens.paddingSmall,
+                        bottom: AppDimens.paddingSmall,
                       ),
-                      const SizedBox(height: AppDimens.paddingMicro),
-                      Text(
-                        "${chat.sendAt.hour}:${chat.sendAt.minute}",
-                        style: const TextStyle(
-                          fontSize: AppFontSizes.bodySmall,
-                          color: AppColors.lightgray2,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: chat.isAdmin
+                            ? CrossAxisAlignment.start
+                            : CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding:
+                                const EdgeInsets.all(AppDimens.paddingMedium),
+                            decoration: BoxDecoration(
+                              color: chat.isAdmin
+                                  ? Colors.white
+                                  : AppColors.primary1,
+                              borderRadius: BorderRadius.circular(
+                                AppDimens.paddingMedium,
+                              ),
+                              border: chat.isAdmin
+                                  ? Border.all(
+                                      color: AppColors.lightgray2,
+                                      width: 1,
+                                    )
+                                  : null,
+                            ),
+                            child: Text(
+                              chat.message,
+                              style: TextStyle(
+                                fontSize: AppFontSizes.bodySmall,
+                                color: chat.isAdmin
+                                    ? AppColors.primaryText
+                                    : Colors.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: AppDimens.paddingMicro),
+                          Text(
+                            "${chat.sendAt.hour}:${chat.sendAt.minute}",
+                            style: const TextStyle(
+                              fontSize: AppFontSizes.bodySmall,
+                              color: AppColors.lightgray2,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              },
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           const ConsultationInput(),

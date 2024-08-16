@@ -10,11 +10,13 @@ class MeshTopBarWithChild extends StatelessWidget {
     required this.child,
     this.isWihoutBack,
     this.title,
+    this.height,
   });
 
   final Widget child;
   final bool? isWihoutBack;
   final String? title;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,9 @@ class MeshTopBarWithChild extends StatelessWidget {
 
     return Stack(
       children: [
-        const MeshPrimaryTopBarSecondary(),
+        MeshPrimaryTopBarSecondary(
+          height: height,
+        ),
         Padding(
           padding: EdgeInsets.only(top: paddingTop),
           child: Container(
@@ -99,15 +103,18 @@ class MeshTopBarWithChild extends StatelessWidget {
 class MeshPrimaryTopBarSecondary extends StatelessWidget {
   const MeshPrimaryTopBarSecondary({
     super.key,
+    this.height,
   });
+
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
+    final double height2 = MediaQuery.of(context).size.height;
 
     return SizedBox(
-      height: height * 0.21,
+      height: height ?? (height2 * 0.21),
       width: width,
       child: const Stack(
         children: [

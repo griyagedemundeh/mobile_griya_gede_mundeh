@@ -11,6 +11,7 @@ abstract class AppImages {
   static const String mesh1 = "assets/mesh_1.png";
   static const String ornamen1 = "assets/ornamen_1.png";
   static const String ornamen2 = "assets/ornamen_2.png";
+  static const String ornamen3 = "assets/ornamen_3.png";
   static const String scrollDown = "assets/scroll_down.svg";
   static const String notification = "assets/notification.svg";
   static const String rigthBottom = "assets/right_bottom.svg";
@@ -27,4 +28,7 @@ abstract class AppImages {
   static const String icSearch = "assets/ic_search.svg";
   static const String icCeremonyLocation = "assets/ic_ceremony_location.svg";
   static const String icTime = "assets/ic_time.svg";
+  static const String icFaq = "assets/ic_faq.svg";
+  static const String icFile = "assets/ic_file.svg";
+  static const String icInfo = "assets/ic_info.svg";
 }

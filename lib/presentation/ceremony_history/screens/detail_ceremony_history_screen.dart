@@ -20,7 +20,6 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textController = useTextEditingController();
-    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
 

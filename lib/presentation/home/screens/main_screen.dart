@@ -5,6 +5,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/bottom_bar/bottom_bar.dart'
 import 'package:mobile_griya_gede_mundeh/core/widget/button/consultation_button.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/setting/screens/setting_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/transactions_screen.dart';
 
 class MainScreen extends HookConsumerWidget {
@@ -30,7 +31,7 @@ class MainScreen extends HookConsumerWidget {
           HomeScreen(),
           CeremonyHistoriesScreen(),
           TransactionsScreen(),
-          SizedBox(),
+          SettingScreen(),
         ],
       ),
     );
