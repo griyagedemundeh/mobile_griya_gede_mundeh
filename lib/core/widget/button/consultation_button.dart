@@ -5,6 +5,8 @@ import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/consultation/screens/consultation_screen.dart';
 
 class ConsultationButton extends StatelessWidget {
   const ConsultationButton({
@@ -16,7 +18,12 @@ class ConsultationButton extends StatelessWidget {
     final locales = AppLocalizations.of(context);
 
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        PrimaryNavigation.pushFromBottom(
+          context,
+          page: const ConsultationScreen(),
+        );
+      },
       padding: EdgeInsets.zero,
       shape: const StadiumBorder(),
       child: Container(

@@ -34,8 +34,8 @@ class DetailTransactionScreen extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              blurRadius: 10,
-              color: AppColors.lightgray2.withOpacity(0.5),
+              blurRadius: 5,
+              color: AppColors.lightgray2.withOpacity(0.2),
               spreadRadius: 2,
             ),
           ],

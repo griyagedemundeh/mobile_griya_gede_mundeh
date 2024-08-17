@@ -110,5 +110,12 @@
     "searchTransaction": "Search for transactions",
     "seeDetail": "See Details",
     "searchCeremonyHistory": "Search ceremony history",
-    "more": "More"
+    "more": "More",
+    "faq": "FAQ",
+    "tnc": "Terms and Conditions",
+    "aboutUs": "About Us",
+    "findUsOnSocialMedia": "Find us on social media!",
+    "save": "Save",
+    "editProfile": "Edit Profile",
+    "editPassword": "Change Password?"
 }

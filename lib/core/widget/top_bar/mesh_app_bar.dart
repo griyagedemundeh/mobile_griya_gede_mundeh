@@ -9,10 +9,12 @@ class MeshAppBar extends StatelessWidget {
     super.key,
     required this.title,
     this.isWihoutBack,
+    this.isWihoutInfo,
   });
 
   final String title;
   final bool? isWihoutBack;
+  final bool? isWihoutInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -66,17 +68,22 @@ class MeshAppBar extends StatelessWidget {
                       ),
                     ),
                     Visibility(
-                      visible: isWihoutBack == null || isWihoutBack == false,
-                      child: BorderedIconButton(
-                        icon: const Text(
-                          "i",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppFontSizes.bodyLarge,
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
+                      visible: (isWihoutBack == null || isWihoutBack == false),
+                      child: (isWihoutInfo != null || isWihoutInfo == true)
+                          ? const SizedBox(
+                              height: AppFontSizes.bodyLarge,
+                              width: AppDimens.iconSizeMedium,
+                            )
+                          : BorderedIconButton(
+                              icon: const Text(
+                                "i",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: AppFontSizes.bodyLarge,
+                                ),
+                              ),
+                              onTap: () {},
+                            ),
                     ),
                   ],
                 ),
