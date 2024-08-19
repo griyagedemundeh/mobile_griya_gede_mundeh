@@ -7,12 +7,12 @@ import 'package:mobile_griya_gede_mundeh/core/widget/mini/mesh_primary.dart';
 class MeshAppBar extends StatelessWidget {
   const MeshAppBar({
     super.key,
-    required this.title,
+    this.title,
     this.isWihoutBack,
     this.isWihoutInfo,
   });
 
-  final String title;
+  final String? title;
   final bool? isWihoutBack;
   final bool? isWihoutInfo;
 
@@ -56,14 +56,17 @@ class MeshAppBar extends StatelessWidget {
                         },
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        title,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: AppFontSizes.titleMediumLarge,
-                          fontWeight: FontWeight.bold,
+                    Visibility(
+                      visible: title != null,
+                      child: Expanded(
+                        child: Text(
+                          title ?? '',
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: AppFontSizes.titleMediumLarge,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

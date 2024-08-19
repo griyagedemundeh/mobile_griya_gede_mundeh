@@ -7,7 +7,10 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.
 class ButtonWithTitle extends StatelessWidget {
   const ButtonWithTitle({
     super.key,
+    this.onTap,
   });
+
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class ButtonWithTitle extends StatelessWidget {
           ),
           TextPrimaryButton(
             label: locales?.seeAll ?? '',
-            onTap: () {},
+            onTap: onTap ?? () {},
             fontSize: AppFontSizes.bodyMedium,
             icon: const Icon(
               Icons.chevron_right_rounded,

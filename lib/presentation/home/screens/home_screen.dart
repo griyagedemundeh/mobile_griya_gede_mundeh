@@ -7,6 +7,8 @@ import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_backgro
 import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
@@ -209,7 +211,14 @@ class HomeScreen extends HookConsumerWidget {
                           thickness: AppDimens.marginMedium,
                         ),
                       ),
-                      const ButtonWithTitle(),
+                      ButtonWithTitle(
+                        onTap: () {
+                          PrimaryNavigation.pushFromRight(
+                            context,
+                            page: const ArticlesScreen(),
+                          );
+                        },
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: ListView.separated(
@@ -227,7 +236,14 @@ class HomeScreen extends HookConsumerWidget {
                               thumbnailUrl: articles[index].thumbnailUrl,
                               publishedAt: articles[index].publishedAt,
                               author: articles[index].author,
-                              onTap: () {},
+                              onTap: () {
+                                PrimaryNavigation.pushFromRight(
+                                  context,
+                                  page: DetailArticleScreen(
+                                    id: articles[index].id,
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),

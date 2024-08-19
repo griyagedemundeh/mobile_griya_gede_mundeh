@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
@@ -34,6 +36,8 @@ abstract class Routes {
   static const String setting = "/setting";
   static const String profile = "/profile";
   static const String consultation = "/consultation";
+  static const String articles = "/articles";
+  static const String detailArticle = "/detail-article";
 }
 
 abstract class AppRouter {
@@ -102,6 +106,14 @@ abstract class AppRouter {
       case Routes.consultation:
         return MaterialPageRoute(
           builder: (context) => const ConsultationScreen(),
+        );
+      case Routes.articles:
+        return MaterialPageRoute(
+          builder: (context) => const ArticlesScreen(),
+        );
+      case Routes.detailArticle:
+        return MaterialPageRoute(
+          builder: (context) => const DetailArticleScreen(),
         );
       default:
         return MaterialPageRoute(

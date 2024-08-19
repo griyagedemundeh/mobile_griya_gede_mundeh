@@ -5,6 +5,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/article_meta_item.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ArticleItem extends StatelessWidget {
@@ -29,7 +30,7 @@ class ArticleItem extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: SizedBox(
         height: height * 0.22,
         width: width,
@@ -118,41 +119,6 @@ class ArticleItem extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class ArticleMetaItem extends StatelessWidget {
-  const ArticleMetaItem({
-    super.key,
-    required this.icon,
-    required this.data,
-  });
-
-  final String icon;
-  final String data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          icon,
-          height: 16,
-          width: 16,
-          color: AppColors.primary1,
-        ),
-        const SizedBox(
-          width: AppDimens.paddingSmall,
-        ),
-        Text(
-          data,
-          style: const TextStyle(
-            color: AppColors.primary1,
-            fontSize: AppFontSizes.bodySmall,
-          ),
-        ),
-      ],
     );
   }
 }
