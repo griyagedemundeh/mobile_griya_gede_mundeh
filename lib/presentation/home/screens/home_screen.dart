@@ -5,12 +5,15 @@ import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/ceremony_card.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
@@ -138,6 +141,39 @@ class HomeScreen extends HookConsumerWidget {
       ),
     ];
 
+    final List<CeremonyHistory> ceremonyHistories = [
+      CeremonyHistory(
+        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
+        ceremonyType: "Dewa Yadnya",
+        countDown: "10 Jam 39 Menit 20 Detik",
+        date: "Kamis, 24 Juli 2024",
+        location:
+            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
+        status: "Persiapan",
+        time: "18:00 WITA",
+      ),
+      CeremonyHistory(
+        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
+        ceremonyType: "Dewa Yadnya",
+        countDown: "10 Jam 39 Menit 20 Detik",
+        date: "Kamis, 24 Juli 2024",
+        location:
+            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
+        status: "Persiapan",
+        time: "18:00 WITA",
+      ),
+      CeremonyHistory(
+        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
+        ceremonyType: "Dewa Yadnya",
+        countDown: "10 Jam 39 Menit 20 Detik",
+        date: "Kamis, 24 Juli 2024",
+        location:
+            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
+        status: "Persiapan",
+        time: "18:00 WITA",
+      ),
+    ];
+
     return MeshTopBackground(
       child: Padding(
         padding: EdgeInsets.only(top: paddingTop),
@@ -158,7 +194,23 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         child: Column(
                           children: [
-                            const WelcomeMessage(),
+                            // const WelcomeMessage(),
+                            CermonyCard(
+                              isWithCover: true,
+                              ceremonyTitle: ceremonyHistories[0].ceremonyTitle,
+                              ceremonyType: ceremonyHistories[0].ceremonyType,
+                              countDown: ceremonyHistories[0].countDown,
+                              date: ceremonyHistories[0].date,
+                              location: ceremonyHistories[0].location,
+                              status: ceremonyHistories[0].status,
+                              time: ceremonyHistories[0].time,
+                              onTap: () {
+                                PrimaryNavigation.pushFromRight(
+                                  context,
+                                  page: const DetailCeremonyHistoryScreen(),
+                                );
+                              },
+                            ),
                             const SizedBox(height: AppDimens.marginLarge),
                             GridView.builder(
                               shrinkWrap: true,
