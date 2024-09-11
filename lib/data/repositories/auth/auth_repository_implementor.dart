@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,8 +23,17 @@ class AuthRepositoryImplementor extends AuthRepository {
     required RegisterRequest registerRequest,
   }) async {
     try {
-      final response =
-          await api.post(ApiEndPoints.register, data: registerRequest);
+      final response = await api.post(
+        ApiEndPoints.register,
+        data: jsonEncode({
+          'fullName': registerRequest.fullName,
+          'phoneNumber': registerRequest.phoneNumber,
+          'email': registerRequest.email,
+          'password': registerRequest.password,
+          'passwordConfirm': registerRequest.passwordConfirm,
+          'address': registerRequest.address,
+        }),
+      );
 
       return ApiBaseResponse.fromJson(response.data);
     } catch (e) {

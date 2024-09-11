@@ -20,7 +20,7 @@ void main() async {
     ),
   );
 
-  await DotEnv().load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
 
   runApp(
     const ProviderScope(
