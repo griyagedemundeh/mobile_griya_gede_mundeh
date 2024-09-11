@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/router/routers.dart';
 import 'package:mobile_griya_gede_mundeh/core/theme/theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -18,6 +19,8 @@ void main() {
       statusBarIconBrightness: Brightness.light,
     ),
   );
+
+  await DotEnv().load(fileName: ".env");
 
   runApp(
     const ProviderScope(

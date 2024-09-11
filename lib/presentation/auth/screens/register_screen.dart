@@ -9,6 +9,8 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart'
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/requests/auth/register_request.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -20,9 +22,24 @@ class RegisterScreen extends HookConsumerWidget {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
-    final emailPhoneController = useTextEditingController();
+    final fullNameController = useTextEditingController();
+    final emailController = useTextEditingController();
+    final phoneController = useTextEditingController();
+    final addressController = useTextEditingController();
     final passwordController = useTextEditingController();
+    final passwordConfirmController = useTextEditingController();
     final isPasswordVisible = useState(false);
+
+    final registerFuture = ref.watch(authControllerProvider.notifier).register(
+          registerRequest: RegisterRequest(
+            address: addressController.text,
+            email: emailController.text,
+            fullName: fullNameController.text,
+            password: passwordController.text,
+            passwordConfirm: passwordConfirmController.text,
+            phoneNumber: phoneController.text,
+          ),
+        );
 
     return Scaffold(
       body: SlidingUpPanel(
@@ -79,7 +96,7 @@ class RegisterScreen extends HookConsumerWidget {
                                     children: [
                                       // First Name
                                       TextInput(
-                                        controller: emailPhoneController,
+                                        controller: fullNameController,
                                         label: locales?.fullname ?? '',
                                         placeHolder:
                                             locales?.enterFullname ?? '',
@@ -89,7 +106,7 @@ class RegisterScreen extends HookConsumerWidget {
                                         height: AppDimens.borderRadiusLarge,
                                       ),
                                       TextInput(
-                                        controller: emailPhoneController,
+                                        controller: emailController,
                                         label:
                                             "${locales?.email ?? ''} ${locales?.optional ?? ''}",
                                         placeHolder: locales?.enterEmail ?? '',
@@ -99,7 +116,7 @@ class RegisterScreen extends HookConsumerWidget {
                                         height: AppDimens.borderRadiusLarge,
                                       ),
                                       TextInput(
-                                        controller: emailPhoneController,
+                                        controller: phoneController,
                                         label: locales?.phone ?? '',
                                         placeHolder: locales?.enterPhone ?? '',
                                         type: TextInputType.phone,
@@ -108,7 +125,7 @@ class RegisterScreen extends HookConsumerWidget {
                                         height: AppDimens.borderRadiusLarge,
                                       ),
                                       TextInput(
-                                        controller: emailPhoneController,
+                                        controller: addressController,
                                         label: locales?.mainAddress ?? '',
                                         placeHolder:
                                             locales?.enterMainAddress ?? '',
@@ -133,7 +150,7 @@ class RegisterScreen extends HookConsumerWidget {
                                         height: AppDimens.borderRadiusLarge,
                                       ),
                                       TextInput(
-                                        controller: passwordController,
+                                        controller: passwordConfirmController,
                                         label: locales?.confPassword ?? '',
                                         placeHolder:
                                             locales?.enterConfPassword ?? '',
