@@ -17,7 +17,7 @@ class ApiBaseResponse<T> with _$ApiBaseResponse<T> {
 }
 
 // Helper functions to handle generic type T
-T _dataFromJson<T>(Object? json) {
+T _dataFromJson<T>(dynamic json) {
   // Custom logic to deserialize based on the type of T
   // You may need to handle specific types here
   return json as T;

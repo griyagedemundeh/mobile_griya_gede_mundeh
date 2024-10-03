@@ -23,16 +23,20 @@ class AuthRepositoryImplementor extends AuthRepository {
     required RegisterRequest registerRequest,
   }) async {
     try {
+      final data = jsonEncode({
+        'fullName': registerRequest.fullName,
+        'phoneNumber': registerRequest.phoneNumber,
+        'email': registerRequest.email,
+        'password': registerRequest.password,
+        'passwordConfirm': registerRequest.passwordConfirm,
+        'address': registerRequest.address,
+      });
+
+      log('DATA ----->>> $data');
+
       final response = await api.post(
         ApiEndPoints.register,
-        data: jsonEncode({
-          'fullName': registerRequest.fullName,
-          'phoneNumber': registerRequest.phoneNumber,
-          'email': registerRequest.email,
-          'password': registerRequest.password,
-          'passwordConfirm': registerRequest.passwordConfirm,
-          'address': registerRequest.address,
-        }),
+        data: data,
       );
 
       return ApiBaseResponse.fromJson(response.data);

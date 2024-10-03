@@ -199,6 +199,9 @@ class RegisterScreen extends HookConsumerWidget {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: height * 0.5,
+                                  ),
                                 ],
                               ),
                             ),
