@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
-import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/search_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/ceremony_card.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/mini/chip_status.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';

@@ -16,7 +16,6 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/c
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
 
 class CeremonyService {
   final String id;
