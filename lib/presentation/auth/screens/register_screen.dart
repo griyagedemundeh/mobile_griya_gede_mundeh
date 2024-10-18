@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
@@ -14,10 +15,16 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/request/register_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_service.dart';
+import 'package:mobile_griya_gede_mundeh/main.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:toastification/toastification.dart';
 
 class RegisterScreen extends HookConsumerWidget {
   const RegisterScreen({super.key});
@@ -75,6 +82,35 @@ class RegisterScreen extends HookConsumerWidget {
             .passwordConfirm(password: passwordController.text)
             .build();
 
+    final authRepository = AuthRepositoryService();
+
+    final registerMutation = useMutation<ApiBaseResponse<Auth>,
+        ApiBaseResponse<Auth>, RegisterRequest, ApiBaseResponse<Auth>>(
+      (registerRequest) async {
+        final response =
+            await authRepository.register(registerRequest: registerRequest);
+        return response;
+      },
+      onSuccess: (response, req, authResponse) {
+        response.message.map((message) {
+          toastification.show(
+            title: Text(message),
+            primaryColor: Colors.green,
+            autoCloseDuration: const Duration(seconds: 3),
+          );
+        });
+      },
+      onError: (err, text, previousAuth) {
+        err.message.map((message) {
+          toastification.show(
+            title: Text(message),
+            primaryColor: Colors.red,
+            autoCloseDuration: const Duration(seconds: 3),
+          );
+        });
+      },
+    );
+
     Future register() async {
       final data = RegisterRequest(
         address: addressController.text,
@@ -85,10 +121,41 @@ class RegisterScreen extends HookConsumerWidget {
         phoneNumber: phoneController.text,
       );
 
-      ref.read(authControllerProvider.notifier).register(
-            registerRequest: data,
-          );
+      log('DATA  ---->>> $data');
+
+      registerMutation.mutate(data);
+      registerMutation.reset();
+
+      // ref
+      //     .read(authControllerProvider.notifier)
+      //     .register(
+      //       registerRequest: data,
+      //     )
+      //     .then((response) {
+      //   response.message.map((message) {
+      //     toastification.show(
+      //       title: Text(message),
+      //       primaryColor: Colors.green,
+      //       autoCloseDuration: const Duration(seconds: 3),
+      //     );
+      //   });
+      // }).onError<ApiBaseResponse<Auth>>(
+      //   (error, stackTrace) {
+      //     error.message.map((message) {
+      //       toastification.show(
+      //         title: Text(message),
+      //         primaryColor: Colors.red,
+      //         autoCloseDuration: const Duration(seconds: 3),
+      //       );
+      //     });
+      //   },
+      // );
     }
+
+    log("SUCCESS ---> ${registerMutation.isSuccess}");
+    log("ERROR ---> ${registerMutation.isError}");
+    log("PENDING ---> ${registerMutation.isPending}");
+    log("STATUS ---> ${registerMutation.status}");
 
     return Scaffold(
       body: SlidingUpPanel(

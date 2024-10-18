@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/router/routers.dart';
 import 'package:mobile_griya_gede_mundeh/core/theme/theme.dart';
+import 'package:toastification/toastification.dart';
 
 final queryClient = QueryClient(
   defaultQueryOptions: DefaultQueryOptions(),
@@ -43,14 +44,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Griya Gede Mundeh',
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.splash,
-      onGenerateRoute: AppRouter.routes,
-      theme: AppTheme.getTheme(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+    return ToastificationWrapper(
+      child: MaterialApp(
+        title: 'Griya Gede Mundeh',
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.splash,
+        onGenerateRoute: AppRouter.routes,
+        theme: AppTheme.getTheme(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      ),
     );
   }
 }
