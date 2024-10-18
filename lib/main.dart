@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/router/routers.dart';
 import 'package:mobile_griya_gede_mundeh/core/theme/theme.dart';
 import 'package:toastification/toastification.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final queryClient = QueryClient(
   defaultQueryOptions: DefaultQueryOptions(),

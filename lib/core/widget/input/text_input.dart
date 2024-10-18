@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
-import 'dart:developer';
 
 class TextInput extends StatefulWidget {
   const TextInput({
