@@ -11,7 +11,12 @@ import 'package:shimmer/shimmer.dart';
 class MainBar extends StatelessWidget {
   const MainBar({
     super.key,
+    required this.imgUrl,
+    required this.name,
   });
+
+  final String imgUrl;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +41,7 @@ class MainBar extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
-                    imageUrl:
-                        'https://static.wikia.nocookie.net/hellokitty/images/a/a1/Sanrio_Characters_Badtz-Maru_Image006.png/revision/latest?cb=20170401205819',
+                    imageUrl: imgUrl,
                     fit: BoxFit.scaleDown,
                     height: double.infinity,
                     width: double.infinity,
@@ -63,9 +67,9 @@ class MainBar extends StatelessWidget {
                       color: AppColors.gray2,
                     ),
                   ),
-                  const Text(
-                    "Bimo👋",
-                    style: TextStyle(
+                  Text(
+                    "$name👋",
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: AppFontSizes.bodyLarge,
                     ),

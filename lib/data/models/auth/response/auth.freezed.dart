@@ -22,9 +22,11 @@ Auth _$AuthFromJson(Map<String, dynamic> json) {
 mixin _$Auth {
   int get id => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
-  String? get avatarUrl => throw _privateConstructorUsedError;
+  String get avatarUrl => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
+  String get role => throw _privateConstructorUsedError;
   String get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,9 +42,11 @@ abstract class $AuthCopyWith<$Res> {
   $Res call(
       {int id,
       String fullName,
-      String? avatarUrl,
+      String avatarUrl,
       String email,
+      bool isActive,
       String phoneNumber,
+      String role,
       String token});
 }
 
@@ -61,9 +65,11 @@ class _$AuthCopyWithImpl<$Res, $Val extends Auth>
   $Res call({
     Object? id = null,
     Object? fullName = null,
-    Object? avatarUrl = freezed,
+    Object? avatarUrl = null,
     Object? email = null,
+    Object? isActive = null,
     Object? phoneNumber = null,
+    Object? role = null,
     Object? token = null,
   }) {
     return _then(_value.copyWith(
@@ -75,17 +81,25 @@ class _$AuthCopyWithImpl<$Res, $Val extends Auth>
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: freezed == avatarUrl
+      avatarUrl: null == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
               as String,
       token: null == token
           ? _value.token
@@ -105,9 +119,11 @@ abstract class _$$AuthImplCopyWith<$Res> implements $AuthCopyWith<$Res> {
   $Res call(
       {int id,
       String fullName,
-      String? avatarUrl,
+      String avatarUrl,
       String email,
+      bool isActive,
       String phoneNumber,
+      String role,
       String token});
 }
 
@@ -123,9 +139,11 @@ class __$$AuthImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? fullName = null,
-    Object? avatarUrl = freezed,
+    Object? avatarUrl = null,
     Object? email = null,
+    Object? isActive = null,
     Object? phoneNumber = null,
+    Object? role = null,
     Object? token = null,
   }) {
     return _then(_$AuthImpl(
@@ -137,17 +155,25 @@ class __$$AuthImplCopyWithImpl<$Res>
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: freezed == avatarUrl
+      avatarUrl: null == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
               as String,
       token: null == token
           ? _value.token
@@ -163,9 +189,11 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
   const _$AuthImpl(
       {required this.id,
       required this.fullName,
-      this.avatarUrl,
+      required this.avatarUrl,
       required this.email,
+      required this.isActive,
       required this.phoneNumber,
+      required this.role,
       required this.token});
 
   factory _$AuthImpl.fromJson(Map<String, dynamic> json) =>
@@ -176,17 +204,21 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
   @override
   final String fullName;
   @override
-  final String? avatarUrl;
+  final String avatarUrl;
   @override
   final String email;
   @override
+  final bool isActive;
+  @override
   final String phoneNumber;
+  @override
+  final String role;
   @override
   final String token;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Auth(id: $id, fullName: $fullName, avatarUrl: $avatarUrl, email: $email, phoneNumber: $phoneNumber, token: $token)';
+    return 'Auth(id: $id, fullName: $fullName, avatarUrl: $avatarUrl, email: $email, isActive: $isActive, phoneNumber: $phoneNumber, role: $role, token: $token)';
   }
 
   @override
@@ -198,7 +230,9 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
       ..add(DiagnosticsProperty('fullName', fullName))
       ..add(DiagnosticsProperty('avatarUrl', avatarUrl))
       ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('isActive', isActive))
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
+      ..add(DiagnosticsProperty('role', role))
       ..add(DiagnosticsProperty('token', token));
   }
 
@@ -213,15 +247,18 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
+            (identical(other.role, role) || other.role == role) &&
             (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, fullName, avatarUrl, email, phoneNumber, token);
+  int get hashCode => Object.hash(runtimeType, id, fullName, avatarUrl, email,
+      isActive, phoneNumber, role, token);
 
   @JsonKey(ignore: true)
   @override
@@ -241,9 +278,11 @@ abstract class _Auth implements Auth {
   const factory _Auth(
       {required final int id,
       required final String fullName,
-      final String? avatarUrl,
+      required final String avatarUrl,
       required final String email,
+      required final bool isActive,
       required final String phoneNumber,
+      required final String role,
       required final String token}) = _$AuthImpl;
 
   factory _Auth.fromJson(Map<String, dynamic> json) = _$AuthImpl.fromJson;
@@ -253,11 +292,15 @@ abstract class _Auth implements Auth {
   @override
   String get fullName;
   @override
-  String? get avatarUrl;
+  String get avatarUrl;
   @override
   String get email;
   @override
+  bool get isActive;
+  @override
   String get phoneNumber;
+  @override
+  String get role;
   @override
   String get token;
   @override

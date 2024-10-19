@@ -9,9 +9,11 @@ class Auth with _$Auth {
   const factory Auth({
     required int id,
     required String fullName,
-    String? avatarUrl,
+    required String avatarUrl,
     required String email,
+    required bool isActive,
     required String phoneNumber,
+    required String role,
     required String token,
   }) = _Auth;
 
