@@ -5,7 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/background_gradient_primary.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/splash/controller/splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,10 +19,21 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late Timer timerToNextPage;
+  late SplashController splashController;
 
   @override
   void initState() {
+    splashController = SplashController(authRepository: AuthRepository());
+
     timerToNextPage = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (splashController.getUser() != null) {
+        PrimaryNavigation.pushFromRightRemoveUntil(
+          context,
+          page: const MainScreen(),
+        );
+        return;
+      }
+
       PrimaryNavigation.pushFromRightRemoveUntil(
         context,
         page: const OnboardingScreen(),

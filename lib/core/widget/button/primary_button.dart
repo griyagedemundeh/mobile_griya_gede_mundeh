@@ -128,10 +128,10 @@ class BaseButton extends StatelessWidget {
                     children: [
                       SizedBox(width: AppDimens.marginSmall),
                       SizedBox(
-                        height: AppDimens.marginSmall,
-                        width: AppDimens.marginSmall,
+                        height: AppDimens.marginMedium,
+                        width: AppDimens.marginMedium,
                         child: CircularProgressIndicator(
-                          color: AppColors.dark1,
+                          color: AppColors.light1,
                           strokeWidth: 2,
                         ),
                       ),

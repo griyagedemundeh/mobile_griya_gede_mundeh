@@ -6,7 +6,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 class TextInput extends StatefulWidget {
   const TextInput({
     super.key,
-    required this.controller,
+    this.controller,
     this.label,
     this.placeHolder,
     this.isEnabled,
@@ -22,7 +22,6 @@ class TextInput extends StatefulWidget {
     this.onChange,
     this.maxLines,
     this.minLines,
-    this.isError,
     this.errorMessage,
     this.onPasswordTap,
     this.isPassVisible,
@@ -30,7 +29,7 @@ class TextInput extends StatefulWidget {
     this.readOnly,
   });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? label;
   final String? placeHolder;
   final bool? isEnabled;
@@ -46,7 +45,7 @@ class TextInput extends StatefulWidget {
   final void Function(String)? onChange;
   final int? maxLines;
   final int? minLines;
-  final bool? isError;
+
   final String? errorMessage;
   final VoidCallback? onPasswordTap;
   final bool? isPassVisible;
@@ -96,7 +95,8 @@ class _TextInputState extends State<TextInput> {
           decoration: BoxDecoration(
             border: Border.all(
               width: 1,
-              color: widget.isError == true ? AppColors.red : AppColors.gray1,
+              color:
+                  widget.errorMessage != null ? AppColors.red : AppColors.gray1,
             ),
             borderRadius: const BorderRadius.all(
               Radius.circular(AppDimens.paddingSmall),
@@ -125,7 +125,7 @@ class _TextInputState extends State<TextInput> {
               keyboardType: widget.type,
               decoration: InputDecoration(
                 focusColor: AppColors.primary1,
-                suffixIcon: widget.isError == true
+                suffixIcon: widget.errorMessage != null
                     ? const Icon(
                         Icons.error,
                         color: AppColors.red,
@@ -161,7 +161,7 @@ class _TextInputState extends State<TextInput> {
             ),
           ),
         ),
-        widget.isError == true
+        widget.errorMessage != null
             ? Column(
                 children: [
                   const SizedBox(height: AppDimens.paddingMicro),

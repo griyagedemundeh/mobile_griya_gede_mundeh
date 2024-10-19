@@ -8,15 +8,17 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dar
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/ceremony_card.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
 
 class CeremonyService {
   final String id;
@@ -56,6 +58,11 @@ class HomeScreen extends HookConsumerWidget {
     final double paddingTop = MediaQuery.of(context).padding.top;
     final scrollController = useScrollController();
     final isScrolled = useState(false);
+
+    final HomeController homeController =
+        HomeController(authRepository: AuthRepository());
+
+    final Auth? user = homeController.getUser();
 
     useEffect(() {
       void listener() {
@@ -179,7 +186,10 @@ class HomeScreen extends HookConsumerWidget {
         padding: EdgeInsets.only(top: paddingTop),
         child: Column(
           children: [
-            const MainBar(),
+            MainBar(
+              imgUrl: user?.avatarUrl ?? '',
+              name: user?.fullName ?? '',
+            ),
             Expanded(
               child: SingleChildScrollView(
                 controller: scrollController,
