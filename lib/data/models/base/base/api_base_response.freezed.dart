@@ -24,6 +24,7 @@ mixin _$ApiBaseResponse<T> {
   List<String> get message => throw _privateConstructorUsedError;
   @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
   T get data => throw _privateConstructorUsedError;
+  Meta? get meta => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +41,10 @@ abstract class $ApiBaseResponseCopyWith<T, $Res> {
   $Res call(
       {int status,
       List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) T data});
+      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) T data,
+      Meta? meta});
+
+  $MetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
@@ -59,6 +63,7 @@ class _$ApiBaseResponseCopyWithImpl<T, $Res, $Val extends ApiBaseResponse<T>>
     Object? status = null,
     Object? message = null,
     Object? data = freezed,
+    Object? meta = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -73,7 +78,23 @@ class _$ApiBaseResponseCopyWithImpl<T, $Res, $Val extends ApiBaseResponse<T>>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as T,
+      meta: freezed == meta
+          ? _value.meta
+          : meta // ignore: cast_nullable_to_non_nullable
+              as Meta?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MetaCopyWith<$Res>? get meta {
+    if (_value.meta == null) {
+      return null;
+    }
+
+    return $MetaCopyWith<$Res>(_value.meta!, (value) {
+      return _then(_value.copyWith(meta: value) as $Val);
+    });
   }
 }
 
@@ -88,7 +109,11 @@ abstract class _$$ApiBaseResponseImplCopyWith<T, $Res>
   $Res call(
       {int status,
       List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) T data});
+      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) T data,
+      Meta? meta});
+
+  @override
+  $MetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
@@ -105,6 +130,7 @@ class __$$ApiBaseResponseImplCopyWithImpl<T, $Res>
     Object? status = null,
     Object? message = null,
     Object? data = freezed,
+    Object? meta = freezed,
   }) {
     return _then(_$ApiBaseResponseImpl<T>(
       status: null == status
@@ -119,6 +145,10 @@ class __$$ApiBaseResponseImplCopyWithImpl<T, $Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as T,
+      meta: freezed == meta
+          ? _value.meta
+          : meta // ignore: cast_nullable_to_non_nullable
+              as Meta?,
     ));
   }
 }
@@ -131,8 +161,8 @@ class _$ApiBaseResponseImpl<T>
   const _$ApiBaseResponseImpl(
       {required this.status,
       required final List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
-      required this.data})
+      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required this.data,
+      this.meta})
       : _message = message;
 
   factory _$ApiBaseResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -151,10 +181,12 @@ class _$ApiBaseResponseImpl<T>
   @override
   @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
   final T data;
+  @override
+  final Meta? meta;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ApiBaseResponse<$T>(status: $status, message: $message, data: $data)';
+    return 'ApiBaseResponse<$T>(status: $status, message: $message, data: $data, meta: $meta)';
   }
 
   @override
@@ -164,7 +196,8 @@ class _$ApiBaseResponseImpl<T>
       ..add(DiagnosticsProperty('type', 'ApiBaseResponse<$T>'))
       ..add(DiagnosticsProperty('status', status))
       ..add(DiagnosticsProperty('message', message))
-      ..add(DiagnosticsProperty('data', data));
+      ..add(DiagnosticsProperty('data', data))
+      ..add(DiagnosticsProperty('meta', meta));
   }
 
   @override
@@ -174,7 +207,8 @@ class _$ApiBaseResponseImpl<T>
             other is _$ApiBaseResponseImpl<T> &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality().equals(other._message, _message) &&
-            const DeepCollectionEquality().equals(other.data, data));
+            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.meta, meta) || other.meta == meta));
   }
 
   @JsonKey(ignore: true)
@@ -183,7 +217,8 @@ class _$ApiBaseResponseImpl<T>
       runtimeType,
       status,
       const DeepCollectionEquality().hash(_message),
-      const DeepCollectionEquality().hash(data));
+      const DeepCollectionEquality().hash(data),
+      meta);
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +240,8 @@ abstract class _ApiBaseResponse<T> implements ApiBaseResponse<T> {
       {required final int status,
       required final List<String> message,
       @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
-      required final T data}) = _$ApiBaseResponseImpl<T>;
+      required final T data,
+      final Meta? meta}) = _$ApiBaseResponseImpl<T>;
 
   factory _ApiBaseResponse.fromJson(Map<String, dynamic> json) =
       _$ApiBaseResponseImpl<T>.fromJson;
@@ -217,6 +253,8 @@ abstract class _ApiBaseResponse<T> implements ApiBaseResponse<T> {
   @override
   @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
   T get data;
+  @override
+  Meta? get meta;
   @override
   @JsonKey(ignore: true)
   _$$ApiBaseResponseImplCopyWith<T, _$ApiBaseResponseImpl<T>> get copyWith =>

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/meta/meta_response.dart';
 
 part 'api_base_response.freezed.dart';
 part 'api_base_response.g.dart';
@@ -11,6 +12,7 @@ class ApiBaseResponse<T> with _$ApiBaseResponse<T> {
     required int status,
     required List<String> message,
     @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
+    Meta? meta,
   }) = _ApiBaseResponse<T>;
 
   factory ApiBaseResponse.fromJson(Map<String, dynamic> json) =>
@@ -23,7 +25,10 @@ T _dataFromJson<T>(Object? json) {
   if (json is Map<String, dynamic>) {
     if (T == Auth) {
       return Auth.fromJson(json) as T;
+    } else if (T == Meta) {
+      return Meta.fromJson(json) as T;
     }
+
     // You can add more conditions here for other model types if necessary
   }
   return json as T;
@@ -33,6 +38,10 @@ Object? _dataToJson<T>(T data) {
   // Implement logic to serialize data based on its type
   if (data is Auth) {
     return data.toJson();
+  } else if (data is Meta) {
+    return data.toJson();
   }
-  return data;
+  return null;
+
+  // return data;
 }

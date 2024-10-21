@@ -8,7 +8,7 @@ import 'package:mobile_griya_gede_mundeh/data/local/storage.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/request/login/login_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/request/register/register_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository.dart';
 
 class AuthRepository extends IAuthRepository {

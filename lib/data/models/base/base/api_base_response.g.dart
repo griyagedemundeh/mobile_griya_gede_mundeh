@@ -13,6 +13,9 @@ _$ApiBaseResponseImpl<T> _$$ApiBaseResponseImplFromJson<T>(
       message:
           (json['message'] as List<dynamic>).map((e) => e as String).toList(),
       data: _dataFromJson(json['data']),
+      meta: json['meta'] == null
+          ? null
+          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ApiBaseResponseImplToJson<T>(
@@ -21,4 +24,5 @@ Map<String, dynamic> _$$ApiBaseResponseImplToJson<T>(
       'status': instance.status,
       'message': instance.message,
       'data': _dataToJson(instance.data),
+      'meta': instance.meta,
     };
