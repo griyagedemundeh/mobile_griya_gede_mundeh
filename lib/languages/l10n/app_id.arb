@@ -117,5 +117,6 @@
     "findUsOnSocialMedia": "Temukan kami di media sosial!",
     "save": "Simpan",
     "editProfile": "Ubah Profile",
-    "editPassword": "Ubah Password?"
+    "editPassword": "Ubah Password?",
+    "logout": "Keluar"
 }

@@ -6,7 +6,11 @@ import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/setting/controller/setting_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/setting/screens/profile_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +21,20 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locales = AppLocalizations.of(context);
+
+    final SettingController settingController =
+        SettingController(authRepository: AuthRepository());
+
+    logout() {
+      settingController.logout();
+
+      PrimaryToast.success(message: "Berhasil keluar!");
+
+      PrimaryNavigation.pushFromRightRemoveUntil(
+        context,
+        page: const OnboardingScreen(),
+      );
+    }
 
     return Scaffold(
       body: Column(
@@ -52,6 +70,14 @@ class SettingScreen extends StatelessWidget {
                         label: locales?.aboutUs ?? '',
                         icon: AppImages.icInfo,
                         onTap: () {},
+                      ),
+                      const DividerSettingButton(),
+                      SettingButton(
+                        label: locales?.logout ?? '',
+                        icon: AppImages.icInfo,
+                        onTap: () {
+                          logout();
+                        },
                       ),
                     ],
                   ),

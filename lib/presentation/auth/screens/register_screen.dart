@@ -13,10 +13,11 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/auth/request/register_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/request/register/register_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
@@ -30,6 +31,8 @@ class RegisterScreen extends HookConsumerWidget {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
+
+    final authController = AuthController(authRepository: AuthRepository());
 
     final isLoading = useState<bool>(false);
 
@@ -81,13 +84,11 @@ class RegisterScreen extends HookConsumerWidget {
             .passwordConfirm(password: passwordController.text)
             .build();
 
-    final authRepository = AuthRepository();
-
     final registerMutation = useMutation<ApiBaseResponse<Auth>,
         ApiBaseResponse<dynamic>, RegisterRequest, void>(
       (registerRequest) async {
         final response =
-            await authRepository.register(registerRequest: registerRequest);
+            await authController.register(registerRequest: registerRequest);
         return response;
       },
       onSuccess: (response, variables, _) {

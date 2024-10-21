@@ -117,5 +117,6 @@
     "findUsOnSocialMedia": "Find us on social media!",
     "save": "Save",
     "editProfile": "Edit Profile",
-    "editPassword": "Change Password?"
+    "editPassword": "Change Password?",
+    "logout": "Logout"
 }
