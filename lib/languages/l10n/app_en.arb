@@ -118,5 +118,6 @@
     "save": "Save",
     "editProfile": "Edit Profile",
     "editPassword": "Change Password?",
-    "logout": "Logout"
+    "logout": "Logout",
+    "dataEmpty": "Data is empty!"
 }

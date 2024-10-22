@@ -21,9 +21,9 @@ ApiBaseResponse<T> _$ApiBaseResponseFromJson<T>(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ApiBaseResponse<T> {
   int get status => throw _privateConstructorUsedError;
-  List<String> get message => throw _privateConstructorUsedError;
-  @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
-  T get data => throw _privateConstructorUsedError;
+  dynamic get message =>
+      throw _privateConstructorUsedError; // @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
+  dynamic get data => throw _privateConstructorUsedError;
   Meta? get meta => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,11 +38,7 @@ abstract class $ApiBaseResponseCopyWith<T, $Res> {
           ApiBaseResponse<T> value, $Res Function(ApiBaseResponse<T>) then) =
       _$ApiBaseResponseCopyWithImpl<T, $Res, ApiBaseResponse<T>>;
   @useResult
-  $Res call(
-      {int status,
-      List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) T data,
-      Meta? meta});
+  $Res call({int status, dynamic message, dynamic data, Meta? meta});
 
   $MetaCopyWith<$Res>? get meta;
 }
@@ -61,7 +57,7 @@ class _$ApiBaseResponseCopyWithImpl<T, $Res, $Val extends ApiBaseResponse<T>>
   @override
   $Res call({
     Object? status = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = freezed,
     Object? meta = freezed,
   }) {
@@ -70,14 +66,14 @@ class _$ApiBaseResponseCopyWithImpl<T, $Res, $Val extends ApiBaseResponse<T>>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as dynamic,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as T,
+              as dynamic,
       meta: freezed == meta
           ? _value.meta
           : meta // ignore: cast_nullable_to_non_nullable
@@ -106,11 +102,7 @@ abstract class _$$ApiBaseResponseImplCopyWith<T, $Res>
       __$$ApiBaseResponseImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call(
-      {int status,
-      List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) T data,
-      Meta? meta});
+  $Res call({int status, dynamic message, dynamic data, Meta? meta});
 
   @override
   $MetaCopyWith<$Res>? get meta;
@@ -128,7 +120,7 @@ class __$$ApiBaseResponseImplCopyWithImpl<T, $Res>
   @override
   $Res call({
     Object? status = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = freezed,
     Object? meta = freezed,
   }) {
@@ -137,14 +129,14 @@ class __$$ApiBaseResponseImplCopyWithImpl<T, $Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int,
-      message: null == message
-          ? _value._message
+      message: freezed == message
+          ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as dynamic,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as T,
+              as dynamic,
       meta: freezed == meta
           ? _value.meta
           : meta // ignore: cast_nullable_to_non_nullable
@@ -160,27 +152,20 @@ class _$ApiBaseResponseImpl<T>
     implements _ApiBaseResponse<T> {
   const _$ApiBaseResponseImpl(
       {required this.status,
-      required final List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required this.data,
-      this.meta})
-      : _message = message;
+      required this.message,
+      required this.data,
+      this.meta});
 
   factory _$ApiBaseResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiBaseResponseImplFromJson(json);
 
   @override
   final int status;
-  final List<String> _message;
   @override
-  List<String> get message {
-    if (_message is EqualUnmodifiableListView) return _message;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_message);
-  }
-
+  final dynamic message;
+// @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
   @override
-  @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
-  final T data;
+  final dynamic data;
   @override
   final Meta? meta;
 
@@ -206,7 +191,7 @@ class _$ApiBaseResponseImpl<T>
         (other.runtimeType == runtimeType &&
             other is _$ApiBaseResponseImpl<T> &&
             (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._message, _message) &&
+            const DeepCollectionEquality().equals(other.message, message) &&
             const DeepCollectionEquality().equals(other.data, data) &&
             (identical(other.meta, meta) || other.meta == meta));
   }
@@ -216,7 +201,7 @@ class _$ApiBaseResponseImpl<T>
   int get hashCode => Object.hash(
       runtimeType,
       status,
-      const DeepCollectionEquality().hash(_message),
+      const DeepCollectionEquality().hash(message),
       const DeepCollectionEquality().hash(data),
       meta);
 
@@ -238,9 +223,8 @@ class _$ApiBaseResponseImpl<T>
 abstract class _ApiBaseResponse<T> implements ApiBaseResponse<T> {
   const factory _ApiBaseResponse(
       {required final int status,
-      required final List<String> message,
-      @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
-      required final T data,
+      required final dynamic message,
+      required final dynamic data,
       final Meta? meta}) = _$ApiBaseResponseImpl<T>;
 
   factory _ApiBaseResponse.fromJson(Map<String, dynamic> json) =
@@ -249,10 +233,9 @@ abstract class _ApiBaseResponse<T> implements ApiBaseResponse<T> {
   @override
   int get status;
   @override
-  List<String> get message;
-  @override
-  @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
-  T get data;
+  dynamic get message;
+  @override // @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
+  dynamic get data;
   @override
   Meta? get meta;
   @override

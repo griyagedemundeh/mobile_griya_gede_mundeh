@@ -17,10 +17,19 @@ class CeremonyRepository extends ICeremonyRepository {
       );
 
       final responseData = response.data as Map<String, dynamic>;
-      final apiResponse =
-          ApiBaseResponse<List<Ceremony>>.fromJson(responseData);
 
-      return apiResponse;
+      List<Ceremony> listData = [];
+
+      for (var element in responseData['data']) {
+        listData.add(Ceremony.fromJson(element));
+      }
+
+      return ApiBaseResponse(
+        status: responseData['status'],
+        message: responseData['message'],
+        data: listData,
+      );
+      // return apiResponse;
     } on DioException catch (e) {
       if (e.response != null) {
         throw ApiBaseResponse.fromJson(e.response!.data);

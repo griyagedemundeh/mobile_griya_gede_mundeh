@@ -118,5 +118,6 @@
     "save": "Simpan",
     "editProfile": "Ubah Profile",
     "editPassword": "Ubah Password?",
-    "logout": "Keluar"
+    "logout": "Keluar",
+    "dataEmpty": "Tidak ada data!"
 }

@@ -1,19 +1,24 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/ceremony_card.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
@@ -76,7 +81,7 @@ class HomeScreen extends HookConsumerWidget {
         useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
             ['ceremonies'], getCeremonies);
 
-    log('DATA CEREMONUIES --->>> ${ceremonies.data}');
+    final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
 
     useEffect(() {
       void listener() {
@@ -87,11 +92,33 @@ class HomeScreen extends HookConsumerWidget {
         }
       }
 
+      if (((ceremonies.data?.data as List<Ceremony?>?)?.length ?? 0) < 8) {
+        dataCeremonies?.add(
+          Ceremony(
+            id: 99999,
+            ceremonyCategoryId: 99999,
+            title: "Lainnya",
+            description: "",
+            isActive: true,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            ceremonyCategory: null,
+            ceremonyDocumentation: [
+              CeremonyDocumentation(
+                id: 9999,
+                ceremonyServiceId: 9999,
+                photo: AppImages.dummyCeremony,
+                createdAt: DateTime.now(),
+                updatedAt: DateTime.now(),
+              ),
+            ],
+          ),
+        );
+      }
+
       scrollController.addListener(listener);
       return () => scrollController.removeListener(listener);
-    }, [scrollController]);
-
-    // final List<CeremonyService> ceremonies? = [];
+    }, [scrollController, ceremonies]);
 
     final List<Article> articles = [
       Article(
@@ -197,7 +224,7 @@ class HomeScreen extends HookConsumerWidget {
                             const SizedBox(height: AppDimens.marginLarge),
 
                             Builder(builder: (context) {
-                              if (ceremonies.isSuccess) {
+                              if (ceremonies.isLoading) {
                                 return const Center(
                                   child: CircularProgressIndicator(
                                     color: AppColors.primary1,
@@ -206,56 +233,56 @@ class HomeScreen extends HookConsumerWidget {
                               }
 
                               if (ceremonies.isError) {
-                                return Center(
-                                  child: Text("${ceremonies.error}"),
+                                return const DataEmpty();
+                              }
+
+                              if (ceremonies.isSuccess &&
+                                  dataCeremonies?.isNotEmpty == true) {
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.zero,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 4,
+                                    childAspectRatio: 3 / (3.5),
+                                    mainAxisSpacing: AppDimens.paddingMedium,
+                                    crossAxisSpacing: AppDimens.paddingMedium,
+                                  ),
+                                  itemCount: dataCeremonies?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    return CeremonyServiceItem(
+                                      onTap: () {
+                                        if (dataCeremonies?[index]
+                                                ?.title
+                                                .toLowerCase() ==
+                                            'lainnya') {
+                                          PrimaryNavigation.pushFromRight(
+                                            context,
+                                            page: const OtherCeremonyScreen(),
+                                          );
+                                          return;
+                                        }
+
+                                        PrimaryNavigation.pushFromRight(
+                                          context,
+                                          page: DetailCeremonyScreen(
+                                            id: "${dataCeremonies?[index]?.id}",
+                                          ),
+                                        );
+                                      },
+                                      title:
+                                          dataCeremonies?[index]?.title ?? '',
+                                      iconUrl: dataCeremonies?[index]
+                                              ?.ceremonyDocumentation?[0]
+                                              ?.photo ??
+                                          AppImages.dummy,
+                                    );
+                                  },
                                 );
                               }
 
-                              return GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                padding: EdgeInsets.zero,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4,
-                                  childAspectRatio: 3 / (3.5),
-                                  mainAxisSpacing: AppDimens.paddingMedium,
-                                  crossAxisSpacing: AppDimens.paddingMedium,
-                                ),
-                                itemCount: (ceremonies.data?.data?.length ?? 0),
-                                itemBuilder: (context, index) {
-                                  return CeremonyServiceItem(
-                                    onTap: () {
-                                      // if (ceremonies.data?.data?[index]?
-                                      //         .?title?
-                                      //         .toLowerCase() ==
-                                      //     'lainnya') {
-                                      //   PrimaryNavigation.pushFromRight(
-                                      //     context,
-                                      //     page: const OtherCeremonyScreen(),
-                                      //   );
-                                      //   return;
-                                      // }
-
-                                      PrimaryNavigation.pushFromRight(
-                                        context,
-                                        page: DetailCeremonyScreen(
-                                          id: "$index",
-                                        ),
-                                      );
-                                    },
-                                    title:
-                                        ceremonies.data?.data?[index]?.title ??
-                                            '',
-                                    iconUrl: ceremonies
-                                            .data
-                                            ?.data?[index]
-                                            ?.ceremonyDocumentation?[0]
-                                            ?.photo ??
-                                        '',
-                                  );
-                                },
-                              );
+                              return const DataEmpty();
                             }),
                           ],
                         ),
