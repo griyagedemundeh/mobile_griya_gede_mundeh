@@ -202,7 +202,9 @@ class OtherCeremonyScreen extends HookConsumerWidget {
                                 onTap: () {
                                   PrimaryNavigation.pushFromRight(
                                     context,
-                                    page: const DetailCeremonyScreen(),
+                                    page: DetailCeremonyScreen(
+                                      id: ceremony?.id ?? 0,
+                                    ),
                                   );
                                 },
                               ),

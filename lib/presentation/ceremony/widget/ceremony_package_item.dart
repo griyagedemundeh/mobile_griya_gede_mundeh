@@ -4,8 +4,8 @@ import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 
-class CeremonyPackage extends StatelessWidget {
-  const CeremonyPackage({
+class CeremonyPackageItem extends StatelessWidget {
+  const CeremonyPackageItem({
     super.key,
   });
 

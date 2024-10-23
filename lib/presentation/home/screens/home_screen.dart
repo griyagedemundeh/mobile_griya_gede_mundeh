@@ -267,7 +267,7 @@ class HomeScreen extends HookConsumerWidget {
                                         PrimaryNavigation.pushFromRight(
                                           context,
                                           page: DetailCeremonyScreen(
-                                            id: "${dataCeremonies?[index]?.id}",
+                                            id: dataCeremonies?[index]?.id ?? 0,
                                           ),
                                         );
                                       },

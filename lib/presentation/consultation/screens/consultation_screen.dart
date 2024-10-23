@@ -7,7 +7,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Chat {
@@ -254,7 +254,7 @@ class ScrollableCeremonyPackage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scrollbar(
       child: SingleChildScrollView(
-        child: CeremonyPackage(),
+        child: CeremonyPackageItem(),
       ),
     );
   }

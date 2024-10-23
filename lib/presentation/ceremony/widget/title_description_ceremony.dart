@@ -6,16 +6,21 @@ import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 class TitleAndDescriptionCeremony extends StatelessWidget {
   const TitleAndDescriptionCeremony({
     super.key,
+    required this.title,
+    required this.description,
   });
+
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "🛕 Upacara Ngaben",
-          style: TextStyle(
+        Text(
+          "🛕 $title",
+          style: const TextStyle(
             fontSize: AppFontSizes.titleMediumLarge,
             fontWeight: FontWeight.bold,
           ),
@@ -24,9 +29,7 @@ class TitleAndDescriptionCeremony extends StatelessWidget {
           height: AppDimens.paddingSmall,
         ),
         Text(
-          """Lorem ipsum odor amet, consectetuer adipiscing elit. Himenaeos nascetur vulputate praesent aliquam ante pharetra. Enim justo dapibus porttitor porta dolor.
-
-    Volutpat duis nascetur elementum hac massa tincidunt suscipit odio. Elit duis facilisi sapien interdum nam. Senectus adipiscing ad euismod lacinia orci sociosqu eget fusce.""",
+          description,
           textAlign: TextAlign.justify,
           style: TextStyle(
             fontSize: AppFontSizes.bodySmall,
