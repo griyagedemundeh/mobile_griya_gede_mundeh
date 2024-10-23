@@ -329,7 +329,10 @@ class ScrollableCeremonyPackageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scrollbar(
       child: SingleChildScrollView(
-        child: CeremonyPackageItem(),
+        child: CeremonyPackageItem(
+          description: '',
+          price: 0,
+        ),
       ),
     );
   }

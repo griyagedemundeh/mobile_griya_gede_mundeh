@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -23,7 +24,6 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremo
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/main_thumbnail.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/mini_thumbnail.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/title_description_ceremony.dart';
@@ -47,6 +47,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
     final isOpened = useState(false);
+    final descriptionLenght = useState<int>(0);
 
     final CeremonyController ceremonyController =
         CeremonyController(ceremonyRepository: CeremonyRepository());
@@ -59,7 +60,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     final ceremonyResponse =
         useQuery<ApiBaseResponse<Ceremony?>?, ApiBaseResponse<dynamic>>(
-            ['ceremony'], getCeremony);
+      ['ceremony'],
+      getCeremony,
+      cacheDuration: const Duration(seconds: 1),
+    );
 
     final Ceremony? ceremony = ceremonyResponse.data?.data as Ceremony?;
 
@@ -72,44 +76,15 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       return response;
     }
 
-    final ceremonyPackages = useQuery<ApiBaseResponse<List<CeremonyPackage?>?>?,
-        ApiBaseResponse<dynamic>>(['ceremonyPackages'], getCeremonyPackages);
+    final ceremonyPackagesResponse = useQuery<
+        ApiBaseResponse<List<CeremonyPackage?>?>?, ApiBaseResponse<dynamic>>(
+      ['ceremonyPackages'],
+      getCeremonyPackages,
+      cacheDuration: const Duration(seconds: 1),
+    );
 
-    final dataCeremonyPackages =
-        ceremonyPackages.data?.data as List<CeremonyPackage?>?;
-
-    // final List<ThumbnailCeremony> thumbnails = [
-    //   ThumbnailCeremony(
-    //     id: "1",
-    //     thumbnailUrl:
-    //         "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
-    //   ),
-    //   ThumbnailCeremony(
-    //     id: "2",
-    //     thumbnailUrl:
-    //         "https://firstlomboktour.com/wp-content/uploads/2021/12/ngaden-1024x673.jpg.webp",
-    //   ),
-    //   ThumbnailCeremony(
-    //     id: "3",
-    //     thumbnailUrl:
-    //         "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1586262431/1200px-Ngaben_Cremation_vih3yt.jpg",
-    //   ),
-    //   ThumbnailCeremony(
-    //     id: "4",
-    //     thumbnailUrl:
-    //         "https://kamboja.co.id/wp-content/uploads/2021/06/biaya-ngaben-di-bali.jpg",
-    //   ),
-    //   ThumbnailCeremony(
-    //     id: "5",
-    //     thumbnailUrl:
-    //         "https://www.baliviralnews.com/wp-content/uploads/2020/11/Ngaben-Bikul-13.jpg",
-    //   ),
-    //   ThumbnailCeremony(
-    //     id: "6",
-    //     thumbnailUrl:
-    //         "https://osccdn.medcom.id/images/content/2022/11/30/bd2176d03953542cc52af2b46a761b70.jpg",
-    //   ),
-    // ];
+    final ceremonyPackages =
+        ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
 
     // final List<Widget> miniThumbnails =
     //     List.generate(thumbnails.length, (index) {
@@ -181,22 +156,27 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      bottomNavigationBar: Visibility(
-        visible: isOpened.value,
-        child: SelectedButtonsPackage(
-          onTapButtonPrimary: () {
-            showAlertConfirmation();
-          },
-          onTapButtonSecondary: () {},
-        ),
-      ),
+      bottomNavigationBar: Builder(builder: (context) {
+        if (isOpened.value &&
+            (ceremonyPackages?.isNotEmpty ?? false) &&
+            descriptionLenght.value >= 70) {
+          return SelectedButtonsPackage(
+            onTapButtonPrimary: () {
+              showAlertConfirmation();
+            },
+            onTapButtonSecondary: () {},
+          );
+        }
+        return const SizedBox();
+      }),
       body: Column(
         children: [
           MeshAppBar(
             title: locales?.detailCeremony ?? '',
           ),
           Builder(builder: (context) {
-            if (ceremonyResponse.isLoading) {
+            if (ceremonyResponse.isLoading ||
+                ceremonyPackagesResponse.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(
                   color: AppColors.primary1,
@@ -204,7 +184,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
               );
             }
 
-            if (ceremonyResponse.isError) {
+            if (ceremonyResponse.isError || ceremonyPackagesResponse.isError) {
               return const DataEmpty();
             }
 
@@ -217,7 +197,27 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                   parallaxEnabled: true,
                   backdropEnabled: true,
                   onPanelOpened: () {
-                    isOpened.value = true;
+                    if (ceremonyPackages != []) {
+                      ceremonyPackages?.forEach((cp) {
+                        descriptionLenght.value = cp?.description.length ?? 0;
+                        log('NOT NULL -----------');
+                        if ((cp?.description.length ?? 0) <= 70) {
+                          log('NOT NULL <= 70');
+                          isOpened.value = false;
+                          return;
+                        } else {
+                          log('NOT NULL <= 1000');
+                          isOpened.value = true;
+                        }
+                      });
+
+                      return;
+                    }
+
+                    if (ceremonyPackages == []) {
+                      isOpened.value = false;
+                      return;
+                    }
                   },
                   onPanelClosed: () {
                     isOpened.value = false;
@@ -235,9 +235,14 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                           child: Column(
                             children: [
                               MainThumbnail(
-                                thumbnailUrl: ceremony
-                                        ?.ceremonyDocumentation?[0]?.photo ??
-                                    AppImages.dummyCeremony,
+                                thumbnailUrl:
+                                    (ceremony?.ceremonyDocumentation != null &&
+                                            ceremony!.ceremonyDocumentation!
+                                                .isNotEmpty)
+                                        ? ceremony.ceremonyDocumentation![0]
+                                                ?.photo ??
+                                            AppImages.dummyCeremony
+                                        : AppImages.dummyCeremony,
                               ),
                               // Padding(
                               //   padding: const EdgeInsets.symmetric(
@@ -279,24 +284,38 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                             thickness: AppDimens.marginMedium,
                           ),
                         ),
-                        Column(
-                          children: [
-                            DefaultTabController(
-                              length: dataCeremonyPackages?.length ?? 0,
+                        Builder(builder: (context) {
+                          if (ceremonyPackagesResponse.isSuccess &&
+                              (ceremonyPackages?.isEmpty ?? true)) {
+                            return SelectedButtonsPackage(
+                              onTapButtonPrimary: () {
+                                showAlertConfirmation();
+                              },
+                            );
+                          }
+
+                          if (ceremonyPackages != null &&
+                              ceremonyPackages.isNotEmpty) {
+                            return DefaultTabController(
+                              length: ceremonyPackages.length,
                               child: Column(
                                 children: [
                                   TabBar(
+                                    onTap: (val) {
+                                      if (kDebugMode) {
+                                        log("length of package's description ${ceremonyPackages[val]?.description.length}");
+                                      }
+                                    },
                                     labelColor: AppColors.dark1,
                                     tabAlignment: TabAlignment.center,
                                     isScrollable: true,
                                     dividerColor: AppColors.gray1,
                                     automaticIndicatorColorAdjustment: true,
-                                    tabs: List.generate(
-                                        dataCeremonyPackages?.length ?? 0,
+                                    tabs: List.generate(ceremonyPackages.length,
                                         (index) {
                                       return TabIndicatorItem(
-                                        label:
-                                            "${dataCeremonyPackages?[index]?.name}", // Use the index to differentiate labels
+                                        label: ceremonyPackages[index]?.name ??
+                                            '-', // Safe check
                                       );
                                     }),
                                     indicator: const UnderlineTabIndicator(
@@ -316,20 +335,39 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                                     height: height,
                                     child: TabBarView(
                                       children: List.generate(
-                                          dataCeremonyPackages?.length ?? 0,
-                                          (index) {
-                                        return const CeremonyPackageItem();
+                                          ceremonyPackages.length, (index) {
+                                        final package = ceremonyPackages[index];
+                                        return Column(
+                                          children: [
+                                            CeremonyPackageItem(
+                                              price: package?.price ?? 0,
+                                              description:
+                                                  package?.description ?? '-',
+                                            ),
+                                            Visibility(
+                                              visible: (package?.description
+                                                          .length ??
+                                                      0) <=
+                                                  70,
+                                              child: SelectedButtonsPackage(
+                                                onTapButtonPrimary: () {
+                                                  showAlertConfirmation();
+                                                },
+                                                onTapButtonSecondary: () {},
+                                              ),
+                                            ),
+                                          ],
+                                        );
                                       }),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            SizedBox(
-                              height: height * 0.4,
-                            ),
-                          ],
-                        ),
+                            );
+                          }
+
+                          return const DataEmpty();
+                        }),
                       ],
                     );
                   },

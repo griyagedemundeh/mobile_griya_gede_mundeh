@@ -62,7 +62,9 @@ class OtherCeremonyScreen extends HookConsumerWidget {
 
     final ceremonies =
         useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
-            ['ceremonies'], getCeremonies);
+      ['ceremonies_other'],
+      getCeremonies,
+    );
 
     final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
 
@@ -110,112 +112,122 @@ class OtherCeremonyScreen extends HookConsumerWidget {
                 return const DataEmpty();
               }
 
-              return ListView.separated(
-                controller: scrollController,
-                padding: const EdgeInsets.all(
-                  AppDimens.paddingMedium,
-                ),
-                itemCount: dataCeremonies?.length ?? 0,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: AppDimens.paddingMedium,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  final ceremony = dataCeremonies?[index];
+              if ((dataCeremonies?.isNotEmpty ?? false) &&
+                  ceremonies.isSuccess) {
+                return ListView.separated(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(
+                    AppDimens.paddingMedium,
+                  ),
+                  itemCount: dataCeremonies?.length ?? 0,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: AppDimens.paddingMedium,
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    final ceremony = dataCeremonies?[index];
 
-                  return SizedBox(
-                    height: height * 0.22,
-                    width: width,
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            10,
-                          ),
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                              Colors.black.withOpacity(0.5),
-                              BlendMode.darken,
+                    return SizedBox(
+                      height: height * 0.22,
+                      width: width,
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              10,
                             ),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  ceremony?.ceremonyDocumentation?[0]?.photo ??
-                                      AppImages.dummyCeremony,
-                              fit: BoxFit.cover,
-                              height: height * 0.3,
-                              width: width,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) {
-                                return Shimmer.fromColors(
-                                  baseColor: AppColors.gray2.withOpacity(0.6),
-                                  highlightColor: AppColors.light1,
-                                  child: const SizedBox(),
-                                );
-                              },
-                              errorWidget: (context, url, error) =>
-                                  const SizedBox(),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: AppDimens.paddingLarge),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppDimens.iconSizeLarge,
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                Colors.black.withOpacity(0.5),
+                                BlendMode.darken,
                               ),
-                              child: Text(
-                                ceremony?.title ?? '-',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: AppColors.light1,
-                                  fontSize: AppFontSizes.bodyLarge,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppDimens.iconSizeLarge,
-                              ),
-                              child: Text(
-                                ceremony?.description ?? '-',
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: AppColors.lightgray,
-                                  fontSize: AppFontSizes.labelSmall,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.all(AppDimens.marginMedium),
-                              child: PrimaryButton(
-                                label: locales?.detailCeremony ?? '',
-                                isOutline: true,
-                                isFullRounded: true,
-                                onTap: () {
-                                  PrimaryNavigation.pushFromRight(
-                                    context,
-                                    page: DetailCeremonyScreen(
-                                      id: ceremony?.id ?? 0,
-                                    ),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    (ceremony?.ceremonyDocumentation != null &&
+                                            ceremony!.ceremonyDocumentation!
+                                                .isNotEmpty)
+                                        ? ceremony.ceremonyDocumentation![0]
+                                                ?.photo ??
+                                            AppImages.dummyCeremony
+                                        : AppImages.dummyCeremony,
+                                fit: BoxFit.cover,
+                                height: height * 0.3,
+                                width: width,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) {
+                                  return Shimmer.fromColors(
+                                    baseColor: AppColors.gray2.withOpacity(0.6),
+                                    highlightColor: AppColors.light1,
+                                    child: const SizedBox(),
                                   );
                                 },
+                                errorWidget: (context, url, error) =>
+                                    const SizedBox(),
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: AppDimens.paddingLarge),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppDimens.iconSizeLarge,
+                                ),
+                                child: Text(
+                                  ceremony?.title ?? '-',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: AppColors.light1,
+                                    fontSize: AppFontSizes.bodyLarge,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppDimens.iconSizeLarge,
+                                ),
+                                child: Text(
+                                  ceremony?.description ?? '-',
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: AppColors.lightgray,
+                                    fontSize: AppFontSizes.labelSmall,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(
+                                    AppDimens.marginMedium),
+                                child: PrimaryButton(
+                                  label: locales?.detailCeremony ?? '',
+                                  isOutline: true,
+                                  isFullRounded: true,
+                                  onTap: () {
+                                    PrimaryNavigation.pushFromRight(
+                                      context,
+                                      page: DetailCeremonyScreen(
+                                        id: ceremony?.id ?? 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }
+
+              return const DataEmpty();
             }),
           ),
         ],

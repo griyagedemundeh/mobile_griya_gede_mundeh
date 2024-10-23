@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
 class CeremonyPackageItem extends StatelessWidget {
   const CeremonyPackageItem({
     super.key,
+    required this.price,
+    required this.description,
   });
+
+  final int price;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(AppDimens.paddingMedium),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CeremonyPricePackage(),
-          SizedBox(
+          CeremonyPricePackage(
+            price: price,
+          ),
+          const SizedBox(
             height: AppDimens.paddingLarge,
           ),
-          CeremonyDescriptionPackage(),
+          CeremonyDescriptionPackage(
+            description: description,
+          ),
         ],
       ),
     );
@@ -30,7 +41,10 @@ class CeremonyPackageItem extends StatelessWidget {
 class CeremonyDescriptionPackage extends StatelessWidget {
   const CeremonyDescriptionPackage({
     super.key,
+    required this.description,
   });
+
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +63,7 @@ class CeremonyDescriptionPackage extends StatelessWidget {
         const SizedBox(
           height: AppDimens.paddingSmall,
         ),
-        Text(
-          """Lorem ipsum odor amet, consectetuer adipiscing elit. Himenaeos nascetur vulputate praesent aliquam ante pharetra. Enim justo dapibus porttitor porta dolor.
-    
-- Lorem
-- Ipsum
-- Dolor
-- Sit 
-- Amet
-- Fugiat
-- Nulla 
-- Pariatur
-
-Volutpat duis nascetur elementum hac massa tincidunt suscipit odio. Elit duis facilisi sapien interdum nam. Senectus adipiscing ad euismod lacinia orci sociosqu eget fusce.
-    """,
-          style: TextStyle(
-            fontSize: AppFontSizes.bodySmall,
-            color: AppColors.primaryText.withOpacity(0.8),
-          ),
-        ),
+        HtmlWidget(description),
       ],
     );
   }
@@ -76,7 +72,10 @@ Volutpat duis nascetur elementum hac massa tincidunt suscipit odio. Elit duis fa
 class CeremonyPricePackage extends StatelessWidget {
   const CeremonyPricePackage({
     super.key,
+    required this.price,
   });
+
+  final int price;
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +109,9 @@ class CeremonyPricePackage extends StatelessWidget {
               width: 2,
             ),
           ),
-          child: const Text(
-            "Rp 2.500.000",
-            style: TextStyle(
+          child: Text(
+            formatCurrency(price),
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -79,7 +79,9 @@ class HomeScreen extends HookConsumerWidget {
 
     final ceremonies =
         useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
-            ['ceremonies'], getCeremonies);
+      ['ceremonies'],
+      getCeremonies,
+    );
 
     final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
 
