@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/mesh_top_background.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/button_with_tile.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/ceremony_card.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
@@ -19,18 +27,6 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/d
 import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
-
-class CeremonyService {
-  final String id;
-  final String iconUrl;
-  final String title;
-
-  CeremonyService({
-    required this.id,
-    required this.iconUrl,
-    required this.title,
-  });
-}
 
 class Article {
   final String id;
@@ -59,10 +55,31 @@ class HomeScreen extends HookConsumerWidget {
     final scrollController = useScrollController();
     final isScrolled = useState(false);
 
-    final HomeController homeController =
-        HomeController(authRepository: AuthRepository());
+    final HomeController homeController = HomeController(
+      authRepository: AuthRepository(),
+      ceremonyRepository: CeremonyRepository(),
+    );
 
     final Auth? user = homeController.getUser();
+
+    Future<ApiBaseResponse<List<Ceremony?>?>?> getCeremonies() async {
+      final response = await homeController.getCeremonies(
+        listDataParams: ListDataParams(
+          page: 1,
+          limit: 7,
+        ),
+      );
+
+      return response;
+    }
+
+    final ceremonies =
+        useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
+      ['ceremonies'],
+      getCeremonies,
+    );
+
+    final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
 
     useEffect(() {
       void listener() {
@@ -73,52 +90,33 @@ class HomeScreen extends HookConsumerWidget {
         }
       }
 
+      if (((ceremonies.data?.data as List<Ceremony?>?)?.length ?? 0) < 8) {
+        dataCeremonies?.add(
+          Ceremony(
+            id: 99999,
+            ceremonyCategoryId: 99999,
+            title: "Lainnya",
+            description: "",
+            isActive: true,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            ceremonyCategory: null,
+            ceremonyDocumentation: [
+              CeremonyDocumentation(
+                id: 9999,
+                ceremonyServiceId: 9999,
+                photo: AppImages.dummyCeremony,
+                createdAt: DateTime.now(),
+                updatedAt: DateTime.now(),
+              ),
+            ],
+          ),
+        );
+      }
+
       scrollController.addListener(listener);
       return () => scrollController.removeListener(listener);
-    }, [scrollController]);
-
-    final List<CeremonyService> ceremonyServices = [
-      CeremonyService(
-          id: "1",
-          iconUrl:
-              "https://asset-a.grid.id/crop/0x0:0x0/780x800/photo/bobofoto/original/22383_upacara-potong-gigi-di-bali.jpg",
-          title: "Metatah"),
-      CeremonyService(
-          id: "2",
-          iconUrl:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-          title: "Mebayuh"),
-      CeremonyService(
-          id: "3",
-          iconUrl:
-              "https://rebornprojectmedia.com/wp-content/uploads/2022/03/Melaspas_7-scaled.jpg",
-          title: "Melaspas"),
-      CeremonyService(
-          id: "4",
-          iconUrl:
-              "https://panbelog.wordpress.com/wp-content/uploads/2014/11/112214_0125_pawiwahan1.jpg",
-          title: "Pawiwahan"),
-      CeremonyService(
-          id: "5",
-          iconUrl:
-              "https://assets-a1.kompasiana.com/statics/crawl/553016ae0423bdeb638b4567.jpeg",
-          title: "Otonan"),
-      CeremonyService(
-          id: "6",
-          iconUrl:
-              "https://nusantara7.id/wp-content/uploads/2021/07/mecaru.jpg",
-          title: "Mecaru"),
-      CeremonyService(
-          id: "7",
-          iconUrl:
-              "https://lh3.googleusercontent.com/proxy/RnpePuRN5t9M3wSWsOTIOFLJBKHZ7TMMWRs7zOQbz4xqDShUQwaeACoCb6ex6xiZG1sYcAfQrvSyJBSO-BBcp3MfKO_-6OwjPyaAklvwXdH_K5Pm",
-          title: "Mewinten"),
-      CeremonyService(
-          id: "8",
-          iconUrl:
-              "https://ik.imagekit.io/tvlk/blog/2020/05/Upacara-Melasti-Website-Resmi-Pemerintah-Kabupaten-Buleleng.jpg?tr=dpr-2,w-675",
-          title: "Lainnya"),
-    ];
+    }, [scrollController, ceremonies]);
 
     final List<Article> articles = [
       Article(
@@ -222,44 +220,68 @@ class HomeScreen extends HookConsumerWidget {
                               },
                             ),
                             const SizedBox(height: AppDimens.marginLarge),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4,
-                                childAspectRatio: 3 / (3.5),
-                                mainAxisSpacing: AppDimens.paddingMedium,
-                                crossAxisSpacing: AppDimens.paddingMedium,
-                              ),
-                              itemCount: ceremonyServices.length,
-                              itemBuilder: (context, index) {
-                                return CeremonyServiceItem(
-                                  onTap: () {
-                                    if (ceremonyServices[index]
-                                            .title
-                                            .toLowerCase() ==
-                                        'lainnya') {
-                                      PrimaryNavigation.pushFromRight(
-                                        context,
-                                        page: const OtherCeremonyScreen(),
-                                      );
-                                      return;
-                                    }
 
-                                    PrimaryNavigation.pushFromRight(
-                                      context,
-                                      page: DetailCeremonyScreen(
-                                        id: "$index",
-                                      ),
+                            Builder(builder: (context) {
+                              if (ceremonies.isLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.primary1,
+                                  ),
+                                );
+                              }
+
+                              if (ceremonies.isError) {
+                                return const DataEmpty();
+                              }
+
+                              if (ceremonies.isSuccess &&
+                                  dataCeremonies?.isNotEmpty == true) {
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.zero,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 4,
+                                    childAspectRatio: 3 / (3.5),
+                                    mainAxisSpacing: AppDimens.paddingMedium,
+                                    crossAxisSpacing: AppDimens.paddingMedium,
+                                  ),
+                                  itemCount: dataCeremonies?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    return CeremonyServiceItem(
+                                      onTap: () {
+                                        if (dataCeremonies?[index]
+                                                ?.title
+                                                .toLowerCase() ==
+                                            'lainnya') {
+                                          PrimaryNavigation.pushFromRight(
+                                            context,
+                                            page: const OtherCeremonyScreen(),
+                                          );
+                                          return;
+                                        }
+
+                                        PrimaryNavigation.pushFromRight(
+                                          context,
+                                          page: DetailCeremonyScreen(
+                                            id: dataCeremonies?[index]?.id ?? 0,
+                                          ),
+                                        );
+                                      },
+                                      title:
+                                          dataCeremonies?[index]?.title ?? '',
+                                      iconUrl: dataCeremonies?[index]
+                                              ?.ceremonyDocumentation?[0]
+                                              ?.photo ??
+                                          AppImages.dummy,
                                     );
                                   },
-                                  title: ceremonyServices[index].title,
-                                  iconUrl: ceremonyServices[index].iconUrl,
                                 );
-                              },
-                            ),
+                              }
+
+                              return const DataEmpty();
+                            }),
                           ],
                         ),
                       ),

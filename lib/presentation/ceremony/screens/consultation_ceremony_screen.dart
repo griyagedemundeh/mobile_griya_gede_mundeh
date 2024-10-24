@@ -10,7 +10,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -212,9 +212,9 @@ class ConsultationInput extends StatelessWidget {
                     height: height * 0.4,
                     child: const TabBarView(
                       children: [
-                        ScrollableCeremonyPackage(),
-                        ScrollableCeremonyPackage(),
-                        ScrollableCeremonyPackage(),
+                        ScrollableCeremonyPackageItem(),
+                        ScrollableCeremonyPackageItem(),
+                        ScrollableCeremonyPackageItem(),
                       ],
                     ),
                   ),
@@ -320,8 +320,8 @@ class ConsultationInput extends StatelessWidget {
   }
 }
 
-class ScrollableCeremonyPackage extends StatelessWidget {
-  const ScrollableCeremonyPackage({
+class ScrollableCeremonyPackageItem extends StatelessWidget {
+  const ScrollableCeremonyPackageItem({
     super.key,
   });
 
@@ -329,7 +329,10 @@ class ScrollableCeremonyPackage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scrollbar(
       child: SingleChildScrollView(
-        child: CeremonyPackage(),
+        child: CeremonyPackageItem(
+          description: '',
+          price: 0,
+        ),
       ),
     );
   }

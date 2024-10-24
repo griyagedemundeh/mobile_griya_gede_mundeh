@@ -1,17 +1,20 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/end_points.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
+import 'package:mobile_griya_gede_mundeh/data/local/storage.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 
-// Custom exception class to handle API error messages
-class ApiException implements Exception {
-  final String message;
-  final int? statusCode;
+String getToken() {
+  final auth = Storage().getData(key: StorageKey.authDB);
 
-  ApiException(this.message, {this.statusCode});
+  if (auth != null) {
+    return Auth.fromJson(jsonDecode(auth)).token;
+  }
 
-  @override
-  String toString() => 'ApiException: $message (Status Code: $statusCode)';
+  return '';
 }
 
 final options = BaseOptions(
@@ -20,16 +23,18 @@ final options = BaseOptions(
   contentType: Headers.jsonContentType,
   responseType: ResponseType.json,
   sendTimeout: const Duration(seconds: 10),
+  headers: {"Authorization": "Bearer ${getToken()}"},
 );
 
 final api = Dio(options)
   ..interceptors.add(InterceptorsWrapper(
     onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
       log(' ----->>> Request: ${options.path}');
+
       return handler.next(options);
     },
     onResponse: (Response response, ResponseInterceptorHandler handler) {
-      log(' ----->>> Response: ${response.data}');
+      // log(' ----->>> Response: ${response.data}');
       return handler.next(response);
     },
     onError: (DioException error, ErrorInterceptorHandler handler) {

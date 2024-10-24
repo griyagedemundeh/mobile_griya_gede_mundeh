@@ -70,7 +70,9 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
               onTap: () {
                 PrimaryNavigation.pushFromRight(
                   context,
-                  page: const DetailCeremonyScreen(),
+                  page: const DetailCeremonyScreen(
+                    id: 0,
+                  ),
                 );
               },
               isMedium: true,

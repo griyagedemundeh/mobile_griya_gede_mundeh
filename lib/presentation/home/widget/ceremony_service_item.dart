@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CeremonyServiceItem extends StatelessWidget {
@@ -36,7 +37,7 @@ class CeremonyServiceItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: CachedNetworkImage(
-                imageUrl: iconUrl,
+                imageUrl: iconUrl != '' ? iconUrl : AppImages.dummyCeremony,
                 fit: BoxFit.cover,
                 height: 60,
                 width: 60,
@@ -53,6 +54,8 @@ class CeremonyServiceItem extends StatelessWidget {
           ),
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: AppFontSizes.bodySmall,
             ),

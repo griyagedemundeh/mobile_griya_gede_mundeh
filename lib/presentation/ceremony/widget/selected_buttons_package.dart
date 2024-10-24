@@ -10,13 +10,13 @@ class SelectedButtonsPackage extends StatelessWidget {
   const SelectedButtonsPackage({
     super.key,
     required this.onTapButtonPrimary,
-    required this.onTapButtonSecondary,
+    this.onTapButtonSecondary,
     this.labelPrimary,
     this.labelSecondary,
   });
 
   final VoidCallback onTapButtonPrimary;
-  final VoidCallback onTapButtonSecondary;
+  final VoidCallback? onTapButtonSecondary;
   final String? labelPrimary;
   final String? labelSecondary;
 
@@ -27,7 +27,7 @@ class SelectedButtonsPackage extends StatelessWidget {
     final locales = AppLocalizations.of(context);
 
     return Container(
-      height: height * 0.25,
+      height: height * (onTapButtonSecondary != null ? 0.25 : 0.15),
       width: width,
       padding: const EdgeInsets.all(
         AppDimens.paddingMedium,
@@ -39,12 +39,21 @@ class SelectedButtonsPackage extends StatelessWidget {
             onTap: onTapButtonPrimary,
           ),
           const SizedBox(height: AppDimens.paddingMedium),
-          SecondaryButton(
-            label: labelSecondary ?? locales?.nextWithoutPackage ?? '',
-            onTap: onTapButtonSecondary,
-            isOutline: true,
+          Visibility(
+            visible: onTapButtonSecondary != null,
+            child: SecondaryButton(
+              label: labelSecondary ?? locales?.nextWithoutPackage ?? '',
+              onTap: () {
+                if (onTapButtonSecondary != null) {
+                  onTapButtonSecondary!();
+                }
+              },
+              isOutline: true,
+            ),
           ),
-          const SizedBox(height: AppDimens.marginLarge),
+          SizedBox(
+            height: onTapButtonSecondary != null ? AppDimens.marginLarge : 0,
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

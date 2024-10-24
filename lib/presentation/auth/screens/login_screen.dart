@@ -14,7 +14,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigati
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/request/login/login_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';

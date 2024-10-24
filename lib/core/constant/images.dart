@@ -1,4 +1,8 @@
 abstract class AppImages {
+  static const String dummy =
+      "https://ggm-api.gatenzteam.com/profile/default_profile.jpg";
+  static const String dummyCeremony =
+      "https://kulkulbali.co/public/pics/397/tradition_bali.jpg";
   static const String logo = "assets/logo.svg";
   static const String onboarding1 = "assets/onboarding_1.png";
   static const String onboarding2 = "assets/onboarding_2.png";
