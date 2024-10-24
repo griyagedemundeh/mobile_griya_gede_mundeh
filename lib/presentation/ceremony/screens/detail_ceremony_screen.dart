@@ -16,6 +16,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
@@ -81,6 +82,25 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     final ceremonyPackages =
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
+
+    Future<ApiBaseResponse<List<CeremonyDocumentation?>?>?>
+        getCeremonyDocumentations() async {
+      final response = await ceremonyController.getCeremonyDocumentations(
+        ceremonyServiceId: id ?? 0,
+      );
+
+      return response;
+    }
+
+    final ceremonyDocumentationsResponse = useQuery<
+        ApiBaseResponse<List<CeremonyDocumentation?>?>?,
+        ApiBaseResponse<dynamic>>(
+      ['ceremonyDocumentations_$id'],
+      getCeremonyDocumentations,
+    );
+
+    final ceremonyDocumenations = ceremonyDocumentationsResponse.data?.data
+        as List<CeremonyDocumentation?>?;
 
     final selectedCeremonyPackage = useState<CeremonyPackage?>(
         (ceremonyPackages?.isNotEmpty ?? false) ? ceremonyPackages![0] : null);
