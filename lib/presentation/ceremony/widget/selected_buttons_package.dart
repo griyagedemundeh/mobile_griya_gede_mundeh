@@ -27,7 +27,7 @@ class SelectedButtonsPackage extends StatelessWidget {
     final locales = AppLocalizations.of(context);
 
     return Container(
-      height: height * 0.25,
+      height: height * (onTapButtonSecondary != null ? 0.25 : 0.15),
       width: width,
       padding: const EdgeInsets.all(
         AppDimens.paddingMedium,

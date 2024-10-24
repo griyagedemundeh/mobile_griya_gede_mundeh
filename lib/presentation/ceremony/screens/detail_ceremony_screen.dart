@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -47,7 +46,6 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
     final isOpened = useState(false);
-    final descriptionLenght = useState<int>(0);
 
     final CeremonyController ceremonyController =
         CeremonyController(ceremonyRepository: CeremonyRepository());
@@ -60,9 +58,8 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     final ceremonyResponse =
         useQuery<ApiBaseResponse<Ceremony?>?, ApiBaseResponse<dynamic>>(
-      ['ceremony'],
+      ['ceremony_$id'],
       getCeremony,
-      cacheDuration: const Duration(seconds: 1),
     );
 
     final Ceremony? ceremony = ceremonyResponse.data?.data as Ceremony?;
@@ -78,13 +75,30 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     final ceremonyPackagesResponse = useQuery<
         ApiBaseResponse<List<CeremonyPackage?>?>?, ApiBaseResponse<dynamic>>(
-      ['ceremonyPackages'],
+      ['ceremonyPackages_$id'],
       getCeremonyPackages,
-      cacheDuration: const Duration(seconds: 1),
     );
 
     final ceremonyPackages =
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
+
+    final selectedCeremonyPackage = useState<CeremonyPackage?>(
+        (ceremonyPackages?.isNotEmpty ?? false) ? ceremonyPackages![0] : null);
+
+    final tabController = useTabController(
+      initialLength: ceremonyPackages?.length ?? 0,
+      keys: [
+        ceremonyPackagesResponse.isLoading,
+        ceremonyPackages?.length ?? 0,
+      ],
+    );
+
+    useEffect(() {
+      tabController.addListener(() {
+        selectedCeremonyPackage.value = ceremonyPackages?[tabController.index];
+      });
+      return null;
+    }, [tabController]);
 
     // final List<Widget> miniThumbnails =
     //     List.generate(thumbnails.length, (index) {
@@ -109,7 +123,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     showAlertConfirmation() {
       PrimaryAlertDialog(
         title: Text(
-          locales?.sureSelectPackage("Paket 2") ?? '',
+          locales?.sureSelectPackage(
+                  selectedCeremonyPackage.value?.name ?? 'Paket ini') ??
+              '',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -157,14 +173,20 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: Builder(builder: (context) {
-        if (isOpened.value &&
-            (ceremonyPackages?.isNotEmpty ?? false) &&
-            descriptionLenght.value >= 70) {
+        if (isOpened.value && (ceremonyPackages?.isNotEmpty ?? false)) {
           return SelectedButtonsPackage(
             onTapButtonPrimary: () {
               showAlertConfirmation();
             },
             onTapButtonSecondary: () {},
+          );
+        }
+
+        if (ceremonyPackages?.isEmpty == true) {
+          return SelectedButtonsPackage(
+            onTapButtonPrimary: () {
+              showAlertConfirmation();
+            },
           );
         }
         return const SizedBox();
@@ -192,32 +214,18 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                 ceremonyResponse.data?.data != null) {
               return Expanded(
                 child: SlidingUpPanel(
-                  minHeight: height * 0.6,
+                  minHeight: height *
+                      (ceremonyPackages?.isNotEmpty == true ? 0.6 : 0.45),
                   maxHeight: height,
                   parallaxEnabled: true,
                   backdropEnabled: true,
                   onPanelOpened: () {
                     if (ceremonyPackages != []) {
-                      ceremonyPackages?.forEach((cp) {
-                        descriptionLenght.value = cp?.description.length ?? 0;
-                        log('NOT NULL -----------');
-                        if ((cp?.description.length ?? 0) <= 70) {
-                          log('NOT NULL <= 70');
-                          isOpened.value = false;
-                          return;
-                        } else {
-                          log('NOT NULL <= 1000');
-                          isOpened.value = true;
-                        }
-                      });
-
+                      isOpened.value = true;
                       return;
                     }
 
-                    if (ceremonyPackages == []) {
-                      isOpened.value = false;
-                      return;
-                    }
+                    isOpened.value = false;
                   },
                   onPanelClosed: () {
                     isOpened.value = false;
@@ -285,27 +293,14 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                           ),
                         ),
                         Builder(builder: (context) {
-                          if (ceremonyPackagesResponse.isSuccess &&
-                              (ceremonyPackages?.isEmpty ?? true)) {
-                            return SelectedButtonsPackage(
-                              onTapButtonPrimary: () {
-                                showAlertConfirmation();
-                              },
-                            );
-                          }
-
                           if (ceremonyPackages != null &&
                               ceremonyPackages.isNotEmpty) {
                             return DefaultTabController(
-                              length: ceremonyPackages.length,
+                              length: tabController.length,
                               child: Column(
                                 children: [
                                   TabBar(
-                                    onTap: (val) {
-                                      if (kDebugMode) {
-                                        log("length of package's description ${ceremonyPackages[val]?.description.length}");
-                                      }
-                                    },
+                                    controller: tabController,
                                     labelColor: AppColors.dark1,
                                     tabAlignment: TabAlignment.center,
                                     isScrollable: true,
@@ -334,9 +329,11 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                                   SizedBox(
                                     height: height,
                                     child: TabBarView(
+                                      controller: tabController,
                                       children: List.generate(
                                           ceremonyPackages.length, (index) {
                                         final package = ceremonyPackages[index];
+
                                         return Column(
                                           children: [
                                             CeremonyPackageItem(
@@ -345,12 +342,16 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                                                   package?.description ?? '-',
                                             ),
                                             Visibility(
-                                              visible: (package?.description
-                                                          .length ??
-                                                      0) <=
-                                                  70,
+                                              visible:
+                                                  isOpened.value == false &&
+                                                      ((package?.description
+                                                                  .length ??
+                                                              0) <=
+                                                          70),
                                               child: SelectedButtonsPackage(
                                                 onTapButtonPrimary: () {
+                                                  selectedCeremonyPackage
+                                                      .value = package;
                                                   showAlertConfirmation();
                                                 },
                                                 onTapButtonSecondary: () {},
@@ -366,7 +367,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                             );
                           }
 
-                          return const DataEmpty();
+                          return DataEmpty(
+                            message:
+                                "Tidak ada paket untuk ${ceremony?.title ?? 'Upacara Agama ini'}!",
+                          );
                         }),
                       ],
                     );

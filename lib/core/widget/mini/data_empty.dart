@@ -5,7 +5,10 @@ import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 class DataEmpty extends StatelessWidget {
   const DataEmpty({
     super.key,
+    this.message,
   });
+
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class DataEmpty extends StatelessWidget {
 
     return Center(
       child: Text(
-        "${locales?.dataEmpty}",
+        "${message ?? locales?.dataEmpty}",
         style: const TextStyle(
           color: AppColors.lightgray2,
         ),
