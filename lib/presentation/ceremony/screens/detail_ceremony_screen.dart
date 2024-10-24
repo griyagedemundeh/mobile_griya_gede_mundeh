@@ -264,11 +264,8 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                             children: [
                               MainThumbnail(
                                 thumbnailUrl:
-                                    (ceremony?.ceremonyDocumentation != null &&
-                                            ceremony!.ceremonyDocumentation!
-                                                .isNotEmpty)
-                                        ? ceremony.ceremonyDocumentation![0]
-                                                ?.photo ??
+                                    (ceremonyDocumenations?.isNotEmpty == true)
+                                        ? ceremonyDocumenations?.first?.photo ??
                                             AppImages.dummyCeremony
                                         : AppImages.dummyCeremony,
                               ),
@@ -362,12 +359,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                                                   package?.description ?? '-',
                                             ),
                                             Visibility(
-                                              visible:
-                                                  isOpened.value == false &&
-                                                      ((package?.description
-                                                                  .length ??
-                                                              0) <=
-                                                          70),
+                                              visible: isOpened.value == false,
                                               child: SelectedButtonsPackage(
                                                 onTapButtonPrimary: () {
                                                   selectedCeremonyPackage
