@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:mobile_griya_gede_mundeh/config/dio_config.dart';
+import 'package:mobile_griya_gede_mundeh/config/api_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/end_points.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';

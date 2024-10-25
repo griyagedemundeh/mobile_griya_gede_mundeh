@@ -29,6 +29,7 @@ final options = BaseOptions(
 final api = Dio(options)
   ..interceptors.add(InterceptorsWrapper(
     onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+      log(' ----->>> Request Headers: ${options.headers}');
       log(' ----->>> Request: ${options.path}');
 
       return handler.next(options);
