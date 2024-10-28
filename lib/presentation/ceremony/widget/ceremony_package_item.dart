@@ -19,6 +19,7 @@ class CeremonyPackageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(AppDimens.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

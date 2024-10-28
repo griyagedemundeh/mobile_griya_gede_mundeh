@@ -35,7 +35,7 @@ final api = Dio(options)
       return handler.next(options);
     },
     onResponse: (Response response, ResponseInterceptorHandler handler) {
-      // log(' ----->>> Response: ${response.data}');
+      log(' ----->>> Response: ${response.data}');
       return handler.next(response);
     },
     onError: (DioException error, ErrorInterceptorHandler handler) {

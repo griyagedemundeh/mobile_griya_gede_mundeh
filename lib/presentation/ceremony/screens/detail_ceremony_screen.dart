@@ -217,9 +217,11 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           Builder(builder: (context) {
             if (ceremonyResponse.isLoading ||
                 ceremonyPackagesResponse.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primary1,
+              return const Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary1,
+                  ),
                 ),
               );
             }

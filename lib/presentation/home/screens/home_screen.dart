@@ -90,7 +90,8 @@ class HomeScreen extends HookConsumerWidget {
         }
       }
 
-      if (((ceremonies.data?.data as List<Ceremony?>?)?.length ?? 0) < 8) {
+      if (((ceremonies.data?.data as List<Ceremony?>?)?.length ?? 0) < 8 &&
+          dataCeremonies?.last?.title.toLowerCase() != 'lainnya') {
         dataCeremonies?.add(
           Ceremony(
             id: 99999,
@@ -271,10 +272,17 @@ class HomeScreen extends HookConsumerWidget {
                                       },
                                       title:
                                           dataCeremonies?[index]?.title ?? '',
-                                      iconUrl: dataCeremonies?[index]
-                                              ?.ceremonyDocumentation?[0]
-                                              ?.photo ??
-                                          AppImages.dummy,
+                                      iconUrl: ((dataCeremonies?[index]
+                                                      ?.ceremonyDocumentation
+                                                      ?.length ??
+                                                  0) >
+                                              0)
+                                          ? (dataCeremonies?[index]
+                                                  ?.ceremonyDocumentation
+                                                  ?.first
+                                                  ?.photo ??
+                                              '')
+                                          : AppImages.dummyCeremony,
                                     );
                                   },
                                 );
