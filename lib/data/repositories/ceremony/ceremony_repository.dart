@@ -16,8 +16,11 @@ abstract class ICeremonyRepository {
     required int ceremonyServiceId,
   });
 
-  Future<ApiBaseResponse<List<CeremonyDocumentation?>?>>
-      getCeremonyDocumentations({
+  // Future<ApiBaseResponse<List<CeremonyDocumentation?>?>>
+  //     getCeremonyDocumentations({
+  //   required int ceremonyServiceId,
+  // });
+  Future<ApiBaseResponse<CeremonyDocumentation?>> getCeremonyDocumentations({
     required int ceremonyServiceId,
   });
 }

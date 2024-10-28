@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
@@ -9,11 +12,15 @@ import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Chat {
   final String id;
@@ -35,6 +42,39 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final scrollController = useScrollController();
+    final messageController = useTextEditingController();
+
+    final SupabaseClient supabase = AppConfig().supabase();
+
+    final AuthController authController =
+        AuthController(authRepository: AuthRepository());
+
+    final auth = authController.getUser();
+
+    void submitMessage() async {
+      final text = messageController.text;
+
+      if (text.isEmpty) {
+        return;
+      }
+      messageController.clear();
+      try {
+        await supabase.from('ceremony_consultations').insert({
+          "consultationId": 1,
+          "userId": auth?.id,
+          "messageType": "default",
+          "isAdmin": false,
+          "message": text,
+          "created_at": DateTime.now().toIso8601String(),
+        });
+      } on PostgrestException catch (error) {
+        log("ERROR SEND MESSAGE --->>> ${error.message}");
+        PrimaryToast.error(message: error.message);
+      } catch (err) {
+        log('ERORRklsajdklsajd ${err.toString()}');
+        PrimaryToast.error(message: err.toString());
+      }
+    }
 
     final List<Chat> chats = [
       Chat(
@@ -155,7 +195,12 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          const ConsultationInput(),
+          ConsultationInput(
+            textEditingController: messageController,
+            onSendMessage: () {
+              submitMessage();
+            },
+          ),
         ],
       ),
     );
@@ -165,7 +210,12 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
 class ConsultationInput extends StatelessWidget {
   const ConsultationInput({
     super.key,
+    required this.onSendMessage,
+    required this.textEditingController,
   });
+
+  final VoidCallback onSendMessage;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +328,7 @@ class ConsultationInput extends StatelessWidget {
                           child: TextField(
                             autofocus: false,
                             keyboardType: TextInputType.multiline,
-                            controller: TextEditingController(),
+                            controller: textEditingController,
                             cursorColor: AppColors.primary1,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.only(
@@ -309,7 +359,7 @@ class ConsultationInput extends StatelessWidget {
                 ),
                 IconRoundedButton(
                   icon: Icons.send_rounded,
-                  onTap: () {},
+                  onTap: onSendMessage,
                 ),
               ],
             ),
