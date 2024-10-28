@@ -77,6 +77,8 @@ class HomeScreen extends HookConsumerWidget {
         useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
       ['ceremonies'],
       getCeremonies,
+      // cacheDuration: const Duration(hours: 1),
+      staleDuration: const Duration(hours: 1),
     );
 
     final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
