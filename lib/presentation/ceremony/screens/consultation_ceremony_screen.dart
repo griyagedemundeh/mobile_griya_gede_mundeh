@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,12 +7,18 @@ import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
@@ -22,34 +27,46 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indica
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Chat {
-  final String id;
-  final String message;
-  final bool isAdmin;
-  final DateTime sendAt;
-
-  Chat(
-      {required this.id,
-      required this.message,
-      required this.isAdmin,
-      required this.sendAt});
-}
-
 class ConsultationCeremonyScreen extends HookConsumerWidget {
-  const ConsultationCeremonyScreen({super.key});
+  const ConsultationCeremonyScreen({
+    super.key,
+    this.ceremonyPackage,
+    this.ceremony,
+  });
+
+  final CeremonyPackage? ceremonyPackage;
+  final Ceremony? ceremony;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final scrollController = useScrollController();
-    final messageController = useTextEditingController();
+    final messageController = useTextEditingController(
+      text:
+          "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊",
+    );
 
     final SupabaseClient supabase = AppConfig().supabase();
+    final SupabaseQueryBuilder db = supabase.from(
+      StorageKey.supabaseConsultCeremony,
+    );
 
     final AuthController authController =
         AuthController(authRepository: AuthRepository());
 
     final auth = authController.getUser();
+
+    final messagesStream = useState<Stream<List<Message>>?>(null);
+
+    useEffect(() {
+      messagesStream.value = db
+          .stream(primaryKey: ['id', 'consultationId'])
+          .order('created_at')
+          .map(
+            (maps) => maps.map((map) => Message.fromJson(map)).toList(),
+          );
+      return null;
+    }, []);
 
     void submitMessage() async {
       final text = messageController.text;
@@ -59,14 +76,19 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
       }
       messageController.clear();
       try {
-        await supabase.from('ceremony_consultations').insert({
-          "consultationId": 1,
-          "userId": auth?.id,
-          "messageType": "default",
-          "isAdmin": false,
-          "message": text,
-          "created_at": DateTime.now().toIso8601String(),
-        });
+        final MessageRequest message = MessageRequest(
+          consultationId: 1,
+          userId: auth?.id as int,
+          isAdmin: false,
+          message: text,
+          messageType: "default",
+          ceremonyPackageId: ceremonyPackage?.id,
+          ceremonyServiceId: ceremony?.id,
+          invoiceId: null,
+          created_at: DateTime.now().toIso8601String(),
+        );
+
+        await db.insert(message.toJson());
       } on PostgrestException catch (error) {
         log("ERROR SEND MESSAGE --->>> ${error.message}");
         PrimaryToast.error(message: error.message);
@@ -76,47 +98,11 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
       }
     }
 
-    final List<Chat> chats = [
-      Chat(
-        id: "1",
-        message:
-            "Hi, saya tertarik dengan paket 2 untuk upacara Mebayuh. Apakah paket ini juga menyediakan dokumentasi foto dan video?",
-        isAdmin: false,
-        sendAt: DateTime.now(),
-      ),
-      Chat(
-        id: "2",
-        message:
-            "Halo kakak😁. Paket 2 ini mencakup persiapan dan pelaksanaan upacara Metatah, termasuk sesajen dan pemangku. Dokumentasi foto dan video bisa ditambahkan dengan biaya tambahan sebesar Rp 500.000. Apakah Anda berminat untuk menambahkan layanan dokumentasi?",
-        isAdmin: true,
-        sendAt: DateTime.now(),
-      ),
-      Chat(
-        id: "3",
-        message: "Ya, saya berminat menambahkan layanan dokumentasi.",
-        isAdmin: false,
-        sendAt: DateTime.now(),
-      ),
-      Chat(
-        id: "4",
-        message: "Berarti berapa total biaya yang harus saya bayarkan?",
-        isAdmin: false,
-        sendAt: DateTime.now(),
-      ),
-      Chat(
-        id: "5",
-        message:
-            "Halo kakak😁. Paket 2 ini mencakup persiapan dan pelaksanaan upacara Metatah, termasuk sesajen dan pemangku. Dokumentasi foto dan video bisa ditambahkan dengan biaya tambahan sebesar Rp 500.000. Apakah Anda berminat untuk menambahkan layanan dokumentasi?",
-        isAdmin: true,
-        sendAt: DateTime.now(),
-      ),
-    ];
-
     return Scaffold(
       body: Column(
         children: [
-          const MeshAppBar(
-            title: "Konsultasi",
+          MeshAppBar(
+            title: "Konsultasi ${ceremony?.title ?? ''}",
           ),
           Expanded(
             child: Stack(
@@ -129,69 +115,88 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                ListView.builder(
-                  reverse: true,
-                  controller: scrollController,
-                  itemCount: chats.length,
-                  itemBuilder: (context, index) {
-                    final chat = chats[index];
+                StreamBuilder<List<Message>>(
+                    stream: messagesStream.value,
+                    builder: (context, snapshot) {
+                      if ((snapshot.data?.isEmpty ?? false)) {
+                        return const DataEmpty(
+                          message:
+                              "Belum ada pesan,\nayo kirimkan pesanmu sekarang!",
+                        );
+                      }
 
-                    return Container(
-                      margin: EdgeInsets.only(
-                        left: !chat.isAdmin
-                            ? (width * 0.2)
-                            : AppDimens.paddingMedium,
-                        right: chat.isAdmin
-                            ? (width * 0.2)
-                            : AppDimens.paddingMedium,
-                        top: AppDimens.paddingSmall,
-                        bottom: AppDimens.paddingSmall,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: chat.isAdmin
-                            ? CrossAxisAlignment.start
-                            : CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            padding:
-                                const EdgeInsets.all(AppDimens.paddingMedium),
-                            decoration: BoxDecoration(
-                              color: chat.isAdmin
-                                  ? Colors.white
-                                  : AppColors.primary1,
-                              borderRadius: BorderRadius.circular(
-                                AppDimens.paddingMedium,
+                      if (snapshot.hasData) {
+                        final messages = snapshot.data!;
+
+                        return ListView.builder(
+                          reverse: true,
+                          controller: scrollController,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final chat = messages[index];
+
+                            return Container(
+                              margin: EdgeInsets.only(
+                                left: !chat.isAdmin
+                                    ? (width * 0.2)
+                                    : AppDimens.paddingMedium,
+                                right: chat.isAdmin
+                                    ? (width * 0.2)
+                                    : AppDimens.paddingMedium,
+                                top: AppDimens.paddingSmall,
+                                bottom: AppDimens.paddingSmall,
                               ),
-                              border: chat.isAdmin
-                                  ? Border.all(
+                              child: Column(
+                                crossAxisAlignment: chat.isAdmin
+                                    ? CrossAxisAlignment.start
+                                    : CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(
+                                        AppDimens.paddingMedium),
+                                    decoration: BoxDecoration(
+                                      color: chat.isAdmin
+                                          ? Colors.white
+                                          : AppColors.primary1,
+                                      borderRadius: BorderRadius.circular(
+                                        AppDimens.paddingMedium,
+                                      ),
+                                      border: chat.isAdmin
+                                          ? Border.all(
+                                              color: AppColors.lightgray2,
+                                              width: 1,
+                                            )
+                                          : null,
+                                    ),
+                                    child: Text(
+                                      chat.message,
+                                      style: TextStyle(
+                                        fontSize: AppFontSizes.bodySmall,
+                                        color: chat.isAdmin
+                                            ? AppColors.primaryText
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      height: AppDimens.paddingMicro),
+                                  Text(
+                                    // "${chat.sendAt.hour}:${chat.sendAt.minute}",
+                                    "${chat.created_at?.toLocal()}:",
+                                    style: const TextStyle(
+                                      fontSize: AppFontSizes.bodySmall,
                                       color: AppColors.lightgray2,
-                                      width: 1,
-                                    )
-                                  : null,
-                            ),
-                            child: Text(
-                              chat.message,
-                              style: TextStyle(
-                                fontSize: AppFontSizes.bodySmall,
-                                color: chat.isAdmin
-                                    ? AppColors.primaryText
-                                    : Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: AppDimens.paddingMicro),
-                          Text(
-                            "${chat.sendAt.hour}:${chat.sendAt.minute}",
-                            style: const TextStyle(
-                              fontSize: AppFontSizes.bodySmall,
-                              color: AppColors.lightgray2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                            );
+                          },
+                        );
+                      }
+
+                      return const DataEmpty();
+                    }),
               ],
             ),
           ),
@@ -318,7 +323,7 @@ class ConsultationInput extends StatelessWidget {
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(
-                        AppDimens.iconSizeLarge,
+                        AppDimens.paddingSmall,
                       ),
                     ),
                     child: Row(
@@ -330,9 +335,13 @@ class ConsultationInput extends StatelessWidget {
                             keyboardType: TextInputType.multiline,
                             controller: textEditingController,
                             cursorColor: AppColors.primary1,
+                            minLines: 1,
+                            maxLines: 5,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.only(
                                   right: AppDimens.paddingSmall,
+                                  top: AppDimens.paddingSmall,
+                                  bottom: AppDimens.paddingSmall,
                                 ),
                                 border: InputBorder.none,
                                 hintText: locales?.typeMessage ?? '',
