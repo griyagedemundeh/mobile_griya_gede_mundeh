@@ -11,7 +11,6 @@ class ApiBaseResponse<T> with _$ApiBaseResponse<T> {
   const factory ApiBaseResponse({
     required int status,
     required dynamic message,
-    // @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
     required dynamic data,
     Meta? meta,
   }) = _ApiBaseResponse<T>;

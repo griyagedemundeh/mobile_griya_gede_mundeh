@@ -20,7 +20,7 @@ class ArticleRepository extends IArticleRepository {
       );
 
       final responseData = response.data as Map<String, dynamic>;
-      log(response.data.toString(), name: "Article response");
+      log(response.data.toString(), name: "ARTICLE Response");
 
       List<Article> listData = [];
 
@@ -29,9 +29,10 @@ class ArticleRepository extends IArticleRepository {
       }
 
       return ApiBaseResponse(
-          data: listData,
-          status: responseData['status'],
-          message: responseData['message']);
+        status: responseData['status'],
+        message: responseData['message'],
+        data: listData,
+      );
     } on DioException catch (e) {
       if (e.response != null) {
         throw ApiBaseResponse.fromJson(e.response!.data);

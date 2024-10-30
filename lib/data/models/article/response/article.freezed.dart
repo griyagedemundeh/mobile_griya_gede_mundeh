@@ -31,7 +31,7 @@ mixin _$Article {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   ArticleCategory? get articleCategory => throw _privateConstructorUsedError;
-  ArticleAuthor? get author => throw _privateConstructorUsedError;
+  Author? get author => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,10 +55,10 @@ abstract class $ArticleCopyWith<$Res> {
       DateTime createdAt,
       DateTime updatedAt,
       ArticleCategory? articleCategory,
-      ArticleAuthor? author});
+      Author? author});
 
   $ArticleCategoryCopyWith<$Res>? get articleCategory;
-  $ArticleAuthorCopyWith<$Res>? get author;
+  $AuthorCopyWith<$Res>? get author;
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
       author: freezed == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
-              as ArticleAuthor?,
+              as Author?,
     ) as $Val);
   }
 
@@ -153,12 +153,12 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
 
   @override
   @pragma('vm:prefer-inline')
-  $ArticleAuthorCopyWith<$Res>? get author {
+  $AuthorCopyWith<$Res>? get author {
     if (_value.author == null) {
       return null;
     }
 
-    return $ArticleAuthorCopyWith<$Res>(_value.author!, (value) {
+    return $AuthorCopyWith<$Res>(_value.author!, (value) {
       return _then(_value.copyWith(author: value) as $Val);
     });
   }
@@ -183,12 +183,12 @@ abstract class _$$ArticleImplCopyWith<$Res> implements $ArticleCopyWith<$Res> {
       DateTime createdAt,
       DateTime updatedAt,
       ArticleCategory? articleCategory,
-      ArticleAuthor? author});
+      Author? author});
 
   @override
   $ArticleCategoryCopyWith<$Res>? get articleCategory;
   @override
-  $ArticleAuthorCopyWith<$Res>? get author;
+  $AuthorCopyWith<$Res>? get author;
 }
 
 /// @nodoc
@@ -263,7 +263,7 @@ class __$$ArticleImplCopyWithImpl<$Res>
       author: freezed == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
-              as ArticleAuthor?,
+              as Author?,
     ));
   }
 }
@@ -311,7 +311,7 @@ class _$ArticleImpl implements _Article {
   @override
   final ArticleCategory? articleCategory;
   @override
-  final ArticleAuthor? author;
+  final Author? author;
 
   @override
   String toString() {
@@ -387,7 +387,7 @@ abstract class _Article implements Article {
       required final DateTime createdAt,
       required final DateTime updatedAt,
       required final ArticleCategory? articleCategory,
-      required final ArticleAuthor? author}) = _$ArticleImpl;
+      required final Author? author}) = _$ArticleImpl;
 
   factory _Article.fromJson(Map<String, dynamic> json) = _$ArticleImpl.fromJson;
 
@@ -414,7 +414,7 @@ abstract class _Article implements Article {
   @override
   ArticleCategory? get articleCategory;
   @override
-  ArticleAuthor? get author;
+  Author? get author;
   @override
   @JsonKey(ignore: true)
   _$$ArticleImplCopyWith<_$ArticleImpl> get copyWith =>

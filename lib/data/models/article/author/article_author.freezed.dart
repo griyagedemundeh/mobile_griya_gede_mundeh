@@ -14,38 +14,40 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ArticleAuthor _$ArticleAuthorFromJson(Map<String, dynamic> json) {
-  return _ArticleAuthor.fromJson(json);
+Author _$AuthorFromJson(Map<String, dynamic> json) {
+  return _Author.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ArticleAuthor {
+mixin _$Author {
   int get id => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updateAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ArticleAuthorCopyWith<ArticleAuthor> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AuthorCopyWith<Author> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ArticleAuthorCopyWith<$Res> {
-  factory $ArticleAuthorCopyWith(
-          ArticleAuthor value, $Res Function(ArticleAuthor) then) =
-      _$ArticleAuthorCopyWithImpl<$Res, ArticleAuthor>;
+abstract class $AuthorCopyWith<$Res> {
+  factory $AuthorCopyWith(Author value, $Res Function(Author) then) =
+      _$AuthorCopyWithImpl<$Res, Author>;
   @useResult
   $Res call(
-      {int id, int userId, String role, DateTime createdAt, DateTime updateAt});
+      {int id,
+      int userId,
+      String role,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
-class _$ArticleAuthorCopyWithImpl<$Res, $Val extends ArticleAuthor>
-    implements $ArticleAuthorCopyWith<$Res> {
-  _$ArticleAuthorCopyWithImpl(this._value, this._then);
+class _$AuthorCopyWithImpl<$Res, $Val extends Author>
+    implements $AuthorCopyWith<$Res> {
+  _$AuthorCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -59,7 +61,7 @@ class _$ArticleAuthorCopyWithImpl<$Res, $Val extends ArticleAuthor>
     Object? userId = null,
     Object? role = null,
     Object? createdAt = null,
-    Object? updateAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -78,32 +80,35 @@ class _$ArticleAuthorCopyWithImpl<$Res, $Val extends ArticleAuthor>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      updateAt: null == updateAt
-          ? _value.updateAt
-          : updateAt // ignore: cast_nullable_to_non_nullable
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$ArticleAuthorImplCopyWith<$Res>
-    implements $ArticleAuthorCopyWith<$Res> {
-  factory _$$ArticleAuthorImplCopyWith(
-          _$ArticleAuthorImpl value, $Res Function(_$ArticleAuthorImpl) then) =
-      __$$ArticleAuthorImplCopyWithImpl<$Res>;
+abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
+  factory _$$AuthorImplCopyWith(
+          _$AuthorImpl value, $Res Function(_$AuthorImpl) then) =
+      __$$AuthorImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {int id, int userId, String role, DateTime createdAt, DateTime updateAt});
+      {int id,
+      int userId,
+      String role,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
-class __$$ArticleAuthorImplCopyWithImpl<$Res>
-    extends _$ArticleAuthorCopyWithImpl<$Res, _$ArticleAuthorImpl>
-    implements _$$ArticleAuthorImplCopyWith<$Res> {
-  __$$ArticleAuthorImplCopyWithImpl(
-      _$ArticleAuthorImpl _value, $Res Function(_$ArticleAuthorImpl) _then)
+class __$$AuthorImplCopyWithImpl<$Res>
+    extends _$AuthorCopyWithImpl<$Res, _$AuthorImpl>
+    implements _$$AuthorImplCopyWith<$Res> {
+  __$$AuthorImplCopyWithImpl(
+      _$AuthorImpl _value, $Res Function(_$AuthorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,9 +118,9 @@ class __$$ArticleAuthorImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? role = null,
     Object? createdAt = null,
-    Object? updateAt = null,
+    Object? updatedAt = null,
   }) {
-    return _then(_$ArticleAuthorImpl(
+    return _then(_$AuthorImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -132,9 +137,9 @@ class __$$ArticleAuthorImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      updateAt: null == updateAt
-          ? _value.updateAt
-          : updateAt // ignore: cast_nullable_to_non_nullable
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
   }
@@ -142,16 +147,16 @@ class __$$ArticleAuthorImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ArticleAuthorImpl implements _ArticleAuthor {
-  _$ArticleAuthorImpl(
+class _$AuthorImpl implements _Author {
+  _$AuthorImpl(
       {required this.id,
       required this.userId,
       required this.role,
       required this.createdAt,
-      required this.updateAt});
+      required this.updatedAt});
 
-  factory _$ArticleAuthorImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArticleAuthorImplFromJson(json);
+  factory _$AuthorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AuthorImplFromJson(json);
 
   @override
   final int id;
@@ -162,56 +167,55 @@ class _$ArticleAuthorImpl implements _ArticleAuthor {
   @override
   final DateTime createdAt;
   @override
-  final DateTime updateAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'ArticleAuthor(id: $id, userId: $userId, role: $role, createdAt: $createdAt, updateAt: $updateAt)';
+    return 'Author(id: $id, userId: $userId, role: $role, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArticleAuthorImpl &&
+            other is _$AuthorImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.updateAt, updateAt) ||
-                other.updateAt == updateAt));
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, userId, role, createdAt, updateAt);
+      Object.hash(runtimeType, id, userId, role, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ArticleAuthorImplCopyWith<_$ArticleAuthorImpl> get copyWith =>
-      __$$ArticleAuthorImplCopyWithImpl<_$ArticleAuthorImpl>(this, _$identity);
+  _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
+      __$$AuthorImplCopyWithImpl<_$AuthorImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ArticleAuthorImplToJson(
+    return _$$AuthorImplToJson(
       this,
     );
   }
 }
 
-abstract class _ArticleAuthor implements ArticleAuthor {
-  factory _ArticleAuthor(
+abstract class _Author implements Author {
+  factory _Author(
       {required final int id,
       required final int userId,
       required final String role,
       required final DateTime createdAt,
-      required final DateTime updateAt}) = _$ArticleAuthorImpl;
+      required final DateTime updatedAt}) = _$AuthorImpl;
 
-  factory _ArticleAuthor.fromJson(Map<String, dynamic> json) =
-      _$ArticleAuthorImpl.fromJson;
+  factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
 
   @override
   int get id;
@@ -222,9 +226,9 @@ abstract class _ArticleAuthor implements ArticleAuthor {
   @override
   DateTime get createdAt;
   @override
-  DateTime get updateAt;
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$ArticleAuthorImplCopyWith<_$ArticleAuthorImpl> get copyWith =>
+  _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

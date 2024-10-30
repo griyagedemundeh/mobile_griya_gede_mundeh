@@ -22,7 +22,7 @@ class CeremonyRepository extends ICeremonyRepository {
 
       final responseData = response.data as Map<String, dynamic>;
       log(response.data.toString(), name: "Ceremony Response");
-      
+
       List<Ceremony> listData = [];
 
       for (var element in responseData['data']) {

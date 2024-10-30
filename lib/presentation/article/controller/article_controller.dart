@@ -22,7 +22,6 @@ class ArticleController extends ChangeNotifier {
       final response =
           await articleRepository?.getArticles(listDataParams: listDataParams);
 
-      log(name: "Article controller", response?.data);
       return response;
     } on DioException catch (e) {
       if (e.response != null) {

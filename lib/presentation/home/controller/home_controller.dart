@@ -35,9 +35,10 @@ class HomeController extends ChangeNotifier {
         throw ApiBaseResponse.fromJson(e.response!.data);
       }
       throw ApiBaseResponse(
-          status: 500,
-          message: [e.message ?? 'Unknown error occurred'],
-          data: null);
+        status: 500,
+        message: [e.message ?? 'Unknown error occurred'],
+        data: null,
+      );
     }
   }
 }

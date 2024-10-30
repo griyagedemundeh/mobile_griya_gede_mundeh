@@ -24,7 +24,7 @@ _$ArticleImpl _$$ArticleImplFromJson(Map<String, dynamic> json) =>
               json['articleCategory'] as Map<String, dynamic>),
       author: json['author'] == null
           ? null
-          : ArticleAuthor.fromJson(json['author'] as Map<String, dynamic>),
+          : Author.fromJson(json['author'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ArticleImplToJson(_$ArticleImpl instance) =>

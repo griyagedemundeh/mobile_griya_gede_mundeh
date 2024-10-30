@@ -83,9 +83,12 @@ class HomeScreen extends HookConsumerWidget {
 
     Future<ApiBaseResponse<List<Article?>?>?> getArticles() async {
       final response = await articleController.getArticles(
-        listDataParams: ListDataParams(page: 1, limit: 2),
+        listDataParams: ListDataParams(
+          page: 1,
+          limit: 3,
+        ),
       );
-      log(name: "Home Article", response?.data);
+
       return response;
     }
 
@@ -114,7 +117,8 @@ class HomeScreen extends HookConsumerWidget {
         }
       }
 
-      if (((ceremonies.data?.data as List<Ceremony?>?)?.length ?? 0) < 8) {
+      if (((ceremonies.data?.data as List<Ceremony?>?)?.length ?? 0) < 8 &&
+          dataCeremonies?.last?.title.toLowerCase() != 'lainnya') {
         dataCeremonies?.add(
           Ceremony(
             id: 99999,
@@ -136,23 +140,6 @@ class HomeScreen extends HookConsumerWidget {
             ],
           ),
         );
-      }
-
-      if (((articles.data?.data as List<Article?>?)?.length ?? 0) < 3) {
-        dataArticles?.add(Article(
-          id: 9999,
-          adminId: 9999,
-          articleCategory: null,
-          title: "Lainnya",
-          slug: "",
-          thumbnail: AppImages.dummyArticle,
-          content: "Deskripsi",
-          isPublish: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          author: null,
-          articleCategoryId: 1,
-        ));
       }
 
       scrollController.addListener(listener);
