@@ -7,4 +7,6 @@ class ApiEndPoints {
   static const String login = "auth/sign-in";
 
   static const String ceremony = "member/ceremony";
+
+  static const String article = "article";
 }

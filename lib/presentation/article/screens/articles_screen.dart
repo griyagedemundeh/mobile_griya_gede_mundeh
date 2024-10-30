@@ -1,10 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fquery/fquery.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/article/response/article.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/article/article_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/article/controller/article_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/home_screen.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,33 +23,50 @@ class ArticlesScreen extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
-    final List<Article> articles = [
-      Article(
-        id: "1",
-        title:
-            "Arti Mepamit, Upacara Adat Bali yang Dijalani Mahalini & Dinikahi Rizky Febian",
-        thumbnailUrl:
-            "https://awsimages.detik.net.id/community/media/visual/2024/05/05/potret-mahalini-dan-rizky-febian-gelar-upacara-adat-bali-jelang-pernikahan-6_169.jpeg?w=1200",
-        publishedAt: "Kamis, 02 Mei 2024",
-        author: "Billie Eilish",
-      ),
-      Article(
-        id: "2",
-        title: "Mengenal Upacara Adat Yang Ada di Bali",
-        thumbnailUrl:
-            "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
-        publishedAt: "Jumat, 26 Juli 2024",
-        author: "Thom Yorke",
-      ),
-      Article(
-        id: "3",
-        title: "Rangkaian Pernikahan Orang Bali: Madewasa Ayu hingga Mejauman",
-        thumbnailUrl:
-            "https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/03/22/Pawai-Ogoh-Ogoh-Awal-Mula-Kedudukan-Dalam-Tradisi-Hindu-Bali-Serta-Pesan-Sosialnya-3506145498.jpg",
-        publishedAt: "Rabu, 11 Maret 2024",
-        author: "Ben Barlow",
-      ),
-    ];
+    final ArticleController articleController =
+        ArticleController(articleRepository: ArticleRepository());
+
+    Future<ApiBaseResponse<List<Article?>?>?> getArticles() async {
+      final response = await articleController.getArticles(
+          listDataParams: ListDataParams(page: 1, limit: 100));
+      return response;
+    }
+
+    final articles =
+        useQuery<ApiBaseResponse<List<Article?>?>?, ApiBaseResponse<dynamic>>(
+      ['articles'],
+      getArticles,
+    );
+
+    final dataArticles = articles.data?.data as List<Article?>?;
+
+    // final List<Article> articles = [
+    //   Article(
+    //     id: "1",
+    //     title:
+    //         "Arti Mepamit, Upacara Adat Bali yang Dijalani Mahalini & Dinikahi Rizky Febian",
+    //     thumbnailUrl:
+    //         "https://awsimages.detik.net.id/community/media/visual/2024/05/05/potret-mahalini-dan-rizky-febian-gelar-upacara-adat-bali-jelang-pernikahan-6_169.jpeg?w=1200",
+    //     publishedAt: "Kamis, 02 Mei 2024",
+    //     author: "Billie Eilish",
+    //   ),
+    //   Article(
+    //     id: "2",
+    //     title: "Mengenal Upacara Adat Yang Ada di Bali",
+    //     thumbnailUrl:
+    //         "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
+    //     publishedAt: "Jumat, 26 Juli 2024",
+    //     author: "Thom Yorke",
+    //   ),
+    //   Article(
+    //     id: "3",
+    //     title: "Rangkaian Pernikahan Orang Bali: Madewasa Ayu hingga Mejauman",
+    //     thumbnailUrl:
+    //         "https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/03/22/Pawai-Ogoh-Ogoh-Awal-Mula-Kedudukan-Dalam-Tradisi-Hindu-Bali-Serta-Pesan-Sosialnya-3506145498.jpg",
+    //     publishedAt: "Rabu, 11 Maret 2024",
+    //     author: "Ben Barlow",
+    //   ),
+    // ];
 
     return Scaffold(
       body: Column(
@@ -54,7 +77,7 @@ class ArticlesScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: AppDimens.paddingMedium,
               ),
-              itemCount: articles.length,
+              itemCount: dataArticles?.length ?? 0,
               separatorBuilder: (context, index) {
                 return const Divider(
                   color: AppColors.gray1,
@@ -62,15 +85,19 @@ class ArticlesScreen extends StatelessWidget {
                 );
               },
               itemBuilder: (context, index) {
-                final article = articles[index];
+                // final article = articles[index];
 
                 return MaterialButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    PrimaryNavigation.pushFromRight(
-                      context,
-                      page: const DetailArticleScreen(),
-                    );
+                    if (dataArticles?[index]?.title.toLowerCase() ==
+                        'lainnya') {
+                      PrimaryNavigation.pushFromRight(
+                        context,
+                        page: const DetailArticleScreen(),
+                      );
+                      return;
+                    }
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -83,7 +110,7 @@ class ArticlesScreen extends StatelessWidget {
                             AppDimens.paddingSmall,
                           ),
                           child: CachedNetworkImage(
-                            imageUrl: article.thumbnailUrl,
+                            imageUrl: dataArticles?[index]?.thumbnail ?? '',
                             fit: BoxFit.cover,
                             height: height * 0.15,
                             width: height * 0.2,
@@ -107,7 +134,7 @@ class ArticlesScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                article.title,
+                                dataArticles?[index]?.title ?? '',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: const TextStyle(
@@ -119,7 +146,7 @@ class ArticlesScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    article.publishedAt,
+                                    dataArticles?[index]?.createdAt.toString() ?? '',
                                     style: const TextStyle(
                                       fontSize: AppFontSizes.bodySmall,
                                       color: AppColors.gray2,
@@ -133,7 +160,7 @@ class ArticlesScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    article.author,
+                                    dataArticles?[index]?.adminId.toString() ?? '',
                                     style: const TextStyle(
                                       fontSize: AppFontSizes.bodySmall,
                                       color: AppColors.gray2,

@@ -11,7 +11,7 @@ import 'package:shimmer/shimmer.dart';
 class DetailArticleScreen extends StatelessWidget {
   const DetailArticleScreen({super.key, this.id});
 
-  final String? id;
+  final int? id;
 
   @override
   Widget build(BuildContext context) {

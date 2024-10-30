@@ -3,6 +3,8 @@ abstract class AppImages {
       "https://ggm-api.gatenzteam.com/profile/default_profile.jpg";
   static const String dummyCeremony =
       "https://kulkulbali.co/public/pics/397/tradition_bali.jpg";
+  static const String dummyArticle =
+      "https://awsimages.detik.net.id/community/media/visual/2024/05/05/potret-mahalini-dan-rizky-febian-gelar-upacara-adat-bali-jelang-pernikahan-6_169.jpeg?w=1200";
   static const String logo = "assets/logo.svg";
   static const String onboarding1 = "assets/onboarding_1.png";
   static const String onboarding2 = "assets/onboarding_2.png";
