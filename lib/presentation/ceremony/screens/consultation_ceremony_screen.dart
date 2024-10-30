@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
@@ -16,12 +17,15 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
@@ -211,6 +215,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           ),
           ConsultationInput(
             textEditingController: messageController,
+            ceremony: ceremony,
             onSendMessage: () {
               submitMessage();
             },
@@ -221,21 +226,62 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
   }
 }
 
-class ConsultationInput extends StatelessWidget {
+class ConsultationInput extends HookConsumerWidget {
   const ConsultationInput({
     super.key,
     required this.onSendMessage,
     required this.textEditingController,
+    required this.ceremony,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
+  final Ceremony? ceremony;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
+
+    final CeremonyController ceremonyController =
+        CeremonyController(ceremonyRepository: CeremonyRepository());
+
+    Future<ApiBaseResponse<List<CeremonyPackage?>?>?>
+        getCeremonyPackages() async {
+      final response = await ceremonyController.getCeremonyPackages(
+        ceremonyServiceId: ceremony?.id ?? 0,
+      );
+
+      return response;
+    }
+
+    final ceremonyPackagesResponse = useQuery<
+        ApiBaseResponse<List<CeremonyPackage?>?>?, ApiBaseResponse<dynamic>>(
+      ['ceremonyPackages_${ceremony?.id}'],
+      getCeremonyPackages,
+    );
+
+    final ceremonyPackages =
+        ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
+
+    final selectedCeremonyPackage = useState<CeremonyPackage?>(
+        (ceremonyPackages?.isNotEmpty ?? false) ? ceremonyPackages![0] : null);
+
+    final tabController = useTabController(
+      initialLength: ceremonyPackages?.length ?? 0,
+      keys: [
+        ceremonyPackagesResponse.isLoading,
+        ceremonyPackages?.length ?? 0,
+      ],
+    );
+
+    useEffect(() {
+      tabController.addListener(() {
+        selectedCeremonyPackage.value = ceremonyPackages?[tabController.index];
+      });
+      return null;
+    }, [tabController]);
 
     showAddressSheet() {
       AddressSheet.showSheet(context);
@@ -246,54 +292,78 @@ class ConsultationInput extends StatelessWidget {
         height: height * 0.8,
         content: Column(
           children: [
-            DefaultTabController(
-              length: 3,
-              child: Column(
-                children: [
-                  const TabBar(
-                    labelColor: AppColors.dark1,
-                    tabAlignment: TabAlignment.center,
-                    isScrollable: true,
-                    dividerColor: AppColors.gray1,
-                    automaticIndicatorColorAdjustment: true,
-                    tabs: [
-                      TabIndicatorItem(label: "Paket 1"),
-                      TabIndicatorItem(label: "Paket 2"),
-                      TabIndicatorItem(label: "Paket 3"),
+            Builder(builder: (context) {
+              if (ceremonyPackagesResponse.isLoading) {
+                return const Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primary1,
+                    ),
+                  ),
+                );
+              }
+
+              if (ceremonyPackages != null && ceremonyPackages.isNotEmpty) {
+                return DefaultTabController(
+                  length: tabController.length,
+                  child: Column(
+                    children: [
+                      TabBar(
+                        labelColor: AppColors.dark1,
+                        tabAlignment: TabAlignment.center,
+                        isScrollable: true,
+                        dividerColor: AppColors.gray1,
+                        automaticIndicatorColorAdjustment: true,
+                        tabs: List.generate(ceremonyPackages.length, (index) {
+                          return TabIndicatorItem(
+                            label: ceremonyPackages[index]?.name ??
+                                '-', // Safe check
+                          );
+                        }),
+                        indicator: const UnderlineTabIndicator(
+                          borderSide: BorderSide(
+                            width: 4,
+                            color: AppColors.primary1,
+                          ),
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(4),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppDimens.paddingMedium),
+                      SizedBox(
+                        height: height * 0.4,
+                        child: TabBarView(
+                          children:
+                              List.generate(tabController.length, (index) {
+                            final package = ceremonyPackages[index];
+
+                            return ScrollableCeremonyPackageItem(
+                              description: package?.description ?? '-',
+                              price: package?.price ?? 0,
+                            );
+                          }),
+                        ),
+                      ),
+                      SelectedButtonsPackage(
+                        labelSecondary: locales?.cancel ?? '',
+                        onTapButtonPrimary: () {
+                          showAddressSheet();
+                        },
+                        onTapButtonSecondary: () {
+                          Navigator.pop(context);
+                        },
+                      )
                     ],
-                    indicator: UnderlineTabIndicator(
-                      borderSide: BorderSide(
-                        width: 4,
-                        color: AppColors.primary1,
-                      ),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(4),
-                      ),
-                    ),
                   ),
-                  const SizedBox(height: AppDimens.paddingMedium),
-                  SizedBox(
-                    height: height * 0.4,
-                    child: const TabBarView(
-                      children: [
-                        ScrollableCeremonyPackageItem(),
-                        ScrollableCeremonyPackageItem(),
-                        ScrollableCeremonyPackageItem(),
-                      ],
-                    ),
-                  ),
-                  SelectedButtonsPackage(
-                    labelSecondary: locales?.cancel ?? '',
-                    onTapButtonPrimary: () {
-                      showAddressSheet();
-                    },
-                    onTapButtonSecondary: () {
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
-              ),
-            ),
+                );
+              }
+
+              return DataEmpty(
+                message:
+                    "Tidak ada paket untuk ${ceremony?.title ?? 'Upacara Agama ini'}!",
+              );
+            }),
           ],
         ),
       ).showModalBottom(context);
@@ -391,15 +461,20 @@ class ConsultationInput extends StatelessWidget {
 class ScrollableCeremonyPackageItem extends StatelessWidget {
   const ScrollableCeremonyPackageItem({
     super.key,
+    required this.description,
+    required this.price,
   });
+
+  final String description;
+  final int price;
 
   @override
   Widget build(BuildContext context) {
-    return const Scrollbar(
+    return Scrollbar(
       child: SingleChildScrollView(
         child: CeremonyPackageItem(
-          description: '',
-          price: 0,
+          description: description,
+          price: price,
         ),
       ),
     );
