@@ -16,7 +16,7 @@ class Message with _$Message {
     String? messageType,
     required bool isAdmin,
     required String message,
-    DateTime? created_at,
+    DateTime? createdAt,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

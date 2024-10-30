@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,8 +27,10 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_b
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:timeago/timeago.dart';
 
-class ConsultationCeremonyScreen extends HookConsumerWidget {
+class ConsultationCeremonyScreen extends HookConsumerWidget
+    with WidgetsBindingObserver {
   const ConsultationCeremonyScreen({
     super.key,
     this.ceremonyPackage,
@@ -58,15 +61,20 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
 
     final messagesStream = useState<Stream<List<Message>>?>(null);
 
-    useEffect(() {
+    init() {
       messagesStream.value = db
-          .stream(primaryKey: ['id', 'consultationId'])
-          .order('created_at')
+          .stream(primaryKey: ['consultationId'])
+          .eq('consultationId', 1)
+          .order('id', ascending: false)
           .map(
             (maps) => maps.map((map) => Message.fromJson(map)).toList(),
           );
+    }
+
+    useEffect(() {
+      init();
       return null;
-    }, []);
+    }, [messagesStream.value]);
 
     void submitMessage() async {
       final text = messageController.text;
@@ -85,10 +93,12 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
           ceremonyPackageId: ceremonyPackage?.id,
           ceremonyServiceId: ceremony?.id,
           invoiceId: null,
-          created_at: DateTime.now().toIso8601String(),
+          createdAt: DateTime.now().toIso8601String(),
         );
 
         await db.insert(message.toJson());
+
+        init();
       } on PostgrestException catch (error) {
         log("ERROR SEND MESSAGE --->>> ${error.message}");
         PrimaryToast.error(message: error.message);
@@ -181,8 +191,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget {
                                   const SizedBox(
                                       height: AppDimens.paddingMicro),
                                   Text(
-                                    // "${chat.sendAt.hour}:${chat.sendAt.minute}",
-                                    "${chat.created_at?.toLocal()}:",
+                                    format(chat.createdAt!),
                                     style: const TextStyle(
                                       fontSize: AppFontSizes.bodySmall,
                                       color: AppColors.lightgray2,

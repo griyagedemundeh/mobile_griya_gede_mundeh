@@ -15,7 +15,7 @@ class MessageRequest with _$MessageRequest {
     String? messageType,
     required bool isAdmin,
     required String message,
-    String? created_at,
+    String? createdAt,
   }) = _MessageRequest;
 
   factory MessageRequest.fromJson(Map<String, dynamic> json) =>

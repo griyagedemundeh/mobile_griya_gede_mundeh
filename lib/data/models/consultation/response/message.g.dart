@@ -17,9 +17,9 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       messageType: json['messageType'] as String?,
       isAdmin: json['isAdmin'] as bool,
       message: json['message'] as String,
-      created_at: json['created_at'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
@@ -33,5 +33,5 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
       'messageType': instance.messageType,
       'isAdmin': instance.isAdmin,
       'message': instance.message,
-      'created_at': instance.created_at?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

@@ -29,7 +29,7 @@ mixin _$Message {
   String? get messageType => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  DateTime? get created_at => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +51,7 @@ abstract class $MessageCopyWith<$Res> {
       String? messageType,
       bool isAdmin,
       String message,
-      DateTime? created_at});
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -76,7 +76,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
-    Object? created_at = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -115,9 +115,9 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
   }
@@ -140,7 +140,7 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String? messageType,
       bool isAdmin,
       String message,
-      DateTime? created_at});
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -163,7 +163,7 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
-    Object? created_at = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$MessageImpl(
       id: null == id
@@ -202,9 +202,9 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -223,7 +223,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       this.messageType,
       required this.isAdmin,
       required this.message,
-      this.created_at});
+      this.createdAt});
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageImplFromJson(json);
@@ -247,11 +247,11 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   @override
   final String message;
   @override
-  final DateTime? created_at;
+  final DateTime? createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Message(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, created_at: $created_at)';
+    return 'Message(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
   }
 
   @override
@@ -268,7 +268,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       ..add(DiagnosticsProperty('messageType', messageType))
       ..add(DiagnosticsProperty('isAdmin', isAdmin))
       ..add(DiagnosticsProperty('message', message))
-      ..add(DiagnosticsProperty('created_at', created_at));
+      ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
   @override
@@ -290,8 +290,8 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
                 other.messageType == messageType) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.created_at, created_at) ||
-                other.created_at == created_at));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
@@ -307,7 +307,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       messageType,
       isAdmin,
       message,
-      created_at);
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -334,7 +334,7 @@ abstract class _Message implements Message {
       final String? messageType,
       required final bool isAdmin,
       required final String message,
-      final DateTime? created_at}) = _$MessageImpl;
+      final DateTime? createdAt}) = _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
@@ -357,7 +357,7 @@ abstract class _Message implements Message {
   @override
   String get message;
   @override
-  DateTime? get created_at;
+  DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>

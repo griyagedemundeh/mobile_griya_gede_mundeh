@@ -28,7 +28,7 @@ mixin _$MessageRequest {
   String? get messageType => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  String? get created_at => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +51,7 @@ abstract class $MessageRequestCopyWith<$Res> {
       String? messageType,
       bool isAdmin,
       String message,
-      String? created_at});
+      String? createdAt});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$MessageRequestCopyWithImpl<$Res, $Val extends MessageRequest>
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
-    Object? created_at = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       consultationId: null == consultationId
@@ -110,9 +110,9 @@ class _$MessageRequestCopyWithImpl<$Res, $Val extends MessageRequest>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -135,7 +135,7 @@ abstract class _$$MessageRequestImplCopyWith<$Res>
       String? messageType,
       bool isAdmin,
       String message,
-      String? created_at});
+      String? createdAt});
 }
 
 /// @nodoc
@@ -157,7 +157,7 @@ class __$$MessageRequestImplCopyWithImpl<$Res>
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
-    Object? created_at = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$MessageRequestImpl(
       consultationId: null == consultationId
@@ -192,9 +192,9 @@ class __$$MessageRequestImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -214,7 +214,7 @@ class _$MessageRequestImpl
       this.messageType,
       required this.isAdmin,
       required this.message,
-      this.created_at});
+      this.createdAt});
 
   factory _$MessageRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageRequestImplFromJson(json);
@@ -236,11 +236,11 @@ class _$MessageRequestImpl
   @override
   final String message;
   @override
-  final String? created_at;
+  final String? createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MessageRequest(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, created_at: $created_at)';
+    return 'MessageRequest(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
   }
 
   @override
@@ -256,7 +256,7 @@ class _$MessageRequestImpl
       ..add(DiagnosticsProperty('messageType', messageType))
       ..add(DiagnosticsProperty('isAdmin', isAdmin))
       ..add(DiagnosticsProperty('message', message))
-      ..add(DiagnosticsProperty('created_at', created_at));
+      ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
   @override
@@ -277,8 +277,8 @@ class _$MessageRequestImpl
                 other.messageType == messageType) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.created_at, created_at) ||
-                other.created_at == created_at));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
@@ -293,7 +293,7 @@ class _$MessageRequestImpl
       messageType,
       isAdmin,
       message,
-      created_at);
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -320,7 +320,7 @@ abstract class _MessageRequest implements MessageRequest {
       final String? messageType,
       required final bool isAdmin,
       required final String message,
-      final String? created_at}) = _$MessageRequestImpl;
+      final String? createdAt}) = _$MessageRequestImpl;
 
   factory _MessageRequest.fromJson(Map<String, dynamic> json) =
       _$MessageRequestImpl.fromJson;
@@ -342,7 +342,7 @@ abstract class _MessageRequest implements MessageRequest {
   @override
   String get message;
   @override
-  String? get created_at;
+  String? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$MessageRequestImplCopyWith<_$MessageRequestImpl> get copyWith =>

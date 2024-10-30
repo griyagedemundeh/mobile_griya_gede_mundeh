@@ -35,7 +35,7 @@ void main() async {
     url: AppValues.SUPABASE_URL,
     anonKey: AppValues.SUPABASE_ANONKEY,
     realtimeClientOptions: const RealtimeClientOptions(
-      eventsPerSecond: 2,
+      eventsPerSecond: 1,
       timeout: Duration(seconds: 10),
     ),
   );
