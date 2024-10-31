@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
@@ -33,21 +34,6 @@ import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_contr
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
 
-// class Article {
-//   final String id;
-//   final String title;
-//   final String thumbnailUrl;
-//   final String publishedAt;
-//   final String author;
-
-//   Article(
-//       {required this.id,
-//       required this.title,
-//       required this.thumbnailUrl,
-//       required this.publishedAt,
-//       required this.author});
-// }
-
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
     super.key,
@@ -59,6 +45,11 @@ class HomeScreen extends HookConsumerWidget {
     final double paddingTop = MediaQuery.of(context).padding.top;
     final scrollController = useScrollController();
     final isScrolled = useState(false);
+
+    String formatDate(DateTime? date) {
+      if (date == null) return '';
+      return DateFormat('EEE, d MMMM yyyy - hh.mm a', 'id_ID').format(date);
+    }
 
     final HomeController homeController = HomeController(
       authRepository: AuthRepository(),
@@ -145,34 +136,6 @@ class HomeScreen extends HookConsumerWidget {
       scrollController.addListener(listener);
       return () => scrollController.removeListener(listener);
     }, [scrollController, ceremonies]);
-
-    // final List<Article> articles = [
-    //   Article(
-    //     id: "1",
-    //     title:
-    //         "Arti Mepamit, Upacara Adat Bali yang Dijalani Mahalini & Dinikahi Rizky Febian",
-    //     thumbnailUrl:
-    //         "https://awsimages.detik.net.id/community/media/visual/2024/05/05/potret-mahalini-dan-rizky-febian-gelar-upacara-adat-bali-jelang-pernikahan-6_169.jpeg?w=1200",
-    //     publishedAt: "Kamis, 02 Mei 2024",
-    //     author: "Billie Eilish",
-    //   ),
-    //   Article(
-    //     id: "2",
-    //     title: "Mengenal Upacara Adat Yang Ada di Bali",
-    //     thumbnailUrl:
-    //         "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
-    //     publishedAt: "Jumat, 26 Juli 2024",
-    //     author: "Thom Yorke",
-    //   ),
-    //   Article(
-    //     id: "3",
-    //     title: "Rangkaian Pernikahan Orang Bali: Madewasa Ayu hingga Mejauman",
-    //     thumbnailUrl:
-    //         "https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/03/22/Pawai-Ogoh-Ogoh-Awal-Mula-Kedudukan-Dalam-Tradisi-Hindu-Bali-Serta-Pesan-Sosialnya-3506145498.jpg",
-    //     publishedAt: "Rabu, 11 Maret 2024",
-    //     author: "Ben Barlow",
-    //   ),
-    // ];
 
     final List<CeremonyHistory> ceremonyHistories = [
       CeremonyHistory(
@@ -338,8 +301,6 @@ class HomeScreen extends HookConsumerWidget {
                         child: Builder(
                           builder: (context) {
                             if (articles.isLoading) {
-                              //DEBUGG
-                              log(name: "Load", "Loadddinggg");
                               return const Center(
                                 child: CircularProgressIndicator(
                                   color: AppColors.primary1,
@@ -348,18 +309,11 @@ class HomeScreen extends HookConsumerWidget {
                             }
 
                             if (articles.isError) {
-                              //DEBUGG
-                              log(
-                                  name: "Error Article",
-                                  articles.error.toString());
                               return const DataEmpty();
                             }
 
                             if (articles.isSuccess &&
                                 dataArticles?.isNotEmpty == true) {
-                              log(
-                                  name: "Article State",
-                                  "Articles Loaded Successfully!");
                               return ListView.separated(
                                 separatorBuilder: (context, index) {
                                   return const SizedBox(
@@ -370,37 +324,31 @@ class HomeScreen extends HookConsumerWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: dataArticles?.length ?? 0,
                                 itemBuilder: (context, index) {
-                                  //DEBUGG
-                                  final article = dataArticles![index];
-                                  log("Article Item: ${article?.title}");
-
                                   return ArticleItem(
-                                    title: dataArticles[index]?.title ?? '',
+                                    title: dataArticles?[index]?.title ?? '',
                                     thumbnailUrl:
-                                        dataArticles[index]?.thumbnail ?? '',
-                                    publishedAt: dataArticles[index]
-                                            ?.createdAt
-                                            .toString() ??
-                                        '',
-                                    author: dataArticles[index]
+                                        dataArticles?[index]?.thumbnail ?? '',
+                                    publishedAt: formatDate( dataArticles?[index]
+                                            ?.createdAt),
+                                    author: dataArticles?[index]
                                             ?.author
                                             ?.userId
                                             .toString() ??
                                         '',
                                     onTap: () {
-                                      if (dataArticles[index]
+                                      if (dataArticles?[index]
                                               ?.title
                                               .toLowerCase() ==
                                           'lainnya') {
                                         PrimaryNavigation.pushFromRight(context,
-                                            page: const OtherCeremonyScreen());
+                                            page: const ArticlesScreen());
                                         return;
                                       }
 
                                       PrimaryNavigation.pushFromRight(
                                         context,
                                         page: DetailArticleScreen(
-                                          id: dataArticles[index]?.id ?? 0,
+                                          id: dataArticles?[index]?.id ?? 0,
                                         ),
                                       );
                                     },
@@ -409,51 +357,12 @@ class HomeScreen extends HookConsumerWidget {
                               );
                             }
                             return const DataEmpty();
-                            return const SizedBox.shrink();
                           },
                         ),
                       ),
                       SizedBox(
                         height: height * 0.04,
                       ),
-
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      //   child: ListView.separated(
-                      //     separatorBuilder: (context, index) {
-                      //       return const SizedBox(
-                      //         height: AppDimens.paddingMedium,
-                      //       );
-                      //     },
-                      //     shrinkWrap: true,
-                      //     physics: const NeverScrollableScrollPhysics(),
-                      //     itemCount: dataArticles?.length ?? 0,
-                      //     itemBuilder: (context, index) {
-                      //       return ArticleItem(
-                      //         title: dataArticles?[index]?.title ?? '',
-                      //         thumbnailUrl:
-                      //             dataArticles?[index]?.thumbnail ?? '',
-                      //         publishedAt:
-                      //             dataArticles?[index]?.createdAt.toString() ??
-                      //                 '',
-                      //         author:
-                      //             dataArticles?[index]?.adminId.toString() ??
-                      //                 '',
-                      //         onTap: () {
-                      //           PrimaryNavigation.pushFromRight(
-                      //             context,
-                      //             page: DetailArticleScreen(
-                      //               id: dataArticles?[index]?.id ?? 0,
-                      //             ),
-                      //           );
-                      //         },
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: height * 0.04,
-                      // ),
                     ],
                   ),
                 ),
