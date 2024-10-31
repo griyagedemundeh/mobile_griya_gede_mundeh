@@ -34,7 +34,7 @@ class ArticleController extends ChangeNotifier {
     }
   }
 
-//GET ARTICLES
+//GET DETAIL ARTICLES
   Future<ApiBaseResponse<Article?>?> getArticle({
     required int id,
   }) async {

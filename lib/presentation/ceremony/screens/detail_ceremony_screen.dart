@@ -191,7 +191,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: Builder(builder: (context) {
-        if (isOpened.value && (ceremonyPackages?.isNotEmpty ?? false)) {
+        if (isOpened.value && (ceremonyPackages?.isEmpty ?? false)) {
           return SelectedButtonsPackage(
             onTapButtonPrimary: () {
               showAlertConfirmation();

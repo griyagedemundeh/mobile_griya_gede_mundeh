@@ -44,6 +44,7 @@ class ArticleRepository extends IArticleRepository {
     }
   }
 
+//Detail Article
   @override
   Future<ApiBaseResponse<Article?>> getArticle({required int id}) async {
     try {

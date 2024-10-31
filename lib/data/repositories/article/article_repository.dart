@@ -6,6 +6,7 @@ abstract class IArticleRepository {
   Future<ApiBaseResponse<List<Article?>?>> getArticles(
       {required ListDataParams listDataParams});
 
+//Detail
   Future<ApiBaseResponse<Article?>> getArticle({
     required int id,
   });
