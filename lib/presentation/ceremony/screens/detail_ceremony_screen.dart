@@ -153,7 +153,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     // });
 
     showAddressSheet() {
-      AddressSheet.showSheet(context);
+      AddressSheet.showSheet(
+        context,
+        onChange: (address) {},
+      );
     }
 
     showAlertConfirmation() {

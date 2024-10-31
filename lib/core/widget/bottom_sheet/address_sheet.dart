@@ -24,7 +24,8 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/repositories/address/address_repository_implementor.dart';
 
 class AddressSheet {
-  static showSheet(BuildContext context) {
+  static showSheet(BuildContext context,
+      {required Function(Address address) onChange}) {
     final height = MediaQuery.of(context).size.height;
 
     PrimaryBottomSheet(
@@ -35,7 +36,7 @@ class AddressSheet {
         ),
         child: AddressList(
           onChange: (address) {
-            log('$address', name: 'ADDRESS SELECTE');
+            onChange(address);
           },
         ),
       ),
@@ -73,8 +74,14 @@ class AddressList extends HookConsumerWidget {
 
     final addresses = addressesResponse.data?.data as List<Address?>?;
 
-    final addressInitValue = useState(addresses?[0]?.address ?? '');
-    final selectedAddress = useState<Address?>(addresses?[0]);
+    final addressInitValue = useState<String>('');
+    final selectedAddress = useState<Address?>(null);
+
+    useEffect(() {
+      addressInitValue.value = addresses?[0]?.address ?? '';
+      selectedAddress.value = addresses?[0];
+      return null;
+    }, [addresses]);
 
     showSheetAddAddress(BuildContext context) {
       PrimaryBottomSheet(
@@ -123,13 +130,13 @@ class AddressList extends HookConsumerWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: addressInitValue.value ==
-                                  addresses?[index]?.address
+                          color: (addressInitValue.value ==
+                                  addresses?[index]?.address)
                               ? AppColors.primary1.withOpacity(0.3)
                               : null,
                           border: Border.all(
-                            color: addressInitValue.value ==
-                                    addresses?[index]?.address
+                            color: (addressInitValue.value ==
+                                    addresses?[index]?.address)
                                 ? AppColors.primary1
                                 : AppColors.lightgray2,
                             width: 1,
@@ -150,8 +157,8 @@ class AddressList extends HookConsumerWidget {
                                 height: AppDimens.paddingMedium,
                                 width: AppDimens.paddingMedium,
                                 decoration: BoxDecoration(
-                                  color: addressInitValue.value ==
-                                          addresses?[index]?.address
+                                  color: (addressInitValue.value ==
+                                          addresses?[index]?.address)
                                       ? AppColors.primary1
                                       : AppColors.gray1,
                                   borderRadius: const BorderRadius.all(

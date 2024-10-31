@@ -284,7 +284,27 @@ class ConsultationInput extends HookConsumerWidget {
     }, [tabController]);
 
     showAddressSheet() {
-      AddressSheet.showSheet(context);
+      AddressSheet.showSheet(
+        context,
+        onChange: (address) {
+          log('$address', name: 'ADDRESS GUWE');
+          log('${selectedCeremonyPackage.value}', name: 'PACKAFE GUWE');
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      );
+    }
+
+    showAddressWithoutPackageSheet() {
+      AddressSheet.showSheet(
+        context,
+        onChange: (address) {
+          log('$address', name: 'ADDRESS GUWE');
+
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      );
     }
 
     openPackageSheet() {
@@ -309,6 +329,7 @@ class ConsultationInput extends HookConsumerWidget {
                   child: Column(
                     children: [
                       TabBar(
+                        controller: tabController,
                         labelColor: AppColors.dark1,
                         tabAlignment: TabAlignment.center,
                         isScrollable: true,
@@ -334,6 +355,7 @@ class ConsultationInput extends HookConsumerWidget {
                       SizedBox(
                         height: height * 0.4,
                         child: TabBarView(
+                          controller: tabController,
                           children:
                               List.generate(tabController.length, (index) {
                             final package = ceremonyPackages[index];
@@ -346,12 +368,11 @@ class ConsultationInput extends HookConsumerWidget {
                         ),
                       ),
                       SelectedButtonsPackage(
-                        labelSecondary: locales?.cancel ?? '',
                         onTapButtonPrimary: () {
                           showAddressSheet();
                         },
                         onTapButtonSecondary: () {
-                          Navigator.pop(context);
+                          showAddressWithoutPackageSheet();
                         },
                       )
                     ],
