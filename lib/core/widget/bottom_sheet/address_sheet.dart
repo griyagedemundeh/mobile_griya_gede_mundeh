@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -15,13 +17,11 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/address/request/address_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/address/response/address.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/address/address_repository_implementor.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
 
 class AddressSheet {
   static showSheet(BuildContext context) {
@@ -29,11 +29,15 @@ class AddressSheet {
 
     PrimaryBottomSheet(
       height: height * 0.6,
-      content: const Padding(
-        padding: EdgeInsets.symmetric(
+      content: Padding(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppDimens.paddingMedium,
         ),
-        child: AddressList(),
+        child: AddressList(
+          onChange: (address) {
+            log('$address', name: 'ADDRESS SELECTE');
+          },
+        ),
       ),
     ).showModalBottom(context);
   }
@@ -42,7 +46,10 @@ class AddressSheet {
 class AddressList extends HookConsumerWidget {
   const AddressList({
     super.key,
+    required this.onChange,
   });
+
+  final Function(Address address) onChange;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,6 +72,9 @@ class AddressList extends HookConsumerWidget {
     );
 
     final addresses = addressesResponse.data?.data as List<Address?>?;
+
+    final addressInitValue = useState(addresses?[0]?.address ?? '');
+    final selectedAddress = useState<Address?>(addresses?[0]);
 
     showSheetAddAddress(BuildContext context) {
       PrimaryBottomSheet(
@@ -103,58 +113,82 @@ class AddressList extends HookConsumerWidget {
               },
               itemCount: addresses?.length ?? 0,
               itemBuilder: (context, index) {
-                return Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: index == 0
-                            ? AppColors.primary1.withOpacity(0.3)
-                            : null,
-                        border: Border.all(
-                          color: index == 0
-                              ? AppColors.primary1
-                              : AppColors.lightgray2,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          AppDimens.paddingSmall,
-                        ),
-                      ),
-                      child: RadioListTile(
-                        value: addresses?[index]?.address ?? '',
-                        groupValue: addresses?[0]?.address,
-                        activeColor: AppColors.primary1,
-                        shape: RoundedRectangleBorder(
+                return GestureDetector(
+                  onTap: () {
+                    addressInitValue.value = addresses?[index]?.address ?? '';
+                    selectedAddress.value = addresses?[index];
+                  },
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: addressInitValue.value ==
+                                  addresses?[index]?.address
+                              ? AppColors.primary1.withOpacity(0.3)
+                              : null,
+                          border: Border.all(
+                            color: addressInitValue.value ==
+                                    addresses?[index]?.address
+                                ? AppColors.primary1
+                                : AppColors.lightgray2,
+                            width: 1,
+                          ),
                           borderRadius: BorderRadius.circular(
                             AppDimens.paddingSmall,
                           ),
                         ),
-                        onChanged: (String? value) {},
-                        title: Text(
-                          addresses?[index]?.address ?? '',
-                          style: const TextStyle(
-                            fontSize: AppFontSizes.bodySmall,
-                            color: AppColors.gray2,
+                        child: Container(
+                          height: AppDimens.appBarHeight,
+                          padding: const EdgeInsets.all(
+                            AppDimens.paddingMedium,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: AppDimens.paddingMedium,
+                                width: AppDimens.paddingMedium,
+                                decoration: BoxDecoration(
+                                  color: addressInitValue.value ==
+                                          addresses?[index]?.address
+                                      ? AppColors.primary1
+                                      : AppColors.gray1,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(100),
+                                  ),
+                                  border: Border.all(
+                                    color: AppColors.lightgray,
+                                    width: 4,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: AppDimens.paddingMedium,
+                              ),
+                              Text(
+                                addresses?[index]?.address ?? '',
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ),
-                    Visibility(
-                      visible: index == 0,
-                      child: Positioned(
-                        right: 4,
-                        top: 4,
-                        child: CircleAvatar(
-                          backgroundColor: AppColors.primary1,
-                          radius: AppDimens.paddingMedium,
-                          child: SvgPicture.asset(
-                            AppImages.icLocation,
+                      Visibility(
+                        visible: addresses?[index]?.isMain ?? false,
+                        child: Positioned(
+                          right: 4,
+                          top: 4,
+                          child: CircleAvatar(
+                            backgroundColor: AppColors.primary1,
+                            radius: AppDimens.paddingMedium,
+                            child: SvgPicture.asset(
+                              AppImages.icLocation,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             );
@@ -196,10 +230,7 @@ class AddressList extends HookConsumerWidget {
                 label: locales?.next ?? '',
                 isMedium: true,
                 onTap: () {
-                  // PrimaryNavigation.pushFromRight(
-                  //   context,
-                  //   page: const DetailTransactionScreen(),
-                  // );
+                  onChange(selectedAddress.value!);
                 },
               ),
             ],
