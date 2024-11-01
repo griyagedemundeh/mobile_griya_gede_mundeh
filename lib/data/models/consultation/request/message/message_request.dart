@@ -11,6 +11,7 @@ class MessageRequest with _$MessageRequest {
     required int userId,
     int? ceremonyServiceId,
     int? ceremonyPackageId,
+    int? addressId,
     int? invoiceId,
     String? messageType,
     required bool isAdmin,

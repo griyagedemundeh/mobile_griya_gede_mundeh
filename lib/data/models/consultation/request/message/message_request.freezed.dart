@@ -24,6 +24,7 @@ mixin _$MessageRequest {
   int get userId => throw _privateConstructorUsedError;
   int? get ceremonyServiceId => throw _privateConstructorUsedError;
   int? get ceremonyPackageId => throw _privateConstructorUsedError;
+  int? get addressId => throw _privateConstructorUsedError;
   int? get invoiceId => throw _privateConstructorUsedError;
   String? get messageType => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $MessageRequestCopyWith<$Res> {
       int userId,
       int? ceremonyServiceId,
       int? ceremonyPackageId,
+      int? addressId,
       int? invoiceId,
       String? messageType,
       bool isAdmin,
@@ -71,6 +73,7 @@ class _$MessageRequestCopyWithImpl<$Res, $Val extends MessageRequest>
     Object? userId = null,
     Object? ceremonyServiceId = freezed,
     Object? ceremonyPackageId = freezed,
+    Object? addressId = freezed,
     Object? invoiceId = freezed,
     Object? messageType = freezed,
     Object? isAdmin = null,
@@ -93,6 +96,10 @@ class _$MessageRequestCopyWithImpl<$Res, $Val extends MessageRequest>
       ceremonyPackageId: freezed == ceremonyPackageId
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
               as int?,
       invoiceId: freezed == invoiceId
           ? _value.invoiceId
@@ -131,6 +138,7 @@ abstract class _$$MessageRequestImplCopyWith<$Res>
       int userId,
       int? ceremonyServiceId,
       int? ceremonyPackageId,
+      int? addressId,
       int? invoiceId,
       String? messageType,
       bool isAdmin,
@@ -153,6 +161,7 @@ class __$$MessageRequestImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? ceremonyServiceId = freezed,
     Object? ceremonyPackageId = freezed,
+    Object? addressId = freezed,
     Object? invoiceId = freezed,
     Object? messageType = freezed,
     Object? isAdmin = null,
@@ -175,6 +184,10 @@ class __$$MessageRequestImplCopyWithImpl<$Res>
       ceremonyPackageId: freezed == ceremonyPackageId
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
               as int?,
       invoiceId: freezed == invoiceId
           ? _value.invoiceId
@@ -210,6 +223,7 @@ class _$MessageRequestImpl
       required this.userId,
       this.ceremonyServiceId,
       this.ceremonyPackageId,
+      this.addressId,
       this.invoiceId,
       this.messageType,
       required this.isAdmin,
@@ -228,6 +242,8 @@ class _$MessageRequestImpl
   @override
   final int? ceremonyPackageId;
   @override
+  final int? addressId;
+  @override
   final int? invoiceId;
   @override
   final String? messageType;
@@ -240,7 +256,7 @@ class _$MessageRequestImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MessageRequest(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
+    return 'MessageRequest(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
   }
 
   @override
@@ -252,6 +268,7 @@ class _$MessageRequestImpl
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('ceremonyServiceId', ceremonyServiceId))
       ..add(DiagnosticsProperty('ceremonyPackageId', ceremonyPackageId))
+      ..add(DiagnosticsProperty('addressId', addressId))
       ..add(DiagnosticsProperty('invoiceId', invoiceId))
       ..add(DiagnosticsProperty('messageType', messageType))
       ..add(DiagnosticsProperty('isAdmin', isAdmin))
@@ -271,6 +288,8 @@ class _$MessageRequestImpl
                 other.ceremonyServiceId == ceremonyServiceId) &&
             (identical(other.ceremonyPackageId, ceremonyPackageId) ||
                 other.ceremonyPackageId == ceremonyPackageId) &&
+            (identical(other.addressId, addressId) ||
+                other.addressId == addressId) &&
             (identical(other.invoiceId, invoiceId) ||
                 other.invoiceId == invoiceId) &&
             (identical(other.messageType, messageType) ||
@@ -289,6 +308,7 @@ class _$MessageRequestImpl
       userId,
       ceremonyServiceId,
       ceremonyPackageId,
+      addressId,
       invoiceId,
       messageType,
       isAdmin,
@@ -316,6 +336,7 @@ abstract class _MessageRequest implements MessageRequest {
       required final int userId,
       final int? ceremonyServiceId,
       final int? ceremonyPackageId,
+      final int? addressId,
       final int? invoiceId,
       final String? messageType,
       required final bool isAdmin,
@@ -333,6 +354,8 @@ abstract class _MessageRequest implements MessageRequest {
   int? get ceremonyServiceId;
   @override
   int? get ceremonyPackageId;
+  @override
+  int? get addressId;
   @override
   int? get invoiceId;
   @override

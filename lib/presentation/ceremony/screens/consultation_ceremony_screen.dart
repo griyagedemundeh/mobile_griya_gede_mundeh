@@ -54,6 +54,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final messageController = useTextEditingController(
       text: "",
     );
+    final messageTemplate = useState<String>('');
 
     final SupabaseClient supabase = AppConfig().supabase();
     final SupabaseQueryBuilder db = supabase.from(
@@ -96,11 +97,15 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
     useEffect(() {
       init();
+
       return null;
     }, [messagesStream.value]);
 
-    void submitMessage() async {
-      final text = messageController.text;
+    void submitMessage(
+        {String? message,
+        CeremonyPackage? ceremonyPackageChanged,
+        Address? address}) async {
+      final text = message ?? messageController.text;
 
       if (text.isEmpty) {
         return;
@@ -113,8 +118,9 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           isAdmin: false,
           message: text,
           messageType: "default",
-          ceremonyPackageId: ceremonyPackage?.id,
+          ceremonyPackageId: ceremonyPackageChanged?.id ?? ceremonyPackage?.id,
           ceremonyServiceId: ceremony?.id,
+          addressId: address?.id,
           invoiceId: null,
           createdAt: DateTime.now().toIso8601String(),
         );
@@ -239,8 +245,14 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
             onSendMessage: () {
               submitMessage();
             },
-            onSelectedAddress: (address) {},
-            onSelectedCeremonyPackage: (ceremonyPackage) {},
+            onSelectedCeremonyPackageOrAddress: (ceremonyPackage, address) {
+              submitMessage(
+                message:
+                    "Saya pilih ${ceremonyPackage != null ? 'Paket ${ceremonyPackage.name}' : 'Tanpa Paket/Lainnya'} untuk ${ceremony?.title} di ${address.address}",
+                address: address,
+                ceremonyPackageChanged: ceremonyPackage,
+              );
+            },
           ),
         ],
       ),
@@ -254,15 +266,15 @@ class ConsultationInput extends HookConsumerWidget {
     required this.onSendMessage,
     required this.textEditingController,
     required this.ceremony,
-    required this.onSelectedAddress,
-    required this.onSelectedCeremonyPackage,
+    required this.onSelectedCeremonyPackageOrAddress,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
   final Ceremony? ceremony;
-  final Function(Address address) onSelectedAddress;
-  final Function(CeremonyPackage? ceremonyPackage) onSelectedCeremonyPackage;
+
+  final Function(CeremonyPackage? ceremonyPackage, Address address)
+      onSelectedCeremonyPackageOrAddress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -313,8 +325,8 @@ class ConsultationInput extends HookConsumerWidget {
       AddressSheet.showSheet(
         context,
         onChange: (address) {
-          onSelectedAddress(address);
-          onSelectedCeremonyPackage(selectedCeremonyPackage.value);
+          onSelectedCeremonyPackageOrAddress(
+              selectedCeremonyPackage.value, address);
 
           if ((isForImmediate ?? false)) {
             Navigator.pop(context);
@@ -330,8 +342,7 @@ class ConsultationInput extends HookConsumerWidget {
       AddressSheet.showSheet(
         context,
         onChange: (address) {
-          onSelectedAddress(address);
-          onSelectedCeremonyPackage(null);
+          onSelectedCeremonyPackageOrAddress(null, address);
 
           Navigator.pop(context);
           Navigator.pop(context);
