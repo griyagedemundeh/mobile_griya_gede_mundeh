@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
@@ -17,11 +18,13 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/address/response/address.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message_request.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/message_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/consultation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
@@ -49,13 +52,15 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final width = MediaQuery.of(context).size.width;
     final scrollController = useScrollController();
     final messageController = useTextEditingController(
-      text:
-          "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊",
+      text: "",
     );
 
     final SupabaseClient supabase = AppConfig().supabase();
     final SupabaseQueryBuilder db = supabase.from(
       StorageKey.supabaseConsultCeremony,
+    );
+    final SupabaseQueryBuilder dbConsult = supabase.from(
+      StorageKey.supabaseConsult,
     );
 
     final AuthController authController =
@@ -65,7 +70,9 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
     final messagesStream = useState<Stream<List<Message>>?>(null);
 
-    init() {
+    final consultation = useState<Consultation?>(null);
+
+    Future init() async {
       messagesStream.value = db
           .stream(primaryKey: ['consultationId'])
           .eq('consultationId', 1)
@@ -73,6 +80,18 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           .map(
             (maps) => maps.map((map) => Message.fromJson(map)).toList(),
           );
+
+      final dataConsult =
+          await dbConsult.select().eq('consultationId', 1).maybeSingle();
+
+      if (dataConsult != null) {
+        consultation.value = Consultation.fromJson(dataConsult);
+      }
+
+      messageController.text = (consultation.value?.ceremonyPackageId == null ||
+              consultation.value?.ceremonyPackageId != ceremonyPackage?.id
+          ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
+          : '');
     }
 
     useEffect(() {
@@ -116,7 +135,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
       body: Column(
         children: [
           MeshAppBar(
-            title: "Konsultasi ${ceremony?.title ?? ''}",
+            title:
+                "Konsultasi\n${ceremonyPackage?.name != null ? 'Paket ${ceremonyPackage?.name}' : ''} ${ceremony?.title ?? ''}",
           ),
           Expanded(
             child: Stack(
@@ -219,6 +239,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
             onSendMessage: () {
               submitMessage();
             },
+            onSelectedAddress: (address) {},
+            onSelectedCeremonyPackage: (ceremonyPackage) {},
           ),
         ],
       ),
@@ -232,11 +254,15 @@ class ConsultationInput extends HookConsumerWidget {
     required this.onSendMessage,
     required this.textEditingController,
     required this.ceremony,
+    required this.onSelectedAddress,
+    required this.onSelectedCeremonyPackage,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
   final Ceremony? ceremony;
+  final Function(Address address) onSelectedAddress;
+  final Function(CeremonyPackage? ceremonyPackage) onSelectedCeremonyPackage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -283,14 +309,19 @@ class ConsultationInput extends HookConsumerWidget {
       return null;
     }, [tabController]);
 
-    showAddressSheet() {
+    showAddressSheet({bool? isForImmediate}) {
       AddressSheet.showSheet(
         context,
         onChange: (address) {
-          log('$address', name: 'ADDRESS GUWE');
-          log('${selectedCeremonyPackage.value}', name: 'PACKAFE GUWE');
-          Navigator.pop(context);
-          Navigator.pop(context);
+          onSelectedAddress(address);
+          onSelectedCeremonyPackage(selectedCeremonyPackage.value);
+
+          if ((isForImmediate ?? false)) {
+            Navigator.pop(context);
+          } else {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
         },
       );
     }
@@ -299,7 +330,8 @@ class ConsultationInput extends HookConsumerWidget {
       AddressSheet.showSheet(
         context,
         onChange: (address) {
-          log('$address', name: 'ADDRESS GUWE');
+          onSelectedAddress(address);
+          onSelectedCeremonyPackage(null);
 
           Navigator.pop(context);
           Navigator.pop(context);
@@ -395,12 +427,26 @@ class ConsultationInput extends HookConsumerWidget {
       width: width,
       child: Column(
         children: [
-          IconLeadingButton(
-            label: locales?.selectPackage ?? '',
-            onTap: () {
-              openPackageSheet();
-            },
-            isFilled: true,
+          Row(
+            children: [
+              IconLeadingButton(
+                label: locales?.selectPackage ?? '',
+                width: width * 0.5,
+                onTap: () {
+                  openPackageSheet();
+                },
+                isFilled: true,
+              ),
+              IconLeadingButton(
+                label: locales?.selectCeremonyLocation ?? '',
+                width: width * 0.5,
+                icon: Icons.location_on_outlined,
+                onTap: () {
+                  showAddressSheet(isForImmediate: true);
+                },
+                isFilled: true,
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(
