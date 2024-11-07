@@ -12,6 +12,7 @@ _$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       role: json['role'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      user: AuthorUser.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
       'role': instance.role,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
+      'user': instance.user,
     };

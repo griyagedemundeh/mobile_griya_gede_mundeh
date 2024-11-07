@@ -25,6 +25,7 @@ mixin _$Author {
   String get role => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  AuthorUser get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +42,10 @@ abstract class $AuthorCopyWith<$Res> {
       int userId,
       String role,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      AuthorUser user});
+
+  $AuthorUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -62,6 +66,7 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
     Object? role = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? user = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -84,7 +89,19 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AuthorUser,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AuthorUserCopyWith<$Res> get user {
+    return $AuthorUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 }
 
@@ -100,7 +117,11 @@ abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
       int userId,
       String role,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      AuthorUser user});
+
+  @override
+  $AuthorUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -119,6 +140,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
     Object? role = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? user = null,
   }) {
     return _then(_$AuthorImpl(
       id: null == id
@@ -141,6 +163,10 @@ class __$$AuthorImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AuthorUser,
     ));
   }
 }
@@ -153,7 +179,8 @@ class _$AuthorImpl implements _Author {
       required this.userId,
       required this.role,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.user});
 
   factory _$AuthorImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthorImplFromJson(json);
@@ -168,10 +195,12 @@ class _$AuthorImpl implements _Author {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final AuthorUser user;
 
   @override
   String toString() {
-    return 'Author(id: $id, userId: $userId, role: $role, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Author(id: $id, userId: $userId, role: $role, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -185,13 +214,14 @@ class _$AuthorImpl implements _Author {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, userId, role, createdAt, updatedAt);
+      Object.hash(runtimeType, id, userId, role, createdAt, updatedAt, user);
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +243,8 @@ abstract class _Author implements Author {
       required final int userId,
       required final String role,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$AuthorImpl;
+      required final DateTime updatedAt,
+      required final AuthorUser user}) = _$AuthorImpl;
 
   factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
 
@@ -227,6 +258,8 @@ abstract class _Author implements Author {
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
+  @override
+  AuthorUser get user;
   @override
   @JsonKey(ignore: true)
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>

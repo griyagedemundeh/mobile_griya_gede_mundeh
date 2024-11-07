@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -15,6 +14,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/article/response/article.da
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/article/article_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/controller/article_controller.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DetailArticleScreen extends HookWidget {
@@ -27,12 +27,6 @@ class DetailArticleScreen extends HookWidget {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final scrollController = useScrollController();
-    final isScrolled = useState(false);
-
-    String formatDate(DateTime? date) {
-      if (date == null) return '';
-      return DateFormat('EEEE, d MMMM yyyy - hh.mm a', 'id_ID').format(date);
-    }
 
     final ArticleController articleController =
         ArticleController(articleRepository: ArticleRepository());
@@ -114,8 +108,8 @@ class DetailArticleScreen extends HookWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                       Padding(
-                        padding: EdgeInsets.all(AppDimens.paddingMedium),
+                      Padding(
+                        padding: const EdgeInsets.all(AppDimens.paddingMedium),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -137,7 +131,9 @@ class DetailArticleScreen extends HookWidget {
                             ),
                             ArticleMetaItem(
                               icon: AppImages.icAuthor,
-                              data: dataDetailArticle?.author?.userId.toString() ?? 'a',
+                              data: dataDetailArticle?.author?.userId
+                                      .toString() ??
+                                  'a',
                               color: AppColors.gray2,
                             ),
                           ],

@@ -29,7 +29,7 @@ class ArticlesScreen extends HookWidget {
     final isScrolled = useState(false);
 
     String formatDate(DateTime? date) {
-      if (date == null) return ''; 
+      if (date == null) return '';
       return DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(date);
     }
 
@@ -148,6 +148,7 @@ class ArticlesScreen extends HookWidget {
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   dataArticles?[index]?.title ?? '',
@@ -158,42 +159,21 @@ class ArticlesScreen extends HookWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      formatDate(
-                                          dataArticles?[index]?.createdAt),
-                                      style: const TextStyle(
-                                        fontSize: AppFontSizes.bodySmall,
-                                        color: AppColors.gray2,
-                                      ),
-                                    ),
-                                    const Text(
-                                      ".",
-                                      style: TextStyle(
-                                        fontSize: AppFontSizes.titleMediumLarge,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      dataArticles?[index]
-                                              ?.author
-                                              ?.userId
-                                              .toString() ??
-                                          '',
-                                      style: const TextStyle(
-                                        fontSize: AppFontSizes.bodySmall,
-                                        color: AppColors.gray2,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  formatDate(dataArticles?[index]?.createdAt),
+                                  style: const TextStyle(
+                                    fontSize: AppFontSizes.bodySmall,
+                                    color: AppColors.gray2,
+                                  ),
                                 ),
                                 Text(
-                                  dataArticles?[index]?.content ??
-                                      "Lantas, apa itu Mepamit? Berikut penjelasannya dirangkum dari artikel jurnal Upacara Pawiwahan Dalam Agama Hindu karya Luh Sukma Ningsih dan Bentuk, Fungsi dan Makna Tata Rias dan Prosesi Upacara Perkawinan Bali Agung di Bali karya Ni Putu Delia Wulansari via detikBali.",
+                                  dataArticles?[index]
+                                          ?.author
+                                          ?.user
+                                          .fullName
+                                          .toString() ??
+                                      '',
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
                                   style: const TextStyle(
                                     fontSize: AppFontSizes.bodySmall,
                                     color: AppColors.gray2,

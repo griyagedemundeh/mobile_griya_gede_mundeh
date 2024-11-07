@@ -23,3 +23,8 @@ String formatCurrency(int amount) {
 
   return formatCurrency.format(amount); // Format the amount
 }
+
+String formatDate(DateTime? date) {
+  if (date == null) return '';
+  return DateFormat('EEE, d MMMM yyyy - hh.mm a', 'id_ID').format(date);
+}

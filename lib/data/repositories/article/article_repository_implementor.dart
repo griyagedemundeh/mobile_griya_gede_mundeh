@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:mobile_griya_gede_mundeh/config/dio_config.dart';
+import 'package:mobile_griya_gede_mundeh/config/api_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/end_points.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/article/response/article.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';

@@ -32,7 +32,7 @@ class ArticleItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        height: height * 0.22,
+        height: height * 0.2,
         width: width,
         child: Stack(
           children: [

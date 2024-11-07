@@ -33,6 +33,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/d
 import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
@@ -45,11 +46,6 @@ class HomeScreen extends HookConsumerWidget {
     final double paddingTop = MediaQuery.of(context).padding.top;
     final scrollController = useScrollController();
     final isScrolled = useState(false);
-
-    String formatDate(DateTime? date) {
-      if (date == null) return '';
-      return DateFormat('EEE, d MMMM yyyy - hh.mm a', 'id_ID').format(date);
-    }
 
     final HomeController homeController = HomeController(
       authRepository: AuthRepository(),
@@ -337,12 +333,12 @@ class HomeScreen extends HookConsumerWidget {
                                     title: dataArticles?[index]?.title ?? '',
                                     thumbnailUrl:
                                         dataArticles?[index]?.thumbnail ?? '',
-                                    publishedAt: formatDate( dataArticles?[index]
-                                            ?.createdAt),
+                                    publishedAt: formatDate(
+                                        dataArticles?[index]?.createdAt),
                                     author: dataArticles?[index]
                                             ?.author
-                                            ?.userId
-                                            .toString() ??
+                                            ?.user
+                                            .fullName ??
                                         '',
                                     onTap: () {
                                       if (dataArticles?[index]
