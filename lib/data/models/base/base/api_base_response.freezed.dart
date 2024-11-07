@@ -21,8 +21,7 @@ ApiBaseResponse<T> _$ApiBaseResponseFromJson<T>(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ApiBaseResponse<T> {
   int get status => throw _privateConstructorUsedError;
-  dynamic get message =>
-      throw _privateConstructorUsedError; // @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
+  dynamic get message => throw _privateConstructorUsedError;
   dynamic get data => throw _privateConstructorUsedError;
   Meta? get meta => throw _privateConstructorUsedError;
 
@@ -163,7 +162,6 @@ class _$ApiBaseResponseImpl<T>
   final int status;
   @override
   final dynamic message;
-// @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
   @override
   final dynamic data;
   @override
@@ -234,7 +232,7 @@ abstract class _ApiBaseResponse<T> implements ApiBaseResponse<T> {
   int get status;
   @override
   dynamic get message;
-  @override // @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson) required T data,
+  @override
   dynamic get data;
   @override
   Meta? get meta;

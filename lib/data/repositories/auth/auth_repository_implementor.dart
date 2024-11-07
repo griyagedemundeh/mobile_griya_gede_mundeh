@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:mobile_griya_gede_mundeh/config/dio_config.dart';
+import 'package:mobile_griya_gede_mundeh/config/api_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/end_points.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
 import 'package:mobile_griya_gede_mundeh/data/local/storage.dart';
@@ -84,6 +84,10 @@ class AuthRepository extends IAuthRepository {
 
       final responseData = response.data as Map<String, dynamic>;
       final apiResponse = ApiBaseResponse<Auth>.fromJson(responseData);
+
+      api.options.headers = {
+        "Authorization": "Bearer ${responseData['data']['token']}"
+      };
 
       storageInstance()
           .saveData(key: StorageKey.authDB, data: jsonEncode(apiResponse.data));

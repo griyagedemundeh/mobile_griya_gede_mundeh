@@ -53,8 +53,27 @@ class CeremonyController extends ChangeNotifier {
     }
   }
 
-  Future<ApiBaseResponse<List<CeremonyDocumentation?>?>?>
-      getCeremonyDocumentations({
+  // Future<ApiBaseResponse<List<CeremonyDocumentation?>?>?>
+  //     getCeremonyDocumentations({
+  //   required int ceremonyServiceId,
+  // }) async {
+  //   try {
+  //     final response = await ceremonyRepository.getCeremonyDocumentations(
+  //       ceremonyServiceId: ceremonyServiceId,
+  //     );
+
+  //     return response;
+  //   } on DioException catch (e) {
+  //     if (e.response != null) {
+  //       throw ApiBaseResponse.fromJson(e.response!.data);
+  //     }
+  //     throw ApiBaseResponse(
+  //         status: 500,
+  //         message: [e.message ?? 'Unknown error occurred'],
+  //         data: null);
+  //   }
+  // }
+  Future<ApiBaseResponse<CeremonyDocumentation?>?> getCeremonyDocumentations({
     required int ceremonyServiceId,
   }) async {
     try {

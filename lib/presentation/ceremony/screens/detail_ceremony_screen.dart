@@ -81,7 +81,26 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     final ceremonyPackages =
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
 
-    Future<ApiBaseResponse<List<CeremonyDocumentation?>?>?>
+    // Future<ApiBaseResponse<List<CeremonyDocumentation?>?>?>
+    //     getCeremonyDocumentations() async {
+    //   final response = await ceremonyController.getCeremonyDocumentations(
+    //     ceremonyServiceId: id ?? 0,
+    //   );
+
+    //   return response;
+    // }
+
+    // final ceremonyDocumentationsResponse = useQuery<
+    //     ApiBaseResponse<List<CeremonyDocumentation?>?>?,
+    //     ApiBaseResponse<dynamic>>(
+    //   ['ceremonyDocumentations_$id'],
+    //   getCeremonyDocumentations,
+    // );
+
+    // final ceremonyDocumenations = ceremonyDocumentationsResponse.data?.data
+    //     as List<CeremonyDocumentation?>?;
+
+    Future<ApiBaseResponse<CeremonyDocumentation?>?>
         getCeremonyDocumentations() async {
       final response = await ceremonyController.getCeremonyDocumentations(
         ceremonyServiceId: id ?? 0,
@@ -91,14 +110,13 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     }
 
     final ceremonyDocumentationsResponse = useQuery<
-        ApiBaseResponse<List<CeremonyDocumentation?>?>?,
-        ApiBaseResponse<dynamic>>(
+        ApiBaseResponse<CeremonyDocumentation?>?, ApiBaseResponse<dynamic>>(
       ['ceremonyDocumentations_$id'],
       getCeremonyDocumentations,
     );
 
-    final ceremonyDocumenations = ceremonyDocumentationsResponse.data?.data
-        as List<CeremonyDocumentation?>?;
+    final ceremonyDocumenations =
+        ceremonyDocumentationsResponse.data?.data as CeremonyDocumentation?;
 
     final selectedCeremonyPackage = useState<CeremonyPackage?>(
         (ceremonyPackages?.isNotEmpty ?? false) ? ceremonyPackages![0] : null);
@@ -135,7 +153,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     // });
 
     showAddressSheet() {
-      AddressSheet.showSheet(context);
+      AddressSheet.showSheet(
+        context,
+        onChange: (address) {},
+      );
     }
 
     showAlertConfirmation() {
@@ -167,7 +188,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                     onTap: () {
                       PrimaryNavigation.pushFromRight(
                         context,
-                        page: const ConsultationCeremonyScreen(),
+                        page: ConsultationCeremonyScreen(
+                          ceremony: ceremony,
+                          ceremonyPackage: selectedCeremonyPackage.value,
+                        ),
                       );
                     },
                     isMedium: true,
@@ -217,9 +241,11 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           Builder(builder: (context) {
             if (ceremonyResponse.isLoading ||
                 ceremonyPackagesResponse.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primary1,
+              return const Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary1,
+                  ),
                 ),
               );
             }
@@ -261,11 +287,13 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                           child: Column(
                             children: [
                               MainThumbnail(
-                                thumbnailUrl:
-                                    (ceremonyDocumenations?.isNotEmpty == true)
-                                        ? ceremonyDocumenations?.first?.photo ??
-                                            AppImages.dummyCeremony
-                                        : AppImages.dummyCeremony,
+                                // thumbnailUrl:
+                                //     (ceremonyDocumenations?.isNotEmpty == true)
+                                //         ? ceremonyDocumenations?.first?.photo ??
+                                //             AppImages.dummyCeremony
+                                //         : AppImages.dummyCeremony,
+                                thumbnailUrl: ceremonyDocumenations?.photo ??
+                                    AppImages.dummyCeremony,
                               ),
                               // Padding(
                               //   padding: const EdgeInsets.symmetric(

@@ -8,11 +8,15 @@ class IconLeadingButton extends StatelessWidget {
     required this.onTap,
     required this.label,
     this.isFilled,
+    this.width,
+    this.icon,
   });
 
   final VoidCallback onTap;
   final String label;
   final bool? isFilled;
+  final double? width;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class IconLeadingButton extends StatelessWidget {
       color: isFilled == true ? AppColors.primary1.withOpacity(0.2) : null,
       padding: EdgeInsets.zero,
       child: Container(
-        width: double.infinity,
+        width: width ?? double.infinity,
         padding: const EdgeInsets.all(AppDimens.paddingSmall),
         decoration: isFilled == true
             ? BoxDecoration(
@@ -50,8 +54,8 @@ class IconLeadingButton extends StatelessWidget {
                   AppDimens.paddingMicro,
                 ),
               ),
-              child: const Icon(
-                Icons.add,
+              child: Icon(
+                icon ?? Icons.add,
                 color: AppColors.primary1,
                 size: AppDimens.paddingMedium,
                 weight: 2,
