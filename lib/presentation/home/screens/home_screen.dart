@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
@@ -11,13 +14,16 @@ import 'package:mobile_griya_gede_mundeh/core/widget/mini/ceremony_card.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/main_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/article/response/article.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/article/article_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/article/controller/article_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
@@ -27,21 +33,6 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/d
 import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
-
-class Article {
-  final String id;
-  final String title;
-  final String thumbnailUrl;
-  final String publishedAt;
-  final String author;
-
-  Article(
-      {required this.id,
-      required this.title,
-      required this.thumbnailUrl,
-      required this.publishedAt,
-      required this.author});
-}
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
@@ -55,10 +46,18 @@ class HomeScreen extends HookConsumerWidget {
     final scrollController = useScrollController();
     final isScrolled = useState(false);
 
+    String formatDate(DateTime? date) {
+      if (date == null) return '';
+      return DateFormat('EEE, d MMMM yyyy - hh.mm a', 'id_ID').format(date);
+    }
+
     final HomeController homeController = HomeController(
       authRepository: AuthRepository(),
       ceremonyRepository: CeremonyRepository(),
     );
+
+    final ArticleController articleController =
+        ArticleController(articleRepository: ArticleRepository());
 
     final Auth? user = homeController.getUser();
 
@@ -73,6 +72,17 @@ class HomeScreen extends HookConsumerWidget {
       return response;
     }
 
+    Future<ApiBaseResponse<List<Article?>?>?> getArticles() async {
+      final response = await articleController.getArticles(
+        listDataParams: ListDataParams(
+          page: 1,
+          limit: 3,
+        ),
+      );
+
+      return response;
+    }
+
     final ceremonies =
         useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
       ['ceremonies'],
@@ -81,7 +91,15 @@ class HomeScreen extends HookConsumerWidget {
       staleDuration: const Duration(hours: 1),
     );
 
+    final articles =
+        useQuery<ApiBaseResponse<List<Article?>?>?, ApiBaseResponse<dynamic>>(
+      ['articles'],
+      getArticles,
+    );
+
     final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
+
+    final dataArticles = articles.data?.data as List<Article?>?;
 
     useEffect(() {
       void listener() {
@@ -120,34 +138,6 @@ class HomeScreen extends HookConsumerWidget {
       scrollController.addListener(listener);
       return () => scrollController.removeListener(listener);
     }, [scrollController, ceremonies]);
-
-    final List<Article> articles = [
-      Article(
-        id: "1",
-        title:
-            "Arti Mepamit, Upacara Adat Bali yang Dijalani Mahalini & Dinikahi Rizky Febian",
-        thumbnailUrl:
-            "https://awsimages.detik.net.id/community/media/visual/2024/05/05/potret-mahalini-dan-rizky-febian-gelar-upacara-adat-bali-jelang-pernikahan-6_169.jpeg?w=1200",
-        publishedAt: "Kamis, 02 Mei 2024",
-        author: "Billie Eilish",
-      ),
-      Article(
-        id: "2",
-        title: "Mengenal Upacara Adat Yang Ada di Bali",
-        thumbnailUrl:
-            "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
-        publishedAt: "Jumat, 26 Juli 2024",
-        author: "Thom Yorke",
-      ),
-      Article(
-        id: "3",
-        title: "Rangkaian Pernikahan Orang Bali: Madewasa Ayu hingga Mejauman",
-        thumbnailUrl:
-            "https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/03/22/Pawai-Ogoh-Ogoh-Awal-Mula-Kedudukan-Dalam-Tradisi-Hindu-Bali-Serta-Pesan-Sosialnya-3506145498.jpg",
-        publishedAt: "Rabu, 11 Maret 2024",
-        author: "Ben Barlow",
-      ),
-    ];
 
     final List<CeremonyHistory> ceremonyHistories = [
       CeremonyHistory(
@@ -252,6 +242,8 @@ class HomeScreen extends HookConsumerWidget {
                                   ),
                                   itemCount: dataCeremonies?.length ?? 0,
                                   itemBuilder: (context, index) {
+                                    final ceremony = dataCeremonies?[1]?.title;
+                                    log(name: "ceremony", ceremony.toString());
                                     return CeremonyServiceItem(
                                       onTap: () {
                                         if (dataCeremonies?[index]
@@ -315,30 +307,65 @@ class HomeScreen extends HookConsumerWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: AppDimens.paddingMedium,
-                            );
-                          },
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: articles.length,
-                          itemBuilder: (context, index) {
-                            return ArticleItem(
-                              title: articles[index].title,
-                              thumbnailUrl: articles[index].thumbnailUrl,
-                              publishedAt: articles[index].publishedAt,
-                              author: articles[index].author,
-                              onTap: () {
-                                PrimaryNavigation.pushFromRight(
-                                  context,
-                                  page: DetailArticleScreen(
-                                    id: articles[index].id,
-                                  ),
-                                );
-                              },
-                            );
+                        child: Builder(
+                          builder: (context) {
+                            if (articles.isLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primary1,
+                                ),
+                              );
+                            }
+
+                            if (articles.isError) {
+                              return const DataEmpty();
+                            }
+
+                            if (articles.isSuccess &&
+                                dataArticles?.isNotEmpty == true) {
+                              return ListView.separated(
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(
+                                    height: AppDimens.paddingMedium,
+                                  );
+                                },
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: dataArticles?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  return ArticleItem(
+                                    title: dataArticles?[index]?.title ?? '',
+                                    thumbnailUrl:
+                                        dataArticles?[index]?.thumbnail ?? '',
+                                    publishedAt: formatDate( dataArticles?[index]
+                                            ?.createdAt),
+                                    author: dataArticles?[index]
+                                            ?.author
+                                            ?.userId
+                                            .toString() ??
+                                        '',
+                                    onTap: () {
+                                      if (dataArticles?[index]
+                                              ?.title
+                                              .toLowerCase() ==
+                                          'lainnya') {
+                                        PrimaryNavigation.pushFromRight(context,
+                                            page: const ArticlesScreen());
+                                        return;
+                                      }
+
+                                      PrimaryNavigation.pushFromRight(
+                                        context,
+                                        page: DetailArticleScreen(
+                                          id: dataArticles?[index]?.id ?? 0,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            }
+                            return const DataEmpty();
                           },
                         ),
                       ),

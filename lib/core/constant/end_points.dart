@@ -10,4 +10,6 @@ class ApiEndPoints {
   static const String addAddress = "member/address/create";
 
   static const String ceremony = "member/ceremony";
+
+  static const String article = "article";
 }
