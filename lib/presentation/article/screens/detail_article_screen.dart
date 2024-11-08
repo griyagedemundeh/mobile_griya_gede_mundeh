@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fquery/fquery.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
@@ -82,7 +83,7 @@ class DetailArticleScreen extends HookWidget {
                         ),
                         child: CachedNetworkImage(
                           imageUrl: dataDetailArticle?.thumbnail ??
-                              "https://awsimages.detik.net.id/community/media/visual/2022/08/02/melihat-prosesi-ngaben-massal-di-bali-2_169.jpeg?w=600&q=90",
+                              AppImages.dummyArticle,
                           fit: BoxFit.cover,
                           height: height * 0.25,
                           width: width * 0.8,
@@ -100,17 +101,17 @@ class DetailArticleScreen extends HookWidget {
                       ),
                       const SizedBox(height: AppDimens.paddingMedium),
                       Text(
-                        dataDetailArticle?.title ??
-                            "Arti Mepamit, Upacara Adat Bali yang Dijalani Mahalini & Dinikahi Rizky Febian",
+                        dataDetailArticle?.title ?? "",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: AppFontSizes.titleMediumLarge,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Padding(
+                      Container(
                         padding: const EdgeInsets.all(AppDimens.paddingMedium),
-                        child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ArticleMetaItem(
@@ -118,33 +119,22 @@ class DetailArticleScreen extends HookWidget {
                               data: formatDate(dataDetailArticle?.createdAt),
                               color: AppColors.gray2,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppDimens.paddingMedium,
-                              ),
-                              child: Text(
-                                "|",
-                                style: TextStyle(
-                                  color: AppColors.gray2,
-                                ),
-                              ),
+                            const SizedBox(
+                              height: AppDimens.paddingSmall,
                             ),
                             ArticleMetaItem(
                               icon: AppImages.icAuthor,
-                              data: dataDetailArticle?.author?.userId
+                              data: dataDetailArticle?.author?.user.fullName
                                       .toString() ??
-                                  'a',
+                                  '',
                               color: AppColors.gray2,
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: AppDimens.paddingMedium),
-                      Text(
-                        dataDetailArticle?.content ?? "",
-                        style: const TextStyle(
-                          fontSize: AppFontSizes.bodySmall,
-                        ),
+                      HtmlWidget(
+                        dataDetailArticle?.content ?? '',
                       ),
                     ],
                   ),

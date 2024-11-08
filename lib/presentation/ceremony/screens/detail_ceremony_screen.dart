@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -27,13 +29,6 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indica
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/title_description_ceremony.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-class ThumbnailCeremony {
-  final String id;
-  final String thumbnailUrl;
-
-  ThumbnailCeremony({required this.id, required this.thumbnailUrl});
-}
 
 class DetailCeremonyScreen extends HookConsumerWidget {
   const DetailCeremonyScreen({super.key, this.id});
@@ -215,7 +210,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: Builder(builder: (context) {
-        if (isOpened.value && (ceremonyPackages?.isEmpty ?? false)) {
+        log('${isOpened.value}', name: "AOKWOKOWA");
+        log('${(ceremonyPackages?.isEmpty)}', name: "AOKWOKOWA111");
+
+        if (isOpened.value && (ceremonyPackages?.isNotEmpty ?? false)) {
           return SelectedButtonsPackage(
             onTapButtonPrimary: () {
               showAlertConfirmation();

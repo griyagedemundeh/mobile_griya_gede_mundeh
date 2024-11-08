@@ -31,92 +31,102 @@ class ArticleItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
-        height: height * 0.2,
-        width: width,
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              child: ColorFiltered(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+        child: SizedBox(
+          height: height * 0.2,
+          width: width,
+          child: Stack(
+            children: [
+              ColorFiltered(
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.5),
                   BlendMode.darken,
                 ),
-                child: CachedNetworkImage(
-                  imageUrl: thumbnailUrl,
-                  fit: BoxFit.cover,
+                child: Container(
+                  height: height * 0.2,
                   width: width,
-                  progressIndicatorBuilder: (context, url, downloadProgress) {
-                    return Shimmer.fromColors(
-                      baseColor: AppColors.gray2.withOpacity(0.6),
-                      highlightColor: AppColors.light1,
-                      child: const SizedBox(),
-                    );
-                  },
-                  errorWidget: (context, url, error) => const SizedBox(),
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(
-                AppDimens.borderRadiusLarge,
-              ),
-              width: width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: AppDimens.paddingMedium,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const SizedBox(
-                            height: AppDimens.paddingLarge,
-                          ),
-                          Text(
-                            title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: AppColors.light1,
-                              fontSize: AppFontSizes.bodyLarge,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: AppDimens.paddingSmall,
-                            ),
-                            child: ArticleMetaItem(
-                              icon: AppImages.icDate,
-                              data: publishedAt,
-                            ),
-                          ),
-                          ArticleMetaItem(
-                            icon: AppImages.icAuthor,
-                            data: author,
-                          ),
-                        ],
-                      ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary1,
+                    borderRadius: BorderRadius.circular(
+                      10,
                     ),
                   ),
-                  SvgPicture.asset(
-                    AppImages.rigthBottom,
-                    height: 40,
-                    width: 40,
+                  child: CachedNetworkImage(
+                    imageUrl: thumbnailUrl,
+                    fit: BoxFit.cover,
+                    width: width,
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                      return Shimmer.fromColors(
+                        baseColor: AppColors.gray2.withOpacity(0.6),
+                        highlightColor: AppColors.light1,
+                        child: const SizedBox(),
+                      );
+                    },
+                    errorWidget: (context, url, error) => const SizedBox(),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Container(
+                padding: const EdgeInsets.all(
+                  AppDimens.borderRadiusLarge,
+                ),
+                width: width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: AppDimens.paddingMedium,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const SizedBox(
+                              height: AppDimens.paddingLarge,
+                            ),
+                            Text(
+                              title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: AppColors.light1,
+                                fontSize: AppFontSizes.bodyLarge,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: AppDimens.paddingSmall,
+                              ),
+                              child: ArticleMetaItem(
+                                icon: AppImages.icDate,
+                                data: publishedAt,
+                              ),
+                            ),
+                            ArticleMetaItem(
+                              icon: AppImages.icAuthor,
+                              data: author,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SvgPicture.asset(
+                      AppImages.rigthBottom,
+                      height: 40,
+                      width: 40,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
