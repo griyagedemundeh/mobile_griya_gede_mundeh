@@ -62,7 +62,7 @@ class CermonyCard extends StatelessWidget {
                       AppImages.ceremonyWelcome,
                       fit: BoxFit.cover,
                       width: width,
-                      height: height * 0.28,
+                      height: height * 0.275,
                     ),
                   ),
                 ),

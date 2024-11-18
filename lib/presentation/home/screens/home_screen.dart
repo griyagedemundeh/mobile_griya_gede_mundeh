@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
@@ -361,7 +360,10 @@ class HomeScreen extends HookConsumerWidget {
                                 },
                               );
                             }
-                            return const DataEmpty();
+                            return SizedBox(
+                              height: height * 0.5,
+                              child: const DataEmpty(),
+                            );
                           },
                         ),
                       ),

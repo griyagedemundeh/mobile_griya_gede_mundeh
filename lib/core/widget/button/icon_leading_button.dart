@@ -62,10 +62,16 @@ class IconLeadingButton extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppDimens.paddingSmall),
-            Text(
-              label,
-              style: const TextStyle(
-                color: AppColors.primary1,
+            SizedBox(
+              width: width != null ? ((width ?? 0) * 0.7) : null,
+              child: Text(
+                label,
+                maxLines: 1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: AppColors.primary1,
+                ),
               ),
             ),
           ],

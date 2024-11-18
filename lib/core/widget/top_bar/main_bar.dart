@@ -23,6 +23,23 @@ class MainBar extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
 
+    String getZone() {
+      final today = DateTime.now();
+
+      switch (today.hour) {
+        case >= 0 && < 12:
+          return 'Pagi';
+        case >= 12 && <= 14:
+          return 'Siang';
+        case >= 15 && <= 18:
+          return 'Sore';
+        case >= 19 && <= 23:
+          return 'Malam';
+        default:
+          return 'Pagi';
+      }
+    }
+
     return Container(
       width: width,
       padding: const EdgeInsets.symmetric(
@@ -62,7 +79,7 @@ class MainBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    locales?.greeting('Pagi') ?? '',
+                    locales?.greeting(getZone()) ?? '',
                     style: const TextStyle(
                       color: AppColors.gray2,
                     ),

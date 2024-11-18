@@ -281,7 +281,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                     child: Column(
                       children: [
                         Container(
-                          color: AppColors.lightgray,
+                          color: AppColors.dark1.withOpacity(0.75),
                           child: Column(
                             children: [
                               MainThumbnail(

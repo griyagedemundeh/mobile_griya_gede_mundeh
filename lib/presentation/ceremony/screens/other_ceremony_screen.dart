@@ -137,33 +137,37 @@ class OtherCeremonyScreen extends HookConsumerWidget {
                             borderRadius: BorderRadius.circular(
                               10,
                             ),
-                            child: ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.5),
-                                BlendMode.darken,
-                              ),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    (ceremony?.ceremonyDocumentation != null &&
-                                            ceremony!.ceremonyDocumentation!
-                                                .isNotEmpty)
-                                        ? ceremony.ceremonyDocumentation![0]
-                                                ?.photo ??
-                                            AppImages.dummyCeremony
-                                        : AppImages.dummyCeremony,
-                                fit: BoxFit.cover,
-                                height: height * 0.3,
-                                width: width,
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) {
-                                  return Shimmer.fromColors(
-                                    baseColor: AppColors.gray2.withOpacity(0.6),
-                                    highlightColor: AppColors.light1,
-                                    child: const SizedBox(),
-                                  );
-                                },
-                                errorWidget: (context, url, error) =>
-                                    const SizedBox(),
+                            child: Container(
+                              color: AppColors.dark1.withOpacity(0.8),
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.5),
+                                  BlendMode.darken,
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: (ceremony?.ceremonyDocumentation !=
+                                              null &&
+                                          ceremony!.ceremonyDocumentation!
+                                              .isNotEmpty)
+                                      ? ceremony.ceremonyDocumentation![0]
+                                              ?.photo ??
+                                          AppImages.dummyCeremony
+                                      : AppImages.dummyCeremony,
+                                  fit: BoxFit.cover,
+                                  height: height * 0.3,
+                                  width: width,
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) {
+                                    return Shimmer.fromColors(
+                                      baseColor:
+                                          AppColors.gray2.withOpacity(0.6),
+                                      highlightColor: AppColors.light1,
+                                      child: const SizedBox(),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) =>
+                                      const SizedBox(),
+                                ),
                               ),
                             ),
                           ),

@@ -36,19 +36,22 @@ class CeremonyServiceItem extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: CachedNetworkImage(
-                imageUrl: iconUrl != '' ? iconUrl : AppImages.dummyCeremony,
-                fit: BoxFit.cover,
-                height: 60,
-                width: 60,
-                progressIndicatorBuilder: (context, url, downloadProgress) {
-                  return Shimmer.fromColors(
-                    baseColor: AppColors.gray2.withOpacity(0.6),
-                    highlightColor: AppColors.light1,
-                    child: const SizedBox(),
-                  );
-                },
-                errorWidget: (context, url, error) => const SizedBox(),
+              child: Container(
+                color: AppColors.dark1.withOpacity(0.75),
+                child: CachedNetworkImage(
+                  imageUrl: iconUrl != '' ? iconUrl : AppImages.dummyCeremony,
+                  fit: BoxFit.cover,
+                  height: 60,
+                  width: 60,
+                  progressIndicatorBuilder: (context, url, downloadProgress) {
+                    return Shimmer.fromColors(
+                      baseColor: AppColors.gray2.withOpacity(0.6),
+                      highlightColor: AppColors.light1,
+                      child: const SizedBox(),
+                    );
+                  },
+                  errorWidget: (context, url, error) => const SizedBox(),
+                ),
               ),
             ),
           ),
