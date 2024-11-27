@@ -87,12 +87,15 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
       if (dataConsult != null) {
         consultation.value = Consultation.fromJson(dataConsult);
       }
+    }
 
+    useEffect(() {
       messageController.text = (consultation.value?.ceremonyPackageId == null ||
               consultation.value?.ceremonyPackageId != ceremonyPackage?.id
           ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
           : '');
-    }
+      return null;
+    }, [consultation.value?.ceremonyPackageId]);
 
     useEffect(() {
       init();

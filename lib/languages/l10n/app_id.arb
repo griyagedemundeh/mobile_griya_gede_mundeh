@@ -64,7 +64,7 @@
     "enterAddressNote": "Masukkan catatan detail alamat anda, contoh: Kiri patung",
     "back": "Kembali",
     "addNewAddress": "Tambah Alamat Baru",
-    "sureSelectPackage": "Udah yakin ingin pilih {package}?",
+    "sureSelectPackage": "Udah yakin ingin pilih dan konsultasi untuk {package}?",
     "@sureSelectPackage": {
         "description": "Konfirmasi Pilih Paket",
         "placeholders": {

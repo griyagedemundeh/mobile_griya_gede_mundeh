@@ -144,7 +144,7 @@ class AddressList extends HookConsumerWidget {
                           ),
                         ),
                         child: Container(
-                          height: AppDimens.appBarHeight,
+                          // height: AppDimens.appBarHeight,
                           padding: const EdgeInsets.all(
                             AppDimens.paddingMedium,
                           ),
@@ -171,8 +171,12 @@ class AddressList extends HookConsumerWidget {
                               const SizedBox(
                                 width: AppDimens.paddingMedium,
                               ),
-                              Text(
-                                addresses?[index]?.address ?? '',
+                              Expanded(
+                                child: Text(
+                                  addresses?[index]?.address ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                ),
                               ),
                             ],
                           ),

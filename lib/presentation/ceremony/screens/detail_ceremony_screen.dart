@@ -1,24 +1,32 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ceremony_consultation_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/consultation.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
@@ -27,8 +35,10 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/main_thumb
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/title_description_ceremony.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailCeremonyScreen extends HookConsumerWidget {
   const DetailCeremonyScreen({super.key, this.id});
@@ -40,6 +50,12 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
     final isOpened = useState(false);
+
+    final HomeController homeController = HomeController(
+      authRepository: AuthRepository(),
+    );
+
+    final Auth? user = homeController.getUser();
 
     final CeremonyController ceremonyController =
         CeremonyController(ceremonyRepository: CeremonyRepository());
@@ -147,11 +163,51 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     //   );
     // });
 
-    showAddressSheet() {
-      AddressSheet.showSheet(
-        context,
-        onChange: (address) {},
-      );
+    // showAddressSheet() {
+    //   AddressSheet.showSheet(
+    //     context,
+    //     onChange: (address) {},
+    //   );
+    // }
+
+    final SupabaseClient supabase = AppConfig().supabase();
+    final SupabaseQueryBuilder dbConsult = supabase.from(
+      StorageKey.supabaseConsultCeremony,
+    );
+
+    Future<void> createConsultation() async {
+      try {
+        final CeremonyConsultationRequest consultationRequest =
+            CeremonyConsultationRequest(
+          ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
+          ceremonyName: ceremony?.title ?? '',
+          ceremonyServiceId: ceremony?.id ?? 0,
+          status: 'onGoing',
+          userId: user?.id ?? 0,
+          userName: user?.fullName ?? '',
+          userPhoto: user?.avatarUrl ?? '',
+          ceremonyPackageId: selectedCeremonyPackage.value?.id,
+          createdAt: DateTime.now().toIso8601String(),
+        );
+
+        final response = await dbConsult.insert(consultationRequest.toJson());
+
+        if (response) {
+          PrimaryNavigation.pushFromRight(
+            context,
+            page: ConsultationCeremonyScreen(
+              ceremony: ceremony,
+              ceremonyPackage: selectedCeremonyPackage.value,
+            ),
+          );
+        }
+      } on PostgrestException catch (error) {
+        log("ERROR CREATE CONSULTATION --->>> ${error.message}");
+        PrimaryToast.error(message: error.message);
+      } catch (err) {
+        log('ERORR ${err.toString()}');
+        PrimaryToast.error(message: err.toString());
+      }
     }
 
     showAlertConfirmation() {
@@ -179,15 +235,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
               Row(
                 children: [
                   SecondaryButton(
-                    label: locales?.consultFirst ?? '',
+                    label: locales?.back ?? '',
                     onTap: () {
-                      PrimaryNavigation.pushFromRight(
-                        context,
-                        page: ConsultationCeremonyScreen(
-                          ceremony: ceremony,
-                          ceremonyPackage: selectedCeremonyPackage.value,
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
                     isMedium: true,
                     isOutline: true,
@@ -195,8 +245,8 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                   const SizedBox(width: AppDimens.paddingMedium),
                   PrimaryButton(
                     label: locales?.veryConfident ?? '',
-                    onTap: () {
-                      showAddressSheet();
+                    onTap: () async {
+                      await createConsultation();
                     },
                     isMedium: true,
                   ),
@@ -210,9 +260,6 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: Builder(builder: (context) {
-        log('${isOpened.value}', name: "AOKWOKOWA");
-        log('${(ceremonyPackages?.isEmpty)}', name: "AOKWOKOWA111");
-
         if (isOpened.value && (ceremonyPackages?.isNotEmpty ?? false)) {
           return SelectedButtonsPackage(
             onTapButtonPrimary: () {

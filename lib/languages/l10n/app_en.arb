@@ -64,7 +64,7 @@
     "enterAddressNote": "Enter your detail address note",
     "back": "Back",
     "addNewAddress": "Add New Address",
-    "sureSelectPackage": "Are you sure you want to select {package}?",
+    "sureSelectPackage": "Are you sure you want to select and consultation for {package}?",
     "@sureSelectPackage": {
         "description": "Confirm Package Select",
         "placeholders": {
