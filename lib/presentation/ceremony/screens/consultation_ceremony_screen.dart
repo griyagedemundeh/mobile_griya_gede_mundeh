@@ -56,11 +56,11 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final messageTemplate = useState<String>('');
 
     final SupabaseClient supabase = AppConfig().supabase();
-    final SupabaseQueryBuilder db = supabase.from(
-      StorageKey.supabaseConsultCeremony,
+    final SupabaseQueryBuilder dbMessages = supabase.from(
+      StorageKey.supabaseConsultCeremonyMessages,
     );
     final SupabaseQueryBuilder dbConsult = supabase.from(
-      StorageKey.supabaseConsult,
+      StorageKey.supabaseConsultCeremony,
     );
 
     final AuthController authController =
@@ -73,7 +73,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final consultation = useState<Consultation?>(null);
 
     Future init() async {
-      messagesStream.value = db
+      messagesStream.value = dbMessages
           .stream(primaryKey: ['consultationId'])
           .eq('consultationId', 1)
           .order('id', ascending: false)
@@ -124,7 +124,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           createdAt: DateTime.now().toIso8601String(),
         );
 
-        await db.insert(message.toJson());
+        await dbMessages.insert(message.toJson());
 
         init();
       } on PostgrestException catch (error) {
