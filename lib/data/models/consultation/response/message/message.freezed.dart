@@ -24,6 +24,7 @@ mixin _$Message {
   int get consultationId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
+  int? get addressId => throw _privateConstructorUsedError;
   int? get ceremonyPackageId => throw _privateConstructorUsedError;
   int? get invoiceId => throw _privateConstructorUsedError;
   String? get messageType => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $MessageCopyWith<$Res> {
       int consultationId,
       int userId,
       int ceremonyServiceId,
+      int? addressId,
       int? ceremonyPackageId,
       int? invoiceId,
       String? messageType,
@@ -71,6 +73,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? consultationId = null,
     Object? userId = null,
     Object? ceremonyServiceId = null,
+    Object? addressId = freezed,
     Object? ceremonyPackageId = freezed,
     Object? invoiceId = freezed,
     Object? messageType = freezed,
@@ -95,6 +98,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as int?,
       ceremonyPackageId: freezed == ceremonyPackageId
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
@@ -135,6 +142,7 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       int consultationId,
       int userId,
       int ceremonyServiceId,
+      int? addressId,
       int? ceremonyPackageId,
       int? invoiceId,
       String? messageType,
@@ -158,6 +166,7 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? consultationId = null,
     Object? userId = null,
     Object? ceremonyServiceId = null,
+    Object? addressId = freezed,
     Object? ceremonyPackageId = freezed,
     Object? invoiceId = freezed,
     Object? messageType = freezed,
@@ -182,6 +191,10 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as int?,
       ceremonyPackageId: freezed == ceremonyPackageId
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
@@ -218,6 +231,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       required this.consultationId,
       required this.userId,
       required this.ceremonyServiceId,
+      this.addressId,
       this.ceremonyPackageId,
       this.invoiceId,
       this.messageType,
@@ -237,6 +251,8 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   @override
   final int ceremonyServiceId;
   @override
+  final int? addressId;
+  @override
   final int? ceremonyPackageId;
   @override
   final int? invoiceId;
@@ -251,7 +267,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Message(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
+    return 'Message(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, addressId: $addressId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
   }
 
   @override
@@ -263,6 +279,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       ..add(DiagnosticsProperty('consultationId', consultationId))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('ceremonyServiceId', ceremonyServiceId))
+      ..add(DiagnosticsProperty('addressId', addressId))
       ..add(DiagnosticsProperty('ceremonyPackageId', ceremonyPackageId))
       ..add(DiagnosticsProperty('invoiceId', invoiceId))
       ..add(DiagnosticsProperty('messageType', messageType))
@@ -282,6 +299,8 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.ceremonyServiceId, ceremonyServiceId) ||
                 other.ceremonyServiceId == ceremonyServiceId) &&
+            (identical(other.addressId, addressId) ||
+                other.addressId == addressId) &&
             (identical(other.ceremonyPackageId, ceremonyPackageId) ||
                 other.ceremonyPackageId == ceremonyPackageId) &&
             (identical(other.invoiceId, invoiceId) ||
@@ -302,6 +321,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       consultationId,
       userId,
       ceremonyServiceId,
+      addressId,
       ceremonyPackageId,
       invoiceId,
       messageType,
@@ -329,6 +349,7 @@ abstract class _Message implements Message {
       required final int consultationId,
       required final int userId,
       required final int ceremonyServiceId,
+      final int? addressId,
       final int? ceremonyPackageId,
       final int? invoiceId,
       final String? messageType,
@@ -346,6 +367,8 @@ abstract class _Message implements Message {
   int get userId;
   @override
   int get ceremonyServiceId;
+  @override
+  int? get addressId;
   @override
   int? get ceremonyPackageId;
   @override

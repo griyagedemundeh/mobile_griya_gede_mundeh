@@ -129,8 +129,8 @@ class ConsultationScreen extends HookConsumerWidget {
                                                   BorderRadius.circular(100),
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                    'https://upload.wikimedia.org/wikipedia/id/b/b2/Lorde_-_Melodrama.png',
-                                                fit: BoxFit.scaleDown,
+                                                    AppImages.dummyCeremony,
+                                                fit: BoxFit.cover,
                                                 height: double.infinity,
                                                 width: double.infinity,
                                                 progressIndicatorBuilder:
@@ -159,7 +159,7 @@ class ConsultationScreen extends HookConsumerWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "awkoakwoakwo",
+                                                "Upacara Mebayuh",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize:
@@ -167,7 +167,7 @@ class ConsultationScreen extends HookConsumerWidget {
                                                 ),
                                               ),
                                               Text(
-                                                'aowkaowk',
+                                                'onGoing',
                                                 style: TextStyle(
                                                   color: AppColors.gray2,
                                                 ),

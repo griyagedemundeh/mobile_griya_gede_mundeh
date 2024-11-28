@@ -10,6 +10,7 @@ class CeremonyConsultationRequest with _$CeremonyConsultationRequest {
     required int userId,
     required String ceremonyName,
     required int ceremonyServiceId,
+    required int consultationId,
     int? ceremonyPackageId,
     required String userName,
     required String userPhoto,

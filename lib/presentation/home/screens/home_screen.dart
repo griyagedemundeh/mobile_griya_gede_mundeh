@@ -237,8 +237,6 @@ class HomeScreen extends HookConsumerWidget {
                                   ),
                                   itemCount: dataCeremonies?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    final ceremony = dataCeremonies?[1]?.title;
-                                    log(name: "ceremony", ceremony.toString());
                                     return CeremonyServiceItem(
                                       onTap: () {
                                         if (dataCeremonies?[index]

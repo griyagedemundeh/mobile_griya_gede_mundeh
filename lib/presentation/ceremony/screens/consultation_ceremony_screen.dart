@@ -53,7 +53,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final messageController = useTextEditingController(
       text: "",
     );
-    final messageTemplate = useState<String>('');
+    // final messageTemplate = useState<String>('');
 
     final SupabaseClient supabase = AppConfig().supabase();
     final SupabaseQueryBuilder dbMessages = supabase.from(
@@ -83,6 +83,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
       final dataConsult =
           await dbConsult.select().eq('consultationId', 1).maybeSingle();
+
+      log("$dataConsult", name: "CONSULT");
 
       if (dataConsult != null) {
         consultation.value = Consultation.fromJson(dataConsult);
@@ -179,17 +181,17 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
                             return Container(
                               margin: EdgeInsets.only(
-                                left: !chat.isAdmin
+                                left: !(chat.isAdmin ?? false)
                                     ? (width * 0.2)
                                     : AppDimens.paddingMedium,
-                                right: chat.isAdmin
+                                right: (chat.isAdmin ?? false)
                                     ? (width * 0.2)
                                     : AppDimens.paddingMedium,
                                 top: AppDimens.paddingSmall,
                                 bottom: AppDimens.paddingSmall,
                               ),
                               child: Column(
-                                crossAxisAlignment: chat.isAdmin
+                                crossAxisAlignment: (chat.isAdmin ?? false)
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                                 children: [
@@ -197,13 +199,13 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                     padding: const EdgeInsets.all(
                                         AppDimens.paddingMedium),
                                     decoration: BoxDecoration(
-                                      color: chat.isAdmin
+                                      color: (chat.isAdmin ?? false)
                                           ? Colors.white
                                           : AppColors.primary1,
                                       borderRadius: BorderRadius.circular(
                                         AppDimens.paddingMedium,
                                       ),
-                                      border: chat.isAdmin
+                                      border: (chat.isAdmin ?? false)
                                           ? Border.all(
                                               color: AppColors.lightgray2,
                                               width: 1,
@@ -214,7 +216,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                       chat.message,
                                       style: TextStyle(
                                         fontSize: AppFontSizes.bodySmall,
-                                        color: chat.isAdmin
+                                        color: (chat.isAdmin ?? false)
                                             ? AppColors.primaryText
                                             : Colors.white,
                                       ),

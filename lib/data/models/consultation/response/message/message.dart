@@ -11,6 +11,7 @@ class Message with _$Message {
     required int consultationId,
     required int userId,
     required int ceremonyServiceId,
+    int? addressId,
     int? ceremonyPackageId,
     int? invoiceId,
     String? messageType,
