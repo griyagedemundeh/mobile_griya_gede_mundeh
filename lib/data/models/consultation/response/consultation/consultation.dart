@@ -17,6 +17,7 @@ class Consultation with _$Consultation {
     required String userPhoto,
     required String status,
     DateTime? createdAt,
+    String? ceremonyIconUrl,
   }) = _Consultation;
 
   factory Consultation.fromJson(Map<String, dynamic> json) =>

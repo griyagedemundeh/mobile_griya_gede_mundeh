@@ -20,16 +20,19 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
-  int get id => throw _privateConstructorUsedError;
   int get consultationId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
-  int get ceremonyServiceId => throw _privateConstructorUsedError;
-  int? get addressId => throw _privateConstructorUsedError;
+  int? get ceremonyServiceId => throw _privateConstructorUsedError;
   int? get ceremonyPackageId => throw _privateConstructorUsedError;
-  int? get invoiceId => throw _privateConstructorUsedError;
+  int? get addressId => throw _privateConstructorUsedError;
+  String? get invoiceId => throw _privateConstructorUsedError;
   String? get messageType => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get totalPrice => throw _privateConstructorUsedError;
+  String? get ceremonyDate => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,16 +46,19 @@ abstract class $MessageCopyWith<$Res> {
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
   $Res call(
-      {int id,
-      int consultationId,
+      {int consultationId,
       int userId,
-      int ceremonyServiceId,
-      int? addressId,
+      int? ceremonyServiceId,
       int? ceremonyPackageId,
-      int? invoiceId,
+      int? addressId,
+      String? invoiceId,
       String? messageType,
       bool isAdmin,
       String message,
+      String? title,
+      String? totalPrice,
+      String? ceremonyDate,
+      String? address,
       DateTime? createdAt});
 }
 
@@ -69,23 +75,22 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? consultationId = null,
     Object? userId = null,
-    Object? ceremonyServiceId = null,
-    Object? addressId = freezed,
+    Object? ceremonyServiceId = freezed,
     Object? ceremonyPackageId = freezed,
+    Object? addressId = freezed,
     Object? invoiceId = freezed,
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
+    Object? title = freezed,
+    Object? totalPrice = freezed,
+    Object? ceremonyDate = freezed,
+    Object? address = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       consultationId: null == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
@@ -94,22 +99,22 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServiceId: null == ceremonyServiceId
+      ceremonyServiceId: freezed == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
-              as int,
-      addressId: freezed == addressId
-          ? _value.addressId
-          : addressId // ignore: cast_nullable_to_non_nullable
               as int?,
       ceremonyPackageId: freezed == ceremonyPackageId
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
               as int?,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as int?,
       invoiceId: freezed == invoiceId
           ? _value.invoiceId
           : invoiceId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       messageType: freezed == messageType
           ? _value.messageType
           : messageType // ignore: cast_nullable_to_non_nullable
@@ -122,6 +127,22 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPrice: freezed == totalPrice
+          ? _value.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyDate: freezed == ceremonyDate
+          ? _value.ceremonyDate
+          : ceremonyDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -138,16 +159,19 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
-      int consultationId,
+      {int consultationId,
       int userId,
-      int ceremonyServiceId,
-      int? addressId,
+      int? ceremonyServiceId,
       int? ceremonyPackageId,
-      int? invoiceId,
+      int? addressId,
+      String? invoiceId,
       String? messageType,
       bool isAdmin,
       String message,
+      String? title,
+      String? totalPrice,
+      String? ceremonyDate,
+      String? address,
       DateTime? createdAt});
 }
 
@@ -162,23 +186,22 @@ class __$$MessageImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? consultationId = null,
     Object? userId = null,
-    Object? ceremonyServiceId = null,
-    Object? addressId = freezed,
+    Object? ceremonyServiceId = freezed,
     Object? ceremonyPackageId = freezed,
+    Object? addressId = freezed,
     Object? invoiceId = freezed,
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
+    Object? title = freezed,
+    Object? totalPrice = freezed,
+    Object? ceremonyDate = freezed,
+    Object? address = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$MessageImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       consultationId: null == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
@@ -187,22 +210,22 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServiceId: null == ceremonyServiceId
+      ceremonyServiceId: freezed == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
-              as int,
-      addressId: freezed == addressId
-          ? _value.addressId
-          : addressId // ignore: cast_nullable_to_non_nullable
               as int?,
       ceremonyPackageId: freezed == ceremonyPackageId
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
               as int?,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as int?,
       invoiceId: freezed == invoiceId
           ? _value.invoiceId
           : invoiceId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       messageType: freezed == messageType
           ? _value.messageType
           : messageType // ignore: cast_nullable_to_non_nullable
@@ -215,6 +238,22 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPrice: freezed == totalPrice
+          ? _value.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyDate: freezed == ceremonyDate
+          ? _value.ceremonyDate
+          : ceremonyDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -227,35 +266,36 @@ class __$$MessageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   const _$MessageImpl(
-      {required this.id,
-      required this.consultationId,
+      {required this.consultationId,
       required this.userId,
-      required this.ceremonyServiceId,
-      this.addressId,
+      this.ceremonyServiceId,
       this.ceremonyPackageId,
+      this.addressId,
       this.invoiceId,
       this.messageType,
       required this.isAdmin,
       required this.message,
+      this.title,
+      this.totalPrice,
+      this.ceremonyDate,
+      this.address,
       this.createdAt});
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageImplFromJson(json);
 
   @override
-  final int id;
-  @override
   final int consultationId;
   @override
   final int userId;
   @override
-  final int ceremonyServiceId;
-  @override
-  final int? addressId;
+  final int? ceremonyServiceId;
   @override
   final int? ceremonyPackageId;
   @override
-  final int? invoiceId;
+  final int? addressId;
+  @override
+  final String? invoiceId;
   @override
   final String? messageType;
   @override
@@ -263,11 +303,19 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   @override
   final String message;
   @override
+  final String? title;
+  @override
+  final String? totalPrice;
+  @override
+  final String? ceremonyDate;
+  @override
+  final String? address;
+  @override
   final DateTime? createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Message(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, addressId: $addressId, ceremonyPackageId: $ceremonyPackageId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
+    return 'Message(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, title: $title, totalPrice: $totalPrice, ceremonyDate: $ceremonyDate, address: $address, createdAt: $createdAt)';
   }
 
   @override
@@ -275,16 +323,19 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Message'))
-      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('consultationId', consultationId))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('ceremonyServiceId', ceremonyServiceId))
-      ..add(DiagnosticsProperty('addressId', addressId))
       ..add(DiagnosticsProperty('ceremonyPackageId', ceremonyPackageId))
+      ..add(DiagnosticsProperty('addressId', addressId))
       ..add(DiagnosticsProperty('invoiceId', invoiceId))
       ..add(DiagnosticsProperty('messageType', messageType))
       ..add(DiagnosticsProperty('isAdmin', isAdmin))
       ..add(DiagnosticsProperty('message', message))
+      ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('totalPrice', totalPrice))
+      ..add(DiagnosticsProperty('ceremonyDate', ceremonyDate))
+      ..add(DiagnosticsProperty('address', address))
       ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
@@ -293,22 +344,27 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.consultationId, consultationId) ||
                 other.consultationId == consultationId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.ceremonyServiceId, ceremonyServiceId) ||
                 other.ceremonyServiceId == ceremonyServiceId) &&
-            (identical(other.addressId, addressId) ||
-                other.addressId == addressId) &&
             (identical(other.ceremonyPackageId, ceremonyPackageId) ||
                 other.ceremonyPackageId == ceremonyPackageId) &&
+            (identical(other.addressId, addressId) ||
+                other.addressId == addressId) &&
             (identical(other.invoiceId, invoiceId) ||
                 other.invoiceId == invoiceId) &&
             (identical(other.messageType, messageType) ||
                 other.messageType == messageType) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.message, message) || other.message == message) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.totalPrice, totalPrice) ||
+                other.totalPrice == totalPrice) &&
+            (identical(other.ceremonyDate, ceremonyDate) ||
+                other.ceremonyDate == ceremonyDate) &&
+            (identical(other.address, address) || other.address == address) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -317,16 +373,19 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       consultationId,
       userId,
       ceremonyServiceId,
-      addressId,
       ceremonyPackageId,
+      addressId,
       invoiceId,
       messageType,
       isAdmin,
       message,
+      title,
+      totalPrice,
+      ceremonyDate,
+      address,
       createdAt);
 
   @JsonKey(ignore: true)
@@ -345,40 +404,49 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
 
 abstract class _Message implements Message {
   const factory _Message(
-      {required final int id,
-      required final int consultationId,
+      {required final int consultationId,
       required final int userId,
-      required final int ceremonyServiceId,
-      final int? addressId,
+      final int? ceremonyServiceId,
       final int? ceremonyPackageId,
-      final int? invoiceId,
+      final int? addressId,
+      final String? invoiceId,
       final String? messageType,
       required final bool isAdmin,
       required final String message,
+      final String? title,
+      final String? totalPrice,
+      final String? ceremonyDate,
+      final String? address,
       final DateTime? createdAt}) = _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
   @override
-  int get id;
-  @override
   int get consultationId;
   @override
   int get userId;
   @override
-  int get ceremonyServiceId;
-  @override
-  int? get addressId;
+  int? get ceremonyServiceId;
   @override
   int? get ceremonyPackageId;
   @override
-  int? get invoiceId;
+  int? get addressId;
+  @override
+  String? get invoiceId;
   @override
   String? get messageType;
   @override
   bool get isAdmin;
   @override
   String get message;
+  @override
+  String? get title;
+  @override
+  String? get totalPrice;
+  @override
+  String? get ceremonyDate;
+  @override
+  String? get address;
   @override
   DateTime? get createdAt;
   @override

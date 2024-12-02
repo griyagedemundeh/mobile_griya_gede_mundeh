@@ -81,23 +81,44 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
             (maps) => maps.map((map) => Message.fromJson(map)).toList(),
           );
 
-      final dataConsult =
-          await dbConsult.select().eq('consultationId', 1).maybeSingle();
+      dbConsult
+          .select()
+          .eq('consultationId', 1)
+          .maybeSingle()
+          .then((val) async {
+        if (val != null) {
+          consultation.value = Consultation.fromJson(val);
+          log('${consultation.value}', name: 'CONSULTATION');
 
-      log("$dataConsult", name: "CONSULT");
+          log('${consultation.value?.ceremonyPackageId}',
+              name: 'CONSULT PACKE 22');
+          log('${ceremonyPackage?.id}', name: 'CONSULT PCAKGE');
 
-      if (dataConsult != null) {
-        consultation.value = Consultation.fromJson(dataConsult);
-      }
+          log('sakldsadkjddlksj');
+          log('Message --->>  ${(await messagesStream.value?.length ?? 0)}');
+
+          // Set Default Message when user asking for new Consulation or new package
+          messageController.text = (consultation.value?.ceremonyPackageId !=
+                      ceremonyPackage?.id ||
+                  (await messagesStream.value?.length) == 0
+              ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
+              : '');
+        }
+      });
     }
 
-    useEffect(() {
-      messageController.text = (consultation.value?.ceremonyPackageId == null ||
-              consultation.value?.ceremonyPackageId != ceremonyPackage?.id
-          ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
-          : '');
-      return null;
-    }, [consultation.value?.ceremonyPackageId]);
+    // Set Default Message when user asking for new Consulation or new package
+    // useEffect(() {
+    //   log('${ceremonyPackage?.id}', name: 'CEREMONY PACKAGE');
+    //   log('${consultation.value?.ceremonyPackageId}',
+    //       name: 'CEREMONY PACKAGE CONSULT');
+
+    //   messageController.text = (consultation.value?.ceremonyPackageId !=
+    //           ceremonyPackage?.id
+    //       ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
+    //       : '');
+    //   return null;
+    // }, [consultation.value?.ceremonyPackageId]);
 
     useEffect(() {
       init();
@@ -126,6 +147,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           ceremonyServiceId: ceremony?.id,
           addressId: address?.id,
           invoiceId: null,
+          address: address?.address,
           createdAt: DateTime.now().toIso8601String(),
         );
 
@@ -179,19 +201,21 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                           itemBuilder: (context, index) {
                             final chat = messages[index];
 
+                            log("CHAT ${messages.first}");
+
                             return Container(
                               margin: EdgeInsets.only(
-                                left: !(chat.isAdmin ?? false)
+                                left: !(chat.isAdmin)
                                     ? (width * 0.2)
                                     : AppDimens.paddingMedium,
-                                right: (chat.isAdmin ?? false)
+                                right: (chat.isAdmin)
                                     ? (width * 0.2)
                                     : AppDimens.paddingMedium,
                                 top: AppDimens.paddingSmall,
                                 bottom: AppDimens.paddingSmall,
                               ),
                               child: Column(
-                                crossAxisAlignment: (chat.isAdmin ?? false)
+                                crossAxisAlignment: (chat.isAdmin)
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                                 children: [
@@ -199,28 +223,53 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                     padding: const EdgeInsets.all(
                                         AppDimens.paddingMedium),
                                     decoration: BoxDecoration(
-                                      color: (chat.isAdmin ?? false)
+                                      color: (chat.isAdmin)
                                           ? Colors.white
                                           : AppColors.primary1,
                                       borderRadius: BorderRadius.circular(
                                         AppDimens.paddingMedium,
                                       ),
-                                      border: (chat.isAdmin ?? false)
+                                      border: (chat.isAdmin)
                                           ? Border.all(
                                               color: AppColors.lightgray2,
                                               width: 1,
                                             )
                                           : null,
                                     ),
-                                    child: Text(
-                                      chat.message,
-                                      style: TextStyle(
-                                        fontSize: AppFontSizes.bodySmall,
-                                        color: (chat.isAdmin ?? false)
-                                            ? AppColors.primaryText
-                                            : Colors.white,
-                                      ),
-                                    ),
+                                    child: chat.messageType == "default"
+                                        ? Text(
+                                            chat.message,
+                                            style: TextStyle(
+                                              fontSize: AppFontSizes.bodySmall,
+                                              color: (chat.isAdmin)
+                                                  ? AppColors.primaryText
+                                                  : Colors.white,
+                                            ),
+                                          )
+                                        : Column(
+                                            children: [
+                                              Text(
+                                                "Tagihan Upacara",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      AppFontSizes.bodySmall,
+                                                  color: (chat.isAdmin)
+                                                      ? AppColors.primaryText
+                                                      : Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                chat.title ?? '',
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      AppFontSizes.bodySmall,
+                                                  color: (chat.isAdmin)
+                                                      ? AppColors.primaryText
+                                                      : Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                   ),
                                   const SizedBox(
                                       height: AppDimens.paddingMicro),

@@ -16,6 +16,10 @@ class MessageRequest with _$MessageRequest {
     String? messageType,
     required bool isAdmin,
     required String message,
+    String? title,
+    String? totalPrice,
+    String? ceremonyDate,
+    String? address,
     String? createdAt,
   }) = _MessageRequest;
 

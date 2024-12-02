@@ -7,16 +7,19 @@ part 'message.g.dart';
 @freezed
 class Message with _$Message {
   const factory Message({
-    required int id,
     required int consultationId,
     required int userId,
-    required int ceremonyServiceId,
-    int? addressId,
+    int? ceremonyServiceId,
     int? ceremonyPackageId,
-    int? invoiceId,
+    int? addressId,
+    String? invoiceId,
     String? messageType,
     required bool isAdmin,
     required String message,
+    String? title,
+    String? totalPrice,
+    String? ceremonyDate,
+    String? address,
     DateTime? createdAt,
   }) = _Message;
 

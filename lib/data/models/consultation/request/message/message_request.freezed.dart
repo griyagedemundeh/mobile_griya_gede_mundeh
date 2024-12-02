@@ -29,6 +29,10 @@ mixin _$MessageRequest {
   String? get messageType => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get totalPrice => throw _privateConstructorUsedError;
+  String? get ceremonyDate => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,6 +57,10 @@ abstract class $MessageRequestCopyWith<$Res> {
       String? messageType,
       bool isAdmin,
       String message,
+      String? title,
+      String? totalPrice,
+      String? ceremonyDate,
+      String? address,
       String? createdAt});
 }
 
@@ -78,6 +86,10 @@ class _$MessageRequestCopyWithImpl<$Res, $Val extends MessageRequest>
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
+    Object? title = freezed,
+    Object? totalPrice = freezed,
+    Object? ceremonyDate = freezed,
+    Object? address = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -117,6 +129,22 @@ class _$MessageRequestCopyWithImpl<$Res, $Val extends MessageRequest>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPrice: freezed == totalPrice
+          ? _value.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyDate: freezed == ceremonyDate
+          ? _value.ceremonyDate
+          : ceremonyDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -143,6 +171,10 @@ abstract class _$$MessageRequestImplCopyWith<$Res>
       String? messageType,
       bool isAdmin,
       String message,
+      String? title,
+      String? totalPrice,
+      String? ceremonyDate,
+      String? address,
       String? createdAt});
 }
 
@@ -166,6 +198,10 @@ class __$$MessageRequestImplCopyWithImpl<$Res>
     Object? messageType = freezed,
     Object? isAdmin = null,
     Object? message = null,
+    Object? title = freezed,
+    Object? totalPrice = freezed,
+    Object? ceremonyDate = freezed,
+    Object? address = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$MessageRequestImpl(
@@ -205,6 +241,22 @@ class __$$MessageRequestImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPrice: freezed == totalPrice
+          ? _value.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyDate: freezed == ceremonyDate
+          ? _value.ceremonyDate
+          : ceremonyDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -228,6 +280,10 @@ class _$MessageRequestImpl
       this.messageType,
       required this.isAdmin,
       required this.message,
+      this.title,
+      this.totalPrice,
+      this.ceremonyDate,
+      this.address,
       this.createdAt});
 
   factory _$MessageRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -252,11 +308,19 @@ class _$MessageRequestImpl
   @override
   final String message;
   @override
+  final String? title;
+  @override
+  final String? totalPrice;
+  @override
+  final String? ceremonyDate;
+  @override
+  final String? address;
+  @override
   final String? createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MessageRequest(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, createdAt: $createdAt)';
+    return 'MessageRequest(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, title: $title, totalPrice: $totalPrice, ceremonyDate: $ceremonyDate, address: $address, createdAt: $createdAt)';
   }
 
   @override
@@ -273,6 +337,10 @@ class _$MessageRequestImpl
       ..add(DiagnosticsProperty('messageType', messageType))
       ..add(DiagnosticsProperty('isAdmin', isAdmin))
       ..add(DiagnosticsProperty('message', message))
+      ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('totalPrice', totalPrice))
+      ..add(DiagnosticsProperty('ceremonyDate', ceremonyDate))
+      ..add(DiagnosticsProperty('address', address))
       ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
@@ -296,6 +364,12 @@ class _$MessageRequestImpl
                 other.messageType == messageType) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.message, message) || other.message == message) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.totalPrice, totalPrice) ||
+                other.totalPrice == totalPrice) &&
+            (identical(other.ceremonyDate, ceremonyDate) ||
+                other.ceremonyDate == ceremonyDate) &&
+            (identical(other.address, address) || other.address == address) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -313,6 +387,10 @@ class _$MessageRequestImpl
       messageType,
       isAdmin,
       message,
+      title,
+      totalPrice,
+      ceremonyDate,
+      address,
       createdAt);
 
   @JsonKey(ignore: true)
@@ -341,6 +419,10 @@ abstract class _MessageRequest implements MessageRequest {
       final String? messageType,
       required final bool isAdmin,
       required final String message,
+      final String? title,
+      final String? totalPrice,
+      final String? ceremonyDate,
+      final String? address,
       final String? createdAt}) = _$MessageRequestImpl;
 
   factory _MessageRequest.fromJson(Map<String, dynamic> json) =
@@ -364,6 +446,14 @@ abstract class _MessageRequest implements MessageRequest {
   bool get isAdmin;
   @override
   String get message;
+  @override
+  String? get title;
+  @override
+  String? get totalPrice;
+  @override
+  String? get ceremonyDate;
+  @override
+  String? get address;
   @override
   String? get createdAt;
   @override

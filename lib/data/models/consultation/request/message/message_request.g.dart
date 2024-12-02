@@ -17,6 +17,10 @@ _$MessageRequestImpl _$$MessageRequestImplFromJson(Map<String, dynamic> json) =>
       messageType: json['messageType'] as String?,
       isAdmin: json['isAdmin'] as bool,
       message: json['message'] as String,
+      title: json['title'] as String?,
+      totalPrice: json['totalPrice'] as String?,
+      ceremonyDate: json['ceremonyDate'] as String?,
+      address: json['address'] as String?,
       createdAt: json['createdAt'] as String?,
     );
 
@@ -32,5 +36,9 @@ Map<String, dynamic> _$$MessageRequestImplToJson(
       'messageType': instance.messageType,
       'isAdmin': instance.isAdmin,
       'message': instance.message,
+      'title': instance.title,
+      'totalPrice': instance.totalPrice,
+      'ceremonyDate': instance.ceremonyDate,
+      'address': instance.address,
       'createdAt': instance.createdAt,
     };

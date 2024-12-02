@@ -193,11 +193,26 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           userName: user?.fullName ?? '',
           userPhoto: user?.avatarUrl ?? '',
           ceremonyPackageId: selectedCeremonyPackage.value?.id,
+          createdAt: DateTime.now().toIso8601String(),
         );
 
-        log("$consultationRequest", name: "CONSULT");
+        final dataConsult = await dbConsult
+            .select()
+            .eq('consultationId', consultationRequest.consultationId)
+            .maybeSingle();
 
-        await dbConsult.insert(consultationRequest.toJson()).then((val) {
+        if (dataConsult == null) {
+          await dbConsult.insert(consultationRequest.toJson()).then((val) {
+            isLoading.value = false;
+            PrimaryNavigation.pushFromRight(
+              context,
+              page: ConsultationCeremonyScreen(
+                ceremony: ceremony,
+                ceremonyPackage: selectedCeremonyPackage.value,
+              ),
+            );
+          });
+        } else {
           isLoading.value = false;
           PrimaryNavigation.pushFromRight(
             context,
@@ -206,7 +221,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
               ceremonyPackage: selectedCeremonyPackage.value,
             ),
           );
-        });
+        }
       } on PostgrestException catch (error) {
         isLoading.value = false;
         log("ERROR CREATE CONSULTATION --->>> ${error.message}");

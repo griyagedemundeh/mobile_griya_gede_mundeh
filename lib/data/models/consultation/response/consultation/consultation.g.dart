@@ -20,6 +20,7 @@ _$ConsultationImpl _$$ConsultationImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      ceremonyIconUrl: json['ceremonyIconUrl'] as String?,
     );
 
 Map<String, dynamic> _$$ConsultationImplToJson(_$ConsultationImpl instance) =>
@@ -34,4 +35,5 @@ Map<String, dynamic> _$$ConsultationImplToJson(_$ConsultationImpl instance) =>
       'userPhoto': instance.userPhoto,
       'status': instance.status,
       'createdAt': instance.createdAt?.toIso8601String(),
+      'ceremonyIconUrl': instance.ceremonyIconUrl,
     };

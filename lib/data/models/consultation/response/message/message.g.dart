@@ -8,16 +8,19 @@ part of 'message.dart';
 
 _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(
-      id: (json['id'] as num).toInt(),
       consultationId: (json['consultationId'] as num).toInt(),
       userId: (json['userId'] as num).toInt(),
-      ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
-      addressId: (json['addressId'] as num?)?.toInt(),
+      ceremonyServiceId: (json['ceremonyServiceId'] as num?)?.toInt(),
       ceremonyPackageId: (json['ceremonyPackageId'] as num?)?.toInt(),
-      invoiceId: (json['invoiceId'] as num?)?.toInt(),
+      addressId: (json['addressId'] as num?)?.toInt(),
+      invoiceId: json['invoiceId'] as String?,
       messageType: json['messageType'] as String?,
       isAdmin: json['isAdmin'] as bool,
       message: json['message'] as String,
+      title: json['title'] as String?,
+      totalPrice: json['totalPrice'] as String?,
+      ceremonyDate: json['ceremonyDate'] as String?,
+      address: json['address'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -25,15 +28,18 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'consultationId': instance.consultationId,
       'userId': instance.userId,
       'ceremonyServiceId': instance.ceremonyServiceId,
-      'addressId': instance.addressId,
       'ceremonyPackageId': instance.ceremonyPackageId,
+      'addressId': instance.addressId,
       'invoiceId': instance.invoiceId,
       'messageType': instance.messageType,
       'isAdmin': instance.isAdmin,
       'message': instance.message,
+      'title': instance.title,
+      'totalPrice': instance.totalPrice,
+      'ceremonyDate': instance.ceremonyDate,
+      'address': instance.address,
       'createdAt': instance.createdAt?.toIso8601String(),
     };
