@@ -316,35 +316,23 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                     isMedium: true,
                                                     isOutline: true,
                                                   ),
-                                                  Visibility(
-                                                    visible:
-                                                        "${chat.paymentUrl}" !=
-                                                            'null',
-                                                    child: Row(
-                                                      children: [
-                                                        const SizedBox(
-                                                            width: AppDimens
-                                                                .paddingMedium),
-                                                        PrimaryButton(
-                                                          label:
-                                                              locales?.payNow ??
-                                                                  '',
-                                                          onTap: () async {
-                                                            PrimaryNavigation
-                                                                .pushFromRight(
-                                                              context,
-                                                              page:
-                                                                  PaymentScreen(
-                                                                paymentUrl:
-                                                                    chat.paymentUrl ??
-                                                                        '',
-                                                              ),
-                                                            );
-                                                          },
-                                                          isMedium: true,
+                                                  const SizedBox(
+                                                      width: AppDimens
+                                                          .paddingMedium),
+                                                  PrimaryButton(
+                                                    label:
+                                                        locales?.payNow ?? '',
+                                                    onTap: () async {
+                                                      PrimaryNavigation
+                                                          .pushFromRight(
+                                                        context,
+                                                        page: PaymentScreen(
+                                                          paymentUrl:
+                                                              chat.paymentUrl,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      );
+                                                    },
+                                                    isMedium: true,
                                                   ),
                                                 ],
                                               ),
