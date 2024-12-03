@@ -34,6 +34,8 @@ mixin _$Invoice {
   DateTime? get paidAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   InvoiceMember get invoiceMember => throw _privateConstructorUsedError;
+  InvoiceCeremonyHistory get invoiceCeremonyHistory =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -59,9 +61,11 @@ abstract class $InvoiceCopyWith<$Res> {
       DateTime createdAt,
       DateTime? paidAt,
       DateTime updatedAt,
-      InvoiceMember invoiceMember});
+      InvoiceMember invoiceMember,
+      InvoiceCeremonyHistory invoiceCeremonyHistory});
 
   $InvoiceMemberCopyWith<$Res> get invoiceMember;
+  $InvoiceCeremonyHistoryCopyWith<$Res> get invoiceCeremonyHistory;
 }
 
 /// @nodoc
@@ -91,6 +95,7 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
     Object? paidAt = freezed,
     Object? updatedAt = null,
     Object? invoiceMember = null,
+    Object? invoiceCeremonyHistory = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -149,6 +154,10 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
           ? _value.invoiceMember
           : invoiceMember // ignore: cast_nullable_to_non_nullable
               as InvoiceMember,
+      invoiceCeremonyHistory: null == invoiceCeremonyHistory
+          ? _value.invoiceCeremonyHistory
+          : invoiceCeremonyHistory // ignore: cast_nullable_to_non_nullable
+              as InvoiceCeremonyHistory,
     ) as $Val);
   }
 
@@ -157,6 +166,15 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
   $InvoiceMemberCopyWith<$Res> get invoiceMember {
     return $InvoiceMemberCopyWith<$Res>(_value.invoiceMember, (value) {
       return _then(_value.copyWith(invoiceMember: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $InvoiceCeremonyHistoryCopyWith<$Res> get invoiceCeremonyHistory {
+    return $InvoiceCeremonyHistoryCopyWith<$Res>(_value.invoiceCeremonyHistory,
+        (value) {
+      return _then(_value.copyWith(invoiceCeremonyHistory: value) as $Val);
     });
   }
 }
@@ -182,10 +200,13 @@ abstract class _$$InvoiceImplCopyWith<$Res> implements $InvoiceCopyWith<$Res> {
       DateTime createdAt,
       DateTime? paidAt,
       DateTime updatedAt,
-      InvoiceMember invoiceMember});
+      InvoiceMember invoiceMember,
+      InvoiceCeremonyHistory invoiceCeremonyHistory});
 
   @override
   $InvoiceMemberCopyWith<$Res> get invoiceMember;
+  @override
+  $InvoiceCeremonyHistoryCopyWith<$Res> get invoiceCeremonyHistory;
 }
 
 /// @nodoc
@@ -213,6 +234,7 @@ class __$$InvoiceImplCopyWithImpl<$Res>
     Object? paidAt = freezed,
     Object? updatedAt = null,
     Object? invoiceMember = null,
+    Object? invoiceCeremonyHistory = null,
   }) {
     return _then(_$InvoiceImpl(
       id: null == id
@@ -271,6 +293,10 @@ class __$$InvoiceImplCopyWithImpl<$Res>
           ? _value.invoiceMember
           : invoiceMember // ignore: cast_nullable_to_non_nullable
               as InvoiceMember,
+      invoiceCeremonyHistory: null == invoiceCeremonyHistory
+          ? _value.invoiceCeremonyHistory
+          : invoiceCeremonyHistory // ignore: cast_nullable_to_non_nullable
+              as InvoiceCeremonyHistory,
     ));
   }
 }
@@ -292,7 +318,8 @@ class _$InvoiceImpl implements _Invoice {
       required this.createdAt,
       this.paidAt,
       required this.updatedAt,
-      required this.invoiceMember});
+      required this.invoiceMember,
+      required this.invoiceCeremonyHistory});
 
   factory _$InvoiceImpl.fromJson(Map<String, dynamic> json) =>
       _$$InvoiceImplFromJson(json);
@@ -325,10 +352,12 @@ class _$InvoiceImpl implements _Invoice {
   final DateTime updatedAt;
   @override
   final InvoiceMember invoiceMember;
+  @override
+  final InvoiceCeremonyHistory invoiceCeremonyHistory;
 
   @override
   String toString() {
-    return 'Invoice(id: $id, consultationId: $consultationId, ceremonyHistoryId: $ceremonyHistoryId, memberId: $memberId, totalPrice: $totalPrice, paymentUrl: $paymentUrl, paymentToken: $paymentToken, paymentMethod: $paymentMethod, isCash: $isCash, status: $status, createdAt: $createdAt, paidAt: $paidAt, updatedAt: $updatedAt, invoiceMember: $invoiceMember)';
+    return 'Invoice(id: $id, consultationId: $consultationId, ceremonyHistoryId: $ceremonyHistoryId, memberId: $memberId, totalPrice: $totalPrice, paymentUrl: $paymentUrl, paymentToken: $paymentToken, paymentMethod: $paymentMethod, isCash: $isCash, status: $status, createdAt: $createdAt, paidAt: $paidAt, updatedAt: $updatedAt, invoiceMember: $invoiceMember, invoiceCeremonyHistory: $invoiceCeremonyHistory)';
   }
 
   @override
@@ -359,7 +388,9 @@ class _$InvoiceImpl implements _Invoice {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.invoiceMember, invoiceMember) ||
-                other.invoiceMember == invoiceMember));
+                other.invoiceMember == invoiceMember) &&
+            (identical(other.invoiceCeremonyHistory, invoiceCeremonyHistory) ||
+                other.invoiceCeremonyHistory == invoiceCeremonyHistory));
   }
 
   @JsonKey(ignore: true)
@@ -379,7 +410,8 @@ class _$InvoiceImpl implements _Invoice {
       createdAt,
       paidAt,
       updatedAt,
-      invoiceMember);
+      invoiceMember,
+      invoiceCeremonyHistory);
 
   @JsonKey(ignore: true)
   @override
@@ -397,20 +429,22 @@ class _$InvoiceImpl implements _Invoice {
 
 abstract class _Invoice implements Invoice {
   const factory _Invoice(
-      {required final String id,
-      final String? consultationId,
-      required final int ceremonyHistoryId,
-      required final int memberId,
-      required final int totalPrice,
-      required final String paymentUrl,
-      required final String paymentToken,
-      final String? paymentMethod,
-      required final bool isCash,
-      required final String status,
-      required final DateTime createdAt,
-      final DateTime? paidAt,
-      required final DateTime updatedAt,
-      required final InvoiceMember invoiceMember}) = _$InvoiceImpl;
+          {required final String id,
+          final String? consultationId,
+          required final int ceremonyHistoryId,
+          required final int memberId,
+          required final int totalPrice,
+          required final String paymentUrl,
+          required final String paymentToken,
+          final String? paymentMethod,
+          required final bool isCash,
+          required final String status,
+          required final DateTime createdAt,
+          final DateTime? paidAt,
+          required final DateTime updatedAt,
+          required final InvoiceMember invoiceMember,
+          required final InvoiceCeremonyHistory invoiceCeremonyHistory}) =
+      _$InvoiceImpl;
 
   factory _Invoice.fromJson(Map<String, dynamic> json) = _$InvoiceImpl.fromJson;
 
@@ -442,6 +476,8 @@ abstract class _Invoice implements Invoice {
   DateTime get updatedAt;
   @override
   InvoiceMember get invoiceMember;
+  @override
+  InvoiceCeremonyHistory get invoiceCeremonyHistory;
   @override
   @JsonKey(ignore: true)
   _$$InvoiceImplCopyWith<_$InvoiceImpl> get copyWith =>

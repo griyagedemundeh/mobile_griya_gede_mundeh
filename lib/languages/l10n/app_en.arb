@@ -100,6 +100,7 @@
     "transactionSummary": "Transaction Summary",
     "totalPrice": "Total Price",
     "packageDetail": "Package Details",
+    "note": "Note",
     "paymentLimit": "Payment Limit: {time}",
     "@paymentLimit": {
         "description": "Payout limit countdown",

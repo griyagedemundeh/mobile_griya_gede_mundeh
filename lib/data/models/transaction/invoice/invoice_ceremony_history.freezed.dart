@@ -33,11 +33,11 @@ mixin _$InvoiceCeremonyHistory {
   String? get note => throw _privateConstructorUsedError;
   String get ceremonyAddress => throw _privateConstructorUsedError;
   String? get ceremonyAddressNote => throw _privateConstructorUsedError;
-  DateTime get ceremonyDate => throw _privateConstructorUsedError;
+  DateTime? get ceremonyDate => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
-  CeremonyPackage get ceremonyPackage => throw _privateConstructorUsedError;
+  CeremonyPackage? get ceremonyPackage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -64,13 +64,13 @@ abstract class $InvoiceCeremonyHistoryCopyWith<$Res> {
       String? note,
       String ceremonyAddress,
       String? ceremonyAddressNote,
-      DateTime ceremonyDate,
+      DateTime? ceremonyDate,
       String status,
       DateTime createdAt,
       DateTime updatedAt,
-      CeremonyPackage ceremonyPackage});
+      CeremonyPackage? ceremonyPackage});
 
-  $CeremonyPackageCopyWith<$Res> get ceremonyPackage;
+  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage;
 }
 
 /// @nodoc
@@ -99,11 +99,11 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
     Object? note = freezed,
     Object? ceremonyAddress = null,
     Object? ceremonyAddressNote = freezed,
-    Object? ceremonyDate = null,
+    Object? ceremonyDate = freezed,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? ceremonyPackage = null,
+    Object? ceremonyPackage = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -154,10 +154,10 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
           ? _value.ceremonyAddressNote
           : ceremonyAddressNote // ignore: cast_nullable_to_non_nullable
               as String?,
-      ceremonyDate: null == ceremonyDate
+      ceremonyDate: freezed == ceremonyDate
           ? _value.ceremonyDate
           : ceremonyDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -170,17 +170,21 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      ceremonyPackage: null == ceremonyPackage
+      ceremonyPackage: freezed == ceremonyPackage
           ? _value.ceremonyPackage
           : ceremonyPackage // ignore: cast_nullable_to_non_nullable
-              as CeremonyPackage,
+              as CeremonyPackage?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $CeremonyPackageCopyWith<$Res> get ceremonyPackage {
-    return $CeremonyPackageCopyWith<$Res>(_value.ceremonyPackage, (value) {
+  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage {
+    if (_value.ceremonyPackage == null) {
+      return null;
+    }
+
+    return $CeremonyPackageCopyWith<$Res>(_value.ceremonyPackage!, (value) {
       return _then(_value.copyWith(ceremonyPackage: value) as $Val);
     });
   }
@@ -208,14 +212,14 @@ abstract class _$$InvoiceCeremonyHistoryImplCopyWith<$Res>
       String? note,
       String ceremonyAddress,
       String? ceremonyAddressNote,
-      DateTime ceremonyDate,
+      DateTime? ceremonyDate,
       String status,
       DateTime createdAt,
       DateTime updatedAt,
-      CeremonyPackage ceremonyPackage});
+      CeremonyPackage? ceremonyPackage});
 
   @override
-  $CeremonyPackageCopyWith<$Res> get ceremonyPackage;
+  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage;
 }
 
 /// @nodoc
@@ -243,11 +247,11 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
     Object? note = freezed,
     Object? ceremonyAddress = null,
     Object? ceremonyAddressNote = freezed,
-    Object? ceremonyDate = null,
+    Object? ceremonyDate = freezed,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? ceremonyPackage = null,
+    Object? ceremonyPackage = freezed,
   }) {
     return _then(_$InvoiceCeremonyHistoryImpl(
       id: null == id
@@ -298,10 +302,10 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.ceremonyAddressNote
           : ceremonyAddressNote // ignore: cast_nullable_to_non_nullable
               as String?,
-      ceremonyDate: null == ceremonyDate
+      ceremonyDate: freezed == ceremonyDate
           ? _value.ceremonyDate
           : ceremonyDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -314,10 +318,10 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      ceremonyPackage: null == ceremonyPackage
+      ceremonyPackage: freezed == ceremonyPackage
           ? _value.ceremonyPackage
           : ceremonyPackage // ignore: cast_nullable_to_non_nullable
-              as CeremonyPackage,
+              as CeremonyPackage?,
     ));
   }
 }
@@ -338,11 +342,11 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
       this.note,
       required this.ceremonyAddress,
       this.ceremonyAddressNote,
-      required this.ceremonyDate,
+      this.ceremonyDate,
       required this.status,
       required this.createdAt,
       required this.updatedAt,
-      required this.ceremonyPackage});
+      this.ceremonyPackage});
 
   factory _$InvoiceCeremonyHistoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$InvoiceCeremonyHistoryImplFromJson(json);
@@ -372,7 +376,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final String? ceremonyAddressNote;
   @override
-  final DateTime ceremonyDate;
+  final DateTime? ceremonyDate;
   @override
   final String status;
   @override
@@ -380,7 +384,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final DateTime updatedAt;
   @override
-  final CeremonyPackage ceremonyPackage;
+  final CeremonyPackage? ceremonyPackage;
 
   @override
   String toString() {
@@ -463,24 +467,23 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
 
 abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   const factory _InvoiceCeremonyHistory(
-          {required final int id,
-          required final int adminId,
-          required final int memberId,
-          required final int memberAddressId,
-          final String? consultationId,
-          required final int ceremonyServicePackageId,
-          required final String title,
-          required final String packageName,
-          required final String description,
-          final String? note,
-          required final String ceremonyAddress,
-          final String? ceremonyAddressNote,
-          required final DateTime ceremonyDate,
-          required final String status,
-          required final DateTime createdAt,
-          required final DateTime updatedAt,
-          required final CeremonyPackage ceremonyPackage}) =
-      _$InvoiceCeremonyHistoryImpl;
+      {required final int id,
+      required final int adminId,
+      required final int memberId,
+      required final int memberAddressId,
+      final String? consultationId,
+      required final int ceremonyServicePackageId,
+      required final String title,
+      required final String packageName,
+      required final String description,
+      final String? note,
+      required final String ceremonyAddress,
+      final String? ceremonyAddressNote,
+      final DateTime? ceremonyDate,
+      required final String status,
+      required final DateTime createdAt,
+      required final DateTime updatedAt,
+      final CeremonyPackage? ceremonyPackage}) = _$InvoiceCeremonyHistoryImpl;
 
   factory _InvoiceCeremonyHistory.fromJson(Map<String, dynamic> json) =
       _$InvoiceCeremonyHistoryImpl.fromJson;
@@ -510,7 +513,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   String? get ceremonyAddressNote;
   @override
-  DateTime get ceremonyDate;
+  DateTime? get ceremonyDate;
   @override
   String get status;
   @override
@@ -518,7 +521,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   DateTime get updatedAt;
   @override
-  CeremonyPackage get ceremonyPackage;
+  CeremonyPackage? get ceremonyPackage;
   @override
   @JsonKey(ignore: true)
   _$$InvoiceCeremonyHistoryImplCopyWith<_$InvoiceCeremonyHistoryImpl>

@@ -36,6 +36,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_b
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/payment_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
@@ -57,7 +58,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final scrollController = useScrollController();
     final locales = AppLocalizations.of(context);
     final messageController = useTextEditingController(
-      text: "",
+      text:
+          "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊",
     );
     // final messageTemplate = useState<String>('');
 
@@ -94,37 +96,9 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           .then((val) async {
         if (val != null) {
           consultation.value = Consultation.fromJson(val);
-          log('${consultation.value}', name: 'CONSULTATION');
-
-          log('${consultation.value?.ceremonyPackageId}',
-              name: 'CONSULT PACKE 22');
-          log('${ceremonyPackage?.id}', name: 'CONSULT PCAKGE');
-
-          log('sakldsadkjddlksj');
-          log('Message --->>  ${(await messagesStream.value?.length ?? 0)}');
-
-          // Set Default Message when user asking for new Consulation or new package
-          messageController.text = (consultation.value?.ceremonyPackageId !=
-                      ceremonyPackage?.id ||
-                  (await messagesStream.value?.length) == 0
-              ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
-              : '');
         }
       });
     }
-
-    // Set Default Message when user asking for new Consulation or new package
-    // useEffect(() {
-    //   log('${ceremonyPackage?.id}', name: 'CEREMONY PACKAGE');
-    //   log('${consultation.value?.ceremonyPackageId}',
-    //       name: 'CEREMONY PACKAGE CONSULT');
-
-    //   messageController.text = (consultation.value?.ceremonyPackageId !=
-    //           ceremonyPackage?.id
-    //       ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
-    //       : '');
-    //   return null;
-    // }, [consultation.value?.ceremonyPackageId]);
 
     useEffect(() {
       init();
@@ -161,10 +135,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
         init();
       } on PostgrestException catch (error) {
-        log("ERROR SEND MESSAGE --->>> ${error.message}");
         PrimaryToast.error(message: error.message);
       } catch (err) {
-        log('ERORRklsajdklsajd ${err.toString()}');
         PrimaryToast.error(message: err.toString());
       }
     }
@@ -206,6 +178,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final chat = messages[index];
+
+                            log('CHAT CEREMONY ---> $chat');
 
                             return Container(
                               key: Key("${chat.id}"),
@@ -298,7 +272,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                       ),
                                                     ),
                                                     Text(
-                                                      "📅Tanggal dan Waktu: ${chat.ceremonyDate ?? '-'}",
+                                                      "📅Tanggal dan Waktu: ${chat.ceremonyDate != null ? formatDateWithUserTimeZone(chat.ceremonyDate ?? '') : '-'}",
                                                       style: TextStyle(
                                                         fontSize: AppFontSizes
                                                             .bodySmall,
@@ -342,16 +316,35 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                     isMedium: true,
                                                     isOutline: true,
                                                   ),
-                                                  const SizedBox(
-                                                      width: AppDimens
-                                                          .paddingMedium),
-                                                  PrimaryButton(
-                                                    label:
-                                                        locales?.payNow ?? '',
-                                                    onTap: () async {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    isMedium: true,
+                                                  Visibility(
+                                                    visible:
+                                                        "${chat.paymentUrl}" !=
+                                                            'null',
+                                                    child: Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                            width: AppDimens
+                                                                .paddingMedium),
+                                                        PrimaryButton(
+                                                          label:
+                                                              locales?.payNow ??
+                                                                  '',
+                                                          onTap: () async {
+                                                            PrimaryNavigation
+                                                                .pushFromRight(
+                                                              context,
+                                                              page:
+                                                                  PaymentScreen(
+                                                                paymentUrl:
+                                                                    chat.paymentUrl ??
+                                                                        '',
+                                                              ),
+                                                            );
+                                                          },
+                                                          isMedium: true,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),

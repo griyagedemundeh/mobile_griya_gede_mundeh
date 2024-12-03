@@ -19,11 +19,11 @@ class InvoiceCeremonyHistory with _$InvoiceCeremonyHistory {
     String? note,
     required String ceremonyAddress,
     String? ceremonyAddressNote,
-    required DateTime ceremonyDate,
+    DateTime? ceremonyDate,
     required String status,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required CeremonyPackage ceremonyPackage,
+    CeremonyPackage? ceremonyPackage,
   }) = _InvoiceCeremonyHistory;
 
   factory InvoiceCeremonyHistory.fromJson(Map<String, dynamic> json) =>

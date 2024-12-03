@@ -100,6 +100,7 @@
     "transactionSummary": "Ringkasan Transaksi",
     "totalPrice": "Total Harga",
     "packageDetail": "Detail Paket",
+    "note": "Catatan",
     "paymentLimit": "Batas Pembayaran: {time}",
     "@paymentLimit": {
         "description": "Hitung mundur batas pembayaran",

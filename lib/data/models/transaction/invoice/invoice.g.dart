@@ -25,6 +25,8 @@ _$InvoiceImpl _$$InvoiceImplFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       invoiceMember:
           InvoiceMember.fromJson(json['invoiceMember'] as Map<String, dynamic>),
+      invoiceCeremonyHistory: InvoiceCeremonyHistory.fromJson(
+          json['invoiceCeremonyHistory'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$InvoiceImplToJson(_$InvoiceImpl instance) =>
@@ -43,4 +45,5 @@ Map<String, dynamic> _$$InvoiceImplToJson(_$InvoiceImpl instance) =>
       'paidAt': instance.paidAt?.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'invoiceMember': instance.invoiceMember,
+      'invoiceCeremonyHistory': instance.invoiceCeremonyHistory,
     };

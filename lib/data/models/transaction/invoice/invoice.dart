@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'invoice_member.dart';
-// import 'invoice_ceremony_history.dart';
+import 'invoice_ceremony_history.dart';
 
 part 'invoice.freezed.dart';
 part 'invoice.g.dart';
@@ -22,7 +22,7 @@ class Invoice with _$Invoice {
     DateTime? paidAt,
     required DateTime updatedAt,
     required InvoiceMember invoiceMember,
-    // required InvoiceCeremonyHistory invoiceCeremonyHistory,
+    required InvoiceCeremonyHistory invoiceCeremonyHistory,
   }) = _Invoice;
 
   factory Invoice.fromJson(Map<String, dynamic> json) =>
