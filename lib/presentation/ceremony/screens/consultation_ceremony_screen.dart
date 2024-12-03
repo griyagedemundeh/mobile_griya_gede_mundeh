@@ -17,6 +17,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/address/response/address.dart';
@@ -34,6 +35,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_p
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
@@ -205,9 +207,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                           itemBuilder: (context, index) {
                             final chat = messages[index];
 
-                            log("CHAT ${messages.first}");
-
                             return Container(
+                              key: Key("${chat.id}"),
                               margin: EdgeInsets.only(
                                 left: !(chat.isAdmin)
                                     ? (width * 0.2)
@@ -327,7 +328,16 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                     label: locales?.seeDetail ??
                                                         '',
                                                     onTap: () {
-                                                      Navigator.pop(context);
+                                                      PrimaryNavigation
+                                                          .pushFromRight(
+                                                        context,
+                                                        page:
+                                                            DetailTransactionScreen(
+                                                          invoiceId:
+                                                              chat.invoiceId ??
+                                                                  '',
+                                                        ),
+                                                      );
                                                     },
                                                     isMedium: true,
                                                     isOutline: true,

@@ -27,7 +27,6 @@ import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/resp
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ceremony_consultation_request.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/consultation.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';

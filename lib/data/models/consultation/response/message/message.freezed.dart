@@ -20,6 +20,7 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
+  int get id => throw _privateConstructorUsedError;
   int get consultationId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   int? get ceremonyServiceId => throw _privateConstructorUsedError;
@@ -47,7 +48,8 @@ abstract class $MessageCopyWith<$Res> {
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
   $Res call(
-      {int consultationId,
+      {int id,
+      int consultationId,
       int userId,
       int? ceremonyServiceId,
       int? ceremonyPackageId,
@@ -77,6 +79,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? consultationId = null,
     Object? userId = null,
     Object? ceremonyServiceId = freezed,
@@ -94,6 +97,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       consultationId: null == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
@@ -166,7 +173,8 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int consultationId,
+      {int id,
+      int consultationId,
       int userId,
       int? ceremonyServiceId,
       int? ceremonyPackageId,
@@ -194,6 +202,7 @@ class __$$MessageImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? consultationId = null,
     Object? userId = null,
     Object? ceremonyServiceId = freezed,
@@ -211,6 +220,10 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
   }) {
     return _then(_$MessageImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       consultationId: null == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
@@ -279,7 +292,8 @@ class __$$MessageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   const _$MessageImpl(
-      {required this.consultationId,
+      {required this.id,
+      required this.consultationId,
       required this.userId,
       this.ceremonyServiceId,
       this.ceremonyPackageId,
@@ -298,6 +312,8 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageImplFromJson(json);
 
+  @override
+  final int id;
   @override
   final int consultationId;
   @override
@@ -331,7 +347,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Message(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, title: $title, totalPrice: $totalPrice, ceremonyDate: $ceremonyDate, address: $address, paymentUrl: $paymentUrl, createdAt: $createdAt)';
+    return 'Message(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, title: $title, totalPrice: $totalPrice, ceremonyDate: $ceremonyDate, address: $address, paymentUrl: $paymentUrl, createdAt: $createdAt)';
   }
 
   @override
@@ -339,6 +355,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Message'))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('consultationId', consultationId))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('ceremonyServiceId', ceremonyServiceId))
@@ -361,6 +378,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.consultationId, consultationId) ||
                 other.consultationId == consultationId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -392,6 +410,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       consultationId,
       userId,
       ceremonyServiceId,
@@ -424,7 +443,8 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
 
 abstract class _Message implements Message {
   const factory _Message(
-      {required final int consultationId,
+      {required final int id,
+      required final int consultationId,
       required final int userId,
       final int? ceremonyServiceId,
       final int? ceremonyPackageId,
@@ -442,6 +462,8 @@ abstract class _Message implements Message {
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
+  @override
+  int get id;
   @override
   int get consultationId;
   @override

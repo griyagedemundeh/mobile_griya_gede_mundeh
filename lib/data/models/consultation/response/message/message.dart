@@ -7,6 +7,7 @@ part 'message.g.dart';
 @freezed
 class Message with _$Message {
   const factory Message({
+    required int id,
     required int consultationId,
     required int userId,
     int? ceremonyServiceId,

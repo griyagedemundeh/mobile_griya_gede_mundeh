@@ -1,12 +1,20 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fquery/fquery.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/invoice.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/transaction/transaction_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/controller/transaction_controller.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,14 +25,34 @@ class TransactionItemData {
   TransactionItemData({required this.label, required this.data});
 }
 
-class DetailTransactionScreen extends StatelessWidget {
-  const DetailTransactionScreen({super.key});
+class DetailTransactionScreen extends HookConsumerWidget {
+  const DetailTransactionScreen({super.key, this.invoiceId});
+
+  final String? invoiceId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
+
+    final TransactionController transactionController =
+        TransactionController(transactionRepository: TransactionRepository());
+
+    Future<ApiBaseResponse<Invoice?>?> getDetailInvoice() async {
+      final response = await transactionController.getDetailInvoice(
+          invoiceId: invoiceId ?? '');
+
+      return response;
+    }
+
+    final invoiceResponse =
+        useQuery<ApiBaseResponse<Invoice?>?, ApiBaseResponse<dynamic>>(
+      ['invoice_$invoiceId'],
+      getDetailInvoice,
+    );
+
+    log('${invoiceResponse.data?.data}', name: 'INVOCE');
 
     return Scaffold(
       bottomNavigationBar: Container(
