@@ -20,6 +20,7 @@ class Message with _$Message {
     String? totalPrice,
     String? ceremonyDate,
     String? address,
+    String? paymentUrl,
     DateTime? createdAt,
   }) = _Message;
 

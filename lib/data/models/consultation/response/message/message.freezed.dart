@@ -33,6 +33,7 @@ mixin _$Message {
   String? get totalPrice => throw _privateConstructorUsedError;
   String? get ceremonyDate => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
+  String? get paymentUrl => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,6 +60,7 @@ abstract class $MessageCopyWith<$Res> {
       String? totalPrice,
       String? ceremonyDate,
       String? address,
+      String? paymentUrl,
       DateTime? createdAt});
 }
 
@@ -88,6 +90,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? totalPrice = freezed,
     Object? ceremonyDate = freezed,
     Object? address = freezed,
+    Object? paymentUrl = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -143,6 +146,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String?,
+      paymentUrl: freezed == paymentUrl
+          ? _value.paymentUrl
+          : paymentUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -172,6 +179,7 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String? totalPrice,
       String? ceremonyDate,
       String? address,
+      String? paymentUrl,
       DateTime? createdAt});
 }
 
@@ -199,6 +207,7 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? totalPrice = freezed,
     Object? ceremonyDate = freezed,
     Object? address = freezed,
+    Object? paymentUrl = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$MessageImpl(
@@ -254,6 +263,10 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String?,
+      paymentUrl: freezed == paymentUrl
+          ? _value.paymentUrl
+          : paymentUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -279,6 +292,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       this.totalPrice,
       this.ceremonyDate,
       this.address,
+      this.paymentUrl,
       this.createdAt});
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -311,11 +325,13 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
   @override
   final String? address;
   @override
+  final String? paymentUrl;
+  @override
   final DateTime? createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Message(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, title: $title, totalPrice: $totalPrice, ceremonyDate: $ceremonyDate, address: $address, createdAt: $createdAt)';
+    return 'Message(consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, addressId: $addressId, invoiceId: $invoiceId, messageType: $messageType, isAdmin: $isAdmin, message: $message, title: $title, totalPrice: $totalPrice, ceremonyDate: $ceremonyDate, address: $address, paymentUrl: $paymentUrl, createdAt: $createdAt)';
   }
 
   @override
@@ -336,6 +352,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       ..add(DiagnosticsProperty('totalPrice', totalPrice))
       ..add(DiagnosticsProperty('ceremonyDate', ceremonyDate))
       ..add(DiagnosticsProperty('address', address))
+      ..add(DiagnosticsProperty('paymentUrl', paymentUrl))
       ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
@@ -365,6 +382,8 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
             (identical(other.ceremonyDate, ceremonyDate) ||
                 other.ceremonyDate == ceremonyDate) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.paymentUrl, paymentUrl) ||
+                other.paymentUrl == paymentUrl) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -386,6 +405,7 @@ class _$MessageImpl with DiagnosticableTreeMixin implements _Message {
       totalPrice,
       ceremonyDate,
       address,
+      paymentUrl,
       createdAt);
 
   @JsonKey(ignore: true)
@@ -417,6 +437,7 @@ abstract class _Message implements Message {
       final String? totalPrice,
       final String? ceremonyDate,
       final String? address,
+      final String? paymentUrl,
       final DateTime? createdAt}) = _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
@@ -447,6 +468,8 @@ abstract class _Message implements Message {
   String? get ceremonyDate;
   @override
   String? get address;
+  @override
+  String? get paymentUrl;
   @override
   DateTime? get createdAt;
   @override

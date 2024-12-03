@@ -14,6 +14,8 @@ import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
@@ -32,6 +34,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_p
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
 
@@ -50,6 +53,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final scrollController = useScrollController();
+    final locales = AppLocalizations.of(context);
     final messageController = useTextEditingController(
       text: "",
     );
@@ -247,10 +251,13 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                             ),
                                           )
                                         : Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "Tagihan Upacara",
                                                 style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
                                                   fontSize:
                                                       AppFontSizes.bodySmall,
                                                   color: (chat.isAdmin)
@@ -267,7 +274,77 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                       ? AppColors.primaryText
                                                       : Colors.white,
                                                 ),
-                                              )
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical:
+                                                      AppDimens.paddingMedium,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "💸Harga: ${formatCurrency(int.parse(chat.totalPrice ?? '0'))}",
+                                                      style: TextStyle(
+                                                        fontSize: AppFontSizes
+                                                            .bodySmall,
+                                                        color: (chat.isAdmin)
+                                                            ? AppColors
+                                                                .primaryText
+                                                            : Colors.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "📅Tanggal dan Waktu: ${chat.ceremonyDate ?? '-'}",
+                                                      style: TextStyle(
+                                                        fontSize: AppFontSizes
+                                                            .bodySmall,
+                                                        color: (chat.isAdmin)
+                                                            ? AppColors
+                                                                .primaryText
+                                                            : Colors.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "📍Lokasi: ${chat.address ?? '-'}",
+                                                      style: TextStyle(
+                                                        fontSize: AppFontSizes
+                                                            .bodySmall,
+                                                        color: (chat.isAdmin)
+                                                            ? AppColors
+                                                                .primaryText
+                                                            : Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  SecondaryButton(
+                                                    label: locales?.seeDetail ??
+                                                        '',
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    isMedium: true,
+                                                    isOutline: true,
+                                                  ),
+                                                  const SizedBox(
+                                                      width: AppDimens
+                                                          .paddingMedium),
+                                                  PrimaryButton(
+                                                    label:
+                                                        locales?.payNow ?? '',
+                                                    onTap: () async {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    isMedium: true,
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                   ),

@@ -21,6 +21,7 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       totalPrice: json['totalPrice'] as String?,
       ceremonyDate: json['ceremonyDate'] as String?,
       address: json['address'] as String?,
+      paymentUrl: json['paymentUrl'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -41,5 +42,6 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
       'totalPrice': instance.totalPrice,
       'ceremonyDate': instance.ceremonyDate,
       'address': instance.address,
+      'paymentUrl': instance.paymentUrl,
       'createdAt': instance.createdAt?.toIso8601String(),
     };
