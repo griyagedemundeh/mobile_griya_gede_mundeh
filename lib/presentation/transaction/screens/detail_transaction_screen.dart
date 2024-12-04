@@ -15,6 +15,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
@@ -63,6 +64,38 @@ class DetailTransactionScreen extends HookConsumerWidget {
     );
 
     final Invoice? invoice = invoiceResponse.data?.data as Invoice?;
+
+    showAlertConfirmation() {
+      PrimaryAlertDialog(
+        title: Text(
+          locales?.payment ?? '',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SizedBox(
+          height: height * 0.15,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                locales?.makeSurePayment ?? '',
+                style: const TextStyle(
+                  fontSize: AppFontSizes.bodySmall,
+                  color: AppColors.gray2,
+                ),
+              ),
+              PrimaryButton(
+                label: locales?.okay ?? '',
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ).showAnimatedDialog(context);
+    }
 
     return Scaffold(
       bottomNavigationBar: Builder(builder: (context) {
@@ -175,10 +208,14 @@ class DetailTransactionScreen extends HookConsumerWidget {
                 PrimaryButton(
                   label: locales?.payNow ?? '',
                   onTap: () {
+                    if (invoice?.paymentUrl == null) {
+                      showAlertConfirmation();
+                      return;
+                    }
                     PrimaryNavigation.pushFromRight(
                       context,
                       page: PaymentScreen(
-                        paymentUrl: invoice?.paymentUrl,
+                        paymentUrl: invoice?.paymentUrl ?? '',
                       ),
                     );
                   },

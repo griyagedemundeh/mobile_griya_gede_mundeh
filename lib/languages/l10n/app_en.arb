@@ -75,6 +75,8 @@
         }
     },
     "makeSurePackage": "Make sure you have read all descriptions carefully and according to your needs!",
+    "makeSurePayment": "Please inform directly to admin about your payment!",
+    "okay": "Okay",
     "consultFirst": "Consult First",
     "veryConfident": "Very Confident",
     "selectPackage": "Select Package",
@@ -113,6 +115,7 @@
     },
     "totalBill": "Total Bill",
     "payNow": "Pay Now",
+    "payment": "Payment",
     "transactionHistory": "Transaction History",
     "searchTransaction": "Search for transactions",
     "seeDetail": "See Details",

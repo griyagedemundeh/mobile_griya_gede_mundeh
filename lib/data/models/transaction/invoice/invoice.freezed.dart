@@ -25,8 +25,8 @@ mixin _$Invoice {
   int get ceremonyHistoryId => throw _privateConstructorUsedError;
   int get memberId => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
-  String get paymentUrl => throw _privateConstructorUsedError;
-  String get paymentToken => throw _privateConstructorUsedError;
+  String? get paymentUrl => throw _privateConstructorUsedError;
+  String? get paymentToken => throw _privateConstructorUsedError;
   String? get paymentMethod => throw _privateConstructorUsedError;
   bool get isCash => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -53,8 +53,8 @@ abstract class $InvoiceCopyWith<$Res> {
       int ceremonyHistoryId,
       int memberId,
       int totalPrice,
-      String paymentUrl,
-      String paymentToken,
+      String? paymentUrl,
+      String? paymentToken,
       String? paymentMethod,
       bool isCash,
       String status,
@@ -86,8 +86,8 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
     Object? ceremonyHistoryId = null,
     Object? memberId = null,
     Object? totalPrice = null,
-    Object? paymentUrl = null,
-    Object? paymentToken = null,
+    Object? paymentUrl = freezed,
+    Object? paymentToken = freezed,
     Object? paymentMethod = freezed,
     Object? isCash = null,
     Object? status = null,
@@ -118,14 +118,14 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
-      paymentUrl: null == paymentUrl
+      paymentUrl: freezed == paymentUrl
           ? _value.paymentUrl
           : paymentUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentToken: null == paymentToken
+              as String?,
+      paymentToken: freezed == paymentToken
           ? _value.paymentToken
           : paymentToken // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       paymentMethod: freezed == paymentMethod
           ? _value.paymentMethod
           : paymentMethod // ignore: cast_nullable_to_non_nullable
@@ -192,8 +192,8 @@ abstract class _$$InvoiceImplCopyWith<$Res> implements $InvoiceCopyWith<$Res> {
       int ceremonyHistoryId,
       int memberId,
       int totalPrice,
-      String paymentUrl,
-      String paymentToken,
+      String? paymentUrl,
+      String? paymentToken,
       String? paymentMethod,
       bool isCash,
       String status,
@@ -225,8 +225,8 @@ class __$$InvoiceImplCopyWithImpl<$Res>
     Object? ceremonyHistoryId = null,
     Object? memberId = null,
     Object? totalPrice = null,
-    Object? paymentUrl = null,
-    Object? paymentToken = null,
+    Object? paymentUrl = freezed,
+    Object? paymentToken = freezed,
     Object? paymentMethod = freezed,
     Object? isCash = null,
     Object? status = null,
@@ -257,14 +257,14 @@ class __$$InvoiceImplCopyWithImpl<$Res>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
-      paymentUrl: null == paymentUrl
+      paymentUrl: freezed == paymentUrl
           ? _value.paymentUrl
           : paymentUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentToken: null == paymentToken
+              as String?,
+      paymentToken: freezed == paymentToken
           ? _value.paymentToken
           : paymentToken // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       paymentMethod: freezed == paymentMethod
           ? _value.paymentMethod
           : paymentMethod // ignore: cast_nullable_to_non_nullable
@@ -310,8 +310,8 @@ class _$InvoiceImpl implements _Invoice {
       required this.ceremonyHistoryId,
       required this.memberId,
       required this.totalPrice,
-      required this.paymentUrl,
-      required this.paymentToken,
+      this.paymentUrl,
+      this.paymentToken,
       this.paymentMethod,
       required this.isCash,
       required this.status,
@@ -335,9 +335,9 @@ class _$InvoiceImpl implements _Invoice {
   @override
   final int totalPrice;
   @override
-  final String paymentUrl;
+  final String? paymentUrl;
   @override
-  final String paymentToken;
+  final String? paymentToken;
   @override
   final String? paymentMethod;
   @override
@@ -434,8 +434,8 @@ abstract class _Invoice implements Invoice {
           required final int ceremonyHistoryId,
           required final int memberId,
           required final int totalPrice,
-          required final String paymentUrl,
-          required final String paymentToken,
+          final String? paymentUrl,
+          final String? paymentToken,
           final String? paymentMethod,
           required final bool isCash,
           required final String status,
@@ -459,9 +459,9 @@ abstract class _Invoice implements Invoice {
   @override
   int get totalPrice;
   @override
-  String get paymentUrl;
+  String? get paymentUrl;
   @override
-  String get paymentToken;
+  String? get paymentToken;
   @override
   String? get paymentMethod;
   @override

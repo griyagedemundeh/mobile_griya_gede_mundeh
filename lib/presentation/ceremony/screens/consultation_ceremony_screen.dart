@@ -17,6 +17,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
@@ -25,7 +26,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/message_request.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/consultation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ceremony/consultation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
@@ -54,6 +55,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final scrollController = useScrollController();
     final locales = AppLocalizations.of(context);
@@ -139,6 +141,38 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
       } catch (err) {
         PrimaryToast.error(message: err.toString());
       }
+    }
+
+    showAlertConfirmation() {
+      PrimaryAlertDialog(
+        title: Text(
+          locales?.payment ?? '',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SizedBox(
+          height: height * 0.15,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                locales?.makeSurePayment ?? '',
+                style: const TextStyle(
+                  fontSize: AppFontSizes.bodySmall,
+                  color: AppColors.gray2,
+                ),
+              ),
+              PrimaryButton(
+                label: locales?.okay ?? '',
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ).showAnimatedDialog(context);
     }
 
     return Scaffold(
@@ -321,8 +355,14 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                           .paddingMedium),
                                                   PrimaryButton(
                                                     label:
-                                                        locales?.payNow ?? '',
+                                                        locales?.payment ?? '',
                                                     onTap: () async {
+                                                      if (chat.paymentUrl ==
+                                                          null) {
+                                                        showAlertConfirmation();
+                                                        return;
+                                                      }
+
                                                       PrimaryNavigation
                                                           .pushFromRight(
                                                         context,

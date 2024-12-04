@@ -26,9 +26,12 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ceremony_consultation_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ceremony/ceremony_consultation_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ticket/ceremony/ceremony_consultation_ticket_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ticket/ceremony/ceremony_consultation_ticket.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
@@ -58,8 +61,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     final Auth? user = homeController.getUser();
 
-    final CeremonyController ceremonyController =
-        CeremonyController(ceremonyRepository: CeremonyRepository());
+    final CeremonyController ceremonyController = CeremonyController(
+      ceremonyRepository: CeremonyRepository(),
+      consultationRepository: ConsultationRepository(),
+    );
 
     Future<ApiBaseResponse<Ceremony?>?> getCeremony() async {
       final response = await ceremonyController.getCeremony(id: id ?? 0);
@@ -178,30 +183,80 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       StorageKey.supabaseConsultCeremony,
     );
 
+    final createConsultationMutation = useMutation<
+        ApiBaseResponse<CeremonyConsultationTicket?>?,
+        ApiBaseResponse<CeremonyConsultationTicket?>?,
+        CeremonyConsultationTicketRequest,
+        void>(
+      (request) async {
+        final response =
+            await ceremonyController.createConsultation(request: request);
+        return response;
+      },
+      onSuccess: (response, variables, _) {
+        isLoading.value = false;
+      },
+      onError: (error, variables, _) {
+        isLoading.value = false;
+
+        for (var message in error?.message) {
+          PrimaryToast.error(message: message);
+        }
+      },
+    );
+
+    Future createConsultationTicket() async {
+      final data = CeremonyConsultationTicketRequest(
+        ceremonyServiceId: ceremony?.id ?? 0,
+        ceremonyServiceName: ceremony?.title ?? '',
+        memberAddressId: user?.id ?? 0,
+        memberId: user?.id ?? 0,
+        ceremonyServicePackageId: selectedCeremonyPackage.value?.id,
+      );
+
+      isLoading.value = true;
+
+      await createConsultationMutation.mutate(data);
+      createConsultationMutation.reset();
+    }
+
     Future<void> createConsultation() async {
       isLoading.value = true;
       try {
-        final CeremonyConsultationRequest consultationRequest =
-            CeremonyConsultationRequest(
-          ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
-          ceremonyName: ceremony?.title ?? '',
-          ceremonyServiceId: ceremony?.id ?? 0,
-          consultationId: 1,
-          status: 'onGoing',
-          userId: user?.id ?? 0,
-          userName: user?.fullName ?? '',
-          userPhoto: user?.avatarUrl ?? '',
-          ceremonyPackageId: selectedCeremonyPackage.value?.id,
-          createdAt: DateTime.now().toIso8601String(),
-        );
+        createConsultationTicket().then((val) async {
+          final CeremonyConsultationRequest consultationRequest =
+              CeremonyConsultationRequest(
+            ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
+            ceremonyName: ceremony?.title ?? '',
+            ceremonyServiceId: ceremony?.id ?? 0,
+            consultationId: (createConsultationMutation.data?.data
+                    as CeremonyConsultationTicket)
+                .id,
+            status: 'onGoing',
+            userId: user?.id ?? 0,
+            userName: user?.fullName ?? '',
+            userPhoto: user?.avatarUrl ?? '',
+            ceremonyPackageId: selectedCeremonyPackage.value?.id,
+            createdAt: DateTime.now().toIso8601String(),
+          );
 
-        final dataConsult = await dbConsult
-            .select()
-            .eq('consultationId', consultationRequest.consultationId)
-            .maybeSingle();
+          final dataConsult = await dbConsult
+              .select()
+              .eq('consultationId', consultationRequest.consultationId)
+              .maybeSingle();
 
-        if (dataConsult == null) {
-          await dbConsult.insert(consultationRequest.toJson()).then((val) {
+          if (dataConsult == null) {
+            await dbConsult.insert(consultationRequest.toJson()).then((val) {
+              isLoading.value = false;
+              PrimaryNavigation.pushFromRight(
+                context,
+                page: ConsultationCeremonyScreen(
+                  ceremony: ceremony,
+                  ceremonyPackage: selectedCeremonyPackage.value,
+                ),
+              );
+            });
+          } else {
             isLoading.value = false;
             PrimaryNavigation.pushFromRight(
               context,
@@ -210,17 +265,8 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                 ceremonyPackage: selectedCeremonyPackage.value,
               ),
             );
-          });
-        } else {
-          isLoading.value = false;
-          PrimaryNavigation.pushFromRight(
-            context,
-            page: ConsultationCeremonyScreen(
-              ceremony: ceremony,
-              ceremonyPackage: selectedCeremonyPackage.value,
-            ),
-          );
-        }
+          }
+        });
       } on PostgrestException catch (error) {
         isLoading.value = false;
         log("ERROR CREATE CONSULTATION --->>> ${error.message}");

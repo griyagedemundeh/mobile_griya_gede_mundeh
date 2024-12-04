@@ -75,6 +75,8 @@
         }
     },
     "makeSurePackage": "Pastikan Anda sudah membaca semua deskripsi dengan teliti dan sesuai kebutuhan Anda!",
+    "makeSurePayment": "Mohon informasikan secara langsung kepada admin mengenai pembayaran anda!",
+    "okay": "Baik",
     "consultFirst": "Konsultasi Dulu",
     "veryConfident": "Yakin Banget",
     "selectPackage": "Pilih Paket",
@@ -113,6 +115,7 @@
     },
     "totalBill": "Total Tagihan",
     "payNow": "Bayar Sekarang",
+    "payment": "Pambayaran",
     "transactionHistory": "Riwayat Transaksi",
     "searchTransaction": "Cari transaksi",
     "seeDetail": "Lihat Detail",
