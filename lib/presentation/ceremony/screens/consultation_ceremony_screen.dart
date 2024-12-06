@@ -30,6 +30,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consu
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
@@ -212,8 +213,6 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final chat = messages[index];
-
-                            log('CHAT CEREMONY ---> $chat');
 
                             return Container(
                               key: Key("${chat.id}"),
@@ -443,8 +442,10 @@ class ConsultationInput extends HookConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
 
-    final CeremonyController ceremonyController =
-        CeremonyController(ceremonyRepository: CeremonyRepository());
+    final CeremonyController ceremonyController = CeremonyController(
+      ceremonyRepository: CeremonyRepository(),
+      consultationRepository: ConsultationRepository(),
+    );
 
     Future<ApiBaseResponse<List<CeremonyPackage?>?>?>
         getCeremonyPackages() async {

@@ -183,80 +183,31 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       StorageKey.supabaseConsultCeremony,
     );
 
-    final createConsultationMutation = useMutation<
-        ApiBaseResponse<CeremonyConsultationTicket?>?,
-        ApiBaseResponse<CeremonyConsultationTicket?>?,
-        CeremonyConsultationTicketRequest,
-        void>(
-      (request) async {
-        final response =
-            await ceremonyController.createConsultation(request: request);
-        return response;
-      },
-      onSuccess: (response, variables, _) {
-        isLoading.value = false;
-      },
-      onError: (error, variables, _) {
-        isLoading.value = false;
-
-        for (var message in error?.message) {
-          PrimaryToast.error(message: message);
-        }
-      },
-    );
-
-    Future createConsultationTicket() async {
-      final data = CeremonyConsultationTicketRequest(
-        ceremonyServiceId: ceremony?.id ?? 0,
-        ceremonyServiceName: ceremony?.title ?? '',
-        memberAddressId: user?.id ?? 0,
-        memberId: user?.id ?? 0,
-        ceremonyServicePackageId: selectedCeremonyPackage.value?.id,
-      );
-
-      isLoading.value = true;
-
-      await createConsultationMutation.mutate(data);
-      createConsultationMutation.reset();
-    }
-
-    Future<void> createConsultation() async {
+    Future<void> createConsultation(
+        {required CeremonyConsultationTicket consultationTicket}) async {
       isLoading.value = true;
       try {
-        createConsultationTicket().then((val) async {
-          final CeremonyConsultationRequest consultationRequest =
-              CeremonyConsultationRequest(
-            ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
-            ceremonyName: ceremony?.title ?? '',
-            ceremonyServiceId: ceremony?.id ?? 0,
-            consultationId: (createConsultationMutation.data?.data
-                    as CeremonyConsultationTicket)
-                .id,
-            status: 'onGoing',
-            userId: user?.id ?? 0,
-            userName: user?.fullName ?? '',
-            userPhoto: user?.avatarUrl ?? '',
-            ceremonyPackageId: selectedCeremonyPackage.value?.id,
-            createdAt: DateTime.now().toIso8601String(),
-          );
+        final CeremonyConsultationRequest consultationRequest =
+            CeremonyConsultationRequest(
+          ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
+          ceremonyName: ceremony?.title ?? '',
+          ceremonyServiceId: ceremony?.id ?? 0,
+          consultationId: consultationTicket.id,
+          status: 'onGoing',
+          userId: user?.id ?? 0,
+          userName: user?.fullName ?? '',
+          userPhoto: user?.avatarUrl ?? '',
+          ceremonyPackageId: selectedCeremonyPackage.value?.id,
+          createdAt: DateTime.now().toIso8601String(),
+        );
 
-          final dataConsult = await dbConsult
-              .select()
-              .eq('consultationId', consultationRequest.consultationId)
-              .maybeSingle();
+        final dataConsult = await dbConsult
+            .select()
+            .eq('consultationId', consultationRequest.consultationId)
+            .maybeSingle();
 
-          if (dataConsult == null) {
-            await dbConsult.insert(consultationRequest.toJson()).then((val) {
-              isLoading.value = false;
-              PrimaryNavigation.pushFromRight(
-                context,
-                page: ConsultationCeremonyScreen(
-                  ceremony: ceremony,
-                  ceremonyPackage: selectedCeremonyPackage.value,
-                ),
-              );
-            });
-          } else {
+        if (dataConsult == null) {
+          await dbConsult.insert(consultationRequest.toJson()).then((val) {
             isLoading.value = false;
             PrimaryNavigation.pushFromRight(
               context,
@@ -265,8 +216,17 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                 ceremonyPackage: selectedCeremonyPackage.value,
               ),
             );
-          }
-        });
+          });
+        } else {
+          isLoading.value = false;
+          PrimaryNavigation.pushFromRight(
+            context,
+            page: ConsultationCeremonyScreen(
+              ceremony: ceremony,
+              ceremonyPackage: selectedCeremonyPackage.value,
+            ),
+          );
+        }
       } on PostgrestException catch (error) {
         isLoading.value = false;
         log("ERROR CREATE CONSULTATION --->>> ${error.message}");
@@ -276,6 +236,47 @@ class DetailCeremonyScreen extends HookConsumerWidget {
         log('ERORR ${err.toString()}');
         PrimaryToast.error(message: err.toString());
       }
+    }
+
+    final createConsultationMutation = useMutation<
+        ApiBaseResponse<CeremonyConsultationTicket>,
+        ApiBaseResponse<dynamic>,
+        CeremonyConsultationTicketRequest,
+        void>(
+      (request) async {
+        final response =
+            await ceremonyController.createConsultation(request: request);
+
+        createConsultation(
+            consultationTicket: response.data as CeremonyConsultationTicket);
+
+        return response;
+      },
+      onSuccess: (response, variables, _) {
+        isLoading.value = false;
+      },
+      onError: (error, variables, _) {
+        isLoading.value = false;
+
+        for (var message in error.message) {
+          PrimaryToast.error(message: message);
+        }
+      },
+    );
+
+    Future createConsultationTicket() async {
+      final data = CeremonyConsultationTicketRequest(
+        ceremonyServiceId: ceremony?.id ?? 0,
+        ceremonyServiceName: ceremony?.title ?? '',
+        memberId: user?.id ?? 0,
+        ceremonyServicePackageId: selectedCeremonyPackage.value?.id,
+      );
+
+      isLoading.value = true;
+
+      await createConsultationMutation.mutate(data);
+
+      createConsultationMutation.reset();
     }
 
     showAlertConfirmation() {
@@ -315,7 +316,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                     label: locales?.veryConfident ?? '',
                     onTap: () async {
                       Navigator.pop(context);
-                      await createConsultation();
+                      await createConsultationTicket();
                     },
                     isMedium: true,
                   ),
@@ -335,7 +336,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
             onTapButtonPrimary: () {
               if (ceremonyPackages?.isEmpty == true) {
                 Navigator.pop(context);
-                createConsultation();
+                createConsultationTicket();
 
                 return;
               }

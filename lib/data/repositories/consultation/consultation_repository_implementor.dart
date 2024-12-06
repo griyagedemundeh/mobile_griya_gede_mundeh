@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_griya_gede_mundeh/config/api_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/end_points.dart';
@@ -8,8 +10,10 @@ import 'package:mobile_griya_gede_mundeh/data/repositories/Consultation/Consulta
 
 class ConsultationRepository extends IConsultationRepository {
   @override
-  Future<ApiBaseResponse<CeremonyConsultationTicket?>> createConsultation(
+  Future<ApiBaseResponse<CeremonyConsultationTicket>> createConsultation(
       {required CeremonyConsultationTicketRequest request}) async {
+    log('${request.toJson()}', name: 'DATA ----->>>>');
+
     try {
       final response = await api.post(
         '${ApiEndPoints.consultation}/create',

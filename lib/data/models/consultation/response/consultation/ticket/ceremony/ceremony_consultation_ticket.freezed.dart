@@ -23,9 +23,9 @@ CeremonyConsultationTicket _$CeremonyConsultationTicketFromJson(
 mixin _$CeremonyConsultationTicket {
   int get id => throw _privateConstructorUsedError;
   int get memberId => throw _privateConstructorUsedError;
-  int get memberAddressId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   String get ceremonyServiceName => throw _privateConstructorUsedError;
+  String? get ceremonyServicePackageId => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
@@ -46,9 +46,9 @@ abstract class $CeremonyConsultationTicketCopyWith<$Res> {
   $Res call(
       {int id,
       int memberId,
-      int memberAddressId,
       int ceremonyServiceId,
       String ceremonyServiceName,
+      String? ceremonyServicePackageId,
       String status,
       DateTime createdAt,
       DateTime updatedAt});
@@ -70,9 +70,9 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? memberId = null,
-    Object? memberAddressId = null,
     Object? ceremonyServiceId = null,
     Object? ceremonyServiceName = null,
+    Object? ceremonyServicePackageId = freezed,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -86,10 +86,6 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
           ? _value.memberId
           : memberId // ignore: cast_nullable_to_non_nullable
               as int,
-      memberAddressId: null == memberAddressId
-          ? _value.memberAddressId
-          : memberAddressId // ignore: cast_nullable_to_non_nullable
-              as int,
       ceremonyServiceId: null == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
@@ -98,6 +94,10 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
           ? _value.ceremonyServiceName
           : ceremonyServiceName // ignore: cast_nullable_to_non_nullable
               as String,
+      ceremonyServicePackageId: freezed == ceremonyServicePackageId
+          ? _value.ceremonyServicePackageId
+          : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -126,9 +126,9 @@ abstract class _$$CeremonyConsultationTicketImplCopyWith<$Res>
   $Res call(
       {int id,
       int memberId,
-      int memberAddressId,
       int ceremonyServiceId,
       String ceremonyServiceName,
+      String? ceremonyServicePackageId,
       String status,
       DateTime createdAt,
       DateTime updatedAt});
@@ -149,9 +149,9 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? memberId = null,
-    Object? memberAddressId = null,
     Object? ceremonyServiceId = null,
     Object? ceremonyServiceName = null,
+    Object? ceremonyServicePackageId = freezed,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -165,10 +165,6 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
           ? _value.memberId
           : memberId // ignore: cast_nullable_to_non_nullable
               as int,
-      memberAddressId: null == memberAddressId
-          ? _value.memberAddressId
-          : memberAddressId // ignore: cast_nullable_to_non_nullable
-              as int,
       ceremonyServiceId: null == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
@@ -177,6 +173,10 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
           ? _value.ceremonyServiceName
           : ceremonyServiceName // ignore: cast_nullable_to_non_nullable
               as String,
+      ceremonyServicePackageId: freezed == ceremonyServicePackageId
+          ? _value.ceremonyServicePackageId
+          : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -199,9 +199,9 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
   const _$CeremonyConsultationTicketImpl(
       {required this.id,
       required this.memberId,
-      required this.memberAddressId,
       required this.ceremonyServiceId,
       required this.ceremonyServiceName,
+      this.ceremonyServicePackageId,
       required this.status,
       required this.createdAt,
       required this.updatedAt});
@@ -215,11 +215,11 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
   @override
   final int memberId;
   @override
-  final int memberAddressId;
-  @override
   final int ceremonyServiceId;
   @override
   final String ceremonyServiceName;
+  @override
+  final String? ceremonyServicePackageId;
   @override
   final String status;
   @override
@@ -229,7 +229,7 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
 
   @override
   String toString() {
-    return 'CeremonyConsultationTicket(id: $id, memberId: $memberId, memberAddressId: $memberAddressId, ceremonyServiceId: $ceremonyServiceId, ceremonyServiceName: $ceremonyServiceName, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CeremonyConsultationTicket(id: $id, memberId: $memberId, ceremonyServiceId: $ceremonyServiceId, ceremonyServiceName: $ceremonyServiceName, ceremonyServicePackageId: $ceremonyServicePackageId, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -240,12 +240,13 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.memberId, memberId) ||
                 other.memberId == memberId) &&
-            (identical(other.memberAddressId, memberAddressId) ||
-                other.memberAddressId == memberAddressId) &&
             (identical(other.ceremonyServiceId, ceremonyServiceId) ||
                 other.ceremonyServiceId == ceremonyServiceId) &&
             (identical(other.ceremonyServiceName, ceremonyServiceName) ||
                 other.ceremonyServiceName == ceremonyServiceName) &&
+            (identical(
+                    other.ceremonyServicePackageId, ceremonyServicePackageId) ||
+                other.ceremonyServicePackageId == ceremonyServicePackageId) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -255,8 +256,16 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, memberId, memberAddressId,
-      ceremonyServiceId, ceremonyServiceName, status, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      memberId,
+      ceremonyServiceId,
+      ceremonyServiceName,
+      ceremonyServicePackageId,
+      status,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -278,9 +287,9 @@ abstract class _CeremonyConsultationTicket
   const factory _CeremonyConsultationTicket(
       {required final int id,
       required final int memberId,
-      required final int memberAddressId,
       required final int ceremonyServiceId,
       required final String ceremonyServiceName,
+      final String? ceremonyServicePackageId,
       required final String status,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$CeremonyConsultationTicketImpl;
@@ -293,11 +302,11 @@ abstract class _CeremonyConsultationTicket
   @override
   int get memberId;
   @override
-  int get memberAddressId;
-  @override
   int get ceremonyServiceId;
   @override
   String get ceremonyServiceName;
+  @override
+  String? get ceremonyServicePackageId;
   @override
   String get status;
   @override

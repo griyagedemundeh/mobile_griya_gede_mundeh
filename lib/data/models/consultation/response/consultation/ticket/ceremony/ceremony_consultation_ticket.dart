@@ -8,9 +8,9 @@ class CeremonyConsultationTicket with _$CeremonyConsultationTicket {
   const factory CeremonyConsultationTicket({
     required int id,
     required int memberId,
-    required int memberAddressId,
     required int ceremonyServiceId,
     required String ceremonyServiceName,
+    String? ceremonyServicePackageId,
     required String status,
     required DateTime createdAt,
     required DateTime updatedAt,

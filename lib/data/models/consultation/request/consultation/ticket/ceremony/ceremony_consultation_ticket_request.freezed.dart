@@ -21,7 +21,6 @@ CeremonyConsultationTicketRequest _$CeremonyConsultationTicketRequestFromJson(
 
 /// @nodoc
 mixin _$CeremonyConsultationTicketRequest {
-  int get memberAddressId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   String get ceremonyServiceName => throw _privateConstructorUsedError;
   int? get ceremonyServicePackageId => throw _privateConstructorUsedError;
@@ -42,8 +41,7 @@ abstract class $CeremonyConsultationTicketRequestCopyWith<$Res> {
           CeremonyConsultationTicketRequest>;
   @useResult
   $Res call(
-      {int memberAddressId,
-      int ceremonyServiceId,
+      {int ceremonyServiceId,
       String ceremonyServiceName,
       int? ceremonyServicePackageId,
       int memberId});
@@ -63,17 +61,12 @@ class _$CeremonyConsultationTicketRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? memberAddressId = null,
     Object? ceremonyServiceId = null,
     Object? ceremonyServiceName = null,
     Object? ceremonyServicePackageId = freezed,
     Object? memberId = null,
   }) {
     return _then(_value.copyWith(
-      memberAddressId: null == memberAddressId
-          ? _value.memberAddressId
-          : memberAddressId // ignore: cast_nullable_to_non_nullable
-              as int,
       ceremonyServiceId: null == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
@@ -104,8 +97,7 @@ abstract class _$$CeremonyConsultationTicketRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int memberAddressId,
-      int ceremonyServiceId,
+      {int ceremonyServiceId,
       String ceremonyServiceName,
       int? ceremonyServicePackageId,
       int memberId});
@@ -124,17 +116,12 @@ class __$$CeremonyConsultationTicketRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? memberAddressId = null,
     Object? ceremonyServiceId = null,
     Object? ceremonyServiceName = null,
     Object? ceremonyServicePackageId = freezed,
     Object? memberId = null,
   }) {
     return _then(_$CeremonyConsultationTicketRequestImpl(
-      memberAddressId: null == memberAddressId
-          ? _value.memberAddressId
-          : memberAddressId // ignore: cast_nullable_to_non_nullable
-              as int,
       ceremonyServiceId: null == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
@@ -160,8 +147,7 @@ class __$$CeremonyConsultationTicketRequestImplCopyWithImpl<$Res>
 class _$CeremonyConsultationTicketRequestImpl
     implements _CeremonyConsultationTicketRequest {
   const _$CeremonyConsultationTicketRequestImpl(
-      {required this.memberAddressId,
-      required this.ceremonyServiceId,
+      {required this.ceremonyServiceId,
       required this.ceremonyServiceName,
       this.ceremonyServicePackageId,
       required this.memberId});
@@ -170,8 +156,6 @@ class _$CeremonyConsultationTicketRequestImpl
           Map<String, dynamic> json) =>
       _$$CeremonyConsultationTicketRequestImplFromJson(json);
 
-  @override
-  final int memberAddressId;
   @override
   final int ceremonyServiceId;
   @override
@@ -183,7 +167,7 @@ class _$CeremonyConsultationTicketRequestImpl
 
   @override
   String toString() {
-    return 'CeremonyConsultationTicketRequest(memberAddressId: $memberAddressId, ceremonyServiceId: $ceremonyServiceId, ceremonyServiceName: $ceremonyServiceName, ceremonyServicePackageId: $ceremonyServicePackageId, memberId: $memberId)';
+    return 'CeremonyConsultationTicketRequest(ceremonyServiceId: $ceremonyServiceId, ceremonyServiceName: $ceremonyServiceName, ceremonyServicePackageId: $ceremonyServicePackageId, memberId: $memberId)';
   }
 
   @override
@@ -191,8 +175,6 @@ class _$CeremonyConsultationTicketRequestImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CeremonyConsultationTicketRequestImpl &&
-            (identical(other.memberAddressId, memberAddressId) ||
-                other.memberAddressId == memberAddressId) &&
             (identical(other.ceremonyServiceId, ceremonyServiceId) ||
                 other.ceremonyServiceId == ceremonyServiceId) &&
             (identical(other.ceremonyServiceName, ceremonyServiceName) ||
@@ -206,13 +188,8 @@ class _$CeremonyConsultationTicketRequestImpl
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      memberAddressId,
-      ceremonyServiceId,
-      ceremonyServiceName,
-      ceremonyServicePackageId,
-      memberId);
+  int get hashCode => Object.hash(runtimeType, ceremonyServiceId,
+      ceremonyServiceName, ceremonyServicePackageId, memberId);
 
   @JsonKey(ignore: true)
   @override
@@ -233,8 +210,7 @@ class _$CeremonyConsultationTicketRequestImpl
 abstract class _CeremonyConsultationTicketRequest
     implements CeremonyConsultationTicketRequest {
   const factory _CeremonyConsultationTicketRequest(
-      {required final int memberAddressId,
-      required final int ceremonyServiceId,
+      {required final int ceremonyServiceId,
       required final String ceremonyServiceName,
       final int? ceremonyServicePackageId,
       required final int memberId}) = _$CeremonyConsultationTicketRequestImpl;
@@ -243,8 +219,6 @@ abstract class _CeremonyConsultationTicketRequest
           Map<String, dynamic> json) =
       _$CeremonyConsultationTicketRequestImpl.fromJson;
 
-  @override
-  int get memberAddressId;
   @override
   int get ceremonyServiceId;
   @override

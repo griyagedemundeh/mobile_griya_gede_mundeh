@@ -19,7 +19,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/ceremony_package.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/ceremony_service.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/invoice.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/transaction/transaction_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
@@ -257,7 +257,7 @@ class DetailTransactionScreen extends HookConsumerWidget {
                     TransactionStatus(
                       id: invoice?.id ?? '-',
                       status: invoice?.status ?? '-',
-                      createdDate: invoice?.invoiceCeremonyHistory.createdAt,
+                      createdDate: invoice?.createdAt,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
@@ -277,26 +277,24 @@ class DetailTransactionScreen extends HookConsumerWidget {
                       transactionItemDatas: [
                         TransactionItemData(
                             label: locales?.date ?? '',
-                            data:
-                                invoice?.invoiceCeremonyHistory.ceremonyDate !=
-                                        null
-                                    ? formatDateOnly(
-                                        invoice!.invoiceCeremonyHistory
-                                            .ceremonyDate!
-                                            .toIso8601String(),
-                                      )
-                                    : '-'),
+                            data: invoice
+                                        ?.invoiceCeremonyHistory.ceremonyDate !=
+                                    null
+                                ? formatDateOnly(
+                                    invoice!.invoiceCeremonyHistory.ceremonyDate
+                                        .toIso8601String(),
+                                  )
+                                : '-'),
                         TransactionItemData(
                             label: locales?.time ?? '',
-                            data:
-                                invoice?.invoiceCeremonyHistory.ceremonyDate !=
-                                        null
-                                    ? formatTimeOnly(
-                                        invoice!.invoiceCeremonyHistory
-                                            .ceremonyDate!
-                                            .toIso8601String(),
-                                      )
-                                    : '-'),
+                            data: invoice
+                                        ?.invoiceCeremonyHistory.ceremonyDate !=
+                                    null
+                                ? formatTimeOnly(
+                                    invoice!.invoiceCeremonyHistory.ceremonyDate
+                                        .toIso8601String(),
+                                  )
+                                : '-'),
                       ],
                     ),
                     const SizedBox(
@@ -316,29 +314,32 @@ class DetailTransactionScreen extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    Visibility(
-                      visible: invoice?.invoiceCeremonyHistory.note != null,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: AppDimens.paddingMedium,
-                          ),
-                          TransactionNote(
-                            note: invoice?.invoiceCeremonyHistory.note,
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Visibility(
+                    //   visible: invoice?.invoiceCeremonyHistory.note != null,
+                    //   child: Column(
+                    //     children: [
+                    //       const SizedBox(
+                    //         height: AppDimens.paddingMedium,
+                    //       ),
+                    //       TransactionNote(
+                    //         note: invoice?.invoiceCeremonyHistory.note,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: AppDimens.paddingMedium,
                     ),
                     Visibility(
                       visible:
-                          invoice?.invoiceCeremonyHistory.ceremonyPackage !=
-                              null,
+                          invoice?.invoiceCeremonyHistory.packageName != null,
                       child: TransactionDetailPackage(
-                        ceremonyPackage:
-                            invoice!.invoiceCeremonyHistory.ceremonyPackage,
+                        description:
+                            invoice?.invoiceCeremonyHistory.description ?? '',
+                        iconUrl: invoice?.invoiceCeremonyHistory.ceremonyService
+                            .ceremonyDocumentation[0].photo,
+                        name: invoice?.invoiceCeremonyHistory.title ?? '',
+                        price: invoice?.totalPrice ?? 0,
                       ),
                     ),
                     const SizedBox(
@@ -362,7 +363,7 @@ class DetailTransactionScreen extends HookConsumerWidget {
                       transactionItemDatas: [
                         TransactionItemData(
                           label: locales?.totalPrice ?? '',
-                          data: formatCurrency(invoice.totalPrice),
+                          data: formatCurrency(invoice?.totalPrice ?? 0),
                         ),
                       ],
                     ),
@@ -383,10 +384,16 @@ class DetailTransactionScreen extends HookConsumerWidget {
 class TransactionDetailPackage extends StatelessWidget {
   const TransactionDetailPackage({
     super.key,
-    this.ceremonyPackage,
+    this.name,
+    this.price,
+    this.iconUrl,
+    this.description,
   });
 
-  final CeremonyPackage? ceremonyPackage;
+  final String? name;
+  final int? price;
+  final String? iconUrl;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -431,8 +438,7 @@ class TransactionDetailPackage extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1586262431/1200px-Ngaben_Cremation_vih3yt.jpg",
+                        imageUrl: iconUrl ?? '',
                         fit: BoxFit.cover,
                         height: AppDimens.big,
                         width: AppDimens.big,
@@ -457,7 +463,7 @@ class TransactionDetailPackage extends StatelessWidget {
                         SizedBox(
                           width: width * 0.5,
                           child: Text(
-                            ceremonyPackage?.name ?? '-',
+                            name ?? '-',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: const TextStyle(
@@ -469,7 +475,7 @@ class TransactionDetailPackage extends StatelessWidget {
                           height: AppDimens.paddingMicro,
                         ),
                         Text(
-                          formatCurrency(ceremonyPackage?.price ?? 0),
+                          formatCurrency(price ?? 0),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -494,7 +500,7 @@ class TransactionDetailPackage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       HtmlWidget(
-                        ceremonyPackage?.description ?? '',
+                        description ?? '',
                       ),
                     ],
                   ),

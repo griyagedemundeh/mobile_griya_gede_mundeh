@@ -10,7 +10,6 @@ _$CeremonyConsultationTicketRequestImpl
     _$$CeremonyConsultationTicketRequestImplFromJson(
             Map<String, dynamic> json) =>
         _$CeremonyConsultationTicketRequestImpl(
-          memberAddressId: (json['memberAddressId'] as num).toInt(),
           ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
           ceremonyServiceName: json['ceremonyServiceName'] as String,
           ceremonyServicePackageId:
@@ -21,7 +20,6 @@ _$CeremonyConsultationTicketRequestImpl
 Map<String, dynamic> _$$CeremonyConsultationTicketRequestImplToJson(
         _$CeremonyConsultationTicketRequestImpl instance) =>
     <String, dynamic>{
-      'memberAddressId': instance.memberAddressId,
       'ceremonyServiceId': instance.ceremonyServiceId,
       'ceremonyServiceName': instance.ceremonyServiceName,
       'ceremonyServicePackageId': instance.ceremonyServicePackageId,

@@ -22,22 +22,16 @@ InvoiceCeremonyHistory _$InvoiceCeremonyHistoryFromJson(
 /// @nodoc
 mixin _$InvoiceCeremonyHistory {
   int get id => throw _privateConstructorUsedError;
-  int get adminId => throw _privateConstructorUsedError;
-  int get memberId => throw _privateConstructorUsedError;
-  int get memberAddressId => throw _privateConstructorUsedError;
   String? get consultationId => throw _privateConstructorUsedError;
+  int get ceremonyServiceId => throw _privateConstructorUsedError;
   int get ceremonyServicePackageId => throw _privateConstructorUsedError;
+  String get ceremonyAddress => throw _privateConstructorUsedError;
+  String? get ceremonyAddressNote => throw _privateConstructorUsedError;
+  DateTime get ceremonyDate => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get packageName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String? get note => throw _privateConstructorUsedError;
-  String get ceremonyAddress => throw _privateConstructorUsedError;
-  String? get ceremonyAddressNote => throw _privateConstructorUsedError;
-  DateTime? get ceremonyDate => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
-  CeremonyPackage? get ceremonyPackage => throw _privateConstructorUsedError;
+  CeremonyService get ceremonyService => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,24 +47,18 @@ abstract class $InvoiceCeremonyHistoryCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int adminId,
-      int memberId,
-      int memberAddressId,
       String? consultationId,
+      int ceremonyServiceId,
       int ceremonyServicePackageId,
+      String ceremonyAddress,
+      String? ceremonyAddressNote,
+      DateTime ceremonyDate,
       String title,
       String packageName,
       String description,
-      String? note,
-      String ceremonyAddress,
-      String? ceremonyAddressNote,
-      DateTime? ceremonyDate,
-      String status,
-      DateTime createdAt,
-      DateTime updatedAt,
-      CeremonyPackage? ceremonyPackage});
+      CeremonyService ceremonyService});
 
-  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage;
+  $CeremonyServiceCopyWith<$Res> get ceremonyService;
 }
 
 /// @nodoc
@@ -88,48 +76,46 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = null,
-    Object? adminId = null,
-    Object? memberId = null,
-    Object? memberAddressId = null,
     Object? consultationId = freezed,
+    Object? ceremonyServiceId = null,
     Object? ceremonyServicePackageId = null,
+    Object? ceremonyAddress = null,
+    Object? ceremonyAddressNote = freezed,
+    Object? ceremonyDate = null,
     Object? title = null,
     Object? packageName = null,
     Object? description = null,
-    Object? note = freezed,
-    Object? ceremonyAddress = null,
-    Object? ceremonyAddressNote = freezed,
-    Object? ceremonyDate = freezed,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? ceremonyPackage = freezed,
+    Object? ceremonyService = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      adminId: null == adminId
-          ? _value.adminId
-          : adminId // ignore: cast_nullable_to_non_nullable
-              as int,
-      memberId: null == memberId
-          ? _value.memberId
-          : memberId // ignore: cast_nullable_to_non_nullable
-              as int,
-      memberAddressId: null == memberAddressId
-          ? _value.memberAddressId
-          : memberAddressId // ignore: cast_nullable_to_non_nullable
-              as int,
       consultationId: freezed == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
               as String?,
+      ceremonyServiceId: null == ceremonyServiceId
+          ? _value.ceremonyServiceId
+          : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
+              as int,
       ceremonyServicePackageId: null == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
               as int,
+      ceremonyAddress: null == ceremonyAddress
+          ? _value.ceremonyAddress
+          : ceremonyAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      ceremonyAddressNote: freezed == ceremonyAddressNote
+          ? _value.ceremonyAddressNote
+          : ceremonyAddressNote // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyDate: null == ceremonyDate
+          ? _value.ceremonyDate
+          : ceremonyDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -142,50 +128,18 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      note: freezed == note
-          ? _value.note
-          : note // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ceremonyAddress: null == ceremonyAddress
-          ? _value.ceremonyAddress
-          : ceremonyAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      ceremonyAddressNote: freezed == ceremonyAddressNote
-          ? _value.ceremonyAddressNote
-          : ceremonyAddressNote // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ceremonyDate: freezed == ceremonyDate
-          ? _value.ceremonyDate
-          : ceremonyDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      ceremonyPackage: freezed == ceremonyPackage
-          ? _value.ceremonyPackage
-          : ceremonyPackage // ignore: cast_nullable_to_non_nullable
-              as CeremonyPackage?,
+      ceremonyService: null == ceremonyService
+          ? _value.ceremonyService
+          : ceremonyService // ignore: cast_nullable_to_non_nullable
+              as CeremonyService,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage {
-    if (_value.ceremonyPackage == null) {
-      return null;
-    }
-
-    return $CeremonyPackageCopyWith<$Res>(_value.ceremonyPackage!, (value) {
-      return _then(_value.copyWith(ceremonyPackage: value) as $Val);
+  $CeremonyServiceCopyWith<$Res> get ceremonyService {
+    return $CeremonyServiceCopyWith<$Res>(_value.ceremonyService, (value) {
+      return _then(_value.copyWith(ceremonyService: value) as $Val);
     });
   }
 }
@@ -201,25 +155,19 @@ abstract class _$$InvoiceCeremonyHistoryImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      int adminId,
-      int memberId,
-      int memberAddressId,
       String? consultationId,
+      int ceremonyServiceId,
       int ceremonyServicePackageId,
+      String ceremonyAddress,
+      String? ceremonyAddressNote,
+      DateTime ceremonyDate,
       String title,
       String packageName,
       String description,
-      String? note,
-      String ceremonyAddress,
-      String? ceremonyAddressNote,
-      DateTime? ceremonyDate,
-      String status,
-      DateTime createdAt,
-      DateTime updatedAt,
-      CeremonyPackage? ceremonyPackage});
+      CeremonyService ceremonyService});
 
   @override
-  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage;
+  $CeremonyServiceCopyWith<$Res> get ceremonyService;
 }
 
 /// @nodoc
@@ -236,48 +184,46 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? adminId = null,
-    Object? memberId = null,
-    Object? memberAddressId = null,
     Object? consultationId = freezed,
+    Object? ceremonyServiceId = null,
     Object? ceremonyServicePackageId = null,
+    Object? ceremonyAddress = null,
+    Object? ceremonyAddressNote = freezed,
+    Object? ceremonyDate = null,
     Object? title = null,
     Object? packageName = null,
     Object? description = null,
-    Object? note = freezed,
-    Object? ceremonyAddress = null,
-    Object? ceremonyAddressNote = freezed,
-    Object? ceremonyDate = freezed,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? ceremonyPackage = freezed,
+    Object? ceremonyService = null,
   }) {
     return _then(_$InvoiceCeremonyHistoryImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      adminId: null == adminId
-          ? _value.adminId
-          : adminId // ignore: cast_nullable_to_non_nullable
-              as int,
-      memberId: null == memberId
-          ? _value.memberId
-          : memberId // ignore: cast_nullable_to_non_nullable
-              as int,
-      memberAddressId: null == memberAddressId
-          ? _value.memberAddressId
-          : memberAddressId // ignore: cast_nullable_to_non_nullable
-              as int,
       consultationId: freezed == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
               as String?,
+      ceremonyServiceId: null == ceremonyServiceId
+          ? _value.ceremonyServiceId
+          : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
+              as int,
       ceremonyServicePackageId: null == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
               as int,
+      ceremonyAddress: null == ceremonyAddress
+          ? _value.ceremonyAddress
+          : ceremonyAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      ceremonyAddressNote: freezed == ceremonyAddressNote
+          ? _value.ceremonyAddressNote
+          : ceremonyAddressNote // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyDate: null == ceremonyDate
+          ? _value.ceremonyDate
+          : ceremonyDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -290,38 +236,10 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      note: freezed == note
-          ? _value.note
-          : note // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ceremonyAddress: null == ceremonyAddress
-          ? _value.ceremonyAddress
-          : ceremonyAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      ceremonyAddressNote: freezed == ceremonyAddressNote
-          ? _value.ceremonyAddressNote
-          : ceremonyAddressNote // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ceremonyDate: freezed == ceremonyDate
-          ? _value.ceremonyDate
-          : ceremonyDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      ceremonyPackage: freezed == ceremonyPackage
-          ? _value.ceremonyPackage
-          : ceremonyPackage // ignore: cast_nullable_to_non_nullable
-              as CeremonyPackage?,
+      ceremonyService: null == ceremonyService
+          ? _value.ceremonyService
+          : ceremonyService // ignore: cast_nullable_to_non_nullable
+              as CeremonyService,
     ));
   }
 }
@@ -331,22 +249,16 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
 class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   const _$InvoiceCeremonyHistoryImpl(
       {required this.id,
-      required this.adminId,
-      required this.memberId,
-      required this.memberAddressId,
       this.consultationId,
+      required this.ceremonyServiceId,
       required this.ceremonyServicePackageId,
+      required this.ceremonyAddress,
+      this.ceremonyAddressNote,
+      required this.ceremonyDate,
       required this.title,
       required this.packageName,
       required this.description,
-      this.note,
-      required this.ceremonyAddress,
-      this.ceremonyAddressNote,
-      this.ceremonyDate,
-      required this.status,
-      required this.createdAt,
-      required this.updatedAt,
-      this.ceremonyPackage});
+      required this.ceremonyService});
 
   factory _$InvoiceCeremonyHistoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$InvoiceCeremonyHistoryImplFromJson(json);
@@ -354,15 +266,17 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final int id;
   @override
-  final int adminId;
-  @override
-  final int memberId;
-  @override
-  final int memberAddressId;
-  @override
   final String? consultationId;
   @override
+  final int ceremonyServiceId;
+  @override
   final int ceremonyServicePackageId;
+  @override
+  final String ceremonyAddress;
+  @override
+  final String? ceremonyAddressNote;
+  @override
+  final DateTime ceremonyDate;
   @override
   final String title;
   @override
@@ -370,25 +284,11 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final String description;
   @override
-  final String? note;
-  @override
-  final String ceremonyAddress;
-  @override
-  final String? ceremonyAddressNote;
-  @override
-  final DateTime? ceremonyDate;
-  @override
-  final String status;
-  @override
-  final DateTime createdAt;
-  @override
-  final DateTime updatedAt;
-  @override
-  final CeremonyPackage? ceremonyPackage;
+  final CeremonyService ceremonyService;
 
   @override
   String toString() {
-    return 'InvoiceCeremonyHistory(id: $id, adminId: $adminId, memberId: $memberId, memberAddressId: $memberAddressId, consultationId: $consultationId, ceremonyServicePackageId: $ceremonyServicePackageId, title: $title, packageName: $packageName, description: $description, note: $note, ceremonyAddress: $ceremonyAddress, ceremonyAddressNote: $ceremonyAddressNote, ceremonyDate: $ceremonyDate, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, ceremonyPackage: $ceremonyPackage)';
+    return 'InvoiceCeremonyHistory(id: $id, consultationId: $consultationId, ceremonyServiceId: $ceremonyServiceId, ceremonyServicePackageId: $ceremonyServicePackageId, ceremonyAddress: $ceremonyAddress, ceremonyAddressNote: $ceremonyAddressNote, ceremonyDate: $ceremonyDate, title: $title, packageName: $packageName, description: $description, ceremonyService: $ceremonyService)';
   }
 
   @override
@@ -397,35 +297,26 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
         (other.runtimeType == runtimeType &&
             other is _$InvoiceCeremonyHistoryImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.adminId, adminId) || other.adminId == adminId) &&
-            (identical(other.memberId, memberId) ||
-                other.memberId == memberId) &&
-            (identical(other.memberAddressId, memberAddressId) ||
-                other.memberAddressId == memberAddressId) &&
             (identical(other.consultationId, consultationId) ||
                 other.consultationId == consultationId) &&
+            (identical(other.ceremonyServiceId, ceremonyServiceId) ||
+                other.ceremonyServiceId == ceremonyServiceId) &&
             (identical(
                     other.ceremonyServicePackageId, ceremonyServicePackageId) ||
                 other.ceremonyServicePackageId == ceremonyServicePackageId) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.packageName, packageName) ||
-                other.packageName == packageName) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.note, note) || other.note == note) &&
             (identical(other.ceremonyAddress, ceremonyAddress) ||
                 other.ceremonyAddress == ceremonyAddress) &&
             (identical(other.ceremonyAddressNote, ceremonyAddressNote) ||
                 other.ceremonyAddressNote == ceremonyAddressNote) &&
             (identical(other.ceremonyDate, ceremonyDate) ||
                 other.ceremonyDate == ceremonyDate) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.ceremonyPackage, ceremonyPackage) ||
-                other.ceremonyPackage == ceremonyPackage));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.packageName, packageName) ||
+                other.packageName == packageName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.ceremonyService, ceremonyService) ||
+                other.ceremonyService == ceremonyService));
   }
 
   @JsonKey(ignore: true)
@@ -433,22 +324,16 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      adminId,
-      memberId,
-      memberAddressId,
       consultationId,
+      ceremonyServiceId,
       ceremonyServicePackageId,
-      title,
-      packageName,
-      description,
-      note,
       ceremonyAddress,
       ceremonyAddressNote,
       ceremonyDate,
-      status,
-      createdAt,
-      updatedAt,
-      ceremonyPackage);
+      title,
+      packageName,
+      description,
+      ceremonyService);
 
   @JsonKey(ignore: true)
   @override
@@ -467,23 +352,18 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
 
 abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   const factory _InvoiceCeremonyHistory(
-      {required final int id,
-      required final int adminId,
-      required final int memberId,
-      required final int memberAddressId,
-      final String? consultationId,
-      required final int ceremonyServicePackageId,
-      required final String title,
-      required final String packageName,
-      required final String description,
-      final String? note,
-      required final String ceremonyAddress,
-      final String? ceremonyAddressNote,
-      final DateTime? ceremonyDate,
-      required final String status,
-      required final DateTime createdAt,
-      required final DateTime updatedAt,
-      final CeremonyPackage? ceremonyPackage}) = _$InvoiceCeremonyHistoryImpl;
+          {required final int id,
+          final String? consultationId,
+          required final int ceremonyServiceId,
+          required final int ceremonyServicePackageId,
+          required final String ceremonyAddress,
+          final String? ceremonyAddressNote,
+          required final DateTime ceremonyDate,
+          required final String title,
+          required final String packageName,
+          required final String description,
+          required final CeremonyService ceremonyService}) =
+      _$InvoiceCeremonyHistoryImpl;
 
   factory _InvoiceCeremonyHistory.fromJson(Map<String, dynamic> json) =
       _$InvoiceCeremonyHistoryImpl.fromJson;
@@ -491,15 +371,17 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   int get id;
   @override
-  int get adminId;
-  @override
-  int get memberId;
-  @override
-  int get memberAddressId;
-  @override
   String? get consultationId;
   @override
+  int get ceremonyServiceId;
+  @override
   int get ceremonyServicePackageId;
+  @override
+  String get ceremonyAddress;
+  @override
+  String? get ceremonyAddressNote;
+  @override
+  DateTime get ceremonyDate;
   @override
   String get title;
   @override
@@ -507,21 +389,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   String get description;
   @override
-  String? get note;
-  @override
-  String get ceremonyAddress;
-  @override
-  String? get ceremonyAddressNote;
-  @override
-  DateTime? get ceremonyDate;
-  @override
-  String get status;
-  @override
-  DateTime get createdAt;
-  @override
-  DateTime get updatedAt;
-  @override
-  CeremonyPackage? get ceremonyPackage;
+  CeremonyService get ceremonyService;
   @override
   @JsonKey(ignore: true)
   _$$InvoiceCeremonyHistoryImplCopyWith<_$InvoiceCeremonyHistoryImpl>

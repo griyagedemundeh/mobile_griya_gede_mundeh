@@ -9,18 +9,10 @@ part 'invoice.g.dart';
 class Invoice with _$Invoice {
   const factory Invoice({
     required String id,
-    String? consultationId,
-    required int ceremonyHistoryId,
     required int memberId,
+    required int ceremonyHistoryId,
     required int totalPrice,
-    String? paymentUrl,
-    String? paymentToken,
-    String? paymentMethod,
-    required bool isCash,
     required String status,
-    required DateTime createdAt,
-    DateTime? paidAt,
-    required DateTime updatedAt,
     required InvoiceMember invoiceMember,
     required InvoiceCeremonyHistory invoiceCeremonyHistory,
   }) = _Invoice;

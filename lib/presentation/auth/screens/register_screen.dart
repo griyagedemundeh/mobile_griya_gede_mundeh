@@ -100,7 +100,7 @@ class RegisterScreen extends HookConsumerWidget {
 
         PrimaryNavigation.pushFromRightRemoveUntil(
           context,
-          page: const MainScreen(),
+          page: const LoginScreen(),
         );
       },
       onError: (error, variables, _) {

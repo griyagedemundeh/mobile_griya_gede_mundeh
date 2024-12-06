@@ -11,11 +11,11 @@ import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consulta
 
 class CeremonyController extends ChangeNotifier {
   final CeremonyRepository ceremonyRepository;
-  final ConsultationRepository? consultationRepository;
+  final ConsultationRepository consultationRepository;
 
   CeremonyController({
     required this.ceremonyRepository,
-    this.consultationRepository,
+    required this.consultationRepository,
   });
 
   Future<ApiBaseResponse<Ceremony?>?> getCeremony({
@@ -98,11 +98,11 @@ class CeremonyController extends ChangeNotifier {
     }
   }
 
-  Future<ApiBaseResponse<CeremonyConsultationTicket?>?> createConsultation({
+  Future<ApiBaseResponse<CeremonyConsultationTicket>> createConsultation({
     required CeremonyConsultationTicketRequest request,
   }) async {
     try {
-      final response = await consultationRepository?.createConsultation(
+      final response = await consultationRepository.createConsultation(
         request: request,
       );
 

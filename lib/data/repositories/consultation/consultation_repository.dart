@@ -3,7 +3,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consul
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ticket/ceremony/ceremony_consultation_ticket.dart';
 
 abstract class IConsultationRepository {
-  Future<ApiBaseResponse<CeremonyConsultationTicket?>> createConsultation({
+  Future<ApiBaseResponse<CeremonyConsultationTicket>> createConsultation({
     required CeremonyConsultationTicketRequest request,
   });
 }

@@ -21,18 +21,10 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Invoice {
   String get id => throw _privateConstructorUsedError;
-  String? get consultationId => throw _privateConstructorUsedError;
-  int get ceremonyHistoryId => throw _privateConstructorUsedError;
   int get memberId => throw _privateConstructorUsedError;
+  int get ceremonyHistoryId => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
-  String? get paymentUrl => throw _privateConstructorUsedError;
-  String? get paymentToken => throw _privateConstructorUsedError;
-  String? get paymentMethod => throw _privateConstructorUsedError;
-  bool get isCash => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime? get paidAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
   InvoiceMember get invoiceMember => throw _privateConstructorUsedError;
   InvoiceCeremonyHistory get invoiceCeremonyHistory =>
       throw _privateConstructorUsedError;
@@ -49,18 +41,10 @@ abstract class $InvoiceCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String? consultationId,
-      int ceremonyHistoryId,
       int memberId,
+      int ceremonyHistoryId,
       int totalPrice,
-      String? paymentUrl,
-      String? paymentToken,
-      String? paymentMethod,
-      bool isCash,
       String status,
-      DateTime createdAt,
-      DateTime? paidAt,
-      DateTime updatedAt,
       InvoiceMember invoiceMember,
       InvoiceCeremonyHistory invoiceCeremonyHistory});
 
@@ -82,18 +66,10 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
   @override
   $Res call({
     Object? id = null,
-    Object? consultationId = freezed,
-    Object? ceremonyHistoryId = null,
     Object? memberId = null,
+    Object? ceremonyHistoryId = null,
     Object? totalPrice = null,
-    Object? paymentUrl = freezed,
-    Object? paymentToken = freezed,
-    Object? paymentMethod = freezed,
-    Object? isCash = null,
     Object? status = null,
-    Object? createdAt = null,
-    Object? paidAt = freezed,
-    Object? updatedAt = null,
     Object? invoiceMember = null,
     Object? invoiceCeremonyHistory = null,
   }) {
@@ -102,54 +78,22 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      consultationId: freezed == consultationId
-          ? _value.consultationId
-          : consultationId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ceremonyHistoryId: null == ceremonyHistoryId
-          ? _value.ceremonyHistoryId
-          : ceremonyHistoryId // ignore: cast_nullable_to_non_nullable
-              as int,
       memberId: null == memberId
           ? _value.memberId
           : memberId // ignore: cast_nullable_to_non_nullable
+              as int,
+      ceremonyHistoryId: null == ceremonyHistoryId
+          ? _value.ceremonyHistoryId
+          : ceremonyHistoryId // ignore: cast_nullable_to_non_nullable
               as int,
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
-      paymentUrl: freezed == paymentUrl
-          ? _value.paymentUrl
-          : paymentUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      paymentToken: freezed == paymentToken
-          ? _value.paymentToken
-          : paymentToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      paymentMethod: freezed == paymentMethod
-          ? _value.paymentMethod
-          : paymentMethod // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isCash: null == isCash
-          ? _value.isCash
-          : isCash // ignore: cast_nullable_to_non_nullable
-              as bool,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      paidAt: freezed == paidAt
-          ? _value.paidAt
-          : paidAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       invoiceMember: null == invoiceMember
           ? _value.invoiceMember
           : invoiceMember // ignore: cast_nullable_to_non_nullable
@@ -188,18 +132,10 @@ abstract class _$$InvoiceImplCopyWith<$Res> implements $InvoiceCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String? consultationId,
-      int ceremonyHistoryId,
       int memberId,
+      int ceremonyHistoryId,
       int totalPrice,
-      String? paymentUrl,
-      String? paymentToken,
-      String? paymentMethod,
-      bool isCash,
       String status,
-      DateTime createdAt,
-      DateTime? paidAt,
-      DateTime updatedAt,
       InvoiceMember invoiceMember,
       InvoiceCeremonyHistory invoiceCeremonyHistory});
 
@@ -221,18 +157,10 @@ class __$$InvoiceImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? consultationId = freezed,
-    Object? ceremonyHistoryId = null,
     Object? memberId = null,
+    Object? ceremonyHistoryId = null,
     Object? totalPrice = null,
-    Object? paymentUrl = freezed,
-    Object? paymentToken = freezed,
-    Object? paymentMethod = freezed,
-    Object? isCash = null,
     Object? status = null,
-    Object? createdAt = null,
-    Object? paidAt = freezed,
-    Object? updatedAt = null,
     Object? invoiceMember = null,
     Object? invoiceCeremonyHistory = null,
   }) {
@@ -241,54 +169,22 @@ class __$$InvoiceImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      consultationId: freezed == consultationId
-          ? _value.consultationId
-          : consultationId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ceremonyHistoryId: null == ceremonyHistoryId
-          ? _value.ceremonyHistoryId
-          : ceremonyHistoryId // ignore: cast_nullable_to_non_nullable
-              as int,
       memberId: null == memberId
           ? _value.memberId
           : memberId // ignore: cast_nullable_to_non_nullable
+              as int,
+      ceremonyHistoryId: null == ceremonyHistoryId
+          ? _value.ceremonyHistoryId
+          : ceremonyHistoryId // ignore: cast_nullable_to_non_nullable
               as int,
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
-      paymentUrl: freezed == paymentUrl
-          ? _value.paymentUrl
-          : paymentUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      paymentToken: freezed == paymentToken
-          ? _value.paymentToken
-          : paymentToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      paymentMethod: freezed == paymentMethod
-          ? _value.paymentMethod
-          : paymentMethod // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isCash: null == isCash
-          ? _value.isCash
-          : isCash // ignore: cast_nullable_to_non_nullable
-              as bool,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      paidAt: freezed == paidAt
-          ? _value.paidAt
-          : paidAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       invoiceMember: null == invoiceMember
           ? _value.invoiceMember
           : invoiceMember // ignore: cast_nullable_to_non_nullable
@@ -306,18 +202,10 @@ class __$$InvoiceImplCopyWithImpl<$Res>
 class _$InvoiceImpl implements _Invoice {
   const _$InvoiceImpl(
       {required this.id,
-      this.consultationId,
-      required this.ceremonyHistoryId,
       required this.memberId,
+      required this.ceremonyHistoryId,
       required this.totalPrice,
-      this.paymentUrl,
-      this.paymentToken,
-      this.paymentMethod,
-      required this.isCash,
       required this.status,
-      required this.createdAt,
-      this.paidAt,
-      required this.updatedAt,
       required this.invoiceMember,
       required this.invoiceCeremonyHistory});
 
@@ -327,29 +215,13 @@ class _$InvoiceImpl implements _Invoice {
   @override
   final String id;
   @override
-  final String? consultationId;
+  final int memberId;
   @override
   final int ceremonyHistoryId;
   @override
-  final int memberId;
-  @override
   final int totalPrice;
   @override
-  final String? paymentUrl;
-  @override
-  final String? paymentToken;
-  @override
-  final String? paymentMethod;
-  @override
-  final bool isCash;
-  @override
   final String status;
-  @override
-  final DateTime createdAt;
-  @override
-  final DateTime? paidAt;
-  @override
-  final DateTime updatedAt;
   @override
   final InvoiceMember invoiceMember;
   @override
@@ -357,7 +229,7 @@ class _$InvoiceImpl implements _Invoice {
 
   @override
   String toString() {
-    return 'Invoice(id: $id, consultationId: $consultationId, ceremonyHistoryId: $ceremonyHistoryId, memberId: $memberId, totalPrice: $totalPrice, paymentUrl: $paymentUrl, paymentToken: $paymentToken, paymentMethod: $paymentMethod, isCash: $isCash, status: $status, createdAt: $createdAt, paidAt: $paidAt, updatedAt: $updatedAt, invoiceMember: $invoiceMember, invoiceCeremonyHistory: $invoiceCeremonyHistory)';
+    return 'Invoice(id: $id, memberId: $memberId, ceremonyHistoryId: $ceremonyHistoryId, totalPrice: $totalPrice, status: $status, invoiceMember: $invoiceMember, invoiceCeremonyHistory: $invoiceCeremonyHistory)';
   }
 
   @override
@@ -366,27 +238,13 @@ class _$InvoiceImpl implements _Invoice {
         (other.runtimeType == runtimeType &&
             other is _$InvoiceImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.consultationId, consultationId) ||
-                other.consultationId == consultationId) &&
-            (identical(other.ceremonyHistoryId, ceremonyHistoryId) ||
-                other.ceremonyHistoryId == ceremonyHistoryId) &&
             (identical(other.memberId, memberId) ||
                 other.memberId == memberId) &&
+            (identical(other.ceremonyHistoryId, ceremonyHistoryId) ||
+                other.ceremonyHistoryId == ceremonyHistoryId) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
-            (identical(other.paymentUrl, paymentUrl) ||
-                other.paymentUrl == paymentUrl) &&
-            (identical(other.paymentToken, paymentToken) ||
-                other.paymentToken == paymentToken) &&
-            (identical(other.paymentMethod, paymentMethod) ||
-                other.paymentMethod == paymentMethod) &&
-            (identical(other.isCash, isCash) || other.isCash == isCash) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.paidAt, paidAt) || other.paidAt == paidAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
             (identical(other.invoiceMember, invoiceMember) ||
                 other.invoiceMember == invoiceMember) &&
             (identical(other.invoiceCeremonyHistory, invoiceCeremonyHistory) ||
@@ -395,23 +253,8 @@ class _$InvoiceImpl implements _Invoice {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      consultationId,
-      ceremonyHistoryId,
-      memberId,
-      totalPrice,
-      paymentUrl,
-      paymentToken,
-      paymentMethod,
-      isCash,
-      status,
-      createdAt,
-      paidAt,
-      updatedAt,
-      invoiceMember,
-      invoiceCeremonyHistory);
+  int get hashCode => Object.hash(runtimeType, id, memberId, ceremonyHistoryId,
+      totalPrice, status, invoiceMember, invoiceCeremonyHistory);
 
   @JsonKey(ignore: true)
   @override
@@ -430,18 +273,10 @@ class _$InvoiceImpl implements _Invoice {
 abstract class _Invoice implements Invoice {
   const factory _Invoice(
           {required final String id,
-          final String? consultationId,
-          required final int ceremonyHistoryId,
           required final int memberId,
+          required final int ceremonyHistoryId,
           required final int totalPrice,
-          final String? paymentUrl,
-          final String? paymentToken,
-          final String? paymentMethod,
-          required final bool isCash,
           required final String status,
-          required final DateTime createdAt,
-          final DateTime? paidAt,
-          required final DateTime updatedAt,
           required final InvoiceMember invoiceMember,
           required final InvoiceCeremonyHistory invoiceCeremonyHistory}) =
       _$InvoiceImpl;
@@ -451,29 +286,13 @@ abstract class _Invoice implements Invoice {
   @override
   String get id;
   @override
-  String? get consultationId;
+  int get memberId;
   @override
   int get ceremonyHistoryId;
   @override
-  int get memberId;
-  @override
   int get totalPrice;
   @override
-  String? get paymentUrl;
-  @override
-  String? get paymentToken;
-  @override
-  String? get paymentMethod;
-  @override
-  bool get isCash;
-  @override
   String get status;
-  @override
-  DateTime get createdAt;
-  @override
-  DateTime? get paidAt;
-  @override
-  DateTime get updatedAt;
   @override
   InvoiceMember get invoiceMember;
   @override

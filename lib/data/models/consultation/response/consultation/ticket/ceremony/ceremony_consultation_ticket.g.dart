@@ -11,9 +11,9 @@ _$CeremonyConsultationTicketImpl _$$CeremonyConsultationTicketImplFromJson(
     _$CeremonyConsultationTicketImpl(
       id: (json['id'] as num).toInt(),
       memberId: (json['memberId'] as num).toInt(),
-      memberAddressId: (json['memberAddressId'] as num).toInt(),
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
       ceremonyServiceName: json['ceremonyServiceName'] as String,
+      ceremonyServicePackageId: json['ceremonyServicePackageId'] as String?,
       status: json['status'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
@@ -24,9 +24,9 @@ Map<String, dynamic> _$$CeremonyConsultationTicketImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'memberId': instance.memberId,
-      'memberAddressId': instance.memberAddressId,
       'ceremonyServiceId': instance.ceremonyServiceId,
       'ceremonyServiceName': instance.ceremonyServiceName,
+      'ceremonyServicePackageId': instance.ceremonyServicePackageId,
       'status': instance.status,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
