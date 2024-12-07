@@ -24,6 +24,7 @@ mixin _$Invoice {
   int get memberId => throw _privateConstructorUsedError;
   int get ceremonyHistoryId => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
+  String? get paymentUrl => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   InvoiceMember get invoiceMember => throw _privateConstructorUsedError;
   InvoiceCeremonyHistory get invoiceCeremonyHistory =>
@@ -44,6 +45,7 @@ abstract class $InvoiceCopyWith<$Res> {
       int memberId,
       int ceremonyHistoryId,
       int totalPrice,
+      String? paymentUrl,
       String status,
       InvoiceMember invoiceMember,
       InvoiceCeremonyHistory invoiceCeremonyHistory});
@@ -69,6 +71,7 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
     Object? memberId = null,
     Object? ceremonyHistoryId = null,
     Object? totalPrice = null,
+    Object? paymentUrl = freezed,
     Object? status = null,
     Object? invoiceMember = null,
     Object? invoiceCeremonyHistory = null,
@@ -90,6 +93,10 @@ class _$InvoiceCopyWithImpl<$Res, $Val extends Invoice>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      paymentUrl: freezed == paymentUrl
+          ? _value.paymentUrl
+          : paymentUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -135,6 +142,7 @@ abstract class _$$InvoiceImplCopyWith<$Res> implements $InvoiceCopyWith<$Res> {
       int memberId,
       int ceremonyHistoryId,
       int totalPrice,
+      String? paymentUrl,
       String status,
       InvoiceMember invoiceMember,
       InvoiceCeremonyHistory invoiceCeremonyHistory});
@@ -160,6 +168,7 @@ class __$$InvoiceImplCopyWithImpl<$Res>
     Object? memberId = null,
     Object? ceremonyHistoryId = null,
     Object? totalPrice = null,
+    Object? paymentUrl = freezed,
     Object? status = null,
     Object? invoiceMember = null,
     Object? invoiceCeremonyHistory = null,
@@ -181,6 +190,10 @@ class __$$InvoiceImplCopyWithImpl<$Res>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      paymentUrl: freezed == paymentUrl
+          ? _value.paymentUrl
+          : paymentUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -205,6 +218,7 @@ class _$InvoiceImpl implements _Invoice {
       required this.memberId,
       required this.ceremonyHistoryId,
       required this.totalPrice,
+      this.paymentUrl,
       required this.status,
       required this.invoiceMember,
       required this.invoiceCeremonyHistory});
@@ -221,6 +235,8 @@ class _$InvoiceImpl implements _Invoice {
   @override
   final int totalPrice;
   @override
+  final String? paymentUrl;
+  @override
   final String status;
   @override
   final InvoiceMember invoiceMember;
@@ -229,7 +245,7 @@ class _$InvoiceImpl implements _Invoice {
 
   @override
   String toString() {
-    return 'Invoice(id: $id, memberId: $memberId, ceremonyHistoryId: $ceremonyHistoryId, totalPrice: $totalPrice, status: $status, invoiceMember: $invoiceMember, invoiceCeremonyHistory: $invoiceCeremonyHistory)';
+    return 'Invoice(id: $id, memberId: $memberId, ceremonyHistoryId: $ceremonyHistoryId, totalPrice: $totalPrice, paymentUrl: $paymentUrl, status: $status, invoiceMember: $invoiceMember, invoiceCeremonyHistory: $invoiceCeremonyHistory)';
   }
 
   @override
@@ -244,6 +260,8 @@ class _$InvoiceImpl implements _Invoice {
                 other.ceremonyHistoryId == ceremonyHistoryId) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
+            (identical(other.paymentUrl, paymentUrl) ||
+                other.paymentUrl == paymentUrl) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.invoiceMember, invoiceMember) ||
                 other.invoiceMember == invoiceMember) &&
@@ -254,7 +272,7 @@ class _$InvoiceImpl implements _Invoice {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, memberId, ceremonyHistoryId,
-      totalPrice, status, invoiceMember, invoiceCeremonyHistory);
+      totalPrice, paymentUrl, status, invoiceMember, invoiceCeremonyHistory);
 
   @JsonKey(ignore: true)
   @override
@@ -276,6 +294,7 @@ abstract class _Invoice implements Invoice {
           required final int memberId,
           required final int ceremonyHistoryId,
           required final int totalPrice,
+          final String? paymentUrl,
           required final String status,
           required final InvoiceMember invoiceMember,
           required final InvoiceCeremonyHistory invoiceCeremonyHistory}) =
@@ -291,6 +310,8 @@ abstract class _Invoice implements Invoice {
   int get ceremonyHistoryId;
   @override
   int get totalPrice;
+  @override
+  String? get paymentUrl;
   @override
   String get status;
   @override

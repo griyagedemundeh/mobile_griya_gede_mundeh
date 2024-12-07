@@ -12,6 +12,7 @@ class Invoice with _$Invoice {
     required int memberId,
     required int ceremonyHistoryId,
     required int totalPrice,
+    String? paymentUrl,
     required String status,
     required InvoiceMember invoiceMember,
     required InvoiceCeremonyHistory invoiceCeremonyHistory,

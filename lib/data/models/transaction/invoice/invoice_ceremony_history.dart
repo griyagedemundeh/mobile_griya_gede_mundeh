@@ -15,8 +15,11 @@ class InvoiceCeremonyHistory with _$InvoiceCeremonyHistory {
     String? ceremonyAddressNote,
     required DateTime ceremonyDate,
     required String title,
-    required String packageName,
+    String? packageName,
+    String? note,
     required String description,
+    required DateTime createdAt,
+    required DateTime updatedAt,
     required CeremonyService ceremonyService,
   }) = _InvoiceCeremonyHistory;
 

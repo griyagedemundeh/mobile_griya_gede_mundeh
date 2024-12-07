@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,7 +17,6 @@ import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/ceremony_service.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/invoice.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/transaction/transaction_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
@@ -257,7 +254,7 @@ class DetailTransactionScreen extends HookConsumerWidget {
                     TransactionStatus(
                       id: invoice?.id ?? '-',
                       status: invoice?.status ?? '-',
-                      createdDate: invoice?.createdAt,
+                      createdDate: invoice?.invoiceCeremonyHistory.createdAt,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
@@ -314,19 +311,19 @@ class DetailTransactionScreen extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    // Visibility(
-                    //   visible: invoice?.invoiceCeremonyHistory.note != null,
-                    //   child: Column(
-                    //     children: [
-                    //       const SizedBox(
-                    //         height: AppDimens.paddingMedium,
-                    //       ),
-                    //       TransactionNote(
-                    //         note: invoice?.invoiceCeremonyHistory.note,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    Visibility(
+                      visible: invoice?.invoiceCeremonyHistory.note != null,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: AppDimens.paddingMedium,
+                          ),
+                          TransactionNote(
+                            note: invoice?.invoiceCeremonyHistory.note,
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(
                       height: AppDimens.paddingMedium,
                     ),
@@ -338,7 +335,7 @@ class DetailTransactionScreen extends HookConsumerWidget {
                             invoice?.invoiceCeremonyHistory.description ?? '',
                         iconUrl: invoice?.invoiceCeremonyHistory.ceremonyService
                             .ceremonyDocumentation[0].photo,
-                        name: invoice?.invoiceCeremonyHistory.title ?? '',
+                        name: invoice?.invoiceCeremonyHistory.packageName ?? '',
                         price: invoice?.totalPrice ?? 0,
                       ),
                     ),

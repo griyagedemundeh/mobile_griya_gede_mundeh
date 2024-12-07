@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +10,6 @@ import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
@@ -177,6 +174,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     // }
 
     final isLoading = useState<bool>(false);
+    final isWithoutPackage = useState<bool>(false);
 
     final SupabaseClient supabase = AppConfig().supabase();
     final SupabaseQueryBuilder dbConsult = supabase.from(
@@ -197,13 +195,15 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           userId: user?.id ?? 0,
           userName: user?.fullName ?? '',
           userPhoto: user?.avatarUrl ?? '',
-          ceremonyPackageId: selectedCeremonyPackage.value?.id,
+          ceremonyPackageId: isWithoutPackage.value == true
+              ? null
+              : selectedCeremonyPackage.value?.id,
           createdAt: DateTime.now().toIso8601String(),
         );
 
         final dataConsult = await dbConsult
             .select()
-            .eq('consultationId', consultationRequest.consultationId)
+            .eq('consultationId', consultationTicket.id)
             .maybeSingle();
 
         if (dataConsult == null) {
@@ -212,8 +212,12 @@ class DetailCeremonyScreen extends HookConsumerWidget {
             PrimaryNavigation.pushFromRight(
               context,
               page: ConsultationCeremonyScreen(
+                id: consultationTicket.id,
                 ceremony: ceremony,
-                ceremonyPackage: selectedCeremonyPackage.value,
+                isNewConsult: true,
+                ceremonyPackage: isWithoutPackage.value == true
+                    ? null
+                    : selectedCeremonyPackage.value,
               ),
             );
           });
@@ -222,8 +226,12 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           PrimaryNavigation.pushFromRight(
             context,
             page: ConsultationCeremonyScreen(
+              id: consultationTicket.id,
+              isNewConsult: true,
               ceremony: ceremony,
-              ceremonyPackage: selectedCeremonyPackage.value,
+              ceremonyPackage: isWithoutPackage.value == true
+                  ? null
+                  : selectedCeremonyPackage.value,
             ),
           );
         }
@@ -240,7 +248,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     final createConsultationMutation = useMutation<
         ApiBaseResponse<CeremonyConsultationTicket>,
-        ApiBaseResponse<dynamic>,
+        dynamic,
         CeremonyConsultationTicketRequest,
         void>(
       (request) async {
@@ -248,7 +256,8 @@ class DetailCeremonyScreen extends HookConsumerWidget {
             await ceremonyController.createConsultation(request: request);
 
         createConsultation(
-            consultationTicket: response.data as CeremonyConsultationTicket);
+          consultationTicket: response.data as CeremonyConsultationTicket,
+        );
 
         return response;
       },
@@ -258,18 +267,24 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       onError: (error, variables, _) {
         isLoading.value = false;
 
-        for (var message in error.message) {
-          PrimaryToast.error(message: message);
-        }
+        // if (error.message != null) {
+        //   for (var message in error.message) {
+        //     PrimaryToast.error(message: message);
+        //   }
+        // }
       },
     );
 
-    Future createConsultationTicket() async {
+    Future createConsultationTicket({bool? isWithoutPackageId}) async {
+      isWithoutPackage.value = isWithoutPackageId ?? false;
+
       final data = CeremonyConsultationTicketRequest(
         ceremonyServiceId: ceremony?.id ?? 0,
         ceremonyServiceName: ceremony?.title ?? '',
         memberId: user?.id ?? 0,
-        ceremonyServicePackageId: selectedCeremonyPackage.value?.id,
+        ceremonyServicePackageId: isWithoutPackage.value == true
+            ? null
+            : selectedCeremonyPackage.value?.id,
       );
 
       isLoading.value = true;
@@ -279,12 +294,14 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       createConsultationMutation.reset();
     }
 
-    showAlertConfirmation() {
+    showAlertConfirmation({bool? isWithoutPackage}) {
       PrimaryAlertDialog(
         title: Text(
-          locales?.sureSelectPackage(
-                  selectedCeremonyPackage.value?.name ?? 'Paket ini') ??
-              '',
+          isWithoutPackage == true
+              ? 'Apakah yakin lanjut tanpa paket?'
+              : locales?.sureSelectPackage(
+                      selectedCeremonyPackage.value?.name ?? 'Paket ini') ??
+                  '',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -316,7 +333,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                     label: locales?.veryConfident ?? '',
                     onTap: () async {
                       Navigator.pop(context);
-                      await createConsultationTicket();
+                      await createConsultationTicket(
+                        isWithoutPackageId: isWithoutPackage,
+                      );
                     },
                     isMedium: true,
                   ),
@@ -342,7 +361,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
               }
               showAlertConfirmation();
             },
-            onTapButtonSecondary: () {},
+            onTapButtonSecondary: () {
+              showAlertConfirmation(isWithoutPackage: true);
+            },
           );
         }
 
@@ -522,7 +543,11 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                                                           .value = package;
                                                       showAlertConfirmation();
                                                     },
-                                                    onTapButtonSecondary: () {},
+                                                    onTapButtonSecondary: () {
+                                                      showAlertConfirmation(
+                                                          isWithoutPackage:
+                                                              true);
+                                                    },
                                                   ),
                                                 ),
                                               ],

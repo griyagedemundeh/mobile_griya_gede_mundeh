@@ -1,15 +1,26 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ceremony/ceremony_consultation_history.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/consultation/controller/consultation_controller.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Chat {
@@ -36,6 +47,28 @@ class ConsultationScreen extends HookConsumerWidget {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final scrollController = useScrollController();
     final tabController = useTabController(initialLength: tabs.length);
+
+    final ConsultationController consultationController =
+        ConsultationController(
+      consultationRepository: ConsultationRepository(),
+    );
+
+    Future<ApiBaseResponse<List<CeremonyConsultationHistory?>?>?>
+        getCeremonyConsultationHistories() async {
+      final response =
+          await consultationController.getCeremonyConsultationHistories();
+
+      return response;
+    }
+
+    final ceremonyConsultationHistoriesResponse = useQuery<
+        ApiBaseResponse<List<CeremonyConsultationHistory?>?>?, dynamic>(
+      ['consultation_history'],
+      getCeremonyConsultationHistories,
+    );
+
+    final ceremonyConsultationHitories = ceremonyConsultationHistoriesResponse
+        .data?.data as List<CeremonyConsultationHistory?>?;
 
     final List<Chat> chats = [
       Chat(
@@ -103,91 +136,158 @@ class ConsultationScreen extends HookConsumerWidget {
                               scrollController: scrollController,
                             );
                           } else {
-                            return ListView.separated(
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  width: mediaQuery.size.width,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: AppDimens.paddingLarge,
-                                    vertical: AppDimens.paddingMediumLarge,
+                            return Builder(builder: (context) {
+                              if (ceremonyConsultationHistoriesResponse
+                                  .isLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.primary1,
                                   ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundColor: AppColors.primary1,
-                                            radius:
-                                                AppDimens.iconSizeMediumSmall,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    AppImages.dummyCeremony,
-                                                fit: BoxFit.cover,
-                                                height: double.infinity,
-                                                width: double.infinity,
-                                                progressIndicatorBuilder:
-                                                    (context, url,
-                                                        downloadProgress) {
-                                                  return Shimmer.fromColors(
-                                                    baseColor: AppColors.gray2
-                                                        .withOpacity(0.6),
-                                                    highlightColor:
-                                                        AppColors.light1,
-                                                    child: const SizedBox(),
-                                                  );
-                                                },
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const SizedBox(),
-                                              ),
+                                );
+                              }
+
+                              if (ceremonyConsultationHistoriesResponse
+                                  .isError) {
+                                return const DataEmpty();
+                              }
+
+                              if (ceremonyConsultationHistoriesResponse
+                                      .isSuccess &&
+                                  ceremonyConsultationHistoriesResponse
+                                          .data?.data !=
+                                      null) {
+                                return ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    final ceremonyConsultation =
+                                        ceremonyConsultationHitories?[index];
+
+                                    return MaterialButton(
+                                      onPressed: () {
+                                        PrimaryNavigation.pushFromRight(
+                                          context,
+                                          page: ConsultationCeremonyScreen(
+                                            id: ceremonyConsultation?.id ?? 0,
+                                            isNewConsult: false,
+                                            ceremonyPackageId: ceremonyConsultation
+                                                    ?.ceremonyServicePackageId ??
+                                                0,
+                                          ),
+                                        );
+                                      },
+                                      padding: EdgeInsets.zero,
+                                      child: Container(
+                                        width: mediaQuery.size.width,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: AppDimens.paddingLarge,
+                                          vertical:
+                                              AppDimens.paddingMediumLarge,
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundColor:
+                                                      AppColors.primary1,
+                                                  radius: AppDimens
+                                                      .iconSizeMediumSmall,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: AppImages
+                                                          .dummyCeremony,
+                                                      fit: BoxFit.cover,
+                                                      height: double.infinity,
+                                                      width: double.infinity,
+                                                      progressIndicatorBuilder:
+                                                          (context, url,
+                                                              downloadProgress) {
+                                                        return Shimmer
+                                                            .fromColors(
+                                                          baseColor: AppColors
+                                                              .gray2
+                                                              .withOpacity(0.6),
+                                                          highlightColor:
+                                                              AppColors.light1,
+                                                          child:
+                                                              const SizedBox(),
+                                                        );
+                                                      },
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const SizedBox(),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                    width:
+                                                        AppDimens.marginMedium),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      ceremonyConsultation
+                                                              ?.ceremonyServiceName ??
+                                                          '-',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: AppFontSizes
+                                                            .bodyLarge,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ceremonyConsultation
+                                                              ?.status ??
+                                                          '-',
+                                                      style: const TextStyle(
+                                                        color: AppColors.gray2,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          const SizedBox(
-                                              width: AppDimens.marginMedium),
-                                          const Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Upacara Mebayuh",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      AppFontSizes.bodyLarge,
-                                                ),
-                                              ),
-                                              Text(
-                                                'onGoing',
-                                                style: TextStyle(
-                                                  color: AppColors.gray2,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                            Text(ceremonyConsultation
+                                                        ?.lastMessage !=
+                                                    null
+                                                ? formatTimeOnly(
+                                                    ceremonyConsultation
+                                                            ?.lastMessage
+                                                            ?.createdAt
+                                                            .toIso8601String() ??
+                                                        '')
+                                                : ''),
+                                          ],
+                                        ),
                                       ),
-                                      const Text("Kemarin"),
-                                    ],
-                                  ),
+                                    );
+                                  },
+                                  itemCount:
+                                      ceremonyConsultationHitories?.length ?? 0,
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(
+                                      height: AppDimens.paddingSmall,
+                                    );
+                                  },
                                 );
-                              },
-                              itemCount: 20,
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: AppDimens.paddingSmall,
-                                );
-                              },
-                            );
+                              }
+
+                              return const DataEmpty();
+                            });
                           }
                         },
                       ),

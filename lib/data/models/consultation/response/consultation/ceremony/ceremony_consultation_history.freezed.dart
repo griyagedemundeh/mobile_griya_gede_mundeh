@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'ceremony_consultation_ticket.dart';
+part of 'ceremony_consultation_history.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,51 +14,56 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-CeremonyConsultationTicket _$CeremonyConsultationTicketFromJson(
+CeremonyConsultationHistory _$CeremonyConsultationHistoryFromJson(
     Map<String, dynamic> json) {
-  return _CeremonyConsultationTicket.fromJson(json);
+  return _CeremonyConsultationHistory.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CeremonyConsultationTicket {
+mixin _$CeremonyConsultationHistory {
   int get id => throw _privateConstructorUsedError;
   int get memberId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
-  String get ceremonyServiceName => throw _privateConstructorUsedError;
   int? get ceremonyServicePackageId => throw _privateConstructorUsedError;
+  String get ceremonyServiceName => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  LastMessage? get lastMessage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CeremonyConsultationTicketCopyWith<CeremonyConsultationTicket>
+  $CeremonyConsultationHistoryCopyWith<CeremonyConsultationHistory>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CeremonyConsultationTicketCopyWith<$Res> {
-  factory $CeremonyConsultationTicketCopyWith(CeremonyConsultationTicket value,
-          $Res Function(CeremonyConsultationTicket) then) =
-      _$CeremonyConsultationTicketCopyWithImpl<$Res,
-          CeremonyConsultationTicket>;
+abstract class $CeremonyConsultationHistoryCopyWith<$Res> {
+  factory $CeremonyConsultationHistoryCopyWith(
+          CeremonyConsultationHistory value,
+          $Res Function(CeremonyConsultationHistory) then) =
+      _$CeremonyConsultationHistoryCopyWithImpl<$Res,
+          CeremonyConsultationHistory>;
   @useResult
   $Res call(
       {int id,
       int memberId,
       int ceremonyServiceId,
-      String ceremonyServiceName,
       int? ceremonyServicePackageId,
+      String ceremonyServiceName,
       String status,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      LastMessage? lastMessage});
+
+  $LastMessageCopyWith<$Res>? get lastMessage;
 }
 
 /// @nodoc
-class _$CeremonyConsultationTicketCopyWithImpl<$Res,
-        $Val extends CeremonyConsultationTicket>
-    implements $CeremonyConsultationTicketCopyWith<$Res> {
-  _$CeremonyConsultationTicketCopyWithImpl(this._value, this._then);
+class _$CeremonyConsultationHistoryCopyWithImpl<$Res,
+        $Val extends CeremonyConsultationHistory>
+    implements $CeremonyConsultationHistoryCopyWith<$Res> {
+  _$CeremonyConsultationHistoryCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -71,11 +76,12 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
     Object? id = null,
     Object? memberId = null,
     Object? ceremonyServiceId = null,
-    Object? ceremonyServiceName = null,
     Object? ceremonyServicePackageId = freezed,
+    Object? ceremonyServiceName = null,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? lastMessage = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -90,14 +96,14 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServiceName: null == ceremonyServiceName
-          ? _value.ceremonyServiceName
-          : ceremonyServiceName // ignore: cast_nullable_to_non_nullable
-              as String,
       ceremonyServicePackageId: freezed == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
               as int?,
+      ceremonyServiceName: null == ceremonyServiceName
+          ? _value.ceremonyServiceName
+          : ceremonyServiceName // ignore: cast_nullable_to_non_nullable
+              as String,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -110,38 +116,58 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      lastMessage: freezed == lastMessage
+          ? _value.lastMessage
+          : lastMessage // ignore: cast_nullable_to_non_nullable
+              as LastMessage?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LastMessageCopyWith<$Res>? get lastMessage {
+    if (_value.lastMessage == null) {
+      return null;
+    }
+
+    return $LastMessageCopyWith<$Res>(_value.lastMessage!, (value) {
+      return _then(_value.copyWith(lastMessage: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$CeremonyConsultationTicketImplCopyWith<$Res>
-    implements $CeremonyConsultationTicketCopyWith<$Res> {
-  factory _$$CeremonyConsultationTicketImplCopyWith(
-          _$CeremonyConsultationTicketImpl value,
-          $Res Function(_$CeremonyConsultationTicketImpl) then) =
-      __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>;
+abstract class _$$CeremonyConsultationHistoryImplCopyWith<$Res>
+    implements $CeremonyConsultationHistoryCopyWith<$Res> {
+  factory _$$CeremonyConsultationHistoryImplCopyWith(
+          _$CeremonyConsultationHistoryImpl value,
+          $Res Function(_$CeremonyConsultationHistoryImpl) then) =
+      __$$CeremonyConsultationHistoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {int id,
       int memberId,
       int ceremonyServiceId,
-      String ceremonyServiceName,
       int? ceremonyServicePackageId,
+      String ceremonyServiceName,
       String status,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      LastMessage? lastMessage});
+
+  @override
+  $LastMessageCopyWith<$Res>? get lastMessage;
 }
 
 /// @nodoc
-class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
-    extends _$CeremonyConsultationTicketCopyWithImpl<$Res,
-        _$CeremonyConsultationTicketImpl>
-    implements _$$CeremonyConsultationTicketImplCopyWith<$Res> {
-  __$$CeremonyConsultationTicketImplCopyWithImpl(
-      _$CeremonyConsultationTicketImpl _value,
-      $Res Function(_$CeremonyConsultationTicketImpl) _then)
+class __$$CeremonyConsultationHistoryImplCopyWithImpl<$Res>
+    extends _$CeremonyConsultationHistoryCopyWithImpl<$Res,
+        _$CeremonyConsultationHistoryImpl>
+    implements _$$CeremonyConsultationHistoryImplCopyWith<$Res> {
+  __$$CeremonyConsultationHistoryImplCopyWithImpl(
+      _$CeremonyConsultationHistoryImpl _value,
+      $Res Function(_$CeremonyConsultationHistoryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -150,13 +176,14 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
     Object? id = null,
     Object? memberId = null,
     Object? ceremonyServiceId = null,
-    Object? ceremonyServiceName = null,
     Object? ceremonyServicePackageId = freezed,
+    Object? ceremonyServiceName = null,
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? lastMessage = freezed,
   }) {
-    return _then(_$CeremonyConsultationTicketImpl(
+    return _then(_$CeremonyConsultationHistoryImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -169,14 +196,14 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServiceName: null == ceremonyServiceName
-          ? _value.ceremonyServiceName
-          : ceremonyServiceName // ignore: cast_nullable_to_non_nullable
-              as String,
       ceremonyServicePackageId: freezed == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
               as int?,
+      ceremonyServiceName: null == ceremonyServiceName
+          ? _value.ceremonyServiceName
+          : ceremonyServiceName // ignore: cast_nullable_to_non_nullable
+              as String,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -189,26 +216,32 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      lastMessage: freezed == lastMessage
+          ? _value.lastMessage
+          : lastMessage // ignore: cast_nullable_to_non_nullable
+              as LastMessage?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
-  const _$CeremonyConsultationTicketImpl(
+class _$CeremonyConsultationHistoryImpl
+    implements _CeremonyConsultationHistory {
+  const _$CeremonyConsultationHistoryImpl(
       {required this.id,
       required this.memberId,
       required this.ceremonyServiceId,
-      required this.ceremonyServiceName,
       this.ceremonyServicePackageId,
+      required this.ceremonyServiceName,
       required this.status,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      this.lastMessage});
 
-  factory _$CeremonyConsultationTicketImpl.fromJson(
+  factory _$CeremonyConsultationHistoryImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$CeremonyConsultationTicketImplFromJson(json);
+      _$$CeremonyConsultationHistoryImplFromJson(json);
 
   @override
   final int id;
@@ -217,41 +250,45 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
   @override
   final int ceremonyServiceId;
   @override
-  final String ceremonyServiceName;
-  @override
   final int? ceremonyServicePackageId;
+  @override
+  final String ceremonyServiceName;
   @override
   final String status;
   @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final LastMessage? lastMessage;
 
   @override
   String toString() {
-    return 'CeremonyConsultationTicket(id: $id, memberId: $memberId, ceremonyServiceId: $ceremonyServiceId, ceremonyServiceName: $ceremonyServiceName, ceremonyServicePackageId: $ceremonyServicePackageId, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CeremonyConsultationHistory(id: $id, memberId: $memberId, ceremonyServiceId: $ceremonyServiceId, ceremonyServicePackageId: $ceremonyServicePackageId, ceremonyServiceName: $ceremonyServiceName, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, lastMessage: $lastMessage)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CeremonyConsultationTicketImpl &&
+            other is _$CeremonyConsultationHistoryImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.memberId, memberId) ||
                 other.memberId == memberId) &&
             (identical(other.ceremonyServiceId, ceremonyServiceId) ||
                 other.ceremonyServiceId == ceremonyServiceId) &&
-            (identical(other.ceremonyServiceName, ceremonyServiceName) ||
-                other.ceremonyServiceName == ceremonyServiceName) &&
             (identical(
                     other.ceremonyServicePackageId, ceremonyServicePackageId) ||
                 other.ceremonyServicePackageId == ceremonyServicePackageId) &&
+            (identical(other.ceremonyServiceName, ceremonyServiceName) ||
+                other.ceremonyServiceName == ceremonyServiceName) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.lastMessage, lastMessage) ||
+                other.lastMessage == lastMessage));
   }
 
   @JsonKey(ignore: true)
@@ -261,41 +298,43 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
       id,
       memberId,
       ceremonyServiceId,
-      ceremonyServiceName,
       ceremonyServicePackageId,
+      ceremonyServiceName,
       status,
       createdAt,
-      updatedAt);
+      updatedAt,
+      lastMessage);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CeremonyConsultationTicketImplCopyWith<_$CeremonyConsultationTicketImpl>
-      get copyWith => __$$CeremonyConsultationTicketImplCopyWithImpl<
-          _$CeremonyConsultationTicketImpl>(this, _$identity);
+  _$$CeremonyConsultationHistoryImplCopyWith<_$CeremonyConsultationHistoryImpl>
+      get copyWith => __$$CeremonyConsultationHistoryImplCopyWithImpl<
+          _$CeremonyConsultationHistoryImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CeremonyConsultationTicketImplToJson(
+    return _$$CeremonyConsultationHistoryImplToJson(
       this,
     );
   }
 }
 
-abstract class _CeremonyConsultationTicket
-    implements CeremonyConsultationTicket {
-  const factory _CeremonyConsultationTicket(
+abstract class _CeremonyConsultationHistory
+    implements CeremonyConsultationHistory {
+  const factory _CeremonyConsultationHistory(
       {required final int id,
       required final int memberId,
       required final int ceremonyServiceId,
-      required final String ceremonyServiceName,
       final int? ceremonyServicePackageId,
+      required final String ceremonyServiceName,
       required final String status,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$CeremonyConsultationTicketImpl;
+      required final DateTime updatedAt,
+      final LastMessage? lastMessage}) = _$CeremonyConsultationHistoryImpl;
 
-  factory _CeremonyConsultationTicket.fromJson(Map<String, dynamic> json) =
-      _$CeremonyConsultationTicketImpl.fromJson;
+  factory _CeremonyConsultationHistory.fromJson(Map<String, dynamic> json) =
+      _$CeremonyConsultationHistoryImpl.fromJson;
 
   @override
   int get id;
@@ -304,9 +343,9 @@ abstract class _CeremonyConsultationTicket
   @override
   int get ceremonyServiceId;
   @override
-  String get ceremonyServiceName;
-  @override
   int? get ceremonyServicePackageId;
+  @override
+  String get ceremonyServiceName;
   @override
   String get status;
   @override
@@ -314,7 +353,9 @@ abstract class _CeremonyConsultationTicket
   @override
   DateTime get updatedAt;
   @override
+  LastMessage? get lastMessage;
+  @override
   @JsonKey(ignore: true)
-  _$$CeremonyConsultationTicketImplCopyWith<_$CeremonyConsultationTicketImpl>
+  _$$CeremonyConsultationHistoryImplCopyWith<_$CeremonyConsultationHistoryImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

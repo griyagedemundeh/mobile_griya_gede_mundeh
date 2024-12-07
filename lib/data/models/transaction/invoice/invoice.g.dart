@@ -12,6 +12,7 @@ _$InvoiceImpl _$$InvoiceImplFromJson(Map<String, dynamic> json) =>
       memberId: (json['memberId'] as num).toInt(),
       ceremonyHistoryId: (json['ceremonyHistoryId'] as num).toInt(),
       totalPrice: (json['totalPrice'] as num).toInt(),
+      paymentUrl: json['paymentUrl'] as String?,
       status: json['status'] as String,
       invoiceMember:
           InvoiceMember.fromJson(json['invoiceMember'] as Map<String, dynamic>),
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$InvoiceImplToJson(_$InvoiceImpl instance) =>
       'memberId': instance.memberId,
       'ceremonyHistoryId': instance.ceremonyHistoryId,
       'totalPrice': instance.totalPrice,
+      'paymentUrl': instance.paymentUrl,
       'status': instance.status,
       'invoiceMember': instance.invoiceMember,
       'invoiceCeremonyHistory': instance.invoiceCeremonyHistory,

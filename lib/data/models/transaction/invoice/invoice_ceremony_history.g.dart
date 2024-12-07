@@ -18,8 +18,11 @@ _$InvoiceCeremonyHistoryImpl _$$InvoiceCeremonyHistoryImplFromJson(
       ceremonyAddressNote: json['ceremonyAddressNote'] as String?,
       ceremonyDate: DateTime.parse(json['ceremonyDate'] as String),
       title: json['title'] as String,
-      packageName: json['packageName'] as String,
+      packageName: json['packageName'] as String?,
+      note: json['note'] as String?,
       description: json['description'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
       ceremonyService: CeremonyService.fromJson(
           json['ceremonyService'] as Map<String, dynamic>),
     );
@@ -36,6 +39,9 @@ Map<String, dynamic> _$$InvoiceCeremonyHistoryImplToJson(
       'ceremonyDate': instance.ceremonyDate.toIso8601String(),
       'title': instance.title,
       'packageName': instance.packageName,
+      'note': instance.note,
       'description': instance.description,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
       'ceremonyService': instance.ceremonyService,
     };

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -47,11 +46,17 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     with WidgetsBindingObserver {
   const ConsultationCeremonyScreen({
     super.key,
+    this.id,
     this.ceremonyPackage,
     this.ceremony,
+    this.isNewConsult,
+    this.ceremonyPackageId,
   });
 
+  final int? id;
+  final bool? isNewConsult;
   final CeremonyPackage? ceremonyPackage;
+  final int? ceremonyPackageId;
   final Ceremony? ceremony;
 
   @override
@@ -61,8 +66,11 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final scrollController = useScrollController();
     final locales = AppLocalizations.of(context);
     final messageController = useTextEditingController(
-      text:
-          "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊",
+      text: isNewConsult == true
+          ? (ceremonyPackage == null
+              ? "Halo saya ingin bertanya tentang ${ceremony?.title}, Terima kasih!😊"
+              : "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊")
+          : '',
     );
     // final messageTemplate = useState<String>('');
 
@@ -86,7 +94,10 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     Future init() async {
       messagesStream.value = dbMessages
           .stream(primaryKey: ['consultationId'])
-          .eq('consultationId', 1)
+          .eq(
+            'consultationId',
+            id ?? 0,
+          )
           .order('id', ascending: false)
           .map(
             (maps) => maps.map((map) => Message.fromJson(map)).toList(),
@@ -121,12 +132,14 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
       messageController.clear();
       try {
         final MessageRequest message = MessageRequest(
-          consultationId: 1,
+          consultationId: id ?? 0,
           userId: auth?.id as int,
           isAdmin: false,
           message: text,
           messageType: "default",
-          ceremonyPackageId: ceremonyPackageChanged?.id ?? ceremonyPackage?.id,
+          ceremonyPackageId: ceremonyPackageChanged?.id ??
+              ceremonyPackage?.id ??
+              ceremonyPackageId,
           ceremonyServiceId: ceremony?.id,
           addressId: address?.id,
           invoiceId: null,
@@ -357,7 +370,9 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                                         locales?.payment ?? '',
                                                     onTap: () async {
                                                       if (chat.paymentUrl ==
-                                                          null) {
+                                                              null ||
+                                                          chat.paymentUrl ==
+                                                              '') {
                                                         showAlertConfirmation();
                                                         return;
                                                       }
@@ -402,6 +417,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           ConsultationInput(
             textEditingController: messageController,
             ceremony: ceremony,
+            package: ceremonyPackage,
             onSendMessage: () {
               submitMessage();
             },
@@ -426,12 +442,14 @@ class ConsultationInput extends HookConsumerWidget {
     required this.onSendMessage,
     required this.textEditingController,
     required this.ceremony,
+    this.package,
     required this.onSelectedCeremonyPackageOrAddress,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
   final Ceremony? ceremony;
+  final CeremonyPackage? package;
 
   final Function(CeremonyPackage? ceremonyPackage, Address address)
       onSelectedCeremonyPackageOrAddress;
@@ -466,7 +484,9 @@ class ConsultationInput extends HookConsumerWidget {
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
 
     final selectedCeremonyPackage = useState<CeremonyPackage?>(
-        (ceremonyPackages?.isNotEmpty ?? false) ? ceremonyPackages![0] : null);
+        (ceremonyPackages?.isNotEmpty ?? false)
+            ? (package ?? ceremonyPackages![0])
+            : null);
 
     final tabController = useTabController(
       initialLength: ceremonyPackages?.length ?? 0,

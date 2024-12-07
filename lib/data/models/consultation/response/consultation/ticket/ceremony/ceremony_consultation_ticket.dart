@@ -10,7 +10,7 @@ class CeremonyConsultationTicket with _$CeremonyConsultationTicket {
     required int memberId,
     required int ceremonyServiceId,
     required String ceremonyServiceName,
-    String? ceremonyServicePackageId,
+    int? ceremonyServicePackageId,
     required String status,
     required DateTime createdAt,
     required DateTime updatedAt,
