@@ -1,14 +1,14 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
@@ -22,6 +22,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indica
 import 'package:mobile_griya_gede_mundeh/presentation/consultation/controller/consultation_controller.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Chat {
   final String id;
@@ -48,6 +49,11 @@ class ConsultationScreen extends HookConsumerWidget {
     final scrollController = useScrollController();
     final tabController = useTabController(initialLength: tabs.length);
 
+    final SupabaseClient supabase = AppConfig().supabase();
+    final SupabaseQueryBuilder dbConsult = supabase.from(
+      StorageKey.supabaseConsultGeneral,
+    );
+
     final ConsultationController consultationController =
         ConsultationController(
       consultationRepository: ConsultationRepository(),
@@ -69,6 +75,71 @@ class ConsultationScreen extends HookConsumerWidget {
 
     final ceremonyConsultationHitories = ceremonyConsultationHistoriesResponse
         .data?.data as List<CeremonyConsultationHistory?>?;
+
+    //     Future<void> createConsultation(
+    //     {required CeremonyConsultationTicket consultationTicket}) async {
+    //   isLoading.value = true;
+    //   try {
+    //     final CeremonyConsultationRequest consultationRequest =
+    //         CeremonyConsultationRequest(
+    //       ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
+    //       ceremonyName: ceremony?.title ?? '',
+    //       ceremonyServiceId: ceremony?.id ?? 0,
+    //       consultationId: consultationTicket.id,
+    //       status: 'onGoing',
+    //       userId: user?.id ?? 0,
+    //       userName: user?.fullName ?? '',
+    //       userPhoto: user?.avatarUrl ?? '',
+    //       ceremonyPackageId: isWithoutPackage.value == true
+    //           ? null
+    //           : selectedCeremonyPackage.value?.id,
+    //       createdAt: DateTime.now().toIso8601String(),
+    //     );
+
+    //     final dataConsult = await dbConsult
+    //         .select()
+    //         .eq('consultationId', consultationTicket.id)
+    //         .maybeSingle();
+
+    //     if (dataConsult == null) {
+    //       await dbConsult.insert(consultationRequest.toJson()).then((val) {
+    //         isLoading.value = false;
+    //         PrimaryNavigation.pushFromRight(
+    //           context,
+    //           page: ConsultationCeremonyScreen(
+    //             id: consultationTicket.id,
+    //             ceremony: ceremony,
+    //             isNewConsult: true,
+    //             ceremonyPackage: isWithoutPackage.value == true
+    //                 ? null
+    //                 : selectedCeremonyPackage.value,
+    //           ),
+    //         );
+    //       });
+    //     } else {
+    //       isLoading.value = false;
+    //       PrimaryNavigation.pushFromRight(
+    //         context,
+    //         page: ConsultationCeremonyScreen(
+    //           id: consultationTicket.id,
+    //           isNewConsult: true,
+    //           ceremony: ceremony,
+    //           ceremonyPackage: isWithoutPackage.value == true
+    //               ? null
+    //               : selectedCeremonyPackage.value,
+    //         ),
+    //       );
+    //     }
+    //   } on PostgrestException catch (error) {
+    //     isLoading.value = false;
+    //     log("ERROR CREATE CONSULTATION --->>> ${error.message}");
+    //     PrimaryToast.error(message: error.message);
+    //   } catch (err) {
+    //     isLoading.value = false;
+    //     log('ERORR ${err.toString()}');
+    //     PrimaryToast.error(message: err.toString());
+    //   }
+    // }
 
     final List<Chat> chats = [
       Chat(

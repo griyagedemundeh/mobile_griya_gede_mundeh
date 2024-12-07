@@ -5,6 +5,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ticket/ceremony/ceremony_consultation_ticket_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ceremony/ceremony_consultation_history.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ticket/ceremony/ceremony_consultation_ticket.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ticket/general/general_consultation_ticket.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/Consultation/Consultation_repository.dart';
 
 class ConsultationRepository extends IConsultationRepository {
@@ -55,6 +56,33 @@ class ConsultationRepository extends IConsultationRepository {
         status: responseData['status'],
         message: responseData['message'],
         data: listData,
+      );
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiBaseResponse.fromJson(e.response!.data);
+      }
+      throw ApiBaseResponse(
+          status: 500,
+          message: [e.message ?? 'Unknown error occurred'],
+          data: null);
+    }
+  }
+
+  @override
+  Future<ApiBaseResponse<GeneralConsultationTicket>> createGeneralConsultation(
+      {required int memberId}) async {
+    try {
+      final response = await api.post(
+        '${ApiEndPoints.consultation}/general/create',
+        data: {"memberId": memberId},
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+
+      return ApiBaseResponse(
+        status: responseData['status'],
+        message: responseData['message'],
+        data: GeneralConsultationTicket.fromJson(responseData['data']),
       );
     } on DioException catch (e) {
       if (e.response != null) {
