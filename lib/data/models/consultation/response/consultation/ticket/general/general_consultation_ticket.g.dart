@@ -11,7 +11,6 @@ _$GeneralConsultationTicketImpl _$$GeneralConsultationTicketImplFromJson(
     _$GeneralConsultationTicketImpl(
       id: (json['id'] as num).toInt(),
       memberId: (json['memberId'] as num).toInt(),
-      status: json['status'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
@@ -21,7 +20,6 @@ Map<String, dynamic> _$$GeneralConsultationTicketImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'memberId': instance.memberId,
-      'status': instance.status,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
     };

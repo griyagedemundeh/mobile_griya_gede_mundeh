@@ -24,9 +24,9 @@ import 'package:mobile_griya_gede_mundeh/data/models/address/response/address.da
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/message_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/ceremony/message_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ceremony/consultation.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/message.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/ceremony/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
@@ -72,7 +72,6 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
               : "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊")
           : '',
     );
-    // final messageTemplate = useState<String>('');
 
     final SupabaseClient supabase = AppConfig().supabase();
     final SupabaseQueryBuilder dbMessages = supabase.from(
@@ -105,7 +104,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
       dbConsult
           .select()
-          .eq('consultationId', 1)
+          .eq('consultationId', id ?? 0)
           .maybeSingle()
           .then((val) async {
         if (val != null) {

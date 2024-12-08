@@ -8,7 +8,6 @@ class GeneralConsultationTicket with _$GeneralConsultationTicket {
   const factory GeneralConsultationTicket({
     required int id,
     required int memberId,
-    required String status,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _GeneralConsultationTicket;

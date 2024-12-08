@@ -23,7 +23,6 @@ GeneralConsultationTicket _$GeneralConsultationTicketFromJson(
 mixin _$GeneralConsultationTicket {
   int get id => throw _privateConstructorUsedError;
   int get memberId => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
@@ -39,12 +38,7 @@ abstract class $GeneralConsultationTicketCopyWith<$Res> {
           $Res Function(GeneralConsultationTicket) then) =
       _$GeneralConsultationTicketCopyWithImpl<$Res, GeneralConsultationTicket>;
   @useResult
-  $Res call(
-      {int id,
-      int memberId,
-      String status,
-      DateTime createdAt,
-      DateTime updatedAt});
+  $Res call({int id, int memberId, DateTime createdAt, DateTime updatedAt});
 }
 
 /// @nodoc
@@ -63,7 +57,6 @@ class _$GeneralConsultationTicketCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? memberId = null,
-    Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -76,10 +69,6 @@ class _$GeneralConsultationTicketCopyWithImpl<$Res,
           ? _value.memberId
           : memberId // ignore: cast_nullable_to_non_nullable
               as int,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -101,12 +90,7 @@ abstract class _$$GeneralConsultationTicketImplCopyWith<$Res>
       __$$GeneralConsultationTicketImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id,
-      int memberId,
-      String status,
-      DateTime createdAt,
-      DateTime updatedAt});
+  $Res call({int id, int memberId, DateTime createdAt, DateTime updatedAt});
 }
 
 /// @nodoc
@@ -124,7 +108,6 @@ class __$$GeneralConsultationTicketImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? memberId = null,
-    Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -137,10 +120,6 @@ class __$$GeneralConsultationTicketImplCopyWithImpl<$Res>
           ? _value.memberId
           : memberId // ignore: cast_nullable_to_non_nullable
               as int,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -159,7 +138,6 @@ class _$GeneralConsultationTicketImpl implements _GeneralConsultationTicket {
   const _$GeneralConsultationTicketImpl(
       {required this.id,
       required this.memberId,
-      required this.status,
       required this.createdAt,
       required this.updatedAt});
 
@@ -171,15 +149,13 @@ class _$GeneralConsultationTicketImpl implements _GeneralConsultationTicket {
   @override
   final int memberId;
   @override
-  final String status;
-  @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'GeneralConsultationTicket(id: $id, memberId: $memberId, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GeneralConsultationTicket(id: $id, memberId: $memberId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -190,7 +166,6 @@ class _$GeneralConsultationTicketImpl implements _GeneralConsultationTicket {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.memberId, memberId) ||
                 other.memberId == memberId) &&
-            (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -200,7 +175,7 @@ class _$GeneralConsultationTicketImpl implements _GeneralConsultationTicket {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, memberId, status, createdAt, updatedAt);
+      Object.hash(runtimeType, id, memberId, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -221,7 +196,6 @@ abstract class _GeneralConsultationTicket implements GeneralConsultationTicket {
   const factory _GeneralConsultationTicket(
       {required final int id,
       required final int memberId,
-      required final String status,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$GeneralConsultationTicketImpl;
 
@@ -232,8 +206,6 @@ abstract class _GeneralConsultationTicket implements GeneralConsultationTicket {
   int get id;
   @override
   int get memberId;
-  @override
-  String get status;
   @override
   DateTime get createdAt;
   @override

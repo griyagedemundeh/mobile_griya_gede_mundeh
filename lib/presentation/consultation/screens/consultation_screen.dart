@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,13 +11,22 @@ import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
+import 'package:mobile_griya_gede_mundeh/core/store/central_store.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/general/general_consultation_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/general/general_message_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ceremony/ceremony_consultation_history.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/general/general_consultation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ticket/general/general_consultation_ticket.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/general/general_message.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
@@ -49,11 +60,6 @@ class ConsultationScreen extends HookConsumerWidget {
     final scrollController = useScrollController();
     final tabController = useTabController(initialLength: tabs.length);
 
-    final SupabaseClient supabase = AppConfig().supabase();
-    final SupabaseQueryBuilder dbConsult = supabase.from(
-      StorageKey.supabaseConsultGeneral,
-    );
-
     final ConsultationController consultationController =
         ConsultationController(
       consultationRepository: ConsultationRepository(),
@@ -75,71 +81,6 @@ class ConsultationScreen extends HookConsumerWidget {
 
     final ceremonyConsultationHitories = ceremonyConsultationHistoriesResponse
         .data?.data as List<CeremonyConsultationHistory?>?;
-
-    //     Future<void> createConsultation(
-    //     {required CeremonyConsultationTicket consultationTicket}) async {
-    //   isLoading.value = true;
-    //   try {
-    //     final CeremonyConsultationRequest consultationRequest =
-    //         CeremonyConsultationRequest(
-    //       ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
-    //       ceremonyName: ceremony?.title ?? '',
-    //       ceremonyServiceId: ceremony?.id ?? 0,
-    //       consultationId: consultationTicket.id,
-    //       status: 'onGoing',
-    //       userId: user?.id ?? 0,
-    //       userName: user?.fullName ?? '',
-    //       userPhoto: user?.avatarUrl ?? '',
-    //       ceremonyPackageId: isWithoutPackage.value == true
-    //           ? null
-    //           : selectedCeremonyPackage.value?.id,
-    //       createdAt: DateTime.now().toIso8601String(),
-    //     );
-
-    //     final dataConsult = await dbConsult
-    //         .select()
-    //         .eq('consultationId', consultationTicket.id)
-    //         .maybeSingle();
-
-    //     if (dataConsult == null) {
-    //       await dbConsult.insert(consultationRequest.toJson()).then((val) {
-    //         isLoading.value = false;
-    //         PrimaryNavigation.pushFromRight(
-    //           context,
-    //           page: ConsultationCeremonyScreen(
-    //             id: consultationTicket.id,
-    //             ceremony: ceremony,
-    //             isNewConsult: true,
-    //             ceremonyPackage: isWithoutPackage.value == true
-    //                 ? null
-    //                 : selectedCeremonyPackage.value,
-    //           ),
-    //         );
-    //       });
-    //     } else {
-    //       isLoading.value = false;
-    //       PrimaryNavigation.pushFromRight(
-    //         context,
-    //         page: ConsultationCeremonyScreen(
-    //           id: consultationTicket.id,
-    //           isNewConsult: true,
-    //           ceremony: ceremony,
-    //           ceremonyPackage: isWithoutPackage.value == true
-    //               ? null
-    //               : selectedCeremonyPackage.value,
-    //         ),
-    //       );
-    //     }
-    //   } on PostgrestException catch (error) {
-    //     isLoading.value = false;
-    //     log("ERROR CREATE CONSULTATION --->>> ${error.message}");
-    //     PrimaryToast.error(message: error.message);
-    //   } catch (err) {
-    //     isLoading.value = false;
-    //     log('ERORR ${err.toString()}');
-    //     PrimaryToast.error(message: err.toString());
-    //   }
-    // }
 
     final List<Chat> chats = [
       Chat(
@@ -203,7 +144,6 @@ class ConsultationScreen extends HookConsumerWidget {
                         (index) {
                           if (tabs[index].toLowerCase() == 'umum') {
                             return ChatView(
-                              chats: chats,
                               scrollController: scrollController,
                             );
                           } else {
@@ -374,20 +314,168 @@ class ConsultationScreen extends HookConsumerWidget {
   }
 }
 
-class ChatView extends StatelessWidget {
-  final List<Chat> chats;
+class ChatView extends HookConsumerWidget {
   final ScrollController scrollController;
 
   const ChatView({
     super.key,
-    required this.chats,
     required this.scrollController,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final width = mediaQuery.size.width;
+
+    final isLoading = useState<bool>(false);
+
+    final CentralStore centralStore = CentralStore(
+      authRepository: AuthRepository(),
+    );
+
+    final Auth? user = centralStore.getUser();
+    final messageController = useTextEditingController(text: '');
+
+    final ConsultationController consultationController =
+        ConsultationController(
+      consultationRepository: ConsultationRepository(),
+    );
+    final messagesStream = useState<Stream<List<GeneralMessage>>?>(null);
+
+    final consultation = useState<GeneralConsultation?>(null);
+
+    final SupabaseClient supabase = AppConfig().supabase();
+    final SupabaseQueryBuilder dbConsult = supabase.from(
+      StorageKey.supabaseConsultGeneral,
+    );
+    final SupabaseQueryBuilder dbMessages = supabase.from(
+      StorageKey.supabaseConsultGeneralMessages,
+    );
+
+    Future initConult({required int id}) async {
+      messagesStream.value = dbMessages
+          .stream(primaryKey: ['consultationId'])
+          .eq(
+            'consultationId',
+            id,
+          )
+          .order('id', ascending: false)
+          .map(
+            (maps) => maps.map((map) => GeneralMessage.fromJson(map)).toList(),
+          );
+
+      dbConsult
+          .select()
+          .eq('consultationId', id)
+          .maybeSingle()
+          .then((val) async {
+        if (val != null) {
+          consultation.value = GeneralConsultation.fromJson(val);
+        }
+      });
+    }
+
+    Future<void> createConsultationToSupabase({required int id}) async {
+      try {
+        final dataConsult = await dbConsult
+            .select()
+            .eq(
+              'consultationId',
+              id,
+            )
+            .maybeSingle();
+
+        if (dataConsult == null) {
+          final GeneralConsultationRequest generalConsultationRequest =
+              GeneralConsultationRequest(
+            createdAt: DateTime.now().toIso8601String(),
+            consultationId: id,
+            userId: user?.id ?? 0,
+            userName: user?.fullName ?? '',
+            userPhoto: user?.avatarUrl ?? '',
+          );
+
+          await dbConsult.insert(generalConsultationRequest.toJson());
+          await initConult(id: id);
+        } else {
+          await initConult(id: id);
+        }
+      } on PostgrestException catch (error) {
+        log("ERROR CREATE CONSULTATION --->>> ${error.message}");
+        PrimaryToast.error(message: error.message);
+      } catch (err) {
+        log('ERORR ${err.toString()}');
+        PrimaryToast.error(message: err.toString());
+      }
+    }
+
+    final createConsultationMutation = useMutation<
+        ApiBaseResponse<GeneralConsultationTicket>, dynamic, int, void>(
+      (memberId) async {
+        final response = await consultationController
+            .createGeneralConsultation(memberId: memberId)
+            .then((e) async {
+          await createConsultationToSupabase(
+            id: (e.data as GeneralConsultationTicket).id,
+          );
+        });
+
+        return response;
+      },
+      onSuccess: (response, variables, _) {
+        isLoading.value = false;
+      },
+      onError: (error, variables, _) {
+        log('$error', name: 'ERROR GENERAL CONSULT');
+        isLoading.value = false;
+      },
+    );
+
+    Future createConsultationTicket() async {
+      isLoading.value = true;
+      await createConsultationMutation.mutate(user?.id ?? 0);
+      createConsultationMutation.reset();
+    }
+
+    useEffect(() {
+      // create or get initial general consultation
+      createConsultationTicket();
+      return null;
+    }, []);
+
+    useEffect(() {
+      // get consult if consultation is existed
+      if (consultation.value != null) {
+        initConult(id: consultation.value?.consultationId ?? 0);
+      }
+      return null;
+    }, [messagesStream.value, consultation.value]);
+
+    Future<void> submitMessage() async {
+      final text = messageController.text;
+
+      if (text.isEmpty) {
+        return;
+      }
+      messageController.clear();
+      try {
+        final GeneralMessageRequest message = GeneralMessageRequest(
+          createdAt: DateTime.now().toIso8601String(),
+          consultationId: consultation.value?.consultationId ?? 0,
+          userId: user?.id ?? 0,
+          message: text,
+          isAdmin: false,
+        );
+
+        await dbMessages.insert(message.toJson());
+
+        initConult(id: consultation.value?.consultationId ?? 0);
+      } on PostgrestException catch (error) {
+        PrimaryToast.error(message: error.message);
+      } catch (err) {
+        PrimaryToast.error(message: err.toString());
+      }
+    }
 
     return Column(
       children: [
@@ -403,24 +491,46 @@ class ChatView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              ListView.builder(
-                reverse: true,
-                controller: scrollController,
-                itemCount: chats.length,
-                itemBuilder: (context, index) {
-                  final chat = chats[index];
-                  return _buildChatMessage(context, chat, width);
-                },
-              ),
+              StreamBuilder<List<GeneralMessage>>(
+                  stream: messagesStream.value,
+                  builder: (context, snapshot) {
+                    if ((snapshot.data?.isEmpty ?? false)) {
+                      return const DataEmpty(
+                        message:
+                            "Belum ada pesan,\nayo kirimkan pesanmu sekarang!",
+                      );
+                    }
+
+                    if (snapshot.hasData) {
+                      final messages = snapshot.data!;
+                      return ListView.builder(
+                        reverse: true,
+                        controller: scrollController,
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) {
+                          final chat = messages[index];
+                          return _buildChatMessage(context, chat, width);
+                        },
+                      );
+                    }
+
+                    return const DataEmpty();
+                  }),
             ],
           ),
         ),
-        const ConsultationInput(),
+        ConsultationInput(
+          textEditingController: messageController,
+          onSendMessage: () async {
+            await submitMessage();
+          },
+        ),
       ],
     );
   }
 
-  Widget _buildChatMessage(BuildContext context, Chat chat, double width) {
+  Widget _buildChatMessage(
+      BuildContext context, GeneralMessage chat, double width) {
     return Container(
       margin: EdgeInsets.only(
         left: !chat.isAdmin ? (width * 0.2) : AppDimens.paddingMedium,
@@ -451,7 +561,7 @@ class ChatView extends StatelessWidget {
           ),
           const SizedBox(height: AppDimens.paddingMicro),
           Text(
-            "${chat.sendAt.hour}:${chat.sendAt.minute.toString().padLeft(2, '0')}",
+            formatTimeOnly(chat.createdAt.toString()),
             style: const TextStyle(
               fontSize: AppFontSizes.bodySmall,
               color: AppColors.lightgray2,
@@ -464,7 +574,13 @@ class ChatView extends StatelessWidget {
 }
 
 class ConsultationInput extends StatelessWidget {
-  const ConsultationInput({super.key});
+  const ConsultationInput(
+      {super.key,
+      required this.textEditingController,
+      required this.onSendMessage});
+
+  final TextEditingController textEditingController;
+  final VoidCallback onSendMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -499,7 +615,7 @@ class ConsultationInput extends StatelessWidget {
                       child: TextField(
                         autofocus: false,
                         keyboardType: TextInputType.multiline,
-                        controller: TextEditingController(),
+                        controller: textEditingController,
                         cursorColor: AppColors.primary1,
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(
@@ -531,7 +647,7 @@ class ConsultationInput extends StatelessWidget {
             ),
             IconRoundedButton(
               icon: Icons.send_rounded,
-              onTap: () {},
+              onTap: onSendMessage,
             ),
           ],
         ),
