@@ -19,7 +19,6 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -100,7 +99,7 @@ class RegisterScreen extends HookConsumerWidget {
 
         PrimaryNavigation.pushFromRightRemoveUntil(
           context,
-          page: const MainScreen(),
+          page: const LoginScreen(),
         );
       },
       onError: (error, variables, _) {

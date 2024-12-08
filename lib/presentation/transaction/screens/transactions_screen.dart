@@ -139,7 +139,9 @@ class TransactionsScreen extends StatelessWidget {
                   onTap: () {
                     PrimaryNavigation.pushFromRight(
                       context,
-                      page: const DetailTransactionScreen(),
+                      page: const DetailTransactionScreen(
+                        invoiceId: "1",
+                      ),
                     );
                   },
                   title: transaction.title,

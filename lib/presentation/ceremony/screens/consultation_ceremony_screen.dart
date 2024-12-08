@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -14,24 +13,32 @@ import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.
 import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/primary_bottom_sheet.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_leading_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/icon_rounded_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/address/response/address.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/message_request.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/consultation.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/message.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/message/ceremony/message_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ceremony/consultation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/message/ceremony/message.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/payment_screen.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
 
@@ -39,28 +46,39 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     with WidgetsBindingObserver {
   const ConsultationCeremonyScreen({
     super.key,
+    this.id,
     this.ceremonyPackage,
     this.ceremony,
+    this.isNewConsult,
+    this.ceremonyPackageId,
   });
 
+  final int? id;
+  final bool? isNewConsult;
   final CeremonyPackage? ceremonyPackage;
+  final int? ceremonyPackageId;
   final Ceremony? ceremony;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final scrollController = useScrollController();
+    final locales = AppLocalizations.of(context);
     final messageController = useTextEditingController(
-      text: "",
+      text: isNewConsult == true
+          ? (ceremonyPackage == null
+              ? "Halo saya ingin bertanya tentang ${ceremony?.title}, Terima kasih!😊"
+              : "Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊")
+          : '',
     );
-    final messageTemplate = useState<String>('');
 
     final SupabaseClient supabase = AppConfig().supabase();
-    final SupabaseQueryBuilder db = supabase.from(
-      StorageKey.supabaseConsultCeremony,
+    final SupabaseQueryBuilder dbMessages = supabase.from(
+      StorageKey.supabaseConsultCeremonyMessages,
     );
     final SupabaseQueryBuilder dbConsult = supabase.from(
-      StorageKey.supabaseConsult,
+      StorageKey.supabaseConsultCeremony,
     );
 
     final AuthController authController =
@@ -73,25 +91,26 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final consultation = useState<Consultation?>(null);
 
     Future init() async {
-      messagesStream.value = db
+      messagesStream.value = dbMessages
           .stream(primaryKey: ['consultationId'])
-          .eq('consultationId', 1)
+          .eq(
+            'consultationId',
+            id ?? 0,
+          )
           .order('id', ascending: false)
           .map(
             (maps) => maps.map((map) => Message.fromJson(map)).toList(),
           );
 
-      final dataConsult =
-          await dbConsult.select().eq('consultationId', 1).maybeSingle();
-
-      if (dataConsult != null) {
-        consultation.value = Consultation.fromJson(dataConsult);
-      }
-
-      messageController.text = (consultation.value?.ceremonyPackageId == null ||
-              consultation.value?.ceremonyPackageId != ceremonyPackage?.id
-          ? 'Halo saya ingin bertanya tentang Paket ${ceremonyPackage?.name} untuk ${ceremony?.title}, Terima kasih!😊'
-          : '');
+      dbConsult
+          .select()
+          .eq('consultationId', id ?? 0)
+          .maybeSingle()
+          .then((val) async {
+        if (val != null) {
+          consultation.value = Consultation.fromJson(val);
+        }
+      });
     }
 
     useEffect(() {
@@ -112,28 +131,61 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
       messageController.clear();
       try {
         final MessageRequest message = MessageRequest(
-          consultationId: 1,
+          consultationId: id ?? 0,
           userId: auth?.id as int,
           isAdmin: false,
           message: text,
           messageType: "default",
-          ceremonyPackageId: ceremonyPackageChanged?.id ?? ceremonyPackage?.id,
+          ceremonyPackageId: ceremonyPackageChanged?.id ??
+              ceremonyPackage?.id ??
+              ceremonyPackageId,
           ceremonyServiceId: ceremony?.id,
           addressId: address?.id,
           invoiceId: null,
+          address: address?.address,
           createdAt: DateTime.now().toIso8601String(),
         );
 
-        await db.insert(message.toJson());
+        await dbMessages.insert(message.toJson());
 
         init();
       } on PostgrestException catch (error) {
-        log("ERROR SEND MESSAGE --->>> ${error.message}");
         PrimaryToast.error(message: error.message);
       } catch (err) {
-        log('ERORRklsajdklsajd ${err.toString()}');
         PrimaryToast.error(message: err.toString());
       }
+    }
+
+    showAlertConfirmation() {
+      PrimaryAlertDialog(
+        title: Text(
+          locales?.payment ?? '',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SizedBox(
+          height: height * 0.15,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                locales?.makeSurePayment ?? '',
+                style: const TextStyle(
+                  fontSize: AppFontSizes.bodySmall,
+                  color: AppColors.gray2,
+                ),
+              ),
+              PrimaryButton(
+                label: locales?.okay ?? '',
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ).showAnimatedDialog(context);
     }
 
     return Scaffold(
@@ -175,18 +227,19 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                             final chat = messages[index];
 
                             return Container(
+                              key: Key("${chat.id}"),
                               margin: EdgeInsets.only(
-                                left: !chat.isAdmin
+                                left: !(chat.isAdmin)
                                     ? (width * 0.2)
                                     : AppDimens.paddingMedium,
-                                right: chat.isAdmin
+                                right: (chat.isAdmin)
                                     ? (width * 0.2)
                                     : AppDimens.paddingMedium,
                                 top: AppDimens.paddingSmall,
                                 bottom: AppDimens.paddingSmall,
                               ),
                               child: Column(
-                                crossAxisAlignment: chat.isAdmin
+                                crossAxisAlignment: (chat.isAdmin)
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                                 children: [
@@ -194,28 +247,150 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
                                     padding: const EdgeInsets.all(
                                         AppDimens.paddingMedium),
                                     decoration: BoxDecoration(
-                                      color: chat.isAdmin
+                                      color: (chat.isAdmin)
                                           ? Colors.white
                                           : AppColors.primary1,
                                       borderRadius: BorderRadius.circular(
                                         AppDimens.paddingMedium,
                                       ),
-                                      border: chat.isAdmin
+                                      border: (chat.isAdmin)
                                           ? Border.all(
                                               color: AppColors.lightgray2,
                                               width: 1,
                                             )
                                           : null,
                                     ),
-                                    child: Text(
-                                      chat.message,
-                                      style: TextStyle(
-                                        fontSize: AppFontSizes.bodySmall,
-                                        color: chat.isAdmin
-                                            ? AppColors.primaryText
-                                            : Colors.white,
-                                      ),
-                                    ),
+                                    child: chat.messageType == "default"
+                                        ? Text(
+                                            chat.message,
+                                            style: TextStyle(
+                                              fontSize: AppFontSizes.bodySmall,
+                                              color: (chat.isAdmin)
+                                                  ? AppColors.primaryText
+                                                  : Colors.white,
+                                            ),
+                                          )
+                                        : Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Tagihan Upacara",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      AppFontSizes.bodySmall,
+                                                  color: (chat.isAdmin)
+                                                      ? AppColors.primaryText
+                                                      : Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                chat.title ?? '',
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      AppFontSizes.bodySmall,
+                                                  color: (chat.isAdmin)
+                                                      ? AppColors.primaryText
+                                                      : Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical:
+                                                      AppDimens.paddingMedium,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "💸Harga: ${formatCurrency(int.parse(chat.totalPrice ?? '0'))}",
+                                                      style: TextStyle(
+                                                        fontSize: AppFontSizes
+                                                            .bodySmall,
+                                                        color: (chat.isAdmin)
+                                                            ? AppColors
+                                                                .primaryText
+                                                            : Colors.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "📅Tanggal dan Waktu: ${chat.ceremonyDate != null ? formatDateWithUserTimeZone(chat.ceremonyDate ?? '') : '-'}",
+                                                      style: TextStyle(
+                                                        fontSize: AppFontSizes
+                                                            .bodySmall,
+                                                        color: (chat.isAdmin)
+                                                            ? AppColors
+                                                                .primaryText
+                                                            : Colors.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "📍Lokasi: ${chat.address ?? '-'}",
+                                                      style: TextStyle(
+                                                        fontSize: AppFontSizes
+                                                            .bodySmall,
+                                                        color: (chat.isAdmin)
+                                                            ? AppColors
+                                                                .primaryText
+                                                            : Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  SecondaryButton(
+                                                    label: locales?.seeDetail ??
+                                                        '',
+                                                    onTap: () {
+                                                      PrimaryNavigation
+                                                          .pushFromRight(
+                                                        context,
+                                                        page:
+                                                            DetailTransactionScreen(
+                                                          invoiceId:
+                                                              chat.invoiceId ??
+                                                                  '',
+                                                        ),
+                                                      );
+                                                    },
+                                                    isMedium: true,
+                                                    isOutline: true,
+                                                  ),
+                                                  const SizedBox(
+                                                      width: AppDimens
+                                                          .paddingMedium),
+                                                  PrimaryButton(
+                                                    label:
+                                                        locales?.payment ?? '',
+                                                    onTap: () async {
+                                                      if (chat.paymentUrl ==
+                                                              null ||
+                                                          chat.paymentUrl ==
+                                                              '') {
+                                                        showAlertConfirmation();
+                                                        return;
+                                                      }
+
+                                                      PrimaryNavigation
+                                                          .pushFromRight(
+                                                        context,
+                                                        page: PaymentScreen(
+                                                          paymentUrl:
+                                                              chat.paymentUrl,
+                                                        ),
+                                                      );
+                                                    },
+                                                    isMedium: true,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                   ),
                                   const SizedBox(
                                       height: AppDimens.paddingMicro),
@@ -241,6 +416,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           ConsultationInput(
             textEditingController: messageController,
             ceremony: ceremony,
+            package: ceremonyPackage,
             onSendMessage: () {
               submitMessage();
             },
@@ -265,12 +441,14 @@ class ConsultationInput extends HookConsumerWidget {
     required this.onSendMessage,
     required this.textEditingController,
     required this.ceremony,
+    this.package,
     required this.onSelectedCeremonyPackageOrAddress,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
   final Ceremony? ceremony;
+  final CeremonyPackage? package;
 
   final Function(CeremonyPackage? ceremonyPackage, Address address)
       onSelectedCeremonyPackageOrAddress;
@@ -281,8 +459,10 @@ class ConsultationInput extends HookConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
 
-    final CeremonyController ceremonyController =
-        CeremonyController(ceremonyRepository: CeremonyRepository());
+    final CeremonyController ceremonyController = CeremonyController(
+      ceremonyRepository: CeremonyRepository(),
+      consultationRepository: ConsultationRepository(),
+    );
 
     Future<ApiBaseResponse<List<CeremonyPackage?>?>?>
         getCeremonyPackages() async {
@@ -303,7 +483,9 @@ class ConsultationInput extends HookConsumerWidget {
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
 
     final selectedCeremonyPackage = useState<CeremonyPackage?>(
-        (ceremonyPackages?.isNotEmpty ?? false) ? ceremonyPackages![0] : null);
+        (ceremonyPackages?.isNotEmpty ?? false)
+            ? (package ?? ceremonyPackages![0])
+            : null);
 
     final tabController = useTabController(
       initialLength: ceremonyPackages?.length ?? 0,

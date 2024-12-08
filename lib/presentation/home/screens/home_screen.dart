@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -237,8 +235,6 @@ class HomeScreen extends HookConsumerWidget {
                                   ),
                                   itemCount: dataCeremonies?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    final ceremony = dataCeremonies?[1]?.title;
-                                    log(name: "ceremony", ceremony.toString());
                                     return CeremonyServiceItem(
                                       onTap: () {
                                         if (dataCeremonies?[index]

@@ -64,7 +64,7 @@
     "enterAddressNote": "Enter your detail address note",
     "back": "Back",
     "addNewAddress": "Add New Address",
-    "sureSelectPackage": "Are you sure you want to select {package}?",
+    "sureSelectPackage": "Are you sure you want to select and consultation for {package}?",
     "@sureSelectPackage": {
         "description": "Confirm Package Select",
         "placeholders": {
@@ -75,6 +75,8 @@
         }
     },
     "makeSurePackage": "Make sure you have read all descriptions carefully and according to your needs!",
+    "makeSurePayment": "Please inform directly to admin about your payment!",
+    "okay": "Okay",
     "consultFirst": "Consult First",
     "veryConfident": "Very Confident",
     "selectPackage": "Select Package",
@@ -100,6 +102,7 @@
     "transactionSummary": "Transaction Summary",
     "totalPrice": "Total Price",
     "packageDetail": "Package Details",
+    "note": "Note",
     "paymentLimit": "Payment Limit: {time}",
     "@paymentLimit": {
         "description": "Payout limit countdown",
@@ -112,6 +115,7 @@
     },
     "totalBill": "Total Bill",
     "payNow": "Pay Now",
+    "payment": "Payment",
     "transactionHistory": "Transaction History",
     "searchTransaction": "Search for transactions",
     "seeDetail": "See Details",

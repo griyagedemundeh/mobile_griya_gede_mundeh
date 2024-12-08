@@ -1,25 +1,34 @@
+import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mobile_griya_gede_mundeh/config/app_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
-import 'package:mobile_griya_gede_mundeh/core/widget/bottom_sheet/address_sheet.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/storage_key.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/loading_screen.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/modal/primary_alert_dialog.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/package/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ceremony/ceremony_consultation_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/request/consultation/ticket/ceremony/ceremony_consultation_ticket_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/consultation/response/consultation/ticket/ceremony/ceremony_consultation_ticket.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/consultation/consultation_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/controller/ceremony_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/ceremony_package_item.dart';
@@ -27,8 +36,10 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/main_thumb
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/selected_buttons_package.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/tab_indicator_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/widget/title_description_ceremony.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailCeremonyScreen extends HookConsumerWidget {
   const DetailCeremonyScreen({super.key, this.id});
@@ -41,8 +52,16 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     final locales = AppLocalizations.of(context);
     final isOpened = useState(false);
 
-    final CeremonyController ceremonyController =
-        CeremonyController(ceremonyRepository: CeremonyRepository());
+    final HomeController homeController = HomeController(
+      authRepository: AuthRepository(),
+    );
+
+    final Auth? user = homeController.getUser();
+
+    final CeremonyController ceremonyController = CeremonyController(
+      ceremonyRepository: CeremonyRepository(),
+      consultationRepository: ConsultationRepository(),
+    );
 
     Future<ApiBaseResponse<Ceremony?>?> getCeremony() async {
       final response = await ceremonyController.getCeremony(id: id ?? 0);
@@ -147,19 +166,142 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     //   );
     // });
 
-    showAddressSheet() {
-      AddressSheet.showSheet(
-        context,
-        onChange: (address) {},
-      );
+    // showAddressSheet() {
+    //   AddressSheet.showSheet(
+    //     context,
+    //     onChange: (address) {},
+    //   );
+    // }
+
+    final isLoading = useState<bool>(false);
+    final isWithoutPackage = useState<bool>(false);
+
+    final SupabaseClient supabase = AppConfig().supabase();
+    final SupabaseQueryBuilder dbConsult = supabase.from(
+      StorageKey.supabaseConsultCeremony,
+    );
+
+    Future<void> createConsultation(
+        {required CeremonyConsultationTicket consultationTicket}) async {
+      isLoading.value = true;
+      try {
+        final CeremonyConsultationRequest consultationRequest =
+            CeremonyConsultationRequest(
+          ceremonyIconUrl: ceremonyDocumenations?.photo ?? '',
+          ceremonyName: ceremony?.title ?? '',
+          ceremonyServiceId: ceremony?.id ?? 0,
+          consultationId: consultationTicket.id,
+          status: 'onGoing',
+          userId: user?.id ?? 0,
+          userName: user?.fullName ?? '',
+          userPhoto: user?.avatarUrl ?? '',
+          ceremonyPackageId: isWithoutPackage.value == true
+              ? null
+              : selectedCeremonyPackage.value?.id,
+          createdAt: DateTime.now().toIso8601String(),
+        );
+
+        final dataConsult = await dbConsult
+            .select()
+            .eq('consultationId', consultationTicket.id)
+            .maybeSingle();
+
+        if (dataConsult == null) {
+          await dbConsult.insert(consultationRequest.toJson()).then((val) {
+            isLoading.value = false;
+            PrimaryNavigation.pushFromRight(
+              context,
+              page: ConsultationCeremonyScreen(
+                id: consultationTicket.id,
+                ceremony: ceremony,
+                isNewConsult: true,
+                ceremonyPackage: isWithoutPackage.value == true
+                    ? null
+                    : selectedCeremonyPackage.value,
+              ),
+            );
+          });
+        } else {
+          isLoading.value = false;
+          PrimaryNavigation.pushFromRight(
+            context,
+            page: ConsultationCeremonyScreen(
+              id: consultationTicket.id,
+              isNewConsult: true,
+              ceremony: ceremony,
+              ceremonyPackage: isWithoutPackage.value == true
+                  ? null
+                  : selectedCeremonyPackage.value,
+            ),
+          );
+        }
+      } on PostgrestException catch (error) {
+        isLoading.value = false;
+        log("ERROR CREATE CONSULTATION --->>> ${error.message}");
+        PrimaryToast.error(message: error.message);
+      } catch (err) {
+        isLoading.value = false;
+        log('ERORR ${err.toString()}');
+        PrimaryToast.error(message: err.toString());
+      }
     }
 
-    showAlertConfirmation() {
+    final createConsultationMutation = useMutation<
+        ApiBaseResponse<CeremonyConsultationTicket>,
+        dynamic,
+        CeremonyConsultationTicketRequest,
+        void>(
+      (request) async {
+        final response =
+            await ceremonyController.createConsultation(request: request);
+
+        createConsultation(
+          consultationTicket: response.data as CeremonyConsultationTicket,
+        );
+
+        return response;
+      },
+      onSuccess: (response, variables, _) {
+        isLoading.value = false;
+      },
+      onError: (error, variables, _) {
+        isLoading.value = false;
+
+        // if (error.message != null) {
+        //   for (var message in error.message) {
+        //     PrimaryToast.error(message: message);
+        //   }
+        // }
+      },
+    );
+
+    Future createConsultationTicket({bool? isWithoutPackageId}) async {
+      isWithoutPackage.value = isWithoutPackageId ?? false;
+
+      final data = CeremonyConsultationTicketRequest(
+        ceremonyServiceId: ceremony?.id ?? 0,
+        ceremonyServiceName: ceremony?.title ?? '',
+        memberId: user?.id ?? 0,
+        ceremonyServicePackageId: isWithoutPackage.value == true
+            ? null
+            : selectedCeremonyPackage.value?.id,
+      );
+
+      isLoading.value = true;
+
+      await createConsultationMutation.mutate(data);
+
+      createConsultationMutation.reset();
+    }
+
+    showAlertConfirmation({bool? isWithoutPackage}) {
       PrimaryAlertDialog(
         title: Text(
-          locales?.sureSelectPackage(
-                  selectedCeremonyPackage.value?.name ?? 'Paket ini') ??
-              '',
+          isWithoutPackage == true
+              ? 'Apakah yakin lanjut tanpa paket?'
+              : locales?.sureSelectPackage(
+                      selectedCeremonyPackage.value?.name ?? 'Paket ini') ??
+                  '',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -179,15 +321,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
               Row(
                 children: [
                   SecondaryButton(
-                    label: locales?.consultFirst ?? '',
+                    label: locales?.back ?? '',
                     onTap: () {
-                      PrimaryNavigation.pushFromRight(
-                        context,
-                        page: ConsultationCeremonyScreen(
-                          ceremony: ceremony,
-                          ceremonyPackage: selectedCeremonyPackage.value,
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
                     isMedium: true,
                     isOutline: true,
@@ -195,8 +331,11 @@ class DetailCeremonyScreen extends HookConsumerWidget {
                   const SizedBox(width: AppDimens.paddingMedium),
                   PrimaryButton(
                     label: locales?.veryConfident ?? '',
-                    onTap: () {
-                      showAddressSheet();
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await createConsultationTicket(
+                        isWithoutPackageId: isWithoutPackage,
+                      );
                     },
                     isMedium: true,
                   ),
@@ -210,15 +349,21 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: Builder(builder: (context) {
-        log('${isOpened.value}', name: "AOKWOKOWA");
-        log('${(ceremonyPackages?.isEmpty)}', name: "AOKWOKOWA111");
-
         if (isOpened.value && (ceremonyPackages?.isNotEmpty ?? false)) {
           return SelectedButtonsPackage(
+            isLoading: isLoading.value,
             onTapButtonPrimary: () {
+              if (ceremonyPackages?.isEmpty == true) {
+                Navigator.pop(context);
+                createConsultationTicket();
+
+                return;
+              }
               showAlertConfirmation();
             },
-            onTapButtonSecondary: () {},
+            onTapButtonSecondary: () {
+              showAlertConfirmation(isWithoutPackage: true);
+            },
           );
         }
 
@@ -231,192 +376,207 @@ class DetailCeremonyScreen extends HookConsumerWidget {
         }
         return const SizedBox();
       }),
-      body: Column(
+      body: Stack(
         children: [
-          MeshAppBar(
-            title: locales?.detailCeremony ?? '',
-          ),
-          Builder(builder: (context) {
-            if (ceremonyResponse.isLoading ||
-                ceremonyPackagesResponse.isLoading) {
-              return const Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary1,
-                  ),
-                ),
-              );
-            }
-
-            if (ceremonyResponse.isError || ceremonyPackagesResponse.isError) {
-              return const DataEmpty();
-            }
-
-            if (ceremonyResponse.isSuccess &&
-                ceremonyResponse.data?.data != null) {
-              return Expanded(
-                child: SlidingUpPanel(
-                  minHeight: height *
-                      (ceremonyPackages?.isNotEmpty == true ? 0.6 : 0.45),
-                  maxHeight: height,
-                  parallaxEnabled: true,
-                  backdropEnabled: true,
-                  onPanelOpened: () {
-                    if (ceremonyPackages != []) {
-                      isOpened.value = true;
-                      return;
-                    }
-
-                    isOpened.value = false;
-                  },
-                  onPanelClosed: () {
-                    isOpened.value = false;
-                  },
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.transparent,
+          Column(
+            children: [
+              MeshAppBar(
+                title: locales?.detailCeremony ?? '',
+              ),
+              Builder(builder: (context) {
+                if (ceremonyResponse.isLoading ||
+                    ceremonyPackagesResponse.isLoading) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary1,
+                      ),
                     ),
-                  ],
-                  body: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          color: AppColors.dark1.withOpacity(0.75),
-                          child: Column(
-                            children: [
-                              MainThumbnail(
-                                // thumbnailUrl:
-                                //     (ceremonyDocumenations?.isNotEmpty == true)
-                                //         ? ceremonyDocumenations?.first?.photo ??
-                                //             AppImages.dummyCeremony
-                                //         : AppImages.dummyCeremony,
-                                thumbnailUrl: ceremonyDocumenations?.photo ??
-                                    AppImages.dummyCeremony,
-                              ),
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(
-                              //     vertical: AppDimens.paddingMedium,
-                              //     horizontal: AppDimens.paddingLarge,
-                              //   ),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              //     children: miniThumbnails,
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        )
+                  );
+                }
+
+                if (ceremonyResponse.isError ||
+                    ceremonyPackagesResponse.isError) {
+                  return const DataEmpty();
+                }
+
+                if (ceremonyResponse.isSuccess &&
+                    ceremonyResponse.data?.data != null) {
+                  return Expanded(
+                    child: SlidingUpPanel(
+                      minHeight: height *
+                          (ceremonyPackages?.isNotEmpty == true ? 0.6 : 0.45),
+                      maxHeight: height,
+                      parallaxEnabled: true,
+                      backdropEnabled: true,
+                      onPanelOpened: () {
+                        if (ceremonyPackages != []) {
+                          isOpened.value = true;
+                          return;
+                        }
+
+                        isOpened.value = false;
+                      },
+                      onPanelClosed: () {
+                        isOpened.value = false;
+                      },
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.transparent,
+                        ),
                       ],
-                    ),
-                  ),
-                  panelBuilder: (sc) {
-                    return ListView(
-                      controller: sc,
-                      padding: EdgeInsets.zero,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppDimens.paddingMedium,
-                          ),
-                          child: TitleAndDescriptionCeremony(
-                            title: ceremony?.title ?? '-',
-                            description: ceremony?.description ?? '-',
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: AppDimens.marginLarge,
-                          ),
-                          child: Divider(
-                            color: AppColors.lightgray,
-                            height: AppDimens.marginMedium,
-                            thickness: AppDimens.marginMedium,
-                          ),
-                        ),
-                        Builder(builder: (context) {
-                          if (ceremonyPackages != null &&
-                              ceremonyPackages.isNotEmpty) {
-                            return DefaultTabController(
-                              length: tabController.length,
+                      body: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              color: AppColors.dark1.withOpacity(0.75),
                               child: Column(
                                 children: [
-                                  TabBar(
-                                    controller: tabController,
-                                    labelColor: AppColors.dark1,
-                                    tabAlignment: TabAlignment.center,
-                                    isScrollable: true,
-                                    dividerColor: AppColors.gray1,
-                                    automaticIndicatorColorAdjustment: true,
-                                    tabs: List.generate(ceremonyPackages.length,
-                                        (index) {
-                                      return TabIndicatorItem(
-                                        label: ceremonyPackages[index]?.name ??
-                                            '-', // Safe check
-                                      );
-                                    }),
-                                    indicator: const UnderlineTabIndicator(
-                                      borderSide: BorderSide(
-                                        width: 4,
-                                        color: AppColors.primary1,
-                                      ),
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(4),
-                                      ),
-                                    ),
+                                  MainThumbnail(
+                                    // thumbnailUrl:
+                                    //     (ceremonyDocumenations?.isNotEmpty == true)
+                                    //         ? ceremonyDocumenations?.first?.photo ??
+                                    //             AppImages.dummyCeremony
+                                    //         : AppImages.dummyCeremony,
+                                    thumbnailUrl:
+                                        ceremonyDocumenations?.photo ??
+                                            AppImages.dummyCeremony,
                                   ),
-                                  const SizedBox(
-                                    height: AppDimens.paddingMedium,
-                                  ),
-                                  SizedBox(
-                                    height: height,
-                                    child: TabBarView(
-                                      controller: tabController,
-                                      children: List.generate(
-                                          ceremonyPackages.length, (index) {
-                                        final package = ceremonyPackages[index];
-
-                                        return Column(
-                                          children: [
-                                            CeremonyPackageItem(
-                                              price: package?.price ?? 0,
-                                              description:
-                                                  package?.description ?? '-',
-                                            ),
-                                            Visibility(
-                                              visible: isOpened.value == false,
-                                              child: SelectedButtonsPackage(
-                                                onTapButtonPrimary: () {
-                                                  selectedCeremonyPackage
-                                                      .value = package;
-                                                  showAlertConfirmation();
-                                                },
-                                                onTapButtonSecondary: () {},
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //     vertical: AppDimens.paddingMedium,
+                                  //     horizontal: AppDimens.paddingLarge,
+                                  //   ),
+                                  //   child: Row(
+                                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  //     children: miniThumbnails,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
-                            );
-                          }
+                            )
+                          ],
+                        ),
+                      ),
+                      panelBuilder: (sc) {
+                        return ListView(
+                          controller: sc,
+                          padding: EdgeInsets.zero,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppDimens.paddingMedium,
+                              ),
+                              child: TitleAndDescriptionCeremony(
+                                title: ceremony?.title ?? '-',
+                                description: ceremony?.description ?? '-',
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: AppDimens.marginLarge,
+                              ),
+                              child: Divider(
+                                color: AppColors.lightgray,
+                                height: AppDimens.marginMedium,
+                                thickness: AppDimens.marginMedium,
+                              ),
+                            ),
+                            Builder(builder: (context) {
+                              if (ceremonyPackages != null &&
+                                  ceremonyPackages.isNotEmpty) {
+                                return DefaultTabController(
+                                  length: tabController.length,
+                                  child: Column(
+                                    children: [
+                                      TabBar(
+                                        controller: tabController,
+                                        labelColor: AppColors.dark1,
+                                        tabAlignment: TabAlignment.center,
+                                        isScrollable: true,
+                                        dividerColor: AppColors.gray1,
+                                        automaticIndicatorColorAdjustment: true,
+                                        tabs: List.generate(
+                                            ceremonyPackages.length, (index) {
+                                          return TabIndicatorItem(
+                                            label:
+                                                ceremonyPackages[index]?.name ??
+                                                    '-', // Safe check
+                                          );
+                                        }),
+                                        indicator: const UnderlineTabIndicator(
+                                          borderSide: BorderSide(
+                                            width: 4,
+                                            color: AppColors.primary1,
+                                          ),
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(4),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: AppDimens.paddingMedium,
+                                      ),
+                                      SizedBox(
+                                        height: height,
+                                        child: TabBarView(
+                                          controller: tabController,
+                                          children: List.generate(
+                                              ceremonyPackages.length, (index) {
+                                            final package =
+                                                ceremonyPackages[index];
 
-                          return DataEmpty(
-                            message:
-                                "Tidak ada paket untuk ${ceremony?.title ?? 'Upacara Agama ini'}!",
-                          );
-                        }),
-                      ],
-                    );
-                  },
-                ),
-              );
-            }
+                                            return Column(
+                                              children: [
+                                                CeremonyPackageItem(
+                                                  price: package?.price ?? 0,
+                                                  description:
+                                                      package?.description ??
+                                                          '-',
+                                                ),
+                                                Visibility(
+                                                  visible:
+                                                      isOpened.value == false,
+                                                  child: SelectedButtonsPackage(
+                                                    onTapButtonPrimary: () {
+                                                      selectedCeremonyPackage
+                                                          .value = package;
+                                                      showAlertConfirmation();
+                                                    },
+                                                    onTapButtonSecondary: () {
+                                                      showAlertConfirmation(
+                                                          isWithoutPackage:
+                                                              true);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
 
-            return const DataEmpty();
-          }),
+                              return DataEmpty(
+                                message:
+                                    "Tidak ada paket untuk ${ceremony?.title ?? 'Upacara Agama ini'}!",
+                              );
+                            }),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                }
+
+                return const DataEmpty();
+              }),
+            ],
+          ),
+          LoadingScreen(isLoading: isLoading),
         ],
       ),
     );

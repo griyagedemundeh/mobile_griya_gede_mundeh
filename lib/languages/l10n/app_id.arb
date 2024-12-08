@@ -64,7 +64,7 @@
     "enterAddressNote": "Masukkan catatan detail alamat anda, contoh: Kiri patung",
     "back": "Kembali",
     "addNewAddress": "Tambah Alamat Baru",
-    "sureSelectPackage": "Udah yakin ingin pilih {package}?",
+    "sureSelectPackage": "Udah yakin ingin pilih dan konsultasi untuk {package}?",
     "@sureSelectPackage": {
         "description": "Konfirmasi Pilih Paket",
         "placeholders": {
@@ -75,6 +75,8 @@
         }
     },
     "makeSurePackage": "Pastikan Anda sudah membaca semua deskripsi dengan teliti dan sesuai kebutuhan Anda!",
+    "makeSurePayment": "Mohon informasikan secara langsung kepada admin mengenai pembayaran anda!",
+    "okay": "Baik",
     "consultFirst": "Konsultasi Dulu",
     "veryConfident": "Yakin Banget",
     "selectPackage": "Pilih Paket",
@@ -100,6 +102,7 @@
     "transactionSummary": "Ringkasan Transaksi",
     "totalPrice": "Total Harga",
     "packageDetail": "Detail Paket",
+    "note": "Catatan",
     "paymentLimit": "Batas Pembayaran: {time}",
     "@paymentLimit": {
         "description": "Hitung mundur batas pembayaran",
@@ -112,6 +115,7 @@
     },
     "totalBill": "Total Tagihan",
     "payNow": "Bayar Sekarang",
+    "payment": "Pambayaran",
     "transactionHistory": "Riwayat Transaksi",
     "searchTransaction": "Cari transaksi",
     "seeDetail": "Lihat Detail",

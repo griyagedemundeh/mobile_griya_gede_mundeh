@@ -16,6 +16,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/setting/screens/profile_sc
 import 'package:mobile_griya_gede_mundeh/presentation/setting/screens/setting_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/splash/screens/splash_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/payment_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/transactions_screen.dart';
 
 abstract class Routes {
@@ -30,6 +31,7 @@ abstract class Routes {
   static const String consultationCeremony = "/consultation-ceremony";
   static const String transactions = "/transactions";
   static const String detailTransaction = "/detail-transaction";
+  static const String payment = "/payment";
   static const String ceremonyHistories = "/ceremony-histories";
   static const String ceremonyHistory = "/ceremony-history";
   static const String detailCeremonyHistory = "/detail-ceremony-history";
@@ -86,6 +88,10 @@ abstract class AppRouter {
       case Routes.detailTransaction:
         return MaterialPageRoute(
           builder: (context) => const DetailTransactionScreen(),
+        );
+      case Routes.payment:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentScreen(),
         );
       case Routes.ceremonyHistories:
         return MaterialPageRoute(

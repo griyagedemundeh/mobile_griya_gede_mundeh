@@ -28,3 +28,44 @@ String formatDate(DateTime? date) {
   if (date == null) return '';
   return DateFormat('EEE, d MMMM yyyy - hh.mm a', 'id_ID').format(date);
 }
+
+String formatDateWithUserTimeZone(String isoDate) {
+  // Parse the ISO 8601 date
+  final dateTime = DateTime.parse(isoDate);
+
+  // Format date and time
+  final dateFormatter = DateFormat("d MMMM yyyy", "id"); // Indonesian locale
+  final timeFormatter = DateFormat("HH:mm");
+
+  // Combine date and time
+  final formattedDate = dateFormatter.format(dateTime);
+  final formattedTime = timeFormatter.format(dateTime.toLocal());
+
+  return "$formattedDate - $formattedTime ${dateTime.toLocal().timeZoneName}";
+}
+
+String formatDateOnly(String isoDate) {
+  // Parse the ISO 8601 date
+  final dateTime = DateTime.parse(isoDate);
+
+  // Format date and time
+  final dateFormatter = DateFormat("d MMMM yyyy", "id"); // Indonesian locale
+
+  // Combine date and time
+  final formattedDate = dateFormatter.format(dateTime);
+
+  return formattedDate;
+}
+
+String formatTimeOnly(String isoDate) {
+  // Parse the ISO 8601 date
+  final dateTime = DateTime.parse(isoDate);
+
+  // Format date and time
+  final timeFormatter = DateFormat("HH:mm");
+
+  // Combine date and time
+  final formattedTime = timeFormatter.format(dateTime.toLocal());
+
+  return "$formattedTime ${dateTime.toLocal().timeZoneName}";
+}

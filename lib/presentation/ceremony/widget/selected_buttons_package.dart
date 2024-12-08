@@ -13,12 +13,14 @@ class SelectedButtonsPackage extends StatelessWidget {
     this.onTapButtonSecondary,
     this.labelPrimary,
     this.labelSecondary,
+    this.isLoading,
   });
 
   final VoidCallback onTapButtonPrimary;
   final VoidCallback? onTapButtonSecondary;
   final String? labelPrimary;
   final String? labelSecondary;
+  final bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +39,14 @@ class SelectedButtonsPackage extends StatelessWidget {
           PrimaryButton(
             label: labelPrimary ?? locales?.next ?? '',
             onTap: onTapButtonPrimary,
+            isLoading: isLoading,
           ),
           const SizedBox(height: AppDimens.paddingMedium),
           Visibility(
             visible: onTapButtonSecondary != null,
             child: SecondaryButton(
               label: labelSecondary ?? locales?.nextWithoutPackage ?? '',
+              isLoading: isLoading,
               onTap: () {
                 if (onTapButtonSecondary != null) {
                   onTapButtonSecondary!();
