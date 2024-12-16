@@ -20,7 +20,6 @@ class ArticleRepository extends IArticleRepository {
       );
 
       final responseData = response.data as Map<String, dynamic>;
-      log(response.data.toString(), name: "ARTICLE Response");
 
       List<Article> listData = [];
 

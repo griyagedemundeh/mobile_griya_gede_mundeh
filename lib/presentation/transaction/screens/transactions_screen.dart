@@ -1,113 +1,55 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fquery/fquery.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/search_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/chip_status.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/transaction/history/invoice_history.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/transaction/transaction_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/controller/transaction_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TransactionHistory {
-  final String id;
-  final String title;
-  final String price;
-  final String status;
-  final String thumbnailUrl;
-
-  TransactionHistory(
-      {required this.id,
-      required this.title,
-      required this.price,
-      required this.status,
-      required this.thumbnailUrl});
-}
-
-class TransactionsScreen extends StatelessWidget {
+class TransactionsScreen extends HookConsumerWidget {
   const TransactionsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final locales = AppLocalizations.of(context);
 
-    final List<TransactionHistory> transactions = [
-      TransactionHistory(
-        id: "1",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Sukses",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "2",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Pending",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "1",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Batal",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "1",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Sukses",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "2",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Pending",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "1",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Batal",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "1",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Sukses",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "2",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Pending",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-      TransactionHistory(
-        id: "1",
-        title: "Upacara Mebayuh Bapak Andik Suryono",
-        price: "Rp 2.500.000",
-        status: "Batal",
-        thumbnailUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpQc4j3Rs-cgCFuRNqbKXAEgyWvtCBrSTvmQ&s",
-      ),
-    ];
+    final TransactionController transactionController =
+        TransactionController(transactionRepository: TransactionRepository());
+
+    Future<ApiBaseResponse<List<InvoiceHistory?>?>?> getListInvoice() async {
+      final response = await transactionController.getListInvoice(
+        request: ListDataParams(
+          page: 1,
+          limit: 100,
+        ),
+      );
+
+      return response;
+    }
+
+    final invoiceResponse = useQuery<ApiBaseResponse<List<InvoiceHistory?>?>?,
+        ApiBaseResponse<dynamic>>(
+      ['invoices'],
+      getListInvoice,
+    );
+
+    final List<InvoiceHistory?>? invoices =
+        invoiceResponse.data?.data as List<InvoiceHistory?>?;
 
     return Scaffold(
       body: Column(
@@ -119,38 +61,72 @@ class TransactionsScreen extends StatelessWidget {
               placeHolder: locales?.searchTransaction,
             ),
           ),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimens.paddingSmall,
-              ),
-              itemCount: transactions.length,
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  color: AppColors.gray1,
-                  height: 1,
-                  thickness: 1,
+          Builder(
+            builder: (context) {
+              if (invoiceResponse.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary1,
+                  ),
                 );
-              },
-              itemBuilder: (context, index) {
-                final transaction = transactions[index];
+              }
 
-                return TransactionHistoryItem(
-                  onTap: () {
-                    PrimaryNavigation.pushFromRight(
-                      context,
-                      page: const DetailTransactionScreen(
-                        invoiceId: "1",
+              if (invoiceResponse.isError) {
+                return const DataEmpty();
+              }
+
+              if (!invoiceResponse.isLoading && (invoices?.length ?? 0) > 0) {
+                return Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      invoiceResponse.refetch();
+                    },
+                    color: AppColors.primary1,
+                    backgroundColor: Colors.white,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppDimens.paddingSmall,
                       ),
-                    );
-                  },
-                  title: transaction.title,
-                  price: transaction.price,
-                  status: transaction.status,
-                  thumbnailUrl: transaction.thumbnailUrl,
+                      itemCount: invoices?.length ?? 0,
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          color: AppColors.gray1,
+                          height: 1,
+                          thickness: 1,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        final InvoiceHistory? invoiceHistory = invoices?[index];
+
+                        return TransactionHistoryItem(
+                          onTap: () {
+                            PrimaryNavigation.pushFromRight(
+                              context,
+                              page: DetailTransactionScreen(
+                                invoiceId: invoiceHistory?.id,
+                              ),
+                            );
+                          },
+                          title: invoiceHistory?.invoiceCeremonyHistory.title ??
+                              '-',
+                          price:
+                              formatCurrency(invoiceHistory?.totalPrice ?? 0),
+                          status: invoiceHistory?.status ?? '-',
+                          thumbnailUrl: invoiceHistory
+                                  ?.invoiceCeremonyHistory
+                                  .ceremonyService
+                                  .ceremonyDocumentation[0]
+                                  .photo ??
+                              '',
+                        );
+                      },
+                    ),
+                  ),
                 );
-              },
-            ),
+              }
+
+              return const DataEmpty();
+            },
           ),
         ],
       ),
@@ -244,7 +220,7 @@ class TransactionHistoryItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ChipStatus(
-                  color: status.toLowerCase() == "sukses"
+                  color: status.toLowerCase() == "success"
                       ? AppColors.green
                       : status.toLowerCase() == "pending"
                           ? AppColors.primary1
