@@ -30,6 +30,7 @@ import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/d
 import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -132,38 +133,38 @@ class HomeScreen extends HookConsumerWidget {
       return () => scrollController.removeListener(listener);
     }, [scrollController, ceremonies]);
 
-    final List<CeremonyHistory> ceremonyHistories = [
-      CeremonyHistory(
-        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
-        ceremonyType: "Dewa Yadnya",
-        countDown: "10 Jam 39 Menit 20 Detik",
-        date: "Kamis, 24 Juli 2024",
-        location:
-            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
-        status: "Persiapan",
-        time: "18:00 WITA",
-      ),
-      CeremonyHistory(
-        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
-        ceremonyType: "Dewa Yadnya",
-        countDown: "10 Jam 39 Menit 20 Detik",
-        date: "Kamis, 24 Juli 2024",
-        location:
-            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
-        status: "Persiapan",
-        time: "18:00 WITA",
-      ),
-      CeremonyHistory(
-        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
-        ceremonyType: "Dewa Yadnya",
-        countDown: "10 Jam 39 Menit 20 Detik",
-        date: "Kamis, 24 Juli 2024",
-        location:
-            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
-        status: "Persiapan",
-        time: "18:00 WITA",
-      ),
-    ];
+    // final List<CeremonyHistory> ceremonyHistories = [
+    //   CeremonyHistory(
+    //     ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
+    //     ceremonyType: "Dewa Yadnya",
+    //     countDown: "10 Jam 39 Menit 20 Detik",
+    //     date: "Kamis, 24 Juli 2024",
+    //     location:
+    //         "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
+    //     status: "Persiapan",
+    //     time: "18:00 WITA",
+    //   ),
+    //   CeremonyHistory(
+    //     ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
+    //     ceremonyType: "Dewa Yadnya",
+    //     countDown: "10 Jam 39 Menit 20 Detik",
+    //     date: "Kamis, 24 Juli 2024",
+    //     location:
+    //         "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
+    //     status: "Persiapan",
+    //     time: "18:00 WITA",
+    //   ),
+    //   CeremonyHistory(
+    //     ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
+    //     ceremonyType: "Dewa Yadnya",
+    //     countDown: "10 Jam 39 Menit 20 Detik",
+    //     date: "Kamis, 24 Juli 2024",
+    //     location:
+    //         "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
+    //     status: "Persiapan",
+    //     time: "18:00 WITA",
+    //   ),
+    // ];
 
     return MeshTopBackground(
       child: Padding(
@@ -188,23 +189,24 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         child: Column(
                           children: [
-                            // const WelcomeMessage(),
-                            CermonyCard(
-                              isWithCover: true,
-                              ceremonyTitle: ceremonyHistories[0].ceremonyTitle,
-                              ceremonyType: ceremonyHistories[0].ceremonyType,
-                              countDown: ceremonyHistories[0].countDown,
-                              date: ceremonyHistories[0].date,
-                              location: ceremonyHistories[0].location,
-                              status: ceremonyHistories[0].status,
-                              time: ceremonyHistories[0].time,
-                              onTap: () {
-                                PrimaryNavigation.pushFromRight(
-                                  context,
-                                  page: const DetailCeremonyHistoryScreen(),
-                                );
-                              },
-                            ),
+                            const WelcomeMessage(),
+
+                            // CermonyCard(
+                            //   isWithCover: true,
+                            //   ceremonyTitle: ceremonyHistories[0].ceremonyTitle,
+                            //   ceremonyType: ceremonyHistories[0].ceremonyType,
+                            //   countDown: ceremonyHistories[0].countDown,
+                            //   date: ceremonyHistories[0].date,
+                            //   location: ceremonyHistories[0].location,
+                            //   status: ceremonyHistories[0].status,
+                            //   time: ceremonyHistories[0].time,
+                            //   onTap: () {
+                            //     PrimaryNavigation.pushFromRight(
+                            //       context,
+                            //       page: const DetailCeremonyHistoryScreen(),
+                            //     );
+                            //   },
+                            // ),
                             const SizedBox(height: AppDimens.marginLarge),
 
                             Builder(builder: (context) {

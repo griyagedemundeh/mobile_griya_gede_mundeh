@@ -163,7 +163,9 @@ class DetailTransactionScreen extends HookConsumerWidget {
                     onTap: () async {
                       PrimaryNavigation.pushFromRight(
                         context,
-                        page: const DetailCeremonyHistoryScreen(),
+                        page: DetailCeremonyHistoryScreen(
+                          id: invoice?.ceremonyHistoryId,
+                        ),
                       );
                     },
                     isMedium: true,
