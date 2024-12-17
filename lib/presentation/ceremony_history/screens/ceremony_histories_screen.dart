@@ -61,24 +61,24 @@ class CeremonyHistoriesScreen extends HookConsumerWidget {
               placeHolder: locales?.searchCeremonyHistory ?? '',
             ),
           ),
-          Builder(
-            builder: (context) {
-              if (ceremonyHistoryResponse.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary1,
-                  ),
-                );
-              }
+          Expanded(
+            child: Builder(
+              builder: (context) {
+                if (ceremonyHistoryResponse.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primary1,
+                    ),
+                  );
+                }
 
-              if (ceremonyHistoryResponse.isError) {
-                return const DataEmpty();
-              }
+                if (ceremonyHistoryResponse.isError) {
+                  return const DataEmpty();
+                }
 
-              if (!ceremonyHistoryResponse.isLoading &&
-                  (ceremonyHistories?.length ?? 0) > 0) {
-                return Expanded(
-                  child: RefreshIndicator(
+                if (!ceremonyHistoryResponse.isLoading &&
+                    (ceremonyHistories?.length ?? 0) > 0) {
+                  return RefreshIndicator(
                     onRefresh: () async {
                       ceremonyHistoryResponse.refetch();
                     },
@@ -115,12 +115,12 @@ class CeremonyHistoriesScreen extends HookConsumerWidget {
                         );
                       },
                     ),
-                  ),
-                );
-              }
+                  );
+                }
 
-              return const DataEmpty();
-            },
+                return const DataEmpty();
+              },
+            ),
           ),
         ],
       ),

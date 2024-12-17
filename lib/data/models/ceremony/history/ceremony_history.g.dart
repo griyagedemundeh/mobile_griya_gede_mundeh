@@ -18,9 +18,9 @@ _$CeremonyHistoryImpl _$$CeremonyHistoryImplFromJson(
       ceremonyServicePackageId:
           (json['ceremonyServicePackageId'] as num).toInt(),
       title: json['title'] as String,
-      packageName: json['packageName'] as String,
+      packageName: json['packageName'] as String?,
       description: json['description'] as String,
-      note: json['note'] as String,
+      note: json['note'] as String?,
       ceremonyAddress: json['ceremonyAddress'] as String,
       ceremonyAddressNote: json['ceremonyAddressNote'] as String?,
       ceremonyDate: DateTime.parse(json['ceremonyDate'] as String),

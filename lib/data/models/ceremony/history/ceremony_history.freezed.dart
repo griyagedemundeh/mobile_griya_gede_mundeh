@@ -28,9 +28,9 @@ mixin _$CeremonyHistory {
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   int get ceremonyServicePackageId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get packageName => throw _privateConstructorUsedError;
+  String? get packageName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get note => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
   String get ceremonyAddress => throw _privateConstructorUsedError;
   String? get ceremonyAddressNote => throw _privateConstructorUsedError;
   DateTime get ceremonyDate => throw _privateConstructorUsedError;
@@ -62,9 +62,9 @@ abstract class $CeremonyHistoryCopyWith<$Res> {
       int ceremonyServiceId,
       int ceremonyServicePackageId,
       String title,
-      String packageName,
+      String? packageName,
       String description,
-      String note,
+      String? note,
       String ceremonyAddress,
       String? ceremonyAddressNote,
       DateTime ceremonyDate,
@@ -101,9 +101,9 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
     Object? ceremonyServiceId = null,
     Object? ceremonyServicePackageId = null,
     Object? title = null,
-    Object? packageName = null,
+    Object? packageName = freezed,
     Object? description = null,
-    Object? note = null,
+    Object? note = freezed,
     Object? ceremonyAddress = null,
     Object? ceremonyAddressNote = freezed,
     Object? ceremonyDate = null,
@@ -147,18 +147,18 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      packageName: null == packageName
+      packageName: freezed == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      note: null == note
+      note: freezed == note
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       ceremonyAddress: null == ceremonyAddress
           ? _value.ceremonyAddress
           : ceremonyAddress // ignore: cast_nullable_to_non_nullable
@@ -248,9 +248,9 @@ abstract class _$$CeremonyHistoryImplCopyWith<$Res>
       int ceremonyServiceId,
       int ceremonyServicePackageId,
       String title,
-      String packageName,
+      String? packageName,
       String description,
-      String note,
+      String? note,
       String ceremonyAddress,
       String? ceremonyAddressNote,
       DateTime ceremonyDate,
@@ -288,9 +288,9 @@ class __$$CeremonyHistoryImplCopyWithImpl<$Res>
     Object? ceremonyServiceId = null,
     Object? ceremonyServicePackageId = null,
     Object? title = null,
-    Object? packageName = null,
+    Object? packageName = freezed,
     Object? description = null,
-    Object? note = null,
+    Object? note = freezed,
     Object? ceremonyAddress = null,
     Object? ceremonyAddressNote = freezed,
     Object? ceremonyDate = null,
@@ -334,18 +334,18 @@ class __$$CeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      packageName: null == packageName
+      packageName: freezed == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      note: null == note
+      note: freezed == note
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       ceremonyAddress: null == ceremonyAddress
           ? _value.ceremonyAddress
           : ceremonyAddress // ignore: cast_nullable_to_non_nullable
@@ -398,9 +398,9 @@ class _$CeremonyHistoryImpl implements _CeremonyHistory {
       required this.ceremonyServiceId,
       required this.ceremonyServicePackageId,
       required this.title,
-      required this.packageName,
+      this.packageName,
       required this.description,
-      required this.note,
+      this.note,
       required this.ceremonyAddress,
       this.ceremonyAddressNote,
       required this.ceremonyDate,
@@ -431,11 +431,11 @@ class _$CeremonyHistoryImpl implements _CeremonyHistory {
   @override
   final String title;
   @override
-  final String packageName;
+  final String? packageName;
   @override
   final String description;
   @override
-  final String note;
+  final String? note;
   @override
   final String ceremonyAddress;
   @override
@@ -554,9 +554,9 @@ abstract class _CeremonyHistory implements CeremonyHistory {
       required final int ceremonyServiceId,
       required final int ceremonyServicePackageId,
       required final String title,
-      required final String packageName,
+      final String? packageName,
       required final String description,
-      required final String note,
+      final String? note,
       required final String ceremonyAddress,
       final String? ceremonyAddressNote,
       required final DateTime ceremonyDate,
@@ -587,11 +587,11 @@ abstract class _CeremonyHistory implements CeremonyHistory {
   @override
   String get title;
   @override
-  String get packageName;
+  String? get packageName;
   @override
   String get description;
   @override
-  String get note;
+  String? get note;
   @override
   String get ceremonyAddress;
   @override
