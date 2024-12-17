@@ -45,7 +45,9 @@ class HomeScreen extends HookConsumerWidget {
     final double height = MediaQuery.of(context).size.height;
     final double paddingTop = MediaQuery.of(context).padding.top;
     final scrollController = useScrollController();
+    final carouselController = useState(CarouselController());
     final isScrolled = useState(false);
+    final caremonyOnProgressIndex = useState(0);
 
     final HomeController homeController = HomeController(
       authRepository: AuthRepository(),
@@ -173,7 +175,9 @@ class HomeScreen extends HookConsumerWidget {
       }
 
       scrollController.addListener(listener);
-      return () => scrollController.removeListener(listener);
+      return () {
+        scrollController.removeListener(listener);
+      };
     }, [scrollController, ceremonies]);
 
     return MeshTopBackground(
@@ -212,17 +216,67 @@ class HomeScreen extends HookConsumerWidget {
                                   const WelcomeMessage();
                                 }
 
-                                return CarouselSlider(
-                                  options: CarouselOptions(
-                                    initialPage: 0,
-                                    disableCenter: true,
-                                    enableInfiniteScroll: false,
-                                    viewportFraction: 1,
-                                    aspectRatio: 6 / 3.9,
-                                  ),
-                                  items: cardCeremonies(
-                                    ceremonyOnProgress: ceremonyOnProgress,
-                                  ),
+                                return Column(
+                                  children: [
+                                    CarouselSlider(
+                                      carouselController:
+                                          carouselController.value,
+                                      options: CarouselOptions(
+                                        initialPage: 0,
+                                        disableCenter: true,
+                                        enableInfiniteScroll: false,
+                                        viewportFraction: 1,
+                                        aspectRatio: 6 / 3.9,
+                                        onPageChanged: (index, reason) {
+                                          caremonyOnProgressIndex.value = index;
+                                        },
+                                      ),
+                                      items: cardCeremonies(
+                                        ceremonyOnProgress: ceremonyOnProgress,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: AppDimens.paddingMedium,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: List.generate(
+                                        ceremonyOnProgress?.length ?? 0,
+                                        (index) => GestureDetector(
+                                          onTap: () {
+                                            carouselController.value
+                                                .animateToPage(index);
+                                            caremonyOnProgressIndex.value =
+                                                index;
+                                          },
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 100),
+                                            curve: Curves.easeInToLinear,
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                            ),
+                                            height: 5,
+                                            width:
+                                                caremonyOnProgressIndex.value ==
+                                                        index
+                                                    ? 25
+                                                    : 8,
+                                            decoration: BoxDecoration(
+                                              color: caremonyOnProgressIndex
+                                                          .value ==
+                                                      index
+                                                  ? AppColors.dark1
+                                                  : AppColors.gray1,
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                            ),
+                                          ),
+                                        ),
+                                      ).toList(),
+                                    )
+                                  ],
                                 );
                               }),
                               const SizedBox(height: AppDimens.marginLarge),
