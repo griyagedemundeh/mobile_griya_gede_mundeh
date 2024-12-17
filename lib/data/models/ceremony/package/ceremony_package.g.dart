@@ -11,7 +11,7 @@ _$CeremonyPackageImpl _$$CeremonyPackageImplFromJson(
     _$CeremonyPackageImpl(
       id: (json['id'] as num).toInt(),
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
-      name: json['name'] as String,
+      name: json['name'] as String?,
       description: json['description'] as String,
       price: (json['price'] as num).toInt(),
       isActive: json['isActive'] as bool,

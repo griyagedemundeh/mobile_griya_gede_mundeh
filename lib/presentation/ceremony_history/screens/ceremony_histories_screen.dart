@@ -41,7 +41,9 @@ class CeremonyHistoriesScreen extends HookConsumerWidget {
     }
 
     final ceremonyHistoryResponse = useQuery<
-        ApiBaseResponse<List<CeremonyHistory?>?>?, ApiBaseResponse<dynamic>>(
+        ApiBaseResponse<List<CeremonyHistory?>?>?,
+        // ApiBaseResponse<dynamic>
+        dynamic>(
       ['ceremony_histories'],
       getListCeremonyHistory,
     );

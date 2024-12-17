@@ -12,8 +12,10 @@ _$InvoiceCeremonyHistoryImpl _$$InvoiceCeremonyHistoryImplFromJson(
       title: json['title'] as String,
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
       id: (json['id'] as num).toInt(),
-      ceremonyService: CeremonyService.fromJson(
-          json['ceremonyService'] as Map<String, dynamic>),
+      ceremonyService: json['ceremonyService'] == null
+          ? null
+          : CeremonyService.fromJson(
+              json['ceremonyService'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$InvoiceCeremonyHistoryImplToJson(

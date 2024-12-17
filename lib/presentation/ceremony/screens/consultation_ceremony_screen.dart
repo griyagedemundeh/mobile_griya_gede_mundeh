@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -193,7 +194,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
         children: [
           MeshAppBar(
             title:
-                "Konsultasi\n${ceremonyPackage?.name != null ? 'Paket ${ceremonyPackage?.name}' : ''} ${ceremony?.title ?? ''}",
+                "Konsultasi\n${ceremonyPackage?.name != null ? 'Paket ${ceremonyPackage?.name}' : ''} ${ceremony?.title ?? consultation.value?.ceremonyName}",
           ),
           Expanded(
             child: Stack(
@@ -415,7 +416,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           ),
           ConsultationInput(
             textEditingController: messageController,
-            ceremony: ceremony,
+            ceremonyId: consultation.value?.consultationId,
             package: ceremonyPackage,
             onSendMessage: () {
               submitMessage();
@@ -423,7 +424,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
             onSelectedCeremonyPackageOrAddress: (ceremonyPackage, address) {
               submitMessage(
                 message:
-                    "Saya pilih ${ceremonyPackage != null ? 'Paket ${ceremonyPackage.name}' : 'Tanpa Paket/Lainnya'} untuk ${ceremony?.title} di ${address.address}",
+                    "Saya pilih ${ceremonyPackage != null || consultation.value?.ceremonyPackageId != null ? 'Paket ${ceremonyPackage?.name ?? consultation.value?.ceremonyPackageName}' : 'Tanpa Paket/Lainnya'} untuk ${ceremony?.title ?? consultation.value?.ceremonyName} di ${address.address}",
                 address: address,
                 ceremonyPackageChanged: ceremonyPackage,
               );
@@ -438,16 +439,16 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 class ConsultationInput extends HookConsumerWidget {
   const ConsultationInput({
     super.key,
+    this.ceremonyId,
     required this.onSendMessage,
     required this.textEditingController,
-    required this.ceremony,
     this.package,
     required this.onSelectedCeremonyPackageOrAddress,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
-  final Ceremony? ceremony;
+  final int? ceremonyId;
   final CeremonyPackage? package;
 
   final Function(CeremonyPackage? ceremonyPackage, Address address)
@@ -467,7 +468,7 @@ class ConsultationInput extends HookConsumerWidget {
     Future<ApiBaseResponse<List<CeremonyPackage?>?>?>
         getCeremonyPackages() async {
       final response = await ceremonyController.getCeremonyPackages(
-        ceremonyServiceId: ceremony?.id ?? 0,
+        ceremonyServiceId: ceremonyId ?? 0,
       );
 
       return response;
@@ -475,7 +476,7 @@ class ConsultationInput extends HookConsumerWidget {
 
     final ceremonyPackagesResponse = useQuery<
         ApiBaseResponse<List<CeremonyPackage?>?>?, ApiBaseResponse<dynamic>>(
-      ['ceremonyPackages_${ceremony?.id}'],
+      ['ceremonyPackages_$ceremonyId'],
       getCeremonyPackages,
     );
 
@@ -604,10 +605,7 @@ class ConsultationInput extends HookConsumerWidget {
                 );
               }
 
-              return DataEmpty(
-                message:
-                    "Tidak ada paket untuk ${ceremony?.title ?? 'Upacara Agama ini'}!",
-              );
+              return const DataEmpty();
             }),
           ],
         ),

@@ -27,8 +27,10 @@ _$CeremonyHistoryImpl _$$CeremonyHistoryImplFromJson(
       status: json['status'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      ceremonyPackage: CeremonyPackage.fromJson(
-          json['ceremonyPackage'] as Map<String, dynamic>),
+      ceremonyPackage: json['ceremonyPackage'] == null
+          ? null
+          : CeremonyPackage.fromJson(
+              json['ceremonyPackage'] as Map<String, dynamic>),
       ceremonyService: CeremonyService.fromJson(
           json['ceremonyService'] as Map<String, dynamic>),
       ceremonyAdmin: json['ceremonyAdmin'] == null

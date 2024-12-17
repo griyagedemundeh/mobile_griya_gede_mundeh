@@ -26,6 +26,7 @@ mixin _$Consultation {
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   int? get ceremonyPackageId => throw _privateConstructorUsedError;
   String? get ceremonyName => throw _privateConstructorUsedError;
+  String? get ceremonyPackageName => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userPhoto => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $ConsultationCopyWith<$Res> {
       int ceremonyServiceId,
       int? ceremonyPackageId,
       String? ceremonyName,
+      String? ceremonyPackageName,
       String userName,
       String userPhoto,
       String status,
@@ -77,6 +79,7 @@ class _$ConsultationCopyWithImpl<$Res, $Val extends Consultation>
     Object? ceremonyServiceId = null,
     Object? ceremonyPackageId = freezed,
     Object? ceremonyName = freezed,
+    Object? ceremonyPackageName = freezed,
     Object? userName = null,
     Object? userPhoto = null,
     Object? status = null,
@@ -107,6 +110,10 @@ class _$ConsultationCopyWithImpl<$Res, $Val extends Consultation>
       ceremonyName: freezed == ceremonyName
           ? _value.ceremonyName
           : ceremonyName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyPackageName: freezed == ceremonyPackageName
+          ? _value.ceremonyPackageName
+          : ceremonyPackageName // ignore: cast_nullable_to_non_nullable
               as String?,
       userName: null == userName
           ? _value.userName
@@ -147,6 +154,7 @@ abstract class _$$ConsultationImplCopyWith<$Res>
       int ceremonyServiceId,
       int? ceremonyPackageId,
       String? ceremonyName,
+      String? ceremonyPackageName,
       String userName,
       String userPhoto,
       String status,
@@ -171,6 +179,7 @@ class __$$ConsultationImplCopyWithImpl<$Res>
     Object? ceremonyServiceId = null,
     Object? ceremonyPackageId = freezed,
     Object? ceremonyName = freezed,
+    Object? ceremonyPackageName = freezed,
     Object? userName = null,
     Object? userPhoto = null,
     Object? status = null,
@@ -201,6 +210,10 @@ class __$$ConsultationImplCopyWithImpl<$Res>
       ceremonyName: freezed == ceremonyName
           ? _value.ceremonyName
           : ceremonyName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ceremonyPackageName: freezed == ceremonyPackageName
+          ? _value.ceremonyPackageName
+          : ceremonyPackageName // ignore: cast_nullable_to_non_nullable
               as String?,
       userName: null == userName
           ? _value.userName
@@ -236,6 +249,7 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
       required this.ceremonyServiceId,
       this.ceremonyPackageId,
       this.ceremonyName,
+      this.ceremonyPackageName,
       required this.userName,
       required this.userPhoto,
       required this.status,
@@ -258,6 +272,8 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
   @override
   final String? ceremonyName;
   @override
+  final String? ceremonyPackageName;
+  @override
   final String userName;
   @override
   final String userPhoto;
@@ -270,7 +286,7 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Consultation(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, ceremonyName: $ceremonyName, userName: $userName, userPhoto: $userPhoto, status: $status, createdAt: $createdAt, ceremonyIconUrl: $ceremonyIconUrl)';
+    return 'Consultation(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, ceremonyName: $ceremonyName, ceremonyPackageName: $ceremonyPackageName, userName: $userName, userPhoto: $userPhoto, status: $status, createdAt: $createdAt, ceremonyIconUrl: $ceremonyIconUrl)';
   }
 
   @override
@@ -284,6 +300,7 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
       ..add(DiagnosticsProperty('ceremonyServiceId', ceremonyServiceId))
       ..add(DiagnosticsProperty('ceremonyPackageId', ceremonyPackageId))
       ..add(DiagnosticsProperty('ceremonyName', ceremonyName))
+      ..add(DiagnosticsProperty('ceremonyPackageName', ceremonyPackageName))
       ..add(DiagnosticsProperty('userName', userName))
       ..add(DiagnosticsProperty('userPhoto', userPhoto))
       ..add(DiagnosticsProperty('status', status))
@@ -306,6 +323,8 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
                 other.ceremonyPackageId == ceremonyPackageId) &&
             (identical(other.ceremonyName, ceremonyName) ||
                 other.ceremonyName == ceremonyName) &&
+            (identical(other.ceremonyPackageName, ceremonyPackageName) ||
+                other.ceremonyPackageName == ceremonyPackageName) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.userPhoto, userPhoto) ||
@@ -327,6 +346,7 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
       ceremonyServiceId,
       ceremonyPackageId,
       ceremonyName,
+      ceremonyPackageName,
       userName,
       userPhoto,
       status,
@@ -355,6 +375,7 @@ abstract class _Consultation implements Consultation {
       required final int ceremonyServiceId,
       final int? ceremonyPackageId,
       final String? ceremonyName,
+      final String? ceremonyPackageName,
       required final String userName,
       required final String userPhoto,
       required final String status,
@@ -376,6 +397,8 @@ abstract class _Consultation implements Consultation {
   int? get ceremonyPackageId;
   @override
   String? get ceremonyName;
+  @override
+  String? get ceremonyPackageName;
   @override
   String get userName;
   @override

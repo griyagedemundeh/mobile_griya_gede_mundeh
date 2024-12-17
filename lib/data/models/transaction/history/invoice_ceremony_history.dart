@@ -10,7 +10,7 @@ class InvoiceCeremonyHistory with _$InvoiceCeremonyHistory {
     required String title,
     required int ceremonyServiceId,
     required int id,
-    required CeremonyService ceremonyService,
+    CeremonyService? ceremonyService,
   }) = _InvoiceCeremonyHistory;
 
   factory InvoiceCeremonyHistory.fromJson(Map<String, dynamic> json) =>

@@ -64,4 +64,35 @@ class CeremonyHistoryRepository extends ICeremonyHistoryRepository {
           data: null);
     }
   }
+
+  @override
+  Future<ApiBaseResponse<List<CeremonyHistory?>?>>
+      getCeremonyOnProgress() async {
+    try {
+      final response =
+          await api.get("${ApiEndPoints.ceremony}/history/on-going");
+
+      final responseData = response.data as Map<String, dynamic>;
+
+      List<CeremonyHistory> listData = [];
+
+      for (var element in responseData['data']) {
+        listData.add(CeremonyHistory.fromJson(element));
+      }
+
+      return ApiBaseResponse(
+        status: responseData['status'],
+        message: responseData['message'],
+        data: listData,
+      );
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiBaseResponse.fromJson(e.response!.data);
+      }
+      throw ApiBaseResponse(
+          status: 500,
+          message: [e.message ?? 'Unknown error occurred'],
+          data: null);
+    }
+  }
 }

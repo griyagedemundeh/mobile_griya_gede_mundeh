@@ -42,8 +42,10 @@ class TransactionsScreen extends HookConsumerWidget {
       return response;
     }
 
-    final invoiceResponse = useQuery<ApiBaseResponse<List<InvoiceHistory?>?>?,
-        ApiBaseResponse<dynamic>>(
+    final invoiceResponse = useQuery<
+        ApiBaseResponse<List<InvoiceHistory?>?>?,
+        // ApiBaseResponse<dynamic>
+        dynamic>(
       ['invoices'],
       getListInvoice,
     );
@@ -115,7 +117,7 @@ class TransactionsScreen extends HookConsumerWidget {
                           thumbnailUrl: invoiceHistory
                                   ?.invoiceCeremonyHistory
                                   .ceremonyService
-                                  .ceremonyDocumentation[0]
+                                  ?.ceremonyDocumentation[0]
                                   .photo ??
                               '',
                         );

@@ -37,7 +37,7 @@ mixin _$CeremonyHistory {
   String get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
-  CeremonyPackage get ceremonyPackage => throw _privateConstructorUsedError;
+  CeremonyPackage? get ceremonyPackage => throw _privateConstructorUsedError;
   CeremonyService get ceremonyService => throw _privateConstructorUsedError;
   CeremonyAdmin? get ceremonyAdmin => throw _privateConstructorUsedError;
 
@@ -71,11 +71,11 @@ abstract class $CeremonyHistoryCopyWith<$Res> {
       String status,
       DateTime createdAt,
       DateTime updatedAt,
-      CeremonyPackage ceremonyPackage,
+      CeremonyPackage? ceremonyPackage,
       CeremonyService ceremonyService,
       CeremonyAdmin? ceremonyAdmin});
 
-  $CeremonyPackageCopyWith<$Res> get ceremonyPackage;
+  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage;
   $CeremonyServiceCopyWith<$Res> get ceremonyService;
   $CeremonyAdminCopyWith<$Res>? get ceremonyAdmin;
 }
@@ -110,7 +110,7 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? ceremonyPackage = null,
+    Object? ceremonyPackage = freezed,
     Object? ceremonyService = null,
     Object? ceremonyAdmin = freezed,
   }) {
@@ -183,10 +183,10 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      ceremonyPackage: null == ceremonyPackage
+      ceremonyPackage: freezed == ceremonyPackage
           ? _value.ceremonyPackage
           : ceremonyPackage // ignore: cast_nullable_to_non_nullable
-              as CeremonyPackage,
+              as CeremonyPackage?,
       ceremonyService: null == ceremonyService
           ? _value.ceremonyService
           : ceremonyService // ignore: cast_nullable_to_non_nullable
@@ -200,8 +200,12 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
 
   @override
   @pragma('vm:prefer-inline')
-  $CeremonyPackageCopyWith<$Res> get ceremonyPackage {
-    return $CeremonyPackageCopyWith<$Res>(_value.ceremonyPackage, (value) {
+  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage {
+    if (_value.ceremonyPackage == null) {
+      return null;
+    }
+
+    return $CeremonyPackageCopyWith<$Res>(_value.ceremonyPackage!, (value) {
       return _then(_value.copyWith(ceremonyPackage: value) as $Val);
     });
   }
@@ -253,12 +257,12 @@ abstract class _$$CeremonyHistoryImplCopyWith<$Res>
       String status,
       DateTime createdAt,
       DateTime updatedAt,
-      CeremonyPackage ceremonyPackage,
+      CeremonyPackage? ceremonyPackage,
       CeremonyService ceremonyService,
       CeremonyAdmin? ceremonyAdmin});
 
   @override
-  $CeremonyPackageCopyWith<$Res> get ceremonyPackage;
+  $CeremonyPackageCopyWith<$Res>? get ceremonyPackage;
   @override
   $CeremonyServiceCopyWith<$Res> get ceremonyService;
   @override
@@ -293,7 +297,7 @@ class __$$CeremonyHistoryImplCopyWithImpl<$Res>
     Object? status = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? ceremonyPackage = null,
+    Object? ceremonyPackage = freezed,
     Object? ceremonyService = null,
     Object? ceremonyAdmin = freezed,
   }) {
@@ -366,10 +370,10 @@ class __$$CeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      ceremonyPackage: null == ceremonyPackage
+      ceremonyPackage: freezed == ceremonyPackage
           ? _value.ceremonyPackage
           : ceremonyPackage // ignore: cast_nullable_to_non_nullable
-              as CeremonyPackage,
+              as CeremonyPackage?,
       ceremonyService: null == ceremonyService
           ? _value.ceremonyService
           : ceremonyService // ignore: cast_nullable_to_non_nullable
@@ -403,7 +407,7 @@ class _$CeremonyHistoryImpl implements _CeremonyHistory {
       required this.status,
       required this.createdAt,
       required this.updatedAt,
-      required this.ceremonyPackage,
+      this.ceremonyPackage,
       required this.ceremonyService,
       this.ceremonyAdmin});
 
@@ -445,7 +449,7 @@ class _$CeremonyHistoryImpl implements _CeremonyHistory {
   @override
   final DateTime updatedAt;
   @override
-  final CeremonyPackage ceremonyPackage;
+  final CeremonyPackage? ceremonyPackage;
   @override
   final CeremonyService ceremonyService;
   @override
@@ -559,7 +563,7 @@ abstract class _CeremonyHistory implements CeremonyHistory {
       required final String status,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      required final CeremonyPackage ceremonyPackage,
+      final CeremonyPackage? ceremonyPackage,
       required final CeremonyService ceremonyService,
       final CeremonyAdmin? ceremonyAdmin}) = _$CeremonyHistoryImpl;
 
@@ -601,7 +605,7 @@ abstract class _CeremonyHistory implements CeremonyHistory {
   @override
   DateTime get updatedAt;
   @override
-  CeremonyPackage get ceremonyPackage;
+  CeremonyPackage? get ceremonyPackage;
   @override
   CeremonyService get ceremonyService;
   @override

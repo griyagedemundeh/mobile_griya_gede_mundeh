@@ -8,7 +8,7 @@ class CeremonyPackage with _$CeremonyPackage {
   const factory CeremonyPackage({
     required int id,
     required int ceremonyServiceId,
-    required String name,
+    String? name,
     required String description,
     required int price,
     required bool isActive,

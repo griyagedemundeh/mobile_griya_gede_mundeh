@@ -24,7 +24,7 @@ mixin _$InvoiceCeremonyHistory {
   String get title => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
-  CeremonyService get ceremonyService => throw _privateConstructorUsedError;
+  CeremonyService? get ceremonyService => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,9 +42,9 @@ abstract class $InvoiceCeremonyHistoryCopyWith<$Res> {
       {String title,
       int ceremonyServiceId,
       int id,
-      CeremonyService ceremonyService});
+      CeremonyService? ceremonyService});
 
-  $CeremonyServiceCopyWith<$Res> get ceremonyService;
+  $CeremonyServiceCopyWith<$Res>? get ceremonyService;
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
     Object? title = null,
     Object? ceremonyServiceId = null,
     Object? id = null,
-    Object? ceremonyService = null,
+    Object? ceremonyService = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -79,17 +79,21 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyService: null == ceremonyService
+      ceremonyService: freezed == ceremonyService
           ? _value.ceremonyService
           : ceremonyService // ignore: cast_nullable_to_non_nullable
-              as CeremonyService,
+              as CeremonyService?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $CeremonyServiceCopyWith<$Res> get ceremonyService {
-    return $CeremonyServiceCopyWith<$Res>(_value.ceremonyService, (value) {
+  $CeremonyServiceCopyWith<$Res>? get ceremonyService {
+    if (_value.ceremonyService == null) {
+      return null;
+    }
+
+    return $CeremonyServiceCopyWith<$Res>(_value.ceremonyService!, (value) {
       return _then(_value.copyWith(ceremonyService: value) as $Val);
     });
   }
@@ -108,10 +112,10 @@ abstract class _$$InvoiceCeremonyHistoryImplCopyWith<$Res>
       {String title,
       int ceremonyServiceId,
       int id,
-      CeremonyService ceremonyService});
+      CeremonyService? ceremonyService});
 
   @override
-  $CeremonyServiceCopyWith<$Res> get ceremonyService;
+  $CeremonyServiceCopyWith<$Res>? get ceremonyService;
 }
 
 /// @nodoc
@@ -130,7 +134,7 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
     Object? title = null,
     Object? ceremonyServiceId = null,
     Object? id = null,
-    Object? ceremonyService = null,
+    Object? ceremonyService = freezed,
   }) {
     return _then(_$InvoiceCeremonyHistoryImpl(
       title: null == title
@@ -145,10 +149,10 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyService: null == ceremonyService
+      ceremonyService: freezed == ceremonyService
           ? _value.ceremonyService
           : ceremonyService // ignore: cast_nullable_to_non_nullable
-              as CeremonyService,
+              as CeremonyService?,
     ));
   }
 }
@@ -160,7 +164,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
       {required this.title,
       required this.ceremonyServiceId,
       required this.id,
-      required this.ceremonyService});
+      this.ceremonyService});
 
   factory _$InvoiceCeremonyHistoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$InvoiceCeremonyHistoryImplFromJson(json);
@@ -172,7 +176,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final int id;
   @override
-  final CeremonyService ceremonyService;
+  final CeremonyService? ceremonyService;
 
   @override
   String toString() {
@@ -214,11 +218,10 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
 
 abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   const factory _InvoiceCeremonyHistory(
-          {required final String title,
-          required final int ceremonyServiceId,
-          required final int id,
-          required final CeremonyService ceremonyService}) =
-      _$InvoiceCeremonyHistoryImpl;
+      {required final String title,
+      required final int ceremonyServiceId,
+      required final int id,
+      final CeremonyService? ceremonyService}) = _$InvoiceCeremonyHistoryImpl;
 
   factory _InvoiceCeremonyHistory.fromJson(Map<String, dynamic> json) =
       _$InvoiceCeremonyHistoryImpl.fromJson;
@@ -230,7 +233,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   int get id;
   @override
-  CeremonyService get ceremonyService;
+  CeremonyService? get ceremonyService;
   @override
   @JsonKey(ignore: true)
   _$$InvoiceCeremonyHistoryImplCopyWith<_$InvoiceCeremonyHistoryImpl>

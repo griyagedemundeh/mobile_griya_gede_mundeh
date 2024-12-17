@@ -9,4 +9,5 @@ abstract class ICeremonyHistoryRepository {
   Future<ApiBaseResponse<CeremonyHistory?>> getCeremonyHistory({
     required int id,
   });
+  Future<ApiBaseResponse<List<CeremonyHistory?>?>> getCeremonyOnProgress();
 }

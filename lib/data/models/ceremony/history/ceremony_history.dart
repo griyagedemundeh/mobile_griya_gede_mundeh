@@ -26,7 +26,7 @@ class CeremonyHistory with _$CeremonyHistory {
     required String status,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required CeremonyPackage ceremonyPackage,
+    CeremonyPackage? ceremonyPackage,
     required CeremonyService ceremonyService,
     CeremonyAdmin? ceremonyAdmin,
   }) = _CeremonyHistory;

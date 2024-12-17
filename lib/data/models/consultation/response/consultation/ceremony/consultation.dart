@@ -13,6 +13,7 @@ class Consultation with _$Consultation {
     required int ceremonyServiceId,
     int? ceremonyPackageId,
     String? ceremonyName,
+    String? ceremonyPackageName,
     required String userName,
     required String userPhoto,
     required String status,

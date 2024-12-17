@@ -114,7 +114,7 @@ class CermonyCard extends HookConsumerWidget {
                       AppImages.ceremonyWelcome,
                       fit: BoxFit.cover,
                       width: width,
-                      height: height * 0.275,
+                      height: height * 0.3,
                     ),
                   ),
                 ),
