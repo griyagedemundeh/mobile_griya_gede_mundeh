@@ -226,7 +226,7 @@ class HomeScreen extends HookConsumerWidget {
                                         disableCenter: true,
                                         enableInfiniteScroll: false,
                                         viewportFraction: 1,
-                                        aspectRatio: 6 / 3.9,
+                                        aspectRatio: 6 / 4,
                                         onPageChanged: (index, reason) {
                                           caremonyOnProgressIndex.value = index;
                                         },
