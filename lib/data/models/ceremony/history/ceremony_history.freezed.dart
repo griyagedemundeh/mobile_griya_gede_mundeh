@@ -26,7 +26,7 @@ mixin _$CeremonyHistory {
   int get memberAddressId => throw _privateConstructorUsedError;
   int? get consultationId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
-  int get ceremonyServicePackageId => throw _privateConstructorUsedError;
+  int? get ceremonyServicePackageId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get packageName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $CeremonyHistoryCopyWith<$Res> {
       int memberAddressId,
       int? consultationId,
       int ceremonyServiceId,
-      int ceremonyServicePackageId,
+      int? ceremonyServicePackageId,
       String title,
       String? packageName,
       String description,
@@ -99,7 +99,7 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
     Object? memberAddressId = null,
     Object? consultationId = freezed,
     Object? ceremonyServiceId = null,
-    Object? ceremonyServicePackageId = null,
+    Object? ceremonyServicePackageId = freezed,
     Object? title = null,
     Object? packageName = freezed,
     Object? description = null,
@@ -139,10 +139,10 @@ class _$CeremonyHistoryCopyWithImpl<$Res, $Val extends CeremonyHistory>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServicePackageId: null == ceremonyServicePackageId
+      ceremonyServicePackageId: freezed == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -246,7 +246,7 @@ abstract class _$$CeremonyHistoryImplCopyWith<$Res>
       int memberAddressId,
       int? consultationId,
       int ceremonyServiceId,
-      int ceremonyServicePackageId,
+      int? ceremonyServicePackageId,
       String title,
       String? packageName,
       String description,
@@ -286,7 +286,7 @@ class __$$CeremonyHistoryImplCopyWithImpl<$Res>
     Object? memberAddressId = null,
     Object? consultationId = freezed,
     Object? ceremonyServiceId = null,
-    Object? ceremonyServicePackageId = null,
+    Object? ceremonyServicePackageId = freezed,
     Object? title = null,
     Object? packageName = freezed,
     Object? description = null,
@@ -326,10 +326,10 @@ class __$$CeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServicePackageId: null == ceremonyServicePackageId
+      ceremonyServicePackageId: freezed == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -396,7 +396,7 @@ class _$CeremonyHistoryImpl implements _CeremonyHistory {
       required this.memberAddressId,
       this.consultationId,
       required this.ceremonyServiceId,
-      required this.ceremonyServicePackageId,
+      this.ceremonyServicePackageId,
       required this.title,
       this.packageName,
       required this.description,
@@ -427,7 +427,7 @@ class _$CeremonyHistoryImpl implements _CeremonyHistory {
   @override
   final int ceremonyServiceId;
   @override
-  final int ceremonyServicePackageId;
+  final int? ceremonyServicePackageId;
   @override
   final String title;
   @override
@@ -552,7 +552,7 @@ abstract class _CeremonyHistory implements CeremonyHistory {
       required final int memberAddressId,
       final int? consultationId,
       required final int ceremonyServiceId,
-      required final int ceremonyServicePackageId,
+      final int? ceremonyServicePackageId,
       required final String title,
       final String? packageName,
       required final String description,
@@ -583,7 +583,7 @@ abstract class _CeremonyHistory implements CeremonyHistory {
   @override
   int get ceremonyServiceId;
   @override
-  int get ceremonyServicePackageId;
+  int? get ceremonyServicePackageId;
   @override
   String get title;
   @override

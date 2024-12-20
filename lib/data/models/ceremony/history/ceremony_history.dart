@@ -15,7 +15,7 @@ class CeremonyHistory with _$CeremonyHistory {
     required int memberAddressId,
     int? consultationId,
     required int ceremonyServiceId,
-    required int ceremonyServicePackageId,
+    int? ceremonyServicePackageId,
     required String title,
     String? packageName,
     required String description,

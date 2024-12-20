@@ -16,7 +16,7 @@ _$CeremonyHistoryImpl _$$CeremonyHistoryImplFromJson(
       consultationId: (json['consultationId'] as num?)?.toInt(),
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
       ceremonyServicePackageId:
-          (json['ceremonyServicePackageId'] as num).toInt(),
+          (json['ceremonyServicePackageId'] as num?)?.toInt(),
       title: json['title'] as String,
       packageName: json['packageName'] as String?,
       description: json['description'] as String,

@@ -101,8 +101,8 @@ class HomeScreen extends HookConsumerWidget {
       getArticles,
     );
 
-    final ceremonyOnProgressResponse = useQuery<
-        ApiBaseResponse<List<CeremonyHistory?>?>?, ApiBaseResponse<dynamic>>(
+    final ceremonyOnProgressResponse =
+        useQuery<ApiBaseResponse<List<CeremonyHistory?>?>?, dynamic>(
       ['ceremony_onprogress'],
       getListCeremonyHistory,
     );
@@ -122,7 +122,12 @@ class HomeScreen extends HookConsumerWidget {
           return CermonyCard(
             isWithCover: true,
             ceremonyTitle: ceremonyOnProgress?[index]?.title ?? '-',
-            ceremonyType: ceremonyOnProgress?[index]?.packageName ?? '-',
+            ceremonyType: ceremonyOnProgress?[index]?.packageName ??
+                ceremonyOnProgress?[index]
+                    ?.ceremonyService
+                    .ceremonyCategory
+                    .name ??
+                '-',
             date: ceremonyOnProgress?[index]?.ceremonyDate.toIso8601String() ??
                 DateTime.now().toIso8601String(),
             location: ceremonyOnProgress?[index]?.ceremonyAddress ?? '-',
@@ -213,7 +218,7 @@ class HomeScreen extends HookConsumerWidget {
                             children: [
                               Builder(builder: (context) {
                                 if (ceremonyOnProgress?.isEmpty == true) {
-                                  const WelcomeMessage();
+                                  return const WelcomeMessage();
                                 }
 
                                 return Column(
