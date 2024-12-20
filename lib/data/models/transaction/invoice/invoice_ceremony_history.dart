@@ -8,7 +8,7 @@ part 'invoice_ceremony_history.g.dart';
 class InvoiceCeremonyHistory with _$InvoiceCeremonyHistory {
   const factory InvoiceCeremonyHistory({
     required int id,
-    String? consultationId,
+    int? consultationId,
     required int ceremonyServiceId,
     required int ceremonyServicePackageId,
     required String ceremonyAddress,

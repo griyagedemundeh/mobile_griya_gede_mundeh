@@ -22,7 +22,7 @@ InvoiceCeremonyHistory _$InvoiceCeremonyHistoryFromJson(
 /// @nodoc
 mixin _$InvoiceCeremonyHistory {
   int get id => throw _privateConstructorUsedError;
-  String? get consultationId => throw _privateConstructorUsedError;
+  int? get consultationId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   int get ceremonyServicePackageId => throw _privateConstructorUsedError;
   String get ceremonyAddress => throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ abstract class $InvoiceCeremonyHistoryCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String? consultationId,
+      int? consultationId,
       int ceremonyServiceId,
       int ceremonyServicePackageId,
       String ceremonyAddress,
@@ -104,7 +104,7 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
       consultationId: freezed == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       ceremonyServiceId: null == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ abstract class _$$InvoiceCeremonyHistoryImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      String? consultationId,
+      int? consultationId,
       int ceremonyServiceId,
       int ceremonyServicePackageId,
       String ceremonyAddress,
@@ -230,7 +230,7 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
       consultationId: freezed == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       ceremonyServiceId: null == ceremonyServiceId
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
@@ -308,7 +308,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final int id;
   @override
-  final String? consultationId;
+  final int? consultationId;
   @override
   final int ceremonyServiceId;
   @override
@@ -409,7 +409,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
 abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   const factory _InvoiceCeremonyHistory(
           {required final int id,
-          final String? consultationId,
+          final int? consultationId,
           required final int ceremonyServiceId,
           required final int ceremonyServicePackageId,
           required final String ceremonyAddress,
@@ -430,7 +430,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   int get id;
   @override
-  String? get consultationId;
+  int? get consultationId;
   @override
   int get ceremonyServiceId;
   @override

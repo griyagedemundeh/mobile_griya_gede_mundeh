@@ -1,23 +1,25 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/chip_status.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
-class CermonyCard extends StatelessWidget {
+class CermonyCard extends HookConsumerWidget {
   const CermonyCard({
     super.key,
     required this.location,
     required this.ceremonyType,
     required this.ceremonyTitle,
     required this.date,
-    required this.time,
-    required this.countDown,
     required this.onTap,
     required this.status,
     this.isWithCover,
@@ -26,17 +28,67 @@ class CermonyCard extends StatelessWidget {
   final String location;
   final String ceremonyType;
   final String ceremonyTitle;
-  final String date;
-  final String time;
-  final String countDown;
+  final String date; // Expected format: "2024-12-24T02:00:00.000Z"
   final String status;
   final VoidCallback onTap;
   final bool? isWithCover;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+
+    // Hook for managing countdown state
+    final countdown = useState<String>('Calculating...');
+
+    var statusColor = AppColors.primary1;
+
+    switch (status.toLowerCase()) {
+      case 'pending':
+        statusColor = AppColors.primary1;
+        break;
+      case 'success':
+        statusColor = AppColors.green;
+        break;
+      case 'cancel':
+        statusColor = AppColors.red;
+        break;
+      default:
+        statusColor = AppColors.primary1;
+    }
+
+    // Timer setup
+    useEffect(() {
+      // Parse the date
+      DateTime targetDate = DateTime.parse(date);
+      Timer? timer;
+
+      void updateCountdown() {
+        final now = DateTime.now();
+        final difference = targetDate.difference(now);
+
+        if (difference.isNegative) {
+          countdown.value = 'Event has passed';
+          timer?.cancel();
+        } else {
+          final days = difference.inDays;
+          final hours = difference.inHours % 24;
+          final minutes = difference.inMinutes % 60;
+          final seconds = difference.inSeconds % 60;
+
+          countdown.value =
+              '$days hari $hours jam $minutes menit $seconds detik';
+        }
+      }
+
+      // Update countdown immediately and then every second
+      updateCountdown();
+      timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+        updateCountdown();
+      });
+
+      return () => timer?.cancel(); // Cleanup on dispose
+    }, [date]);
 
     return MaterialButton(
       onPressed: onTap,
@@ -62,7 +114,7 @@ class CermonyCard extends StatelessWidget {
                       AppImages.ceremonyWelcome,
                       fit: BoxFit.cover,
                       width: width,
-                      height: height * 0.275,
+                      height: height * 0.3,
                     ),
                   ),
                 ),
@@ -105,7 +157,7 @@ class CermonyCard extends StatelessWidget {
                     const SizedBox(width: AppDimens.paddingMedium),
                     ChipStatus(
                       label: status,
-                      color: AppColors.primary1,
+                      color: statusColor,
                     ),
                   ],
                 ),
@@ -141,14 +193,14 @@ class CermonyCard extends StatelessWidget {
                     ),
                     MetaCeremonyHistory(
                       icon: AppImages.icDate,
-                      data: date,
+                      data: formatDateOnly(date),
                     ),
                     const SizedBox(
                       height: AppDimens.paddingMicro,
                     ),
                     MetaCeremonyHistory(
                       icon: AppImages.icTime,
-                      data: time,
+                      data: formatTimeOnly(date),
                     ),
                   ],
                 ),
@@ -170,7 +222,7 @@ class CermonyCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      countDown,
+                      countdown.value,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),

@@ -4,11 +4,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
+import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/store/central_store.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/switch/labeled_switch_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProfileScreen extends HookConsumerWidget {
@@ -22,6 +26,11 @@ class ProfileScreen extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final isPasswordVisible = useState(false);
     final isChangePassword = useState(false);
+
+    final CentralStore centralStore =
+        CentralStore(authRepository: AuthRepository());
+
+    final Auth? user = centralStore.getUser();
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -62,8 +71,7 @@ class ProfileScreen extends HookConsumerWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            'https://static.wikia.nocookie.net/hellokitty/images/a/a1/Sanrio_Characters_Badtz-Maru_Image006.png/revision/latest?cb=20170401205819',
+                        imageUrl: user?.avatarUrl ?? AppImages.dummy,
                         fit: BoxFit.scaleDown,
                         height: double.infinity,
                         width: double.infinity,

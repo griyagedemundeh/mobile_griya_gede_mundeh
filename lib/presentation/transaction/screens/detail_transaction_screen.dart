@@ -19,6 +19,7 @@ import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/transaction/invoice/invoice.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/transaction/transaction_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/controller/transaction_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/payment_screen.dart';
@@ -149,13 +150,24 @@ class DetailTransactionScreen extends HookConsumerWidget {
                   const SizedBox(
                     width: AppDimens.paddingMedium,
                   ),
-                  SecondaryButton(
-                    label: locales?.consultation ?? '',
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    isMedium: true,
-                    isOutline: true,
+                  Visibility(
+                    visible:
+                        invoice?.invoiceCeremonyHistory.consultationId != null,
+                    child: SecondaryButton(
+                      label: locales?.consultation ?? '',
+                      onTap: () {
+                        PrimaryNavigation.pushFromRight(
+                          context,
+                          page: ConsultationCeremonyScreen(
+                            id: invoice
+                                    ?.invoiceCeremonyHistory.consultationId ??
+                                0,
+                          ),
+                        );
+                      },
+                      isMedium: true,
+                      isOutline: true,
+                    ),
                   ),
                   const SizedBox(width: AppDimens.paddingMedium),
                   PrimaryButton(
@@ -163,7 +175,9 @@ class DetailTransactionScreen extends HookConsumerWidget {
                     onTap: () async {
                       PrimaryNavigation.pushFromRight(
                         context,
-                        page: const DetailCeremonyHistoryScreen(),
+                        page: DetailCeremonyHistoryScreen(
+                          id: invoice?.ceremonyHistoryId,
+                        ),
                       );
                     },
                     isMedium: true,

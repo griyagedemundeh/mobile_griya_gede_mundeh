@@ -37,6 +37,7 @@ abstract class AppImages {
   static const String icFaq = "assets/ic_faq.svg";
   static const String icFile = "assets/ic_file.svg";
   static const String icInfo = "assets/ic_info.svg";
+  static const String icLogout = "assets/ic_logout.svg";
   static const String icEdit = "assets/ic_edit.svg";
   static const String ceremonyWelcome = "assets/ceremony_welcome.png";
 }

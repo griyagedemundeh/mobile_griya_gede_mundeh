@@ -10,7 +10,7 @@ _$InvoiceCeremonyHistoryImpl _$$InvoiceCeremonyHistoryImplFromJson(
         Map<String, dynamic> json) =>
     _$InvoiceCeremonyHistoryImpl(
       id: (json['id'] as num).toInt(),
-      consultationId: json['consultationId'] as String?,
+      consultationId: (json['consultationId'] as num?)?.toInt(),
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
       ceremonyServicePackageId:
           (json['ceremonyServicePackageId'] as num).toInt(),

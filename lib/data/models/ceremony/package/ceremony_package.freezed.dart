@@ -22,7 +22,7 @@ CeremonyPackage _$CeremonyPackageFromJson(Map<String, dynamic> json) {
 mixin _$CeremonyPackage {
   int get id => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $CeremonyPackageCopyWith<$Res> {
   $Res call(
       {int id,
       int ceremonyServiceId,
-      String name,
+      String? name,
       String description,
       int price,
       bool isActive,
@@ -67,7 +67,7 @@ class _$CeremonyPackageCopyWithImpl<$Res, $Val extends CeremonyPackage>
   $Res call({
     Object? id = null,
     Object? ceremonyServiceId = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = null,
     Object? price = null,
     Object? isActive = null,
@@ -83,10 +83,10 @@ class _$CeremonyPackageCopyWithImpl<$Res, $Val extends CeremonyPackage>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -122,7 +122,7 @@ abstract class _$$CeremonyPackageImplCopyWith<$Res>
   $Res call(
       {int id,
       int ceremonyServiceId,
-      String name,
+      String? name,
       String description,
       int price,
       bool isActive,
@@ -143,7 +143,7 @@ class __$$CeremonyPackageImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? ceremonyServiceId = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = null,
     Object? price = null,
     Object? isActive = null,
@@ -159,10 +159,10 @@ class __$$CeremonyPackageImplCopyWithImpl<$Res>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -193,7 +193,7 @@ class _$CeremonyPackageImpl implements _CeremonyPackage {
   const _$CeremonyPackageImpl(
       {required this.id,
       required this.ceremonyServiceId,
-      required this.name,
+      this.name,
       required this.description,
       required this.price,
       required this.isActive,
@@ -208,7 +208,7 @@ class _$CeremonyPackageImpl implements _CeremonyPackage {
   @override
   final int ceremonyServiceId;
   @override
-  final String name;
+  final String? name;
   @override
   final String description;
   @override
@@ -269,7 +269,7 @@ abstract class _CeremonyPackage implements CeremonyPackage {
   const factory _CeremonyPackage(
       {required final int id,
       required final int ceremonyServiceId,
-      required final String name,
+      final String? name,
       required final String description,
       required final int price,
       required final bool isActive,
@@ -284,7 +284,7 @@ abstract class _CeremonyPackage implements CeremonyPackage {
   @override
   int get ceremonyServiceId;
   @override
-  String get name;
+  String? get name;
   @override
   String get description;
   @override

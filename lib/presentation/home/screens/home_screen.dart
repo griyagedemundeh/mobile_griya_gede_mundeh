@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fquery/fquery.dart';
@@ -16,20 +17,22 @@ import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/documentation/response/ceremony_documentation.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_history.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/response/ceremony.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/article/article_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/ceremony_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/history/ceremony_history_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/controller/article_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/other_ceremony_screen.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/ceremony_histories_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/screens/detail_ceremony_history_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/controller/home_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/article_item.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/widget/ceremony_service_item.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/home/widget/welcome_message.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -42,11 +45,14 @@ class HomeScreen extends HookConsumerWidget {
     final double height = MediaQuery.of(context).size.height;
     final double paddingTop = MediaQuery.of(context).padding.top;
     final scrollController = useScrollController();
+    final carouselController = useState(CarouselController());
     final isScrolled = useState(false);
+    final caremonyOnProgressIndex = useState(0);
 
     final HomeController homeController = HomeController(
       authRepository: AuthRepository(),
       ceremonyRepository: CeremonyRepository(),
+      ceremonyHistoryRepository: CeremonyHistoryRepository(),
     );
 
     final ArticleController articleController =
@@ -76,12 +82,17 @@ class HomeScreen extends HookConsumerWidget {
       return response;
     }
 
+    Future<ApiBaseResponse<List<CeremonyHistory?>?>?>
+        getListCeremonyHistory() async {
+      final response = await homeController.getCeremonyOnProgress();
+
+      return response;
+    }
+
     final ceremonies =
         useQuery<ApiBaseResponse<List<Ceremony?>?>?, ApiBaseResponse<dynamic>>(
       ['ceremonies'],
       getCeremonies,
-      // cacheDuration: const Duration(hours: 1),
-      staleDuration: const Duration(hours: 1),
     );
 
     final articles =
@@ -90,9 +101,44 @@ class HomeScreen extends HookConsumerWidget {
       getArticles,
     );
 
+    final ceremonyOnProgressResponse = useQuery<
+        ApiBaseResponse<List<CeremonyHistory?>?>?, ApiBaseResponse<dynamic>>(
+      ['ceremony_onprogress'],
+      getListCeremonyHistory,
+    );
+
     final dataCeremonies = ceremonies.data?.data as List<Ceremony?>?;
 
     final dataArticles = articles.data?.data as List<Article?>?;
+
+    final List<CeremonyHistory?>? ceremonyOnProgress =
+        ceremonyOnProgressResponse.data?.data as List<CeremonyHistory?>?;
+
+    List<Widget> cardCeremonies(
+        {required List<CeremonyHistory?>? ceremonyOnProgress}) {
+      return List.generate(
+        ceremonyOnProgress?.length ?? 0,
+        (index) {
+          return CermonyCard(
+            isWithCover: true,
+            ceremonyTitle: ceremonyOnProgress?[index]?.title ?? '-',
+            ceremonyType: ceremonyOnProgress?[index]?.packageName ?? '-',
+            date: ceremonyOnProgress?[index]?.ceremonyDate.toIso8601String() ??
+                DateTime.now().toIso8601String(),
+            location: ceremonyOnProgress?[index]?.ceremonyAddress ?? '-',
+            status: ceremonyOnProgress?[index]?.status ?? '-',
+            onTap: () {
+              PrimaryNavigation.pushFromRight(
+                context,
+                page: DetailCeremonyHistoryScreen(
+                  id: ceremonyOnProgress?[index]?.id ?? 0,
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
 
     useEffect(() {
       void listener() {
@@ -129,41 +175,10 @@ class HomeScreen extends HookConsumerWidget {
       }
 
       scrollController.addListener(listener);
-      return () => scrollController.removeListener(listener);
+      return () {
+        scrollController.removeListener(listener);
+      };
     }, [scrollController, ceremonies]);
-
-    final List<CeremonyHistory> ceremonyHistories = [
-      CeremonyHistory(
-        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
-        ceremonyType: "Dewa Yadnya",
-        countDown: "10 Jam 39 Menit 20 Detik",
-        date: "Kamis, 24 Juli 2024",
-        location:
-            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
-        status: "Persiapan",
-        time: "18:00 WITA",
-      ),
-      CeremonyHistory(
-        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
-        ceremonyType: "Dewa Yadnya",
-        countDown: "10 Jam 39 Menit 20 Detik",
-        date: "Kamis, 24 Juli 2024",
-        location:
-            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
-        status: "Persiapan",
-        time: "18:00 WITA",
-      ),
-      CeremonyHistory(
-        ceremonyTitle: "Upacara Mebayuh Bapak Andik Suryono",
-        ceremonyType: "Dewa Yadnya",
-        countDown: "10 Jam 39 Menit 20 Detik",
-        date: "Kamis, 24 Juli 2024",
-        location:
-            "Jl. Kecubung, Semarapura Kelod, Kec. Klungkung, Kabupaten Klungkung, Bali 80716",
-        status: "Persiapan",
-        time: "18:00 WITA",
-      ),
-    ];
 
     return MeshTopBackground(
       child: Padding(
@@ -175,40 +190,192 @@ class HomeScreen extends HookConsumerWidget {
               name: user?.fullName ?? '',
             ),
             Expanded(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Container(
-                  color: isScrolled.value ? Colors.white : null,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 16.0,
-                        ),
-                        child: Column(
-                          children: [
-                            // const WelcomeMessage(),
-                            CermonyCard(
-                              isWithCover: true,
-                              ceremonyTitle: ceremonyHistories[0].ceremonyTitle,
-                              ceremonyType: ceremonyHistories[0].ceremonyType,
-                              countDown: ceremonyHistories[0].countDown,
-                              date: ceremonyHistories[0].date,
-                              location: ceremonyHistories[0].location,
-                              status: ceremonyHistories[0].status,
-                              time: ceremonyHistories[0].time,
-                              onTap: () {
-                                PrimaryNavigation.pushFromRight(
-                                  context,
-                                  page: const DetailCeremonyHistoryScreen(),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: AppDimens.marginLarge),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  ceremonyOnProgressResponse.refetch();
+                  ceremonies.refetch();
+                  articles.refetch();
+                },
+                color: AppColors.primary1,
+                backgroundColor: Colors.white,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Container(
+                    color: isScrolled.value ? Colors.white : null,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 16.0,
+                          ),
+                          child: Column(
+                            children: [
+                              Builder(builder: (context) {
+                                if (ceremonyOnProgress?.isEmpty == true) {
+                                  const WelcomeMessage();
+                                }
 
-                            Builder(builder: (context) {
-                              if (ceremonies.isLoading) {
+                                return Column(
+                                  children: [
+                                    CarouselSlider(
+                                      carouselController:
+                                          carouselController.value,
+                                      options: CarouselOptions(
+                                        initialPage: 0,
+                                        disableCenter: true,
+                                        enableInfiniteScroll: false,
+                                        viewportFraction: 1,
+                                        aspectRatio: 6 / 4,
+                                        onPageChanged: (index, reason) {
+                                          caremonyOnProgressIndex.value = index;
+                                        },
+                                      ),
+                                      items: cardCeremonies(
+                                        ceremonyOnProgress: ceremonyOnProgress,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: AppDimens.paddingMedium,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: List.generate(
+                                        ceremonyOnProgress?.length ?? 0,
+                                        (index) => GestureDetector(
+                                          onTap: () {
+                                            carouselController.value
+                                                .animateToPage(index);
+                                            caremonyOnProgressIndex.value =
+                                                index;
+                                          },
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 100),
+                                            curve: Curves.easeInToLinear,
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                            ),
+                                            height: 5,
+                                            width:
+                                                caremonyOnProgressIndex.value ==
+                                                        index
+                                                    ? 25
+                                                    : 8,
+                                            decoration: BoxDecoration(
+                                              color: caremonyOnProgressIndex
+                                                          .value ==
+                                                      index
+                                                  ? AppColors.dark1
+                                                  : AppColors.gray1,
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                            ),
+                                          ),
+                                        ),
+                                      ).toList(),
+                                    )
+                                  ],
+                                );
+                              }),
+                              const SizedBox(height: AppDimens.marginLarge),
+                              Builder(builder: (context) {
+                                if (ceremonies.isLoading) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.primary1,
+                                    ),
+                                  );
+                                }
+
+                                if (ceremonies.isError) {
+                                  return const DataEmpty();
+                                }
+
+                                if (ceremonies.isSuccess &&
+                                    dataCeremonies?.isNotEmpty == true) {
+                                  return GridView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.zero,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 4,
+                                      childAspectRatio: 3 / (3.5),
+                                      mainAxisSpacing: AppDimens.paddingMedium,
+                                      crossAxisSpacing: AppDimens.paddingMedium,
+                                    ),
+                                    itemCount: dataCeremonies?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return CeremonyServiceItem(
+                                        onTap: () {
+                                          if (dataCeremonies?[index]
+                                                  ?.title
+                                                  .toLowerCase() ==
+                                              'lainnya') {
+                                            PrimaryNavigation.pushFromRight(
+                                              context,
+                                              page: const OtherCeremonyScreen(),
+                                            );
+                                            return;
+                                          }
+
+                                          PrimaryNavigation.pushFromRight(
+                                            context,
+                                            page: DetailCeremonyScreen(
+                                              id: dataCeremonies?[index]?.id ??
+                                                  0,
+                                            ),
+                                          );
+                                        },
+                                        title:
+                                            dataCeremonies?[index]?.title ?? '',
+                                        iconUrl: ((dataCeremonies?[index]
+                                                        ?.ceremonyDocumentation
+                                                        ?.length ??
+                                                    0) >
+                                                0)
+                                            ? (dataCeremonies?[index]
+                                                    ?.ceremonyDocumentation
+                                                    ?.first
+                                                    ?.photo ??
+                                                '')
+                                            : AppImages.dummyCeremony,
+                                      );
+                                    },
+                                  );
+                                }
+
+                                return const DataEmpty();
+                              }),
+                            ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppDimens.marginLarge,
+                          ),
+                          child: Divider(
+                            color: AppColors.lightgray,
+                            height: AppDimens.marginMedium,
+                            thickness: AppDimens.marginMedium,
+                          ),
+                        ),
+                        ButtonWithTitle(
+                          onTap: () {
+                            PrimaryNavigation.pushFromRight(
+                              context,
+                              page: const ArticlesScreen(),
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Builder(
+                            builder: (context) {
+                              if (articles.isLoading) {
                                 return const Center(
                                   child: CircularProgressIndicator(
                                     color: AppColors.primary1,
@@ -216,157 +383,67 @@ class HomeScreen extends HookConsumerWidget {
                                 );
                               }
 
-                              if (ceremonies.isError) {
+                              if (articles.isError) {
                                 return const DataEmpty();
                               }
 
-                              if (ceremonies.isSuccess &&
-                                  dataCeremonies?.isNotEmpty == true) {
-                                return GridView.builder(
+                              if (articles.isSuccess &&
+                                  dataArticles?.isNotEmpty == true) {
+                                return ListView.separated(
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(
+                                      height: AppDimens.paddingMedium,
+                                    );
+                                  },
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.zero,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    childAspectRatio: 3 / (3.5),
-                                    mainAxisSpacing: AppDimens.paddingMedium,
-                                    crossAxisSpacing: AppDimens.paddingMedium,
-                                  ),
-                                  itemCount: dataCeremonies?.length ?? 0,
+                                  itemCount: dataArticles?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    return CeremonyServiceItem(
+                                    return ArticleItem(
+                                      title: dataArticles?[index]?.title ?? '',
+                                      thumbnailUrl:
+                                          dataArticles?[index]?.thumbnail ?? '',
+                                      publishedAt: formatDate(
+                                          dataArticles?[index]?.createdAt),
+                                      author: dataArticles?[index]
+                                              ?.author
+                                              ?.user
+                                              .fullName ??
+                                          '',
                                       onTap: () {
-                                        if (dataCeremonies?[index]
+                                        if (dataArticles?[index]
                                                 ?.title
                                                 .toLowerCase() ==
                                             'lainnya') {
                                           PrimaryNavigation.pushFromRight(
-                                            context,
-                                            page: const OtherCeremonyScreen(),
-                                          );
+                                              context,
+                                              page: const ArticlesScreen());
                                           return;
                                         }
 
                                         PrimaryNavigation.pushFromRight(
                                           context,
-                                          page: DetailCeremonyScreen(
-                                            id: dataCeremonies?[index]?.id ?? 0,
+                                          page: DetailArticleScreen(
+                                            id: dataArticles?[index]?.id ?? 0,
                                           ),
                                         );
                                       },
-                                      title:
-                                          dataCeremonies?[index]?.title ?? '',
-                                      iconUrl: ((dataCeremonies?[index]
-                                                      ?.ceremonyDocumentation
-                                                      ?.length ??
-                                                  0) >
-                                              0)
-                                          ? (dataCeremonies?[index]
-                                                  ?.ceremonyDocumentation
-                                                  ?.first
-                                                  ?.photo ??
-                                              '')
-                                          : AppImages.dummyCeremony,
                                     );
                                   },
                                 );
                               }
-
-                              return const DataEmpty();
-                            }),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: AppDimens.marginLarge,
-                        ),
-                        child: Divider(
-                          color: AppColors.lightgray,
-                          height: AppDimens.marginMedium,
-                          thickness: AppDimens.marginMedium,
-                        ),
-                      ),
-                      ButtonWithTitle(
-                        onTap: () {
-                          PrimaryNavigation.pushFromRight(
-                            context,
-                            page: const ArticlesScreen(),
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Builder(
-                          builder: (context) {
-                            if (articles.isLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primary1,
-                                ),
+                              return SizedBox(
+                                height: height * 0.5,
+                                child: const DataEmpty(),
                               );
-                            }
-
-                            if (articles.isError) {
-                              return const DataEmpty();
-                            }
-
-                            if (articles.isSuccess &&
-                                dataArticles?.isNotEmpty == true) {
-                              return ListView.separated(
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(
-                                    height: AppDimens.paddingMedium,
-                                  );
-                                },
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: dataArticles?.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  return ArticleItem(
-                                    title: dataArticles?[index]?.title ?? '',
-                                    thumbnailUrl:
-                                        dataArticles?[index]?.thumbnail ?? '',
-                                    publishedAt: formatDate(
-                                        dataArticles?[index]?.createdAt),
-                                    author: dataArticles?[index]
-                                            ?.author
-                                            ?.user
-                                            .fullName ??
-                                        '',
-                                    onTap: () {
-                                      if (dataArticles?[index]
-                                              ?.title
-                                              .toLowerCase() ==
-                                          'lainnya') {
-                                        PrimaryNavigation.pushFromRight(context,
-                                            page: const ArticlesScreen());
-                                        return;
-                                      }
-
-                                      PrimaryNavigation.pushFromRight(
-                                        context,
-                                        page: DetailArticleScreen(
-                                          id: dataArticles?[index]?.id ?? 0,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                            return SizedBox(
-                              height: height * 0.5,
-                              child: const DataEmpty(),
-                            );
-                          },
+                            },
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: height * 0.04,
-                      ),
-                    ],
+                        SizedBox(
+                          height: height * 0.04,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

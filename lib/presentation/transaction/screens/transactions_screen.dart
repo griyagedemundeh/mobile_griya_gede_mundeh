@@ -42,8 +42,10 @@ class TransactionsScreen extends HookConsumerWidget {
       return response;
     }
 
-    final invoiceResponse = useQuery<ApiBaseResponse<List<InvoiceHistory?>?>?,
-        ApiBaseResponse<dynamic>>(
+    final invoiceResponse = useQuery<
+        ApiBaseResponse<List<InvoiceHistory?>?>?,
+        // ApiBaseResponse<dynamic>
+        dynamic>(
       ['invoices'],
       getListInvoice,
     );
@@ -61,23 +63,23 @@ class TransactionsScreen extends HookConsumerWidget {
               placeHolder: locales?.searchTransaction,
             ),
           ),
-          Builder(
-            builder: (context) {
-              if (invoiceResponse.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary1,
-                  ),
-                );
-              }
+          Expanded(
+            child: Builder(
+              builder: (context) {
+                if (invoiceResponse.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primary1,
+                    ),
+                  );
+                }
 
-              if (invoiceResponse.isError) {
-                return const DataEmpty();
-              }
+                if (invoiceResponse.isError) {
+                  return const DataEmpty();
+                }
 
-              if (!invoiceResponse.isLoading && (invoices?.length ?? 0) > 0) {
-                return Expanded(
-                  child: RefreshIndicator(
+                if (!invoiceResponse.isLoading && (invoices?.length ?? 0) > 0) {
+                  return RefreshIndicator(
                     onRefresh: () async {
                       invoiceResponse.refetch();
                     },
@@ -115,18 +117,18 @@ class TransactionsScreen extends HookConsumerWidget {
                           thumbnailUrl: invoiceHistory
                                   ?.invoiceCeremonyHistory
                                   .ceremonyService
-                                  .ceremonyDocumentation[0]
+                                  ?.ceremonyDocumentation[0]
                                   .photo ??
                               '',
                         );
                       },
                     ),
-                  ),
-                );
-              }
+                  );
+                }
 
-              return const DataEmpty();
-            },
+                return const DataEmpty();
+              },
+            ),
           ),
         ],
       ),

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
@@ -8,20 +11,103 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart'
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/chip_status.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_history.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/history/ceremony_history_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/controller/ceremony_history_controller.dart';
+import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
 class DetailCeremonyHistoryScreen extends HookConsumerWidget {
-  const DetailCeremonyHistoryScreen({super.key});
+  const DetailCeremonyHistoryScreen({super.key, this.id});
+
+  final int? id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final textController = useTextEditingController();
     final height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
+
+    final CeremonyHistoryController ceremonyHistoryController =
+        CeremonyHistoryController(
+      ceremonyHistoryRepository: CeremonyHistoryRepository(),
+    );
+
+    Future<ApiBaseResponse<CeremonyHistory?>?> getCeremonyHistory() async {
+      final response = await ceremonyHistoryController.getDetailCeremonyHistory(
+        id: id ?? 0,
+      );
+
+      return response;
+    }
+
+    final ceremonyHistoryResponse =
+        useQuery<ApiBaseResponse<CeremonyHistory?>?, ApiBaseResponse<dynamic>>(
+      ['ceremony_history_$id'],
+      getCeremonyHistory,
+    );
+
+    final CeremonyHistory? ceremonyHistory =
+        ceremonyHistoryResponse.data?.data as CeremonyHistory?;
+
+    // Hook for managing countdown state
+    final countdown = useState<String>('Calculating...');
+
+    var statusColor = AppColors.primary1;
+
+    switch (ceremonyHistory?.status.toLowerCase()) {
+      case 'pending':
+        statusColor = AppColors.primary1;
+        break;
+      case 'success':
+        statusColor = AppColors.green;
+        break;
+      case 'cancel':
+        statusColor = AppColors.red;
+        break;
+      default:
+        statusColor = AppColors.primary1;
+    }
+
+    // Timer setup
+    useEffect(() {
+      // Parse the date
+      DateTime targetDate = DateTime.parse(
+          ceremonyHistory?.ceremonyDate.toIso8601String() ??
+              DateTime.now().toIso8601String());
+      Timer? timer;
+
+      void updateCountdown() {
+        final now = DateTime.now();
+        final difference = targetDate.difference(now);
+
+        if (difference.isNegative) {
+          countdown.value = 'Event has passed';
+          timer?.cancel();
+        } else {
+          final days = difference.inDays;
+          final hours = difference.inHours % 24;
+          final minutes = difference.inMinutes % 60;
+          final seconds = difference.inSeconds % 60;
+
+          countdown.value =
+              '$days hari $hours jam $minutes menit $seconds detik';
+        }
+      }
+
+      // Update countdown immediately and then every second
+      updateCountdown();
+      timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+        updateCountdown();
+      });
+
+      return () => timer?.cancel(); // Cleanup on dispose
+    }, [ceremonyHistory?.ceremonyDate]);
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -65,63 +151,71 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
             const SizedBox(
               width: AppDimens.paddingMedium,
             ),
-            SecondaryButton(
-              label: locales?.detailCeremony ?? '',
-              onTap: () {
-                PrimaryNavigation.pushFromRight(
-                  context,
-                  page: const DetailCeremonyScreen(
-                    id: 0,
-                  ),
-                );
-              },
-              isMedium: true,
-              isOutline: true,
+            Visibility(
+              visible: ceremonyHistory?.ceremonyServiceId != null,
+              child: SecondaryButton(
+                label: locales?.detailCeremony ?? '',
+                onTap: () {
+                  PrimaryNavigation.pushFromRight(
+                    context,
+                    page: DetailCeremonyScreen(
+                      id: ceremonyHistory?.ceremonyServiceId,
+                    ),
+                  );
+                },
+                isMedium: true,
+                isOutline: true,
+              ),
             ),
             const SizedBox(
               width: AppDimens.paddingMedium,
             ),
-            PrimaryButton(
-              label: locales?.consultation ?? '',
-              onTap: () {
-                PrimaryNavigation.pushFromRight(
-                  context,
-                  page: const ConsultationCeremonyScreen(),
-                );
-              },
-              isMedium: true,
+            Visibility(
+              visible: ceremonyHistory?.consultationId != null,
+              child: PrimaryButton(
+                label: locales?.consultation ?? '',
+                onTap: () {
+                  PrimaryNavigation.pushFromRight(
+                    context,
+                    page: ConsultationCeremonyScreen(
+                      id: ceremonyHistory?.consultationId,
+                    ),
+                  );
+                },
+                isMedium: true,
+              ),
             ),
           ],
         ),
       ),
       body: Column(
         children: [
-          const MeshTopBarWithChild(
-            title: "Mebayuh",
+          MeshTopBarWithChild(
+            title: ceremonyHistory?.title ?? '-',
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ChipStatus(
-                  label: "Persiapan",
-                  color: AppColors.primary1,
+                  label: ceremonyHistory?.status ?? '-',
+                  color: statusColor,
                   isBig: true,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "24 Juli 2024 - 18:00 WITA",
-                      style: TextStyle(
+                      "${formatDateOnly(ceremonyHistory?.ceremonyDate.toIso8601String() ?? DateTime.now().toIso8601String())} - ${formatTimeOnly(ceremonyHistory?.ceremonyDate.toIso8601String() ?? DateTime.now().toIso8601String())}",
+                      style: const TextStyle(
                         fontSize: AppFontSizes.bodySmall,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: AppDimens.paddingMicro,
                     ),
                     Text(
-                      "10 Jam 39 Menit 20 Detik",
-                      style: TextStyle(
+                      countdown.value,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -131,62 +225,81 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(
-                AppDimens.marginMedium,
-              ),
-              child: Column(
-                children: [
-                  TextInput(
-                    controller: textController,
-                    label: "Nama Upacara",
-                    isEnabled: false,
+            child: Builder(builder: (context) {
+              if (ceremonyHistoryResponse.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary1,
                   ),
-                  const SizedBox(
-                    height: AppDimens.paddingMedium,
+                );
+              }
+
+              if (ceremonyHistoryResponse.isError) {
+                return const DataEmpty();
+              }
+
+              if (!ceremonyHistoryResponse.isLoading &&
+                  ceremonyHistory != null) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(
+                    AppDimens.marginMedium,
                   ),
-                  TextInput(
-                    controller: textController,
-                    label: "Lokasi",
-                    isEnabled: false,
+                  child: Column(
+                    children: [
+                      TextInput(
+                        controller:
+                            TextEditingController(text: ceremonyHistory.title),
+                        label: "Nama Upacara",
+                        isEnabled: false,
+                      ),
+                      const SizedBox(
+                        height: AppDimens.paddingMedium,
+                      ),
+                      TextInput(
+                        controller: TextEditingController(
+                            text: ceremonyHistory.ceremonyAddress),
+                        label: "Lokasi",
+                        maxLines: 5,
+                        isEnabled: false,
+                      ),
+                      const SizedBox(
+                        height: AppDimens.paddingMedium,
+                      ),
+                      TextInput(
+                        controller: TextEditingController(
+                            text: ceremonyHistory.ceremonyAdmin?.user.fullName),
+                        label: "Pengelola",
+                        isEnabled: false,
+                      ),
+                      const SizedBox(
+                        height: AppDimens.paddingMedium,
+                      ),
+                      TextInput(
+                        controller: TextEditingController(
+                          text: ceremonyHistory.note,
+                        ),
+                        label: "Catatan",
+                        isEnabled: false,
+                        maxLines: 5,
+                      ),
+                      const SizedBox(
+                        height: AppDimens.paddingMedium,
+                      ),
+                      TextInput(
+                        controller: TextEditingController(
+                          text: ceremonyHistory.description,
+                        ),
+                        label: "Deskripsi Pesanan",
+                        isEnabled: false,
+                        maxLines: 15,
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: AppDimens.paddingMedium,
-                  ),
-                  TextInput(
-                    controller: textController,
-                    label: "Pengelola",
-                    isEnabled: false,
-                  ),
-                  const SizedBox(
-                    height: AppDimens.paddingMedium,
-                  ),
-                  TextInput(
-                    controller: textController,
-                    label: "Pengelola",
-                    isEnabled: false,
-                  ),
-                  const SizedBox(
-                    height: AppDimens.paddingMedium,
-                  ),
-                  TextInput(
-                    controller: textController,
-                    label: "Catatan",
-                    isEnabled: false,
-                    maxLines: 5,
-                  ),
-                  const SizedBox(
-                    height: AppDimens.paddingMedium,
-                  ),
-                  TextInput(
-                    controller: textController,
-                    label: "Deskripsi Pesanan",
-                    isEnabled: false,
-                    maxLines: 15,
-                  ),
-                ],
-              ),
-            ),
+                );
+              }
+
+              return const DataEmpty();
+            }),
           ),
         ],
       ),

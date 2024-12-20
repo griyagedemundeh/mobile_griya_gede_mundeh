@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/font_size.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
+import 'package:mobile_griya_gede_mundeh/core/store/central_store.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_top_bar_with_child.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/setting/controller/setting_controller.dart';
@@ -74,7 +77,7 @@ class SettingScreen extends StatelessWidget {
                       const DividerSettingButton(),
                       SettingButton(
                         label: locales?.logout ?? '',
-                        icon: AppImages.icInfo,
+                        icon: AppImages.icLogout,
                         onTap: () {
                           logout();
                         },
@@ -117,16 +120,21 @@ class SettingScreen extends StatelessWidget {
   }
 }
 
-class TopBarAfterLogin extends StatelessWidget {
+class TopBarAfterLogin extends HookConsumerWidget {
   const TopBarAfterLogin({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double paddingTop = MediaQuery.of(context).padding.top;
+
+    final CentralStore centralStore =
+        CentralStore(authRepository: AuthRepository());
+
+    final Auth? user = centralStore.getUser();
 
     return Stack(
       children: [
@@ -154,8 +162,7 @@ class TopBarAfterLogin extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            'https://static.wikia.nocookie.net/hellokitty/images/a/a1/Sanrio_Characters_Badtz-Maru_Image006.png/revision/latest?cb=20170401205819',
+                        imageUrl: user?.avatarUrl ?? AppImages.dummy,
                         fit: BoxFit.scaleDown,
                         height: double.infinity,
                         width: double.infinity,
@@ -172,18 +179,18 @@ class TopBarAfterLogin extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: AppDimens.marginMedium),
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Bimo Adnyanan",
-                        style: TextStyle(
+                        user?.fullName ?? '-',
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: AppFontSizes.bodyLarge,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Sesuaikan profilmu disini!",
                         style: TextStyle(
                           color: AppColors.gray2,

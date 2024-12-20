@@ -6,14 +6,8 @@ part 'ceremony_package.g.dart';
 @freezed
 class CeremonyPackage with _$CeremonyPackage {
   const factory CeremonyPackage({
+    required String name,
     required int id,
-    required int ceremonyServiceId,
-    String? name,
-    required String description,
-    required int price,
-    required bool isActive,
-    required DateTime createdAt,
-    required DateTime updatedAt,
   }) = _CeremonyPackage;
 
   factory CeremonyPackage.fromJson(Map<String, dynamic> json) =>
