@@ -55,8 +55,7 @@ class DetailTransactionScreen extends HookConsumerWidget {
       return response;
     }
 
-    final invoiceResponse =
-        useQuery<ApiBaseResponse<Invoice?>?, ApiBaseResponse<dynamic>>(
+    final invoiceResponse = useQuery<ApiBaseResponse<Invoice?>?, dynamic>(
       ['invoice_$invoiceId'],
       getDetailInvoice,
     );

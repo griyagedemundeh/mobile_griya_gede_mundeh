@@ -24,7 +24,7 @@ mixin _$InvoiceCeremonyHistory {
   int get id => throw _privateConstructorUsedError;
   int? get consultationId => throw _privateConstructorUsedError;
   int get ceremonyServiceId => throw _privateConstructorUsedError;
-  int get ceremonyServicePackageId => throw _privateConstructorUsedError;
+  int? get ceremonyServicePackageId => throw _privateConstructorUsedError;
   String get ceremonyAddress => throw _privateConstructorUsedError;
   String? get ceremonyAddressNote => throw _privateConstructorUsedError;
   DateTime get ceremonyDate => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $InvoiceCeremonyHistoryCopyWith<$Res> {
       {int id,
       int? consultationId,
       int ceremonyServiceId,
-      int ceremonyServicePackageId,
+      int? ceremonyServicePackageId,
       String ceremonyAddress,
       String? ceremonyAddressNote,
       DateTime ceremonyDate,
@@ -84,7 +84,7 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
     Object? id = null,
     Object? consultationId = freezed,
     Object? ceremonyServiceId = null,
-    Object? ceremonyServicePackageId = null,
+    Object? ceremonyServicePackageId = freezed,
     Object? ceremonyAddress = null,
     Object? ceremonyAddressNote = freezed,
     Object? ceremonyDate = null,
@@ -109,10 +109,10 @@ class _$InvoiceCeremonyHistoryCopyWithImpl<$Res,
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServicePackageId: null == ceremonyServicePackageId
+      ceremonyServicePackageId: freezed == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       ceremonyAddress: null == ceremonyAddress
           ? _value.ceremonyAddress
           : ceremonyAddress // ignore: cast_nullable_to_non_nullable
@@ -178,7 +178,7 @@ abstract class _$$InvoiceCeremonyHistoryImplCopyWith<$Res>
       {int id,
       int? consultationId,
       int ceremonyServiceId,
-      int ceremonyServicePackageId,
+      int? ceremonyServicePackageId,
       String ceremonyAddress,
       String? ceremonyAddressNote,
       DateTime ceremonyDate,
@@ -210,7 +210,7 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
     Object? id = null,
     Object? consultationId = freezed,
     Object? ceremonyServiceId = null,
-    Object? ceremonyServicePackageId = null,
+    Object? ceremonyServicePackageId = freezed,
     Object? ceremonyAddress = null,
     Object? ceremonyAddressNote = freezed,
     Object? ceremonyDate = null,
@@ -235,10 +235,10 @@ class __$$InvoiceCeremonyHistoryImplCopyWithImpl<$Res>
           ? _value.ceremonyServiceId
           : ceremonyServiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      ceremonyServicePackageId: null == ceremonyServicePackageId
+      ceremonyServicePackageId: freezed == ceremonyServicePackageId
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       ceremonyAddress: null == ceremonyAddress
           ? _value.ceremonyAddress
           : ceremonyAddress // ignore: cast_nullable_to_non_nullable
@@ -290,7 +290,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
       {required this.id,
       this.consultationId,
       required this.ceremonyServiceId,
-      required this.ceremonyServicePackageId,
+      this.ceremonyServicePackageId,
       required this.ceremonyAddress,
       this.ceremonyAddressNote,
       required this.ceremonyDate,
@@ -312,7 +312,7 @@ class _$InvoiceCeremonyHistoryImpl implements _InvoiceCeremonyHistory {
   @override
   final int ceremonyServiceId;
   @override
-  final int ceremonyServicePackageId;
+  final int? ceremonyServicePackageId;
   @override
   final String ceremonyAddress;
   @override
@@ -411,7 +411,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
           {required final int id,
           final int? consultationId,
           required final int ceremonyServiceId,
-          required final int ceremonyServicePackageId,
+          final int? ceremonyServicePackageId,
           required final String ceremonyAddress,
           final String? ceremonyAddressNote,
           required final DateTime ceremonyDate,
@@ -434,7 +434,7 @@ abstract class _InvoiceCeremonyHistory implements InvoiceCeremonyHistory {
   @override
   int get ceremonyServiceId;
   @override
-  int get ceremonyServicePackageId;
+  int? get ceremonyServicePackageId;
   @override
   String get ceremonyAddress;
   @override

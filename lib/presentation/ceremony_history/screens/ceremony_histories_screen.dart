@@ -98,7 +98,10 @@ class CeremonyHistoriesScreen extends HookConsumerWidget {
                         final ceremonyHistory = ceremonyHistories?[index];
                         return CermonyCard(
                           ceremonyTitle: ceremonyHistory?.title ?? '-',
-                          ceremonyType: ceremonyHistory?.packageName ?? '-',
+                          ceremonyType: ceremonyHistory?.packageName ??
+                              ceremonyHistory
+                                  ?.ceremonyService.ceremonyCategory.name ??
+                              '-',
                           date:
                               ceremonyHistory?.ceremonyDate.toIso8601String() ??
                                   '',

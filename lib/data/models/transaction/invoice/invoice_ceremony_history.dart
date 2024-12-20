@@ -10,7 +10,7 @@ class InvoiceCeremonyHistory with _$InvoiceCeremonyHistory {
     required int id,
     int? consultationId,
     required int ceremonyServiceId,
-    required int ceremonyServicePackageId,
+    int? ceremonyServicePackageId,
     required String ceremonyAddress,
     String? ceremonyAddressNote,
     required DateTime ceremonyDate,

@@ -13,7 +13,7 @@ _$InvoiceCeremonyHistoryImpl _$$InvoiceCeremonyHistoryImplFromJson(
       consultationId: (json['consultationId'] as num?)?.toInt(),
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
       ceremonyServicePackageId:
-          (json['ceremonyServicePackageId'] as num).toInt(),
+          (json['ceremonyServicePackageId'] as num?)?.toInt(),
       ceremonyAddress: json['ceremonyAddress'] as String,
       ceremonyAddressNote: json['ceremonyAddressNote'] as String?,
       ceremonyDate: DateTime.parse(json['ceremonyDate'] as String),

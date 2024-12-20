@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/colors.dart';
@@ -21,6 +22,7 @@ import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/history/cere
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/controller/ceremony_history_controller.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 
 class DetailCeremonyHistoryScreen extends HookConsumerWidget {
@@ -152,14 +154,14 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
               width: AppDimens.paddingMedium,
             ),
             Visibility(
-              visible: ceremonyHistory?.ceremonyServiceId != null,
+              visible: ceremonyHistory?.ceremonyInvoice?.id != null,
               child: SecondaryButton(
-                label: locales?.detailCeremony ?? '',
+                label: locales?.detailTransaction ?? '',
                 onTap: () {
                   PrimaryNavigation.pushFromRight(
                     context,
-                    page: DetailCeremonyScreen(
-                      id: ceremonyHistory?.ceremonyServiceId,
+                    page: DetailTransactionScreen(
+                      invoiceId: ceremonyHistory?.ceremonyInvoice?.id,
                     ),
                   );
                 },
@@ -274,25 +276,51 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
                       const SizedBox(
                         height: AppDimens.paddingMedium,
                       ),
-                      TextInput(
-                        controller: TextEditingController(
-                          text: ceremonyHistory.note,
+                      Visibility(
+                        visible: ceremonyHistory.note != null,
+                        child: TextInput(
+                          controller: TextEditingController(
+                            text: ceremonyHistory.note,
+                          ),
+                          label: "Catatan",
+                          isEnabled: false,
+                          maxLines: 5,
                         ),
-                        label: "Catatan",
-                        isEnabled: false,
-                        maxLines: 5,
                       ),
                       const SizedBox(
                         height: AppDimens.paddingMedium,
                       ),
-                      TextInput(
-                        controller: TextEditingController(
-                          text: ceremonyHistory.description,
-                        ),
-                        label: "Deskripsi Pesanan",
-                        isEnabled: false,
-                        maxLines: 15,
-                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Deskripsi Upacara",
+                            style: TextStyle(
+                              fontSize: AppFontSizes.bodySmall,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: AppDimens.marginSmall),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.gray1.withOpacity(0.35),
+                              border: Border.all(
+                                width: 1,
+                                color: AppColors.gray1,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(AppDimens.paddingSmall),
+                              ),
+                            ),
+                            child: HtmlWidget(
+                              ceremonyHistory.description,
+                              textStyle: const TextStyle(
+                                color: AppColors.gray1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 );
