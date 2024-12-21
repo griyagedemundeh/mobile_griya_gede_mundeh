@@ -53,7 +53,7 @@ class CermonyCard extends HookConsumerWidget {
       case 'completed':
         statusColor = AppColors.green;
         break;
-      case 'canceled':
+      case 'cancel':
         statusColor = AppColors.red;
         break;
       default:
@@ -69,6 +69,11 @@ class CermonyCard extends HookConsumerWidget {
       void updateCountdown() {
         final now = DateTime.now();
         final difference = targetDate.difference(now);
+
+        if (status.toLowerCase() == 'cancel') {
+          countdown.value = "";
+          return;
+        }
 
         if (difference.isNegative) {
           countdown.value = difference.inDays > 0

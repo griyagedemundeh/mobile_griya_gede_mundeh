@@ -52,6 +52,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     this.ceremony,
     this.isNewConsult,
     this.ceremonyPackageId,
+    this.isHistory,
   });
 
   final int? id;
@@ -59,6 +60,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
   final CeremonyPackage? ceremonyPackage;
   final int? ceremonyPackageId;
   final Ceremony? ceremony;
+  final bool? isHistory;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -194,7 +196,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
         children: [
           MeshAppBar(
             title:
-                "Konsultasi\n${ceremonyPackage?.name != null ? 'Paket ${ceremonyPackage?.name}' : ''} ${ceremony?.title ?? consultation.value?.ceremonyName}",
+                "Konsultasi\n${ceremonyPackage?.name != null ? 'Paket ${ceremonyPackage?.name}' : '-'} ${ceremony?.title ?? consultation.value?.ceremonyName ?? '-'}",
           ),
           Expanded(
             child: Stack(
@@ -418,6 +420,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
             textEditingController: messageController,
             ceremonyId: consultation.value?.consultationId,
             package: ceremonyPackage,
+            isHistory: isHistory,
             onSendMessage: () {
               submitMessage();
             },
@@ -444,12 +447,14 @@ class ConsultationInput extends HookConsumerWidget {
     required this.textEditingController,
     this.package,
     required this.onSelectedCeremonyPackageOrAddress,
+    this.isHistory,
   });
 
   final VoidCallback onSendMessage;
   final TextEditingController textEditingController;
   final int? ceremonyId;
   final CeremonyPackage? package;
+  final bool? isHistory;
 
   final Function(CeremonyPackage? ceremonyPackage, Address address)
       onSelectedCeremonyPackageOrAddress;
@@ -617,26 +622,29 @@ class ConsultationInput extends HookConsumerWidget {
       width: width,
       child: Column(
         children: [
-          Row(
-            children: [
-              IconLeadingButton(
-                label: locales?.selectPackage ?? '',
-                width: width * 0.5,
-                onTap: () {
-                  openPackageSheet();
-                },
-                isFilled: true,
-              ),
-              IconLeadingButton(
-                label: locales?.selectCeremonyLocation ?? '',
-                width: width * 0.5,
-                icon: Icons.location_on_outlined,
-                onTap: () {
-                  showAddressSheet(isForImmediate: true);
-                },
-                isFilled: true,
-              ),
-            ],
+          Visibility(
+            visible: isHistory == null || isHistory == false,
+            child: Row(
+              children: [
+                IconLeadingButton(
+                  label: locales?.selectPackage ?? '',
+                  width: width * 0.5,
+                  onTap: () {
+                    openPackageSheet();
+                  },
+                  isFilled: true,
+                ),
+                IconLeadingButton(
+                  label: locales?.selectCeremonyLocation ?? '',
+                  width: width * 0.5,
+                  icon: Icons.location_on_outlined,
+                  onTap: () {
+                    showAddressSheet(isForImmediate: true);
+                  },
+                  isFilled: true,
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(

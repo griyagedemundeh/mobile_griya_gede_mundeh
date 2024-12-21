@@ -161,6 +161,7 @@ class DetailTransactionScreen extends HookConsumerWidget {
                             id: invoice
                                     ?.invoiceCeremonyHistory.consultationId ??
                                 0,
+                            isHistory: true,
                           ),
                         );
                       },
