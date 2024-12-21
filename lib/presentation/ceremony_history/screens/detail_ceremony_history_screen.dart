@@ -20,7 +20,6 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_history.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/ceremony/history/ceremony_history_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
-import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/detail_ceremony_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony_history/controller/ceremony_history_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/transaction/screens/detail_transaction_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
@@ -63,13 +62,16 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
     var statusColor = AppColors.primary1;
 
     switch (ceremonyHistory?.status.toLowerCase()) {
-      case 'pending':
+      case 'onProgress':
         statusColor = AppColors.primary1;
         break;
-      case 'success':
+      case 'onGoing':
+        statusColor = Colors.blue;
+        break;
+      case 'completed':
         statusColor = AppColors.green;
         break;
-      case 'cancel':
+      case 'canceled':
         statusColor = AppColors.red;
         break;
       default:
@@ -89,7 +91,9 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
         final difference = targetDate.difference(now);
 
         if (difference.isNegative) {
-          countdown.value = 'Event has passed';
+          countdown.value = difference.inDays > 0
+              ? "${difference.inDays} hari yang lalu"
+              : "${difference.inHours * -1} jam yang lalu";
           timer?.cancel();
         } else {
           final days = difference.inDays;
