@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_admin.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_invoice.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_package.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/ceremony/history/ceremony_service.dart';
 
@@ -15,7 +16,7 @@ class CeremonyHistory with _$CeremonyHistory {
     required int memberAddressId,
     int? consultationId,
     required int ceremonyServiceId,
-    required int ceremonyServicePackageId,
+    int? ceremonyServicePackageId,
     required String title,
     String? packageName,
     required String description,
@@ -29,6 +30,7 @@ class CeremonyHistory with _$CeremonyHistory {
     CeremonyPackage? ceremonyPackage,
     required CeremonyService ceremonyService,
     CeremonyAdmin? ceremonyAdmin,
+    CeremonyInvoice? ceremonyInvoice,
   }) = _CeremonyHistory;
 
   factory CeremonyHistory.fromJson(Map<String, dynamic> json) =>

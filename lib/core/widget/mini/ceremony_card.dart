@@ -44,13 +44,16 @@ class CermonyCard extends HookConsumerWidget {
     var statusColor = AppColors.primary1;
 
     switch (status.toLowerCase()) {
-      case 'pending':
+      case 'onProgress':
         statusColor = AppColors.primary1;
         break;
-      case 'success':
+      case 'onGoing':
+        statusColor = Colors.blue;
+        break;
+      case 'completed':
         statusColor = AppColors.green;
         break;
-      case 'cancel':
+      case 'canceled':
         statusColor = AppColors.red;
         break;
       default:
@@ -68,7 +71,9 @@ class CermonyCard extends HookConsumerWidget {
         final difference = targetDate.difference(now);
 
         if (difference.isNegative) {
-          countdown.value = 'Event has passed';
+          countdown.value = difference.inDays > 0
+              ? "${difference.inDays} hari yang lalu"
+              : "${difference.inHours * -1} jam yang lalu";
           timer?.cancel();
         } else {
           final days = difference.inDays;

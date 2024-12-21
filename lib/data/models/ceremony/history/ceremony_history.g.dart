@@ -16,7 +16,7 @@ _$CeremonyHistoryImpl _$$CeremonyHistoryImplFromJson(
       consultationId: (json['consultationId'] as num?)?.toInt(),
       ceremonyServiceId: (json['ceremonyServiceId'] as num).toInt(),
       ceremonyServicePackageId:
-          (json['ceremonyServicePackageId'] as num).toInt(),
+          (json['ceremonyServicePackageId'] as num?)?.toInt(),
       title: json['title'] as String,
       packageName: json['packageName'] as String?,
       description: json['description'] as String,
@@ -37,6 +37,10 @@ _$CeremonyHistoryImpl _$$CeremonyHistoryImplFromJson(
           ? null
           : CeremonyAdmin.fromJson(
               json['ceremonyAdmin'] as Map<String, dynamic>),
+      ceremonyInvoice: json['ceremonyInvoice'] == null
+          ? null
+          : CeremonyInvoice.fromJson(
+              json['ceremonyInvoice'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CeremonyHistoryImplToJson(
@@ -62,4 +66,5 @@ Map<String, dynamic> _$$CeremonyHistoryImplToJson(
       'ceremonyPackage': instance.ceremonyPackage,
       'ceremonyService': instance.ceremonyService,
       'ceremonyAdmin': instance.ceremonyAdmin,
+      'ceremonyInvoice': instance.ceremonyInvoice,
     };
