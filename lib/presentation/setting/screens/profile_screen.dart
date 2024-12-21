@@ -22,8 +22,6 @@ class ProfileScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
-    final emailPhoneController = useTextEditingController();
-    final passwordController = useTextEditingController();
     final isPasswordVisible = useState(false);
     final isChangePassword = useState(false);
 
@@ -31,6 +29,12 @@ class ProfileScreen extends HookConsumerWidget {
         CentralStore(authRepository: AuthRepository());
 
     final Auth? user = centralStore.getUser();
+
+    final nameController = useTextEditingController(text: user?.fullName);
+    final emailController = useTextEditingController(text: user?.email);
+    final phoneController = useTextEditingController(text: user?.phoneNumber);
+    final mainAddressController = useTextEditingController(text: "");
+    final passwordController = useTextEditingController();
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -89,7 +93,7 @@ class ProfileScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: AppDimens.marginLarge),
                   TextInput(
-                    controller: emailPhoneController,
+                    controller: nameController,
                     label: locales?.fullname ?? '',
                     placeHolder: locales?.enterFullname ?? '',
                     type: TextInputType.name,
@@ -98,7 +102,7 @@ class ProfileScreen extends HookConsumerWidget {
                     height: AppDimens.borderRadiusLarge,
                   ),
                   TextInput(
-                    controller: emailPhoneController,
+                    controller: emailController,
                     label: locales?.email ?? '',
                     placeHolder: locales?.enterEmail ?? '',
                     type: TextInputType.emailAddress,
@@ -107,7 +111,7 @@ class ProfileScreen extends HookConsumerWidget {
                     height: AppDimens.borderRadiusLarge,
                   ),
                   TextInput(
-                    controller: emailPhoneController,
+                    controller: phoneController,
                     label: locales?.phone ?? '',
                     placeHolder: locales?.enterPhone ?? '',
                     type: TextInputType.phone,
@@ -116,7 +120,7 @@ class ProfileScreen extends HookConsumerWidget {
                     height: AppDimens.borderRadiusLarge,
                   ),
                   TextInput(
-                    controller: emailPhoneController,
+                    controller: mainAddressController,
                     label: locales?.mainAddress ?? '',
                     placeHolder: locales?.enterMainAddress ?? '',
                     type: TextInputType.streetAddress,
