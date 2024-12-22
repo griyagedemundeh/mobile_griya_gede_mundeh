@@ -15,4 +15,5 @@ class ApiEndPoints {
   static const String consultation = "member/consultation";
 
   static const String article = "article";
+  static const String member = "member";
 }

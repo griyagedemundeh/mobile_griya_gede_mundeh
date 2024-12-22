@@ -1,34 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:mobile_griya_gede_mundeh/config/api_config.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/end_points.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/article/response/article.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
-import 'package:mobile_griya_gede_mundeh/data/models/base/list_data_params/list_data_params.dart';
-import 'package:mobile_griya_gede_mundeh/data/repositories/article/article_repository.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/profile/request/update_profile_request.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/profile/response/profile.dart';
+import 'package:mobile_griya_gede_mundeh/data/repositories/profile/profile_repository.dart';
 
-class ArticleRepository extends IArticleRepository {
-  //GET ALL ARTICLE by limit data
+class ProfileRepository extends IProfileRepository {
   @override
-  Future<ApiBaseResponse<List<Article?>?>> getArticles(
-      {required ListDataParams listDataParams}) async {
+  Future<ApiBaseResponse<Profile>> getProfile({required int id}) async {
     try {
       final response = await api.get(
-        ApiEndPoints.article,
-        queryParameters: listDataParams.toJson(),
+        "${ApiEndPoints.member}/$id",
       );
 
       final responseData = response.data as Map<String, dynamic>;
 
-      List<Article> listData = [];
-
-      for (var element in responseData['data']) {
-        listData.add(Article.fromJson(element));
-      }
-
       return ApiBaseResponse(
         status: responseData['status'],
         message: responseData['message'],
-        data: listData,
+        data: Profile.fromJson(responseData['data']),
       );
     } on DioException catch (e) {
       if (e.response != null) {
@@ -41,18 +32,21 @@ class ArticleRepository extends IArticleRepository {
     }
   }
 
-//Detail Article
   @override
-  Future<ApiBaseResponse<Article?>> getArticle({required int id}) async {
+  Future<ApiBaseResponse<Profile>> updateProfile(
+      {required UpdateProfileRequest request}) async {
     try {
-      final respone = await api.get('${ApiEndPoints.article}/$id');
+      final response = await api.patch(
+        '${ApiEndPoints.member}/${request.id}',
+        data: request.toJson(),
+      );
 
-      final responseData = respone.data as Map<String, dynamic>;
+      final responseData = response.data as Map<String, dynamic>;
 
       return ApiBaseResponse(
         status: responseData['status'],
         message: responseData['message'],
-        data: Article.fromJson(responseData['data']),
+        data: Profile.fromJson(responseData['data']),
       );
     } on DioException catch (e) {
       if (e.response != null) {
@@ -60,7 +54,7 @@ class ArticleRepository extends IArticleRepository {
       }
       throw ApiBaseResponse(
           status: 500,
-          message: [e.message ?? 'Unkown Error Occured'],
+          message: [e.message ?? 'Unknown error occurred'],
           data: null);
     }
   }
