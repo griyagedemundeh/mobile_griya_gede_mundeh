@@ -11,10 +11,12 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart'
 import 'package:mobile_griya_gede_mundeh/core/widget/input/text_input.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/mini/data_empty.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/switch/labeled_switch_input.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/top_bar/mesh_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/profile/request/update_profile_request.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/profile/response/profile.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/profile/profile_repository_implementor.dart';
@@ -28,6 +30,7 @@ class ProfileScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
+    final isLoading = useState<bool>(false);
     final isPasswordVisible = useState(false);
     final isChangePassword = useState(false);
 
@@ -66,25 +69,46 @@ class ProfileScreen extends HookConsumerWidget {
       return null;
     }, [profileResponse]);
 
+    final updateProfileMutation = useMutation<ApiBaseResponse<dynamic>?,
+        ApiBaseResponse<dynamic>?, UpdateProfileRequest, void>(
+      (request) async {
+        final response =
+            await settingController.updateProfile(request: request);
+        return response;
+      },
+      onSuccess: (response, variables, _) {
+        isLoading.value = false;
+
+        for (var message in response?.message) {
+          PrimaryToast.success(message: message);
+        }
+
+        profileResponse.refetch();
+      },
+      onError: (error, variables, _) {
+        isLoading.value = false;
+
+        for (var message in error?.message) {
+          PrimaryToast.error(message: message);
+        }
+      },
+    );
+
+    Future updateProfile() async {
+      final data = UpdateProfileRequest(
+        email: emailController.text,
+        fullName: nameController.text,
+        id: user?.id ?? 0,
+        phoneNumber: phoneController.text,
+      );
+
+      isLoading.value = true;
+
+      await updateProfileMutation.mutate(data);
+      updateProfileMutation.reset();
+    }
+
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: height * 0.1,
-        padding: const EdgeInsets.all(AppDimens.paddingMedium),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5,
-              color: AppColors.lightgray2.withOpacity(0.2),
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: PrimaryButton(
-          label: locales?.save ?? '',
-          onTap: () {},
-        ),
-      ),
       body: Column(
         children: [
           MeshAppBar(
@@ -92,135 +116,167 @@ class ProfileScreen extends HookConsumerWidget {
             isWihoutInfo: true,
           ),
           Expanded(
-            child: Builder(builder: (context) {
-              if (profileResponse.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary1,
-                  ),
-                );
-              }
-
-              if (profileResponse.isError) {
-                return const DataEmpty();
-              }
-
-              if (profileResponse.isSuccess &&
-                  profileResponse.data?.data != null) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(
-                    AppDimens.paddingMedium,
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: AppDimens.marginLarge),
-                      CircleAvatar(
-                        backgroundColor: AppColors.primary1,
-                        radius: AppDimens.iconSizeLarge,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            imageUrl: user?.avatarUrl ?? AppImages.dummy,
-                            fit: BoxFit.scaleDown,
-                            height: double.infinity,
-                            width: double.infinity,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) {
-                              return Shimmer.fromColors(
-                                baseColor: AppColors.gray2.withOpacity(0.6),
-                                highlightColor: AppColors.light1,
-                                child: const SizedBox(),
-                              );
-                            },
-                            errorWidget: (context, url, error) =>
-                                const SizedBox(),
-                          ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Builder(builder: (context) {
+                    if (profileResponse.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary1,
                         ),
-                      ),
-                      const SizedBox(height: AppDimens.marginLarge),
-                      TextInput(
-                        controller: nameController,
-                        label: locales?.fullname ?? '',
-                        placeHolder: locales?.enterFullname ?? '',
-                        type: TextInputType.name,
-                      ),
-                      const SizedBox(
-                        height: AppDimens.borderRadiusLarge,
-                      ),
-                      TextInput(
-                        controller: emailController,
-                        label: locales?.email ?? '',
-                        placeHolder: locales?.enterEmail ?? '',
-                        type: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(
-                        height: AppDimens.borderRadiusLarge,
-                      ),
-                      TextInput(
-                        controller: phoneController,
-                        label: locales?.phone ?? '',
-                        placeHolder: locales?.enterPhone ?? '',
-                        type: TextInputType.phone,
-                      ),
-                      const SizedBox(
-                        height: AppDimens.borderRadiusLarge,
-                      ),
-                      TextInput(
-                        controller: mainAddressController,
-                        label: locales?.mainAddress ?? '',
-                        placeHolder: locales?.enterMainAddress ?? '',
-                        type: TextInputType.streetAddress,
-                      ),
-                      const SizedBox(
-                        height: AppDimens.paddingLarge,
-                      ),
-                      LabeledSwitchInput(
-                        label: locales?.editPassword ?? '',
-                        value: isChangePassword.value,
-                        onChanged: (value) {
-                          isChangePassword.value = value;
-                        },
-                      ),
-                      Visibility(
-                        visible: isChangePassword.value,
+                      );
+                    }
+
+                    if (profileResponse.isError) {
+                      return const DataEmpty();
+                    }
+
+                    if (profileResponse.isSuccess &&
+                        profileResponse.data?.data != null) {
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.all(
+                          AppDimens.paddingMedium,
+                        ),
                         child: Column(
                           children: [
+                            const SizedBox(height: AppDimens.marginLarge),
+                            CircleAvatar(
+                              backgroundColor: AppColors.primary1,
+                              radius: AppDimens.iconSizeLarge,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: CachedNetworkImage(
+                                  imageUrl: user?.avatarUrl ?? AppImages.dummy,
+                                  fit: BoxFit.scaleDown,
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) {
+                                    return Shimmer.fromColors(
+                                      baseColor:
+                                          AppColors.gray2.withOpacity(0.6),
+                                      highlightColor: AppColors.light1,
+                                      child: const SizedBox(),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) =>
+                                      const SizedBox(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: AppDimens.marginLarge),
                             TextInput(
-                              controller: passwordController,
-                              label: locales?.password ?? '',
-                              placeHolder: locales?.enterPassword ?? '',
-                              isPassword: true,
-                              isPassVisible: isPasswordVisible.value,
-                              onPasswordTap: () {
-                                isPasswordVisible.value =
-                                    !isPasswordVisible.value;
-                              },
+                              controller: nameController,
+                              label: locales?.fullname ?? '',
+                              placeHolder: locales?.enterFullname ?? '',
+                              type: TextInputType.name,
                             ),
                             const SizedBox(
                               height: AppDimens.borderRadiusLarge,
                             ),
                             TextInput(
-                              controller: passwordController,
-                              label: locales?.confPassword ?? '',
-                              placeHolder: locales?.enterConfPassword ?? '',
-                              isPassword: true,
-                              isPassVisible: isPasswordVisible.value,
-                              onPasswordTap: () {
-                                isPasswordVisible.value =
-                                    !isPasswordVisible.value;
+                              controller: emailController,
+                              label: locales?.email ?? '',
+                              placeHolder: locales?.enterEmail ?? '',
+                              type: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(
+                              height: AppDimens.borderRadiusLarge,
+                            ),
+                            TextInput(
+                              controller: phoneController,
+                              label: locales?.phone ?? '',
+                              placeHolder: locales?.enterPhone ?? '',
+                              type: TextInputType.phone,
+                            ),
+                            const SizedBox(
+                              height: AppDimens.borderRadiusLarge,
+                            ),
+                            TextInput(
+                              controller: mainAddressController,
+                              label: locales?.mainAddress ?? '',
+                              placeHolder: locales?.enterMainAddress ?? '',
+                              type: TextInputType.streetAddress,
+                              minLines: 5,
+                              maxLines: 5,
+                              isEnabled: false,
+                            ),
+                            const SizedBox(
+                              height: AppDimens.paddingLarge,
+                            ),
+                            LabeledSwitchInput(
+                              label: locales?.editPassword ?? '',
+                              value: isChangePassword.value,
+                              onChanged: (value) {
+                                isChangePassword.value = value;
                               },
+                            ),
+                            Visibility(
+                              visible: isChangePassword.value,
+                              child: Column(
+                                children: [
+                                  TextInput(
+                                    controller: passwordController,
+                                    label: locales?.password ?? '',
+                                    placeHolder: locales?.enterPassword ?? '',
+                                    isPassword: true,
+                                    isPassVisible: isPasswordVisible.value,
+                                    onPasswordTap: () {
+                                      isPasswordVisible.value =
+                                          !isPasswordVisible.value;
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: AppDimens.borderRadiusLarge,
+                                  ),
+                                  TextInput(
+                                    controller: passwordController,
+                                    label: locales?.confPassword ?? '',
+                                    placeHolder:
+                                        locales?.enterConfPassword ?? '',
+                                    isPassword: true,
+                                    isPassVisible: isPasswordVisible.value,
+                                    onPasswordTap: () {
+                                      isPasswordVisible.value =
+                                          !isPasswordVisible.value;
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }
+                      );
+                    }
 
-              return const DataEmpty();
-            }),
+                    return const DataEmpty();
+                  }),
+                ),
+              ],
+            ),
           ),
+          Container(
+            height: height * 0.1,
+            padding: const EdgeInsets.all(AppDimens.paddingMedium),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 5,
+                  color: AppColors.lightgray2.withOpacity(0.2),
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: PrimaryButton(
+              label: locales?.save ?? '',
+              isLoading: isLoading.value,
+              onTap: () async {
+                await updateProfile();
+              },
+            ),
+          )
         ],
       ),
     );
