@@ -26,6 +26,7 @@ mixin _$CeremonyConsultationRequest {
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   int get consultationId => throw _privateConstructorUsedError;
   int? get ceremonyPackageId => throw _privateConstructorUsedError;
+  String? get ceremonyPackageName => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userPhoto => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -52,6 +53,7 @@ abstract class $CeremonyConsultationRequestCopyWith<$Res> {
       int ceremonyServiceId,
       int consultationId,
       int? ceremonyPackageId,
+      String? ceremonyPackageName,
       String userName,
       String userPhoto,
       String status,
@@ -78,6 +80,7 @@ class _$CeremonyConsultationRequestCopyWithImpl<$Res,
     Object? ceremonyServiceId = null,
     Object? consultationId = null,
     Object? ceremonyPackageId = freezed,
+    Object? ceremonyPackageName = freezed,
     Object? userName = null,
     Object? userPhoto = null,
     Object? status = null,
@@ -105,6 +108,10 @@ class _$CeremonyConsultationRequestCopyWithImpl<$Res,
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
               as int?,
+      ceremonyPackageName: freezed == ceremonyPackageName
+          ? _value.ceremonyPackageName
+          : ceremonyPackageName // ignore: cast_nullable_to_non_nullable
+              as String?,
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -144,6 +151,7 @@ abstract class _$$CeremonyConsultationRequestImplCopyWith<$Res>
       int ceremonyServiceId,
       int consultationId,
       int? ceremonyPackageId,
+      String? ceremonyPackageName,
       String userName,
       String userPhoto,
       String status,
@@ -169,6 +177,7 @@ class __$$CeremonyConsultationRequestImplCopyWithImpl<$Res>
     Object? ceremonyServiceId = null,
     Object? consultationId = null,
     Object? ceremonyPackageId = freezed,
+    Object? ceremonyPackageName = freezed,
     Object? userName = null,
     Object? userPhoto = null,
     Object? status = null,
@@ -196,6 +205,10 @@ class __$$CeremonyConsultationRequestImplCopyWithImpl<$Res>
           ? _value.ceremonyPackageId
           : ceremonyPackageId // ignore: cast_nullable_to_non_nullable
               as int?,
+      ceremonyPackageName: freezed == ceremonyPackageName
+          ? _value.ceremonyPackageName
+          : ceremonyPackageName // ignore: cast_nullable_to_non_nullable
+              as String?,
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -231,6 +244,7 @@ class _$CeremonyConsultationRequestImpl
       required this.ceremonyServiceId,
       required this.consultationId,
       this.ceremonyPackageId,
+      this.ceremonyPackageName,
       required this.userName,
       required this.userPhoto,
       required this.status,
@@ -252,6 +266,8 @@ class _$CeremonyConsultationRequestImpl
   @override
   final int? ceremonyPackageId;
   @override
+  final String? ceremonyPackageName;
+  @override
   final String userName;
   @override
   final String userPhoto;
@@ -264,7 +280,7 @@ class _$CeremonyConsultationRequestImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CeremonyConsultationRequest(userId: $userId, ceremonyName: $ceremonyName, ceremonyServiceId: $ceremonyServiceId, consultationId: $consultationId, ceremonyPackageId: $ceremonyPackageId, userName: $userName, userPhoto: $userPhoto, status: $status, ceremonyIconUrl: $ceremonyIconUrl, createdAt: $createdAt)';
+    return 'CeremonyConsultationRequest(userId: $userId, ceremonyName: $ceremonyName, ceremonyServiceId: $ceremonyServiceId, consultationId: $consultationId, ceremonyPackageId: $ceremonyPackageId, ceremonyPackageName: $ceremonyPackageName, userName: $userName, userPhoto: $userPhoto, status: $status, ceremonyIconUrl: $ceremonyIconUrl, createdAt: $createdAt)';
   }
 
   @override
@@ -277,6 +293,7 @@ class _$CeremonyConsultationRequestImpl
       ..add(DiagnosticsProperty('ceremonyServiceId', ceremonyServiceId))
       ..add(DiagnosticsProperty('consultationId', consultationId))
       ..add(DiagnosticsProperty('ceremonyPackageId', ceremonyPackageId))
+      ..add(DiagnosticsProperty('ceremonyPackageName', ceremonyPackageName))
       ..add(DiagnosticsProperty('userName', userName))
       ..add(DiagnosticsProperty('userPhoto', userPhoto))
       ..add(DiagnosticsProperty('status', status))
@@ -298,6 +315,8 @@ class _$CeremonyConsultationRequestImpl
                 other.consultationId == consultationId) &&
             (identical(other.ceremonyPackageId, ceremonyPackageId) ||
                 other.ceremonyPackageId == ceremonyPackageId) &&
+            (identical(other.ceremonyPackageName, ceremonyPackageName) ||
+                other.ceremonyPackageName == ceremonyPackageName) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.userPhoto, userPhoto) ||
@@ -318,6 +337,7 @@ class _$CeremonyConsultationRequestImpl
       ceremonyServiceId,
       consultationId,
       ceremonyPackageId,
+      ceremonyPackageName,
       userName,
       userPhoto,
       status,
@@ -347,6 +367,7 @@ abstract class _CeremonyConsultationRequest
       required final int ceremonyServiceId,
       required final int consultationId,
       final int? ceremonyPackageId,
+      final String? ceremonyPackageName,
       required final String userName,
       required final String userPhoto,
       required final String status,
@@ -366,6 +387,8 @@ abstract class _CeremonyConsultationRequest
   int get consultationId;
   @override
   int? get ceremonyPackageId;
+  @override
+  String? get ceremonyPackageName;
   @override
   String get userName;
   @override
