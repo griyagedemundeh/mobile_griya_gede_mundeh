@@ -84,7 +84,8 @@ class ConsultationScreen extends HookConsumerWidget {
                 );
               }
 
-              if (ceremonyConsultationHistoriesResponse.data?.data == null) {
+              if (ceremonyConsultationHistoriesResponse.data?.data.toString() ==
+                  '[]') {
                 return ChatView(
                   scrollController: scrollController,
                 );

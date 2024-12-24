@@ -84,12 +84,28 @@ class MainBar extends StatelessWidget {
                       color: AppColors.gray2,
                     ),
                   ),
-                  Text(
-                    "$name👋",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppFontSizes.bodyLarge,
-                    ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: name.length > 20 ? (width * 0.5) : null,
+                        child: Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppFontSizes.bodyLarge,
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        "👋",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppFontSizes.bodyLarge,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
