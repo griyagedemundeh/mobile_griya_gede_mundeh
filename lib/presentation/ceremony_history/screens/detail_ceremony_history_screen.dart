@@ -32,6 +32,7 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
 
     final CeremonyHistoryController ceremonyHistoryController =
@@ -71,7 +72,7 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
       case 'completed':
         statusColor = AppColors.green;
         break;
-      case 'canceled':
+      case 'cancel':
         statusColor = AppColors.red;
         break;
       default:
@@ -89,6 +90,11 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
       void updateCountdown() {
         final now = DateTime.now();
         final difference = targetDate.difference(now);
+
+        if (ceremonyHistory?.status.toLowerCase() == 'cancel') {
+          countdown.value = "";
+          return;
+        }
 
         if (difference.isNegative) {
           countdown.value = difference.inDays > 0
@@ -185,6 +191,7 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
                     context,
                     page: ConsultationCeremonyScreen(
                       id: ceremonyHistory?.consultationId,
+                      isHistory: true,
                     ),
                   );
                 },
@@ -306,6 +313,10 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
                           ),
                           const SizedBox(height: AppDimens.marginSmall),
                           Container(
+                            width: width,
+                            padding: const EdgeInsets.all(
+                              AppDimens.paddingMedium,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.gray1.withOpacity(0.35),
                               border: Border.all(
@@ -319,7 +330,7 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
                             child: HtmlWidget(
                               ceremonyHistory.description,
                               textStyle: const TextStyle(
-                                color: AppColors.gray1,
+                                color: AppColors.gray2,
                               ),
                             ),
                           ),

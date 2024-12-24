@@ -181,8 +181,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       StorageKey.supabaseConsultCeremony,
     );
 
-    Future<void> createConsultation(
-        {required CeremonyConsultationTicket consultationTicket}) async {
+    Future<void> createConsultation({
+      required CeremonyConsultationTicket consultationTicket,
+    }) async {
       isLoading.value = true;
       try {
         final CeremonyConsultationRequest consultationRequest =
@@ -195,6 +196,9 @@ class DetailCeremonyScreen extends HookConsumerWidget {
           userId: user?.id ?? 0,
           userName: user?.fullName ?? '',
           userPhoto: user?.avatarUrl ?? '',
+          ceremonyPackageName: isWithoutPackage.value == true
+              ? null
+              : selectedCeremonyPackage.value?.name,
           ceremonyPackageId: isWithoutPackage.value == true
               ? null
               : selectedCeremonyPackage.value?.id,
@@ -203,11 +207,10 @@ class DetailCeremonyScreen extends HookConsumerWidget {
 
         final dataConsult = await dbConsult
             .select()
-            .eq('consultationId', consultationTicket.id)
-            .maybeSingle();
+            .eq('consultationId', consultationTicket.id);
 
-        if (dataConsult == null) {
-          await dbConsult.insert(consultationRequest.toJson()).then((val) {
+        if (dataConsult.toString() == '[]') {
+          dbConsult.insert(consultationRequest.toJson()).then((val) {
             isLoading.value = false;
             PrimaryNavigation.pushFromRight(
               context,
