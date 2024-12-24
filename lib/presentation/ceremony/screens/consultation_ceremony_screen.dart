@@ -418,7 +418,7 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           ),
           ConsultationInput(
             textEditingController: messageController,
-            ceremonyId: consultation.value?.consultationId,
+            ceremonyId: consultation.value?.ceremonyServiceId,
             package: ceremonyPackage,
             isHistory: isHistory,
             onSendMessage: () {
@@ -461,6 +461,7 @@ class ConsultationInput extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    log("CEREMONY ID --> $ceremonyId");
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final locales = AppLocalizations.of(context);
@@ -484,6 +485,8 @@ class ConsultationInput extends HookConsumerWidget {
       ['ceremonyPackages_$ceremonyId'],
       getCeremonyPackages,
     );
+
+    log("CEREMONY PACKET ---> ${ceremonyPackagesResponse.data}");
 
     final ceremonyPackages =
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;

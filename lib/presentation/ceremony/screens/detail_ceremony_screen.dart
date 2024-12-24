@@ -209,7 +209,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
             .select()
             .eq('consultationId', consultationTicket.id);
 
-        if (dataConsult.isEmpty == true) {
+        if (dataConsult.toString() == '[]') {
           dbConsult.insert(consultationRequest.toJson()).then((val) {
             isLoading.value = false;
             PrimaryNavigation.pushFromRight(
