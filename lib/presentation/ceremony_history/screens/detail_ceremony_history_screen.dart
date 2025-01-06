@@ -97,8 +97,8 @@ class DetailCeremonyHistoryScreen extends HookConsumerWidget {
         }
 
         if (difference.isNegative) {
-          countdown.value = difference.inDays > 0
-              ? "${difference.inDays} hari yang lalu"
+          countdown.value = difference.inDays < 0
+              ? "${(difference.inDays * -1)} hari yang lalu"
               : "${difference.inHours * -1} jam yang lalu";
           timer?.cancel();
         } else {
