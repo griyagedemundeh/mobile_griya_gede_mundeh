@@ -151,6 +151,25 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
 
         await dbMessages.insert(message.toJson());
 
+        var consult = {
+          "id": consultation.value?.id ?? 0,
+          "ceremonyServiceId": consultation.value?.ceremonyServiceId ?? 0,
+          "consultationId": id ?? 0,
+          "status": 'onGoing',
+          "userId": consultation.value?.userId ?? 0,
+          "userName": consultation.value?.userName ?? '',
+          "userPhoto": consultation.value?.userPhoto ?? '',
+          "ceremonyIconUrl": consultation.value?.ceremonyIconUrl ?? '',
+          "ceremonyName": consultation.value?.ceremonyName ?? '',
+          "ceremonyPackageId": consultation.value?.ceremonyPackageId ?? 0,
+          "ceremonyPackageName": consultation.value?.ceremonyPackageName ?? '',
+          "createdAt": consultation.value?.createdAt?.toIso8601String(),
+          "updatedAt": DateTime.now().toIso8601String(),
+          "isRead": false,
+        };
+
+        await dbConsult.update(consult).eq('consultationId', id ?? 0);
+
         init();
       } on PostgrestException catch (error) {
         PrimaryToast.error(message: error.message);

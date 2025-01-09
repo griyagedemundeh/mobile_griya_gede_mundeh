@@ -8,6 +8,8 @@ class GeneralConsultation with _$GeneralConsultation {
   const factory GeneralConsultation({
     required int id,
     required String createdAt,
+    String? updatedAt,
+    required bool isRead,
     required int consultationId,
     required int userId,
     required String userName,

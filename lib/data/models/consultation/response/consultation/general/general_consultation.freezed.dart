@@ -22,6 +22,8 @@ GeneralConsultation _$GeneralConsultationFromJson(Map<String, dynamic> json) {
 mixin _$GeneralConsultation {
   int get id => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
+  String? get updatedAt => throw _privateConstructorUsedError;
+  bool get isRead => throw _privateConstructorUsedError;
   int get consultationId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
@@ -42,6 +44,8 @@ abstract class $GeneralConsultationCopyWith<$Res> {
   $Res call(
       {int id,
       String createdAt,
+      String? updatedAt,
+      bool isRead,
       int consultationId,
       int userId,
       String userName,
@@ -63,6 +67,8 @@ class _$GeneralConsultationCopyWithImpl<$Res, $Val extends GeneralConsultation>
   $Res call({
     Object? id = null,
     Object? createdAt = null,
+    Object? updatedAt = freezed,
+    Object? isRead = null,
     Object? consultationId = null,
     Object? userId = null,
     Object? userName = null,
@@ -77,6 +83,14 @@ class _$GeneralConsultationCopyWithImpl<$Res, $Val extends GeneralConsultation>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isRead: null == isRead
+          ? _value.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool,
       consultationId: null == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
@@ -108,6 +122,8 @@ abstract class _$$GeneralConsultationImplCopyWith<$Res>
   $Res call(
       {int id,
       String createdAt,
+      String? updatedAt,
+      bool isRead,
       int consultationId,
       int userId,
       String userName,
@@ -127,6 +143,8 @@ class __$$GeneralConsultationImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? createdAt = null,
+    Object? updatedAt = freezed,
+    Object? isRead = null,
     Object? consultationId = null,
     Object? userId = null,
     Object? userName = null,
@@ -141,6 +159,14 @@ class __$$GeneralConsultationImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isRead: null == isRead
+          ? _value.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool,
       consultationId: null == consultationId
           ? _value.consultationId
           : consultationId // ignore: cast_nullable_to_non_nullable
@@ -167,6 +193,8 @@ class _$GeneralConsultationImpl implements _GeneralConsultation {
   const _$GeneralConsultationImpl(
       {required this.id,
       required this.createdAt,
+      this.updatedAt,
+      required this.isRead,
       required this.consultationId,
       required this.userId,
       required this.userName,
@@ -180,6 +208,10 @@ class _$GeneralConsultationImpl implements _GeneralConsultation {
   @override
   final String createdAt;
   @override
+  final String? updatedAt;
+  @override
+  final bool isRead;
+  @override
   final int consultationId;
   @override
   final int userId;
@@ -190,7 +222,7 @@ class _$GeneralConsultationImpl implements _GeneralConsultation {
 
   @override
   String toString() {
-    return 'GeneralConsultation(id: $id, createdAt: $createdAt, consultationId: $consultationId, userId: $userId, userName: $userName, userPhoto: $userPhoto)';
+    return 'GeneralConsultation(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, isRead: $isRead, consultationId: $consultationId, userId: $userId, userName: $userName, userPhoto: $userPhoto)';
   }
 
   @override
@@ -201,6 +233,9 @@ class _$GeneralConsultationImpl implements _GeneralConsultation {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.consultationId, consultationId) ||
                 other.consultationId == consultationId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -212,8 +247,8 @@ class _$GeneralConsultationImpl implements _GeneralConsultation {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, createdAt, consultationId, userId, userName, userPhoto);
+  int get hashCode => Object.hash(runtimeType, id, createdAt, updatedAt, isRead,
+      consultationId, userId, userName, userPhoto);
 
   @JsonKey(ignore: true)
   @override
@@ -234,6 +269,8 @@ abstract class _GeneralConsultation implements GeneralConsultation {
   const factory _GeneralConsultation(
       {required final int id,
       required final String createdAt,
+      final String? updatedAt,
+      required final bool isRead,
       required final int consultationId,
       required final int userId,
       required final String userName,
@@ -246,6 +283,10 @@ abstract class _GeneralConsultation implements GeneralConsultation {
   int get id;
   @override
   String get createdAt;
+  @override
+  String? get updatedAt;
+  @override
+  bool get isRead;
   @override
   int get consultationId;
   @override

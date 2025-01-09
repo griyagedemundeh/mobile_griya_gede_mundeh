@@ -17,7 +17,9 @@ class Consultation with _$Consultation {
     required String userName,
     required String userPhoto,
     required String status,
+    required bool isRead,
     DateTime? createdAt,
+    DateTime? updatedAt,
     String? ceremonyIconUrl,
   }) = _Consultation;
 

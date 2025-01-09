@@ -30,7 +30,9 @@ mixin _$Consultation {
   String get userName => throw _privateConstructorUsedError;
   String get userPhoto => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
+  bool get isRead => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get ceremonyIconUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,7 +58,9 @@ abstract class $ConsultationCopyWith<$Res> {
       String userName,
       String userPhoto,
       String status,
+      bool isRead,
       DateTime? createdAt,
+      DateTime? updatedAt,
       String? ceremonyIconUrl});
 }
 
@@ -83,7 +87,9 @@ class _$ConsultationCopyWithImpl<$Res, $Val extends Consultation>
     Object? userName = null,
     Object? userPhoto = null,
     Object? status = null,
+    Object? isRead = null,
     Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? ceremonyIconUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -127,9 +133,17 @@ class _$ConsultationCopyWithImpl<$Res, $Val extends Consultation>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      isRead: null == isRead
+          ? _value.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       ceremonyIconUrl: freezed == ceremonyIconUrl
           ? _value.ceremonyIconUrl
@@ -158,7 +172,9 @@ abstract class _$$ConsultationImplCopyWith<$Res>
       String userName,
       String userPhoto,
       String status,
+      bool isRead,
       DateTime? createdAt,
+      DateTime? updatedAt,
       String? ceremonyIconUrl});
 }
 
@@ -183,7 +199,9 @@ class __$$ConsultationImplCopyWithImpl<$Res>
     Object? userName = null,
     Object? userPhoto = null,
     Object? status = null,
+    Object? isRead = null,
     Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? ceremonyIconUrl = freezed,
   }) {
     return _then(_$ConsultationImpl(
@@ -227,9 +245,17 @@ class __$$ConsultationImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      isRead: null == isRead
+          ? _value.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       ceremonyIconUrl: freezed == ceremonyIconUrl
           ? _value.ceremonyIconUrl
@@ -253,7 +279,9 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
       required this.userName,
       required this.userPhoto,
       required this.status,
+      required this.isRead,
       this.createdAt,
+      this.updatedAt,
       this.ceremonyIconUrl});
 
   factory _$ConsultationImpl.fromJson(Map<String, dynamic> json) =>
@@ -280,13 +308,17 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
   @override
   final String status;
   @override
+  final bool isRead;
+  @override
   final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String? ceremonyIconUrl;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Consultation(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, ceremonyName: $ceremonyName, ceremonyPackageName: $ceremonyPackageName, userName: $userName, userPhoto: $userPhoto, status: $status, createdAt: $createdAt, ceremonyIconUrl: $ceremonyIconUrl)';
+    return 'Consultation(id: $id, consultationId: $consultationId, userId: $userId, ceremonyServiceId: $ceremonyServiceId, ceremonyPackageId: $ceremonyPackageId, ceremonyName: $ceremonyName, ceremonyPackageName: $ceremonyPackageName, userName: $userName, userPhoto: $userPhoto, status: $status, isRead: $isRead, createdAt: $createdAt, updatedAt: $updatedAt, ceremonyIconUrl: $ceremonyIconUrl)';
   }
 
   @override
@@ -304,7 +336,9 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
       ..add(DiagnosticsProperty('userName', userName))
       ..add(DiagnosticsProperty('userPhoto', userPhoto))
       ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('isRead', isRead))
       ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt))
       ..add(DiagnosticsProperty('ceremonyIconUrl', ceremonyIconUrl));
   }
 
@@ -330,8 +364,11 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
             (identical(other.userPhoto, userPhoto) ||
                 other.userPhoto == userPhoto) &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.ceremonyIconUrl, ceremonyIconUrl) ||
                 other.ceremonyIconUrl == ceremonyIconUrl));
   }
@@ -350,7 +387,9 @@ class _$ConsultationImpl with DiagnosticableTreeMixin implements _Consultation {
       userName,
       userPhoto,
       status,
+      isRead,
       createdAt,
+      updatedAt,
       ceremonyIconUrl);
 
   @JsonKey(ignore: true)
@@ -379,7 +418,9 @@ abstract class _Consultation implements Consultation {
       required final String userName,
       required final String userPhoto,
       required final String status,
+      required final bool isRead,
       final DateTime? createdAt,
+      final DateTime? updatedAt,
       final String? ceremonyIconUrl}) = _$ConsultationImpl;
 
   factory _Consultation.fromJson(Map<String, dynamic> json) =
@@ -406,7 +447,11 @@ abstract class _Consultation implements Consultation {
   @override
   String get status;
   @override
+  bool get isRead;
+  @override
   DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String? get ceremonyIconUrl;
   @override

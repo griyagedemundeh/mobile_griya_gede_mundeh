@@ -234,18 +234,25 @@ class ConsultationScreen extends HookConsumerWidget {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
-                                                        ceremonyConsultation
-                                                                ?.ceremonyServiceName ??
-                                                            '-',
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: AppFontSizes
-                                                              .bodyLarge,
+                                                      SizedBox(
+                                                        width: mediaQuery
+                                                                .size.width *
+                                                            0.5,
+                                                        child: Text(
+                                                          ceremonyConsultation
+                                                                  ?.ceremonyServiceName ??
+                                                              '-',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                AppFontSizes
+                                                                    .bodyLarge,
+                                                          ),
                                                         ),
                                                       ),
                                                       Text(
@@ -387,6 +394,7 @@ class ChatView extends HookConsumerWidget {
           );
 
           await dbConsult.insert(generalConsultationRequest.toJson());
+
           await initConult(id: id);
         } else {
           await initConult(id: id);
@@ -459,6 +467,22 @@ class ChatView extends HookConsumerWidget {
         );
 
         await dbMessages.insert(message.toJson());
+
+        var consult = GeneralConsultation(
+          id: consultation.value?.id ?? 0,
+          createdAt: consultation.value?.createdAt ?? '',
+          isRead: false,
+          consultationId: consultation.value?.consultationId ?? 0,
+          userId: consultation.value?.userId ?? 0,
+          userName: consultation.value?.userName ?? '',
+          userPhoto: consultation.value?.userPhoto ?? '',
+          updatedAt: DateTime.now().toIso8601String(),
+        );
+
+        await dbConsult.update(consult.toJson()).eq(
+              'consultationId',
+              consultation.value?.consultationId ?? 0,
+            );
 
         initConult(id: consultation.value?.consultationId ?? 0);
       } on PostgrestException catch (error) {

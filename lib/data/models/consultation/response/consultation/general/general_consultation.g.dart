@@ -11,6 +11,8 @@ _$GeneralConsultationImpl _$$GeneralConsultationImplFromJson(
     _$GeneralConsultationImpl(
       id: (json['id'] as num).toInt(),
       createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String?,
+      isRead: json['isRead'] as bool,
       consultationId: (json['consultationId'] as num).toInt(),
       userId: (json['userId'] as num).toInt(),
       userName: json['userName'] as String,
@@ -22,6 +24,8 @@ Map<String, dynamic> _$$GeneralConsultationImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
+      'isRead': instance.isRead,
       'consultationId': instance.consultationId,
       'userId': instance.userId,
       'userName': instance.userName,

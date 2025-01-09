@@ -18,9 +18,13 @@ _$ConsultationImpl _$$ConsultationImplFromJson(Map<String, dynamic> json) =>
       userName: json['userName'] as String,
       userPhoto: json['userPhoto'] as String,
       status: json['status'] as String,
+      isRead: json['isRead'] as bool,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       ceremonyIconUrl: json['ceremonyIconUrl'] as String?,
     );
 
@@ -36,6 +40,8 @@ Map<String, dynamic> _$$ConsultationImplToJson(_$ConsultationImpl instance) =>
       'userName': instance.userName,
       'userPhoto': instance.userPhoto,
       'status': instance.status,
+      'isRead': instance.isRead,
       'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'ceremonyIconUrl': instance.ceremonyIconUrl,
     };
