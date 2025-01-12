@@ -18,6 +18,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/email_verification_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -97,10 +98,17 @@ class RegisterScreen extends HookConsumerWidget {
           PrimaryToast.success(message: message);
         }
 
-        PrimaryNavigation.pushFromRightRemoveUntil(
-          context,
-          page: const LoginScreen(),
-        );
+        if ((response.data)['emailVerified'] == 0) {
+          PrimaryNavigation.pushFromRight(
+            context,
+            page: const EmailVerificationScreen(),
+          );
+        } else {
+          PrimaryNavigation.pushFromRightRemoveUntil(
+            context,
+            page: const LoginScreen(),
+          );
+        }
       },
       onError: (error, variables, _) {
         isLoading.value = false;
@@ -192,8 +200,7 @@ class RegisterScreen extends HookConsumerWidget {
                                 ),
                                 TextInput(
                                   controller: emailController,
-                                  label:
-                                      "${locales?.email ?? ''} ${locales?.optional ?? ''}",
+                                  label: locales?.email ?? '',
                                   placeHolder: locales?.enterEmail ?? '',
                                   type: TextInputType.emailAddress,
                                   autoFill: const [AutofillHints.email],

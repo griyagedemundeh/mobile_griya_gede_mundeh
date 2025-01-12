@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fquery/fquery.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_griya_gede_mundeh/core/constant/dimens.dart';
@@ -9,8 +13,11 @@ import 'package:mobile_griya_gede_mundeh/core/widget/button/primary_button.dart'
 import 'package:mobile_griya_gede_mundeh/core/widget/button/secondary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/button/text_primary_button.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
+import 'package:mobile_griya_gede_mundeh/core/widget/toast/primary_toast.dart';
+import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -19,20 +26,66 @@ class EmailVerificationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final locales = AppLocalizations.of(context);
 
     final authController = AuthController(authRepository: AuthRepository());
     final isLoading = useState<bool>(false);
+    final hasNavigated = useState<bool>(false);
+
+    final resendEmailMutation = useMutation<ApiBaseResponse<dynamic>,
+        ApiBaseResponse<dynamic>, dynamic, void>(
+      (loginRequest) async {
+        final response = await authController.resendEmailVerification();
+        return response;
+      },
+      onSuccess: (response, variables, _) {
+        isLoading.value = false;
+
+        for (var message in response.message) {
+          PrimaryToast.success(message: message);
+        }
+      },
+      onError: (error, variables, _) {
+        isLoading.value = false;
+
+        for (var message in error.message) {
+          PrimaryToast.error(message: message);
+        }
+      },
+    );
+
+    Future<ApiBaseResponse> cekStatusEmailVerification() async {
+      final response = await authController.cekStatusEmailVerification();
+      return response;
+    }
+
+    final ceremonyOnProgressResponse = useQuery<ApiBaseResponse, dynamic>(
+      ['cekStatusEmail'],
+      cekStatusEmailVerification,
+      refetchInterval: const Duration(seconds: 3),
+    );
 
     Future resendEmailVerification() async {
       isLoading.value = true;
+      resendEmailMutation.mutate({});
+      resendEmailMutation.reset();
     }
 
-    Future cekStatusEmailVerification() async {
-      isLoading.value = true;
-    }
+    useEffect(() {
+      if (ceremonyOnProgressResponse.data?.status == 200 &&
+          !hasNavigated.value) {
+        hasNavigated.value = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          PrimaryNavigation.pushFromRightRemoveUntil(
+            context,
+            page: const LoginScreen(),
+          );
+        });
+      }
+      return null;
+    }, [ceremonyOnProgressResponse.data]);
 
     return Scaffold(
       body: SlidingUpPanel(
@@ -86,7 +139,7 @@ class EmailVerificationScreen extends HookConsumerWidget {
                                   children: [
                                     // First Name
                                     const Text(
-                                      "Akun anda masih belum terverifikasi, segera verifikasi untuk menggunakan aplikasi!",
+                                      "Akun anda masih belum terverifikasi. Aplikasi akan otomatis menuju Login apabila verifikasi berhasil",
                                       style: TextStyle(),
                                       textAlign: TextAlign.center,
                                     ),
@@ -111,7 +164,11 @@ class EmailVerificationScreen extends HookConsumerWidget {
                                     SecondaryButton(
                                       label: 'Kembali ke Login',
                                       onTap: () {
-                                        Navigator.pop(context);
+                                        PrimaryNavigation
+                                            .pushFromRightRemoveUntil(
+                                          context,
+                                          page: const LoginScreen(),
+                                        );
                                       },
                                     ),
                                     SizedBox(height: height * 0.2),

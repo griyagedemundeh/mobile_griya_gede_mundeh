@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_validator/form_validator.dart';
@@ -18,6 +20,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/auth/response/auth.dart';
 import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/email_verification_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
@@ -66,10 +69,17 @@ class LoginScreen extends HookConsumerWidget {
           PrimaryToast.success(message: message);
         }
 
-        PrimaryNavigation.pushFromRightRemoveUntil(
-          context,
-          page: const MainScreen(),
-        );
+        if ((response.data)['emailVerified'] == 0) {
+          PrimaryNavigation.pushFromRight(
+            context,
+            page: const EmailVerificationScreen(),
+          );
+        } else {
+          PrimaryNavigation.pushFromRightRemoveUntil(
+            context,
+            page: const MainScreen(),
+          );
+        }
       },
       onError: (error, variables, _) {
         isLoading.value = false;
@@ -185,9 +195,7 @@ class LoginScreen extends HookConsumerWidget {
                                       label: locales?.login ?? '',
                                       isLoading: isLoading.value,
                                       onTap: () {
-                                        // login();
-                                        Navigator.pushNamed(
-                                            context, Routes.emailVerification);
+                                        login();
                                       },
                                     ),
                                     SizedBox(height: height * 0.2),

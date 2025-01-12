@@ -6,6 +6,7 @@ import 'package:mobile_griya_gede_mundeh/core/constant/images.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/background/background_gradient_primary.dart';
 import 'package:mobile_griya_gede_mundeh/core/widget/navigation/primary_navigation.dart';
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/email_verification_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/splash/controller/splash_controller.dart';
@@ -26,10 +27,19 @@ class _SplashScreenState extends State<SplashScreen> {
     splashController = SplashController(authRepository: AuthRepository());
 
     timerToNextPage = Timer.periodic(const Duration(seconds: 3), (timer) {
-      if (splashController.getUser() != null) {
+      if (splashController.getUser()?.token != null &&
+          splashController.getUser()?.emailVerified == 1) {
         PrimaryNavigation.pushFromRightRemoveUntil(
           context,
           page: const MainScreen(),
+        );
+        return;
+      }
+
+      if (splashController.getUser()?.emailVerified == 0) {
+        PrimaryNavigation.pushFromRightRemoveUntil(
+          context,
+          page: const EmailVerificationScreen(),
         );
         return;
       }
