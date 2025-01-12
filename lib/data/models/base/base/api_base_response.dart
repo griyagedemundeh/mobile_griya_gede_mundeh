@@ -11,7 +11,7 @@ class ApiBaseResponse<T> with _$ApiBaseResponse<T> {
   const factory ApiBaseResponse({
     required int status,
     required dynamic message,
-    required dynamic data,
+    dynamic data,
     Meta? meta,
   }) = _ApiBaseResponse<T>;
 

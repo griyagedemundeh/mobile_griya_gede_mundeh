@@ -150,10 +150,7 @@ class _$ApiBaseResponseImpl<T>
     with DiagnosticableTreeMixin
     implements _ApiBaseResponse<T> {
   const _$ApiBaseResponseImpl(
-      {required this.status,
-      required this.message,
-      required this.data,
-      this.meta});
+      {required this.status, required this.message, this.data, this.meta});
 
   factory _$ApiBaseResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiBaseResponseImplFromJson(json);
@@ -222,7 +219,7 @@ abstract class _ApiBaseResponse<T> implements ApiBaseResponse<T> {
   const factory _ApiBaseResponse(
       {required final int status,
       required final dynamic message,
-      required final dynamic data,
+      final dynamic data,
       final Meta? meta}) = _$ApiBaseResponseImpl<T>;
 
   factory _ApiBaseResponse.fromJson(Map<String, dynamic> json) =

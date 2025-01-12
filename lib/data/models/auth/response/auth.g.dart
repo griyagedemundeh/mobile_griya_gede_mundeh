@@ -15,6 +15,7 @@ _$AuthImpl _$$AuthImplFromJson(Map<String, dynamic> json) => _$AuthImpl(
       phoneNumber: json['phoneNumber'] as String,
       role: json['role'] as String,
       token: json['token'] as String,
+      emailVerified: (json['emailVerified'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AuthImplToJson(_$AuthImpl instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$$AuthImplToJson(_$AuthImpl instance) =>
       'phoneNumber': instance.phoneNumber,
       'role': instance.role,
       'token': instance.token,
+      'emailVerified': instance.emailVerified,
     };

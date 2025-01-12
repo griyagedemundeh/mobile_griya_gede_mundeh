@@ -15,4 +15,7 @@ abstract class IAuthRepository {
   });
 
   logout();
+
+  Future<ApiBaseResponse<dynamic>> resendEmailVerification();
+  Future<ApiBaseResponse<dynamic>> cekStatusEmailVerification();
 }

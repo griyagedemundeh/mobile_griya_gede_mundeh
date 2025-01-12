@@ -103,4 +103,48 @@ class AuthRepository extends IAuthRepository {
           data: null);
     }
   }
+
+  @override
+  Future<ApiBaseResponse> resendEmailVerification() async {
+    try {
+      final response = await api.post(
+        ApiEndPoints.resendEmailVerification,
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+      final apiResponse = ApiBaseResponse<dynamic>.fromJson(responseData);
+
+      return apiResponse;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiBaseResponse.fromJson(e.response!.data);
+      }
+      throw ApiBaseResponse(
+          status: 500,
+          message: [e.message ?? 'Unknown error occurred'],
+          data: null);
+    }
+  }
+
+  @override
+  Future<ApiBaseResponse> cekStatusEmailVerification() async {
+    try {
+      final response = await api.get(
+        ApiEndPoints.celStatusEmailVerification,
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+      final apiResponse = ApiBaseResponse<dynamic>.fromJson(responseData);
+
+      return apiResponse;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiBaseResponse.fromJson(e.response!.data);
+      }
+      throw ApiBaseResponse(
+          status: 500,
+          message: [e.message ?? 'Unknown error occurred'],
+          data: null);
+    }
+  }
 }

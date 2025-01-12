@@ -50,4 +50,34 @@ class AuthController extends ChangeNotifier {
           data: null);
     }
   }
+
+  Future<ApiBaseResponse<dynamic>> resendEmailVerification() async {
+    try {
+      final response = authRepository.resendEmailVerification();
+      return response;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiBaseResponse.fromJson(e.response!.data);
+      }
+      throw ApiBaseResponse(
+          status: 500,
+          message: [e.message ?? 'Unknown error occurred'],
+          data: null);
+    }
+  }
+
+  Future<ApiBaseResponse<dynamic>> cekStatusEmailVerification() async {
+    try {
+      final response = authRepository.cekStatusEmailVerification();
+      return response;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiBaseResponse.fromJson(e.response!.data);
+      }
+      throw ApiBaseResponse(
+          status: 500,
+          message: [e.message ?? 'Unknown error occurred'],
+          data: null);
+    }
+  }
 }
