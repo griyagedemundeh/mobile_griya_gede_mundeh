@@ -21,6 +21,7 @@ import 'package:mobile_griya_gede_mundeh/data/models/base/base/api_base_response
 import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_implementor.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/controller/auth_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/email_verification_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/forgot_password_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/home/screens/main_screen.dart';
 import 'package:mobile_griya_gede_mundeh/utils/index.dart';
@@ -185,7 +186,12 @@ class LoginScreen extends HookConsumerWidget {
                                     ),
                                     TextPrimaryButton(
                                       label: locales?.forgotPassword ?? '',
-                                      onTap: () {},
+                                      onTap: () {
+                                        PrimaryNavigation.pushFromRight(
+                                          context,
+                                          page: const ForgotPasswordScreen(),
+                                        );
+                                      },
                                     ),
                                     const SizedBox(
                                       height: AppDimens.buttonHeight,

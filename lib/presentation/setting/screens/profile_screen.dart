@@ -205,46 +205,46 @@ class ProfileScreen extends HookConsumerWidget {
                             const SizedBox(
                               height: AppDimens.paddingLarge,
                             ),
-                            LabeledSwitchInput(
-                              label: locales?.editPassword ?? '',
-                              value: isChangePassword.value,
-                              onChanged: (value) {
-                                isChangePassword.value = value;
-                              },
-                            ),
-                            Visibility(
-                              visible: isChangePassword.value,
-                              child: Column(
-                                children: [
-                                  TextInput(
-                                    controller: passwordController,
-                                    label: locales?.password ?? '',
-                                    placeHolder: locales?.enterPassword ?? '',
-                                    isPassword: true,
-                                    isPassVisible: isPasswordVisible.value,
-                                    onPasswordTap: () {
-                                      isPasswordVisible.value =
-                                          !isPasswordVisible.value;
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: AppDimens.borderRadiusLarge,
-                                  ),
-                                  TextInput(
-                                    controller: passwordController,
-                                    label: locales?.confPassword ?? '',
-                                    placeHolder:
-                                        locales?.enterConfPassword ?? '',
-                                    isPassword: true,
-                                    isPassVisible: isPasswordVisible.value,
-                                    onPasswordTap: () {
-                                      isPasswordVisible.value =
-                                          !isPasswordVisible.value;
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // LabeledSwitchInput(
+                            //   label: locales?.editPassword ?? '',
+                            //   value: isChangePassword.value,
+                            //   onChanged: (value) {
+                            //     isChangePassword.value = value;
+                            //   },
+                            // ),
+                            // Visibility(
+                            //   visible: isChangePassword.value,
+                            //   child: Column(
+                            //     children: [
+                            //       TextInput(
+                            //         controller: passwordController,
+                            //         label: locales?.password ?? '',
+                            //         placeHolder: locales?.enterPassword ?? '',
+                            //         isPassword: true,
+                            //         isPassVisible: isPasswordVisible.value,
+                            //         onPasswordTap: () {
+                            //           isPasswordVisible.value =
+                            //               !isPasswordVisible.value;
+                            //         },
+                            //       ),
+                            //       const SizedBox(
+                            //         height: AppDimens.borderRadiusLarge,
+                            //       ),
+                            //       TextInput(
+                            //         controller: passwordController,
+                            //         label: locales?.confPassword ?? '',
+                            //         placeHolder:
+                            //             locales?.enterConfPassword ?? '',
+                            //         isPassword: true,
+                            //         isPassVisible: isPasswordVisible.value,
+                            //         onPasswordTap: () {
+                            //           isPasswordVisible.value =
+                            //               !isPasswordVisible.value;
+                            //         },
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/articles_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/article/screens/detail_article_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/email_verification_screen.dart';
+import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/forgot_password_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/login_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/auth/screens/register_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/ceremony/screens/consultation_ceremony_screen.dart';
@@ -27,6 +28,7 @@ abstract class Routes {
   static const String onboarding = "/onboarding";
   static const String login = "/login";
   static const String emailVerification = "/email-verification";
+  static const String forgotPassword = "/forgot-password";
   static const String register = "/register";
   static const String detailCeremony = "/detail-ceremony";
   static const String otherCeremony = "/other-ceremony";
@@ -62,6 +64,10 @@ abstract class AppRouter {
       case Routes.emailVerification:
         return MaterialPageRoute(
           builder: (context) => const EmailVerificationScreen(),
+        );
+      case Routes.forgotPassword:
+        return MaterialPageRoute(
+          builder: (context) => const ForgotPasswordScreen(),
         );
       case Routes.register:
         return MaterialPageRoute(

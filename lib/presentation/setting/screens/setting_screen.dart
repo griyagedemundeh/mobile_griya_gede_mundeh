@@ -15,6 +15,7 @@ import 'package:mobile_griya_gede_mundeh/data/repositories/auth/auth_repository_
 import 'package:mobile_griya_gede_mundeh/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/setting/controller/setting_controller.dart';
 import 'package:mobile_griya_gede_mundeh/presentation/setting/screens/profile_screen.dart';
+import 'package:mobile_griya_gede_mundeh/utils/whatsapp_launcher.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -58,22 +59,28 @@ class SettingScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SettingButton(
-                        label: locales?.faq ?? '',
+                        label: 'Tanya Admin di Whatsapp',
                         icon: AppImages.icFaq,
-                        onTap: () {},
+                        onTap: () {
+                          WhatsAppLauncher.launchWhatsApp(
+                            phoneNumber: '+6285954370577',
+                            message:
+                                'Hallo admin Griya Gede Mundeh!, saya ingin bertanya...😊',
+                          );
+                        },
                       ),
-                      const DividerSettingButton(),
-                      SettingButton(
-                        label: locales?.tnc ?? '',
-                        icon: AppImages.icFile,
-                        onTap: () {},
-                      ),
-                      const DividerSettingButton(),
-                      SettingButton(
-                        label: locales?.aboutUs ?? '',
-                        icon: AppImages.icInfo,
-                        onTap: () {},
-                      ),
+                      // const DividerSettingButton(),
+                      // SettingButton(
+                      //   label: locales?.tnc ?? '',
+                      //   icon: AppImages.icFile,
+                      //   onTap: () {},
+                      // ),
+                      // const DividerSettingButton(),
+                      // SettingButton(
+                      //   label: locales?.aboutUs ?? '',
+                      //   icon: AppImages.icInfo,
+                      //   onTap: () {},
+                      // ),
                       const DividerSettingButton(),
                       SettingButton(
                         label: locales?.logout ?? '',
