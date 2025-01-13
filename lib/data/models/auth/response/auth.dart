@@ -15,6 +15,7 @@ class Auth with _$Auth {
     required String phoneNumber,
     required String role,
     required String token,
+    required int emailVerified,
   }) = _Auth;
 
   factory Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);

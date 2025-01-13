@@ -28,6 +28,7 @@ mixin _$Auth {
   String get phoneNumber => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
   String get token => throw _privateConstructorUsedError;
+  int get emailVerified => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $AuthCopyWith<$Res> {
       bool isActive,
       String phoneNumber,
       String role,
-      String token});
+      String token,
+      int emailVerified});
 }
 
 /// @nodoc
@@ -71,6 +73,7 @@ class _$AuthCopyWithImpl<$Res, $Val extends Auth>
     Object? phoneNumber = null,
     Object? role = null,
     Object? token = null,
+    Object? emailVerified = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -105,6 +108,10 @@ class _$AuthCopyWithImpl<$Res, $Val extends Auth>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
+      emailVerified: null == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -124,7 +131,8 @@ abstract class _$$AuthImplCopyWith<$Res> implements $AuthCopyWith<$Res> {
       bool isActive,
       String phoneNumber,
       String role,
-      String token});
+      String token,
+      int emailVerified});
 }
 
 /// @nodoc
@@ -145,6 +153,7 @@ class __$$AuthImplCopyWithImpl<$Res>
     Object? phoneNumber = null,
     Object? role = null,
     Object? token = null,
+    Object? emailVerified = null,
   }) {
     return _then(_$AuthImpl(
       id: null == id
@@ -179,6 +188,10 @@ class __$$AuthImplCopyWithImpl<$Res>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
+      emailVerified: null == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -194,7 +207,8 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
       required this.isActive,
       required this.phoneNumber,
       required this.role,
-      required this.token});
+      required this.token,
+      required this.emailVerified});
 
   factory _$AuthImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthImplFromJson(json);
@@ -215,10 +229,12 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
   final String role;
   @override
   final String token;
+  @override
+  final int emailVerified;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Auth(id: $id, fullName: $fullName, avatarUrl: $avatarUrl, email: $email, isActive: $isActive, phoneNumber: $phoneNumber, role: $role, token: $token)';
+    return 'Auth(id: $id, fullName: $fullName, avatarUrl: $avatarUrl, email: $email, isActive: $isActive, phoneNumber: $phoneNumber, role: $role, token: $token, emailVerified: $emailVerified)';
   }
 
   @override
@@ -233,7 +249,8 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
       ..add(DiagnosticsProperty('isActive', isActive))
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
       ..add(DiagnosticsProperty('role', role))
-      ..add(DiagnosticsProperty('token', token));
+      ..add(DiagnosticsProperty('token', token))
+      ..add(DiagnosticsProperty('emailVerified', emailVerified));
   }
 
   @override
@@ -252,13 +269,15 @@ class _$AuthImpl with DiagnosticableTreeMixin implements _Auth {
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.token, token) || other.token == token));
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.emailVerified, emailVerified) ||
+                other.emailVerified == emailVerified));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, fullName, avatarUrl, email,
-      isActive, phoneNumber, role, token);
+      isActive, phoneNumber, role, token, emailVerified);
 
   @JsonKey(ignore: true)
   @override
@@ -283,7 +302,8 @@ abstract class _Auth implements Auth {
       required final bool isActive,
       required final String phoneNumber,
       required final String role,
-      required final String token}) = _$AuthImpl;
+      required final String token,
+      required final int emailVerified}) = _$AuthImpl;
 
   factory _Auth.fromJson(Map<String, dynamic> json) = _$AuthImpl.fromJson;
 
@@ -303,6 +323,8 @@ abstract class _Auth implements Auth {
   String get role;
   @override
   String get token;
+  @override
+  int get emailVerified;
   @override
   @JsonKey(ignore: true)
   _$$AuthImplCopyWith<_$AuthImpl> get copyWith =>

@@ -95,25 +95,6 @@ class DetailCeremonyScreen extends HookConsumerWidget {
     final ceremonyPackages =
         ceremonyPackagesResponse.data?.data as List<CeremonyPackage?>?;
 
-    // Future<ApiBaseResponse<List<CeremonyDocumentation?>?>?>
-    //     getCeremonyDocumentations() async {
-    //   final response = await ceremonyController.getCeremonyDocumentations(
-    //     ceremonyServiceId: id ?? 0,
-    //   );
-
-    //   return response;
-    // }
-
-    // final ceremonyDocumentationsResponse = useQuery<
-    //     ApiBaseResponse<List<CeremonyDocumentation?>?>?,
-    //     ApiBaseResponse<dynamic>>(
-    //   ['ceremonyDocumentations_$id'],
-    //   getCeremonyDocumentations,
-    // );
-
-    // final ceremonyDocumenations = ceremonyDocumentationsResponse.data?.data
-    //     as List<CeremonyDocumentation?>?;
-
     Future<ApiBaseResponse<CeremonyDocumentation?>?>
         getCeremonyDocumentations() async {
       final response = await ceremonyController.getCeremonyDocumentations(
@@ -150,29 +131,6 @@ class DetailCeremonyScreen extends HookConsumerWidget {
       return null;
     }, [tabController]);
 
-    // final List<Widget> miniThumbnails =
-    //     List.generate(thumbnails.length, (index) {
-    //   if (index == 0) {
-    //     return const SizedBox();
-    //   }
-
-    //   if (index > 3) {
-    //     return const SizedBox();
-    //   }
-
-    //   return MiniThumbnail(
-    //     index: index,
-    //     thumbNailUrl: thumbnails[index].thumbnailUrl,
-    //   );
-    // });
-
-    // showAddressSheet() {
-    //   AddressSheet.showSheet(
-    //     context,
-    //     onChange: (address) {},
-    //   );
-    // }
-
     final isLoading = useState<bool>(false);
     final isWithoutPackage = useState<bool>(false);
 
@@ -208,6 +166,8 @@ class DetailCeremonyScreen extends HookConsumerWidget {
         final dataConsult = await dbConsult
             .select()
             .eq('consultationId', consultationTicket.id);
+
+        log('$dataConsult', name: 'DATA CONSULT');
 
         if (dataConsult.toString() == '[]') {
           dbConsult.insert(consultationRequest.toJson()).then((val) {

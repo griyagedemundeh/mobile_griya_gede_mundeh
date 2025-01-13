@@ -5,6 +5,9 @@ class ApiEndPoints {
 
   static const String register = "auth/sign-up";
   static const String login = "auth/sign-in";
+  static const String resendEmailVerification = "auth/resend-verification";
+  static const String celStatusEmailVerification =
+      "auth/cek-status-email-verification";
 
   static const String address = "member/address";
   static const String addAddress = "member/address/create";
