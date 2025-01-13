@@ -167,8 +167,6 @@ class DetailCeremonyScreen extends HookConsumerWidget {
             .select()
             .eq('consultationId', consultationTicket.id);
 
-        log('$dataConsult', name: 'DATA CONSULT');
-
         if (dataConsult.toString() == '[]') {
           dbConsult.insert(consultationRequest.toJson()).then((val) {
             isLoading.value = false;
@@ -218,7 +216,7 @@ class DetailCeremonyScreen extends HookConsumerWidget {
         final response =
             await ceremonyController.createConsultation(request: request);
 
-        createConsultation(
+        await createConsultation(
           consultationTicket: response.data as CeremonyConsultationTicket,
         );
 

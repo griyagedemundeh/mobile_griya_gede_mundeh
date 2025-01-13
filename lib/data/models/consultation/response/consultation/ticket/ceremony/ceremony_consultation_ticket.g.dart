@@ -15,7 +15,7 @@ _$CeremonyConsultationTicketImpl _$$CeremonyConsultationTicketImplFromJson(
       ceremonyServiceName: json['ceremonyServiceName'] as String,
       ceremonyServicePackageId:
           (json['ceremonyServicePackageId'] as num?)?.toInt(),
-      status: json['status'] as String,
+      status: json['status'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );

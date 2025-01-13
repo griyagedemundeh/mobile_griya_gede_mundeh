@@ -27,9 +27,7 @@ class PaymentScreen extends StatelessWidget {
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
-          onHttpError: (HttpResponseError error) {
-            log('asjdlsajd');
-          },
+          onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {
             PrimaryNavigation.pushFromRightReplacement(
               context,
@@ -46,8 +44,10 @@ class PaymentScreen extends StatelessWidget {
       )
       ..loadRequest(Uri.parse(paymentUrl ?? ''));
 
-    return WebViewWidget(
-      controller: controller,
+    return SafeArea(
+      child: WebViewWidget(
+        controller: controller,
+      ),
     );
   }
 }

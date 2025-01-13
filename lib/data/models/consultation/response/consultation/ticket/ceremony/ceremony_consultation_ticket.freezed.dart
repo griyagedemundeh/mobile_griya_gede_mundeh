@@ -26,7 +26,7 @@ mixin _$CeremonyConsultationTicket {
   int get ceremonyServiceId => throw _privateConstructorUsedError;
   String get ceremonyServiceName => throw _privateConstructorUsedError;
   int? get ceremonyServicePackageId => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $CeremonyConsultationTicketCopyWith<$Res> {
       int ceremonyServiceId,
       String ceremonyServiceName,
       int? ceremonyServicePackageId,
-      String status,
+      String? status,
       DateTime createdAt,
       DateTime updatedAt});
 }
@@ -73,7 +73,7 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
     Object? ceremonyServiceId = null,
     Object? ceremonyServiceName = null,
     Object? ceremonyServicePackageId = freezed,
-    Object? status = null,
+    Object? status = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -98,10 +98,10 @@ class _$CeremonyConsultationTicketCopyWithImpl<$Res,
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
               as int?,
-      status: null == status
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$$CeremonyConsultationTicketImplCopyWith<$Res>
       int ceremonyServiceId,
       String ceremonyServiceName,
       int? ceremonyServicePackageId,
-      String status,
+      String? status,
       DateTime createdAt,
       DateTime updatedAt});
 }
@@ -152,7 +152,7 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
     Object? ceremonyServiceId = null,
     Object? ceremonyServiceName = null,
     Object? ceremonyServicePackageId = freezed,
-    Object? status = null,
+    Object? status = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -177,10 +177,10 @@ class __$$CeremonyConsultationTicketImplCopyWithImpl<$Res>
           ? _value.ceremonyServicePackageId
           : ceremonyServicePackageId // ignore: cast_nullable_to_non_nullable
               as int?,
-      status: null == status
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -202,7 +202,7 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
       required this.ceremonyServiceId,
       required this.ceremonyServiceName,
       this.ceremonyServicePackageId,
-      required this.status,
+      this.status,
       required this.createdAt,
       required this.updatedAt});
 
@@ -221,7 +221,7 @@ class _$CeremonyConsultationTicketImpl implements _CeremonyConsultationTicket {
   @override
   final int? ceremonyServicePackageId;
   @override
-  final String status;
+  final String? status;
   @override
   final DateTime createdAt;
   @override
@@ -290,7 +290,7 @@ abstract class _CeremonyConsultationTicket
       required final int ceremonyServiceId,
       required final String ceremonyServiceName,
       final int? ceremonyServicePackageId,
-      required final String status,
+      final String? status,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$CeremonyConsultationTicketImpl;
 
@@ -308,7 +308,7 @@ abstract class _CeremonyConsultationTicket
   @override
   int? get ceremonyServicePackageId;
   @override
-  String get status;
+  String? get status;
   @override
   DateTime get createdAt;
   @override

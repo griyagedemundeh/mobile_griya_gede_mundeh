@@ -11,7 +11,7 @@ class CeremonyConsultationTicket with _$CeremonyConsultationTicket {
     required int ceremonyServiceId,
     required String ceremonyServiceName,
     int? ceremonyServicePackageId,
-    required String status,
+    String? status,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _CeremonyConsultationTicket;
