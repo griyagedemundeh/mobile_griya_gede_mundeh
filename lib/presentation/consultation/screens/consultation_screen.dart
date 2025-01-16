@@ -350,6 +350,9 @@ class ChatView extends HookConsumerWidget {
       StorageKey.supabaseConsultGeneralMessages,
     );
 
+    final SupabaseQueryBuilder dbNewGeneralConsultIndicator =
+        supabase.from(StorageKey.supabaseNewGeneralConsultationIndicator);
+
     Future initConult({required int id}) async {
       messagesStream.value = dbMessages
           .stream(primaryKey: ['consultationId'])
@@ -478,6 +481,8 @@ class ChatView extends HookConsumerWidget {
           userPhoto: consultation.value?.userPhoto ?? '',
           updatedAt: DateTime.now().toIso8601String(),
         );
+
+        await dbNewGeneralConsultIndicator.update({"isNew": true}).eq("id", 1);
 
         await dbConsult.update(consult.toJson()).eq(
               'consultationId',

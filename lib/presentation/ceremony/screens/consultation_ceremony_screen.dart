@@ -83,6 +83,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
     final SupabaseQueryBuilder dbConsult = supabase.from(
       StorageKey.supabaseConsultCeremony,
     );
+    final SupabaseQueryBuilder dbNewCeremonyConsultIndicator =
+        supabase.from(StorageKey.supabaseNewCeremonyConsultationIndicator);
 
     final AuthController authController =
         AuthController(authRepository: AuthRepository());
@@ -167,6 +169,8 @@ class ConsultationCeremonyScreen extends HookConsumerWidget
           "updatedAt": DateTime.now().toIso8601String(),
           "isRead": false,
         };
+
+        await dbNewCeremonyConsultIndicator.update({"isNew": true}).eq("id", 1);
 
         await dbConsult.update(consult).eq('consultationId', id ?? 0);
 
