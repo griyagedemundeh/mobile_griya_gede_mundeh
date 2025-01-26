@@ -111,19 +111,19 @@ class MainBar extends StatelessWidget {
               ),
             ],
           ),
-          MaterialButton(
-            onPressed: () {},
-            height: AppDimens.iconSizeLarge,
-            minWidth: AppDimens.iconSizeMedium,
-            padding: const EdgeInsets.all(4),
-            clipBehavior: Clip.hardEdge,
-            shape: const StadiumBorder(),
-            child: SvgPicture.asset(
-              AppImages.notification,
-              height: AppDimens.iconSizeSmall,
-              width: AppDimens.iconSizeSmall,
-            ),
-          ),
+          // MaterialButton(
+          //   onPressed: () {},
+          //   height: AppDimens.iconSizeLarge,
+          //   minWidth: AppDimens.iconSizeMedium,
+          //   padding: const EdgeInsets.all(4),
+          //   clipBehavior: Clip.hardEdge,
+          //   shape: const StadiumBorder(),
+          //   child: SvgPicture.asset(
+          //     AppImages.notification,
+          //     height: AppDimens.iconSizeSmall,
+          //     width: AppDimens.iconSizeSmall,
+          //   ),
+          // ),
         ],
       ),
     );
