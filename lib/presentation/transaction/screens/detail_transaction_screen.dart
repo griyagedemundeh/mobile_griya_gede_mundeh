@@ -506,7 +506,6 @@ class TransactionDetailPackage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: height * 0.04,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
